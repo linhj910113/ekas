@@ -1,0 +1,167 @@
+is_global = true
+build_property.TargetFramework = net8.0
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.RootNamespace = AppointmentSystem
+build_property.RootNamespace = AppointmentSystem
+build_property.ProjectDir = D:\Github\AppointmentSystem(EK)\AppointmentSystem\AppointmentSystem\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 
+build_property.RazorLangVersion = 8.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = D:\Github\AppointmentSystem(EK)\AppointmentSystem\AppointmentSystem
+build_property._RazorSourceGeneratorDebug = 
+
+[D:/Github/AppointmentSystem(EK)/AppointmentSystem/AppointmentSystem/Views/Appointment/Fillin.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXBwb2ludG1lbnRcRmlsbGluLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Github/AppointmentSystem(EK)/AppointmentSystem/AppointmentSystem/Views/Appointment/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXBwb2ludG1lbnRcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Github/AppointmentSystem(EK)/AppointmentSystem/AppointmentSystem/Views/Appointment/Login.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXBwb2ludG1lbnRcTG9naW4uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Github/AppointmentSystem(EK)/AppointmentSystem/AppointmentSystem/Views/Appointment/Redirect.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXBwb2ludG1lbnRcUmVkaXJlY3QuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Github/AppointmentSystem(EK)/AppointmentSystem/AppointmentSystem/Views/Appointment/Testpage.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXBwb2ludG1lbnRcVGVzdHBhZ2UuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Github/AppointmentSystem(EK)/AppointmentSystem/AppointmentSystem/Views/BaseInfo/DoctorIndex.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQmFzZUluZm9cRG9jdG9ySW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Github/AppointmentSystem(EK)/AppointmentSystem/AppointmentSystem/Views/BaseInfo/SetDoctorShift.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQmFzZUluZm9cU2V0RG9jdG9yU2hpZnQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Github/AppointmentSystem(EK)/AppointmentSystem/AppointmentSystem/Views/BaseInfo/TreatmentIndex.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQmFzZUluZm9cVHJlYXRtZW50SW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Github/AppointmentSystem(EK)/AppointmentSystem/AppointmentSystem/Views/Home/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Github/AppointmentSystem(EK)/AppointmentSystem/AppointmentSystem/Views/Home/Login.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxMb2dpbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Github/AppointmentSystem(EK)/AppointmentSystem/AppointmentSystem/Views/Shared/Components/Navigation/Default-bk.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXENvbXBvbmVudHNcTmF2aWdhdGlvblxEZWZhdWx0LWJrLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Github/AppointmentSystem(EK)/AppointmentSystem/AppointmentSystem/Views/Shared/Components/Navigation/Default.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXENvbXBvbmVudHNcTmF2aWdhdGlvblxEZWZhdWx0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Github/AppointmentSystem(EK)/AppointmentSystem/AppointmentSystem/Views/Shared/CustomerLayout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEN1c3RvbWVyTGF5b3V0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Github/AppointmentSystem(EK)/AppointmentSystem/AppointmentSystem/Views/Shared/Error.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Github/AppointmentSystem(EK)/AppointmentSystem/AppointmentSystem/Views/Shared/LoginLayout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXExvZ2luTGF5b3V0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Github/AppointmentSystem(EK)/AppointmentSystem/AppointmentSystem/Views/Shared/_ValidationScriptsPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Github/AppointmentSystem(EK)/AppointmentSystem/AppointmentSystem/Views/System/FunctionCreate.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3lzdGVtXEZ1bmN0aW9uQ3JlYXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Github/AppointmentSystem(EK)/AppointmentSystem/AppointmentSystem/Views/System/FunctionEdit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3lzdGVtXEZ1bmN0aW9uRWRpdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Github/AppointmentSystem(EK)/AppointmentSystem/AppointmentSystem/Views/System/FunctionIndex.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3lzdGVtXEZ1bmN0aW9uSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Github/AppointmentSystem(EK)/AppointmentSystem/AppointmentSystem/Views/System/ModuleCreate.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3lzdGVtXE1vZHVsZUNyZWF0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Github/AppointmentSystem(EK)/AppointmentSystem/AppointmentSystem/Views/System/ModuleEdit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3lzdGVtXE1vZHVsZUVkaXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Github/AppointmentSystem(EK)/AppointmentSystem/AppointmentSystem/Views/System/ModuleIndex.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3lzdGVtXE1vZHVsZUluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Github/AppointmentSystem(EK)/AppointmentSystem/AppointmentSystem/Views/System/ParameterEdit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3lzdGVtXFBhcmFtZXRlckVkaXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Github/AppointmentSystem(EK)/AppointmentSystem/AppointmentSystem/Views/System/ParameterIndex.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3lzdGVtXFBhcmFtZXRlckluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Github/AppointmentSystem(EK)/AppointmentSystem/AppointmentSystem/Views/System/RoleCreate.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3lzdGVtXFJvbGVDcmVhdGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Github/AppointmentSystem(EK)/AppointmentSystem/AppointmentSystem/Views/System/RoleDefaultPermission.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3lzdGVtXFJvbGVEZWZhdWx0UGVybWlzc2lvbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Github/AppointmentSystem(EK)/AppointmentSystem/AppointmentSystem/Views/System/RoleEdit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3lzdGVtXFJvbGVFZGl0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Github/AppointmentSystem(EK)/AppointmentSystem/AppointmentSystem/Views/System/RoleIndex.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3lzdGVtXFJvbGVJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Github/AppointmentSystem(EK)/AppointmentSystem/AppointmentSystem/Views/System/UserAccountEdit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3lzdGVtXFVzZXJBY2NvdW50RWRpdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Github/AppointmentSystem(EK)/AppointmentSystem/AppointmentSystem/Views/System/UserCreate.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3lzdGVtXFVzZXJDcmVhdGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Github/AppointmentSystem(EK)/AppointmentSystem/AppointmentSystem/Views/System/UserDefaultPermission.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3lzdGVtXFVzZXJEZWZhdWx0UGVybWlzc2lvbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Github/AppointmentSystem(EK)/AppointmentSystem/AppointmentSystem/Views/System/UserEdit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3lzdGVtXFVzZXJFZGl0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Github/AppointmentSystem(EK)/AppointmentSystem/AppointmentSystem/Views/System/UserIndex.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3lzdGVtXFVzZXJJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Github/AppointmentSystem(EK)/AppointmentSystem/AppointmentSystem/Views/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Github/AppointmentSystem(EK)/AppointmentSystem/AppointmentSystem/Views/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Github/AppointmentSystem(EK)/AppointmentSystem/AppointmentSystem/Views/Shared/_Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = b-u6m4o4b1n6
+
+[D:/Github/AppointmentSystem(EK)/AppointmentSystem/AppointmentSystem/Views/Shared/__Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9fTGF5b3V0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = b-dl1w0v8dzr

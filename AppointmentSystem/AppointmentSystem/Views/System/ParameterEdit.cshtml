@@ -1,0 +1,175 @@
+﻿@model AppointmentSystem.Models.ViewModels.SystemModels.ParameterEditVM
+@{
+    ViewData["Title"] = "系統參數修改";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card whiteBG mb-4 pattern-F colorset_B">
+    <div class="card-header">
+        <h3 class="card-title font-weight-bold">@ViewData["Title"]</h3>
+    </div>
+
+    <div class="card whiteBG pattern-F colorset_3">
+        <div class="card-body">
+            <div class="table-responsive" style="overflow-x: unset;">
+                <table class="table table-responsive-md table-hover table2 VA-middle">
+                    <div class="container">
+                        <div class="row justify-content-left">
+                            <div class="col-2">
+                                <button role="button" class="btn btn-shadow btn-block btn-color11-o" style="background-color:#97dded" onclick="location.href='@Url.Action("ParameterIndex", "System")'">回上頁</button>
+                            </div>
+                        </div>
+                    </div>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <form method="post" asp-action="ParameterEdit" enctype="multipart/form-data">
+        <div class="card whiteBG mb-4 pattern-F colorset_3">
+            <div class="card-body">
+                <div class="table-responsive" style="overflow-x: unset;">
+                    <table class="table table-responsive-md table-hover table2 VA-middle">
+                        <div class="table-responsive">
+                            <table class="table table-hover" id="addnew" table-layout: fixed;>
+                                <colgroup>
+                                    <col width="20%">
+                                    <col width="10%">
+                                    <col width="50%">
+                                    <col width="20%">
+                                </colgroup>
+                                <tbody>
+                                    <tr>
+                                        <td></td>
+                                        <td>參數名稱</td>
+                                        <td>
+                                            <input type="text" style="width:100%;" asp-for="ParameterName" disabled>
+                                        </td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>敘述</td>
+                                        <td><input type="text" style="width:100%;" asp-for="Memo"></td>
+                                        <td></td>
+                                    </tr>
+
+                                    @*判斷此參數的類型*@
+                                    @if (Model.Type == "Text")
+                                    {
+                                        <tr>
+                                            <td></td>
+                                            <td>值</td>
+                                            @if (Model.Locked == "Y")
+                                            {
+                                                <td><textarea rows="5" style="width:100%;" asp-for="Value" disabled> </textarea></td>
+                                            }
+                                            else
+                                            {
+                                                <td><textarea rows="5" style="width:100%;" asp-for="Value"> </textarea></td>
+                                            }
+                                            <td></td>
+                                        </tr>
+                                    }
+                                    else if (Model.Type == "Image")
+                                    {
+                                        <tr>
+                                            <td></td>
+                                            <td>選擇圖片</td>
+
+                                            @if (Model.Locked == "Y")
+                                            {
+                                                <td>
+                                                    <div><label id="imageName" class="ml-2">@Model.ImageFile.FileName @Model.ImageFile.FileExtension</label></div>
+                                                </td>
+                                            }
+                                            else
+                                            {
+                                                <td>
+                                                    <input type="file" class="form-control-file" id="imagefile" onchange="setImageName();" style="display:none;" asp-for="ImageFile.File" />
+                                                    <label class="col-form-label btn btn-primary mb-0" onclick="uploadImageClick();" style="cursor:pointer;">選擇檔案</label>
+                                                    <div><label id="imageName" class="ml-2">@Model.ImageFile.FileName @Model.ImageFile.FileExtension</label></div>
+                                                </td>
+                                            }
+
+                                            <td></td>
+                                        </tr>
+                                    }
+                                    else if (Model.Type == "Time(minutes)")
+                                    {
+                                        <tr>
+                                            <td></td>
+                                            <td>值</td>
+                                            @if (Model.Locked == "Y")
+                                            {
+                                                <td><input type="number" style="width:100%;" asp-for="Value" disabled /></td>
+                                            }
+                                            else
+                                            {
+                                                <td><input type="number" style="width:100%;" asp-for="Value" /></td>
+                                            }
+                                            <td></td>
+                                        </tr>
+                                    }
+                                    else if (Model.Type == "Time(seconds)")
+                                    {
+                                        <tr>
+                                            <td></td>
+                                            <td>值</td>
+                                            @if (Model.Locked == "Y")
+                                            {
+                                                <td><input type="number" style="width:100%;" asp-for="Value" disabled /></td>
+                                            }
+                                            else
+                                            {
+                                                <td><input type="number" style="width:100%;" asp-for="Value" /></td>
+                                            }
+                                            <td></td>
+                                        </tr>
+                                    }
+
+
+                                </tbody>
+                            </table>
+                            <br>
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col">
+                                    </div>
+                                    <div class="col">
+                                        <input type="submit" class="btn btn-shadow btn-color11-3 btn-block" style="background-color:#97dded;" value="儲存">
+                                    </div>
+                                    <div class="col">
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <input type="hidden" asp-for="Type" />
+    </form>
+
+</div>
+
+<script type="text/javascript">
+    function uploadImageClick() {
+        $("#imagefile").click();
+    }
+
+    function cleanDoctorData() {
+        $("#doctorData").html("");
+    }
+
+    function setImageName() {
+        if ($('#imagefile').val == "")
+            $('#imageName').text("");
+
+
+        $('#imageName').text($('#imagefile').val().split('\\').pop());
+    }
+</script>

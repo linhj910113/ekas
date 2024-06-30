@@ -1,0 +1,388 @@
+﻿@* @model AppointmentSystem.Models.ViewModels.AppointmentModels.FillinVM *@
+
+@{
+    Layout = "~/Views/Shared/CustomerLayout.cshtml";
+    ViewData["Title"] = "Home Page";
+}
+
+<style>
+    /*.content {
+                                                            text-align: center;
+                                                            margin: 20px;
+                                                        } */
+
+    /*     .modal {
+                                display: none;
+                                position: fixed;
+                                z-index: 1;
+                                left: 0;
+                                top: 0;
+                                width: 100%;
+                                height: 100%;
+                                overflow: auto;
+                                background-color: rgb(0,0,0);
+                                background-color: rgba(0,0,0,0.4);
+                            }
+
+                            .modal-content {
+                                background-color: #fefefe;
+                                margin: 15% auto;
+                                padding: 20px;
+                                border: 1px solid #888;
+                                width: 80%;
+                                max-width: 300px;
+                                border-radius: 10px;
+                            } */
+
+    .treatment-section, .doctor-section, .dateTime-section {
+        text-align: left;
+        margin: 20px auto;
+        width: 80%;
+        max-width: 800px;
+        background-color: #f2f2f2;
+        padding: 20px;
+        border-radius: 10px;
+    }
+
+    .selectable {
+        position: relative;
+        display: inline-block;
+        margin: 10px;
+    }
+
+        .selectable img {
+            width: 100px; /* 設置圖片寬度 */
+            height: 100px; /* 設置圖片高度 */
+            cursor: pointer;
+        }
+
+        .selectable .treatment-checkbox {
+            position: absolute;
+            top: 0px;
+            right: 0px;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            cursor: pointer;
+        }
+
+
+        .selectable .doctor-radio {
+            position: absolute;
+            top: 0px;
+            right: 0px;
+            width: 20px;
+            height: 20px;
+            background-color: white;
+            border-radius: 50%;
+            border: 2px solid #007bff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+    /*             .selectable .select-circle.selected {
+                                                background-color: green;
+                                            } */
+
+    .doctor-section.hidden {
+        display: none;
+    }
+
+    .date-section.hidden {
+        display: none;
+    }
+
+    .time-section.hidden {
+        display: none;
+    }
+</style>
+
+<div>
+    <img src="~/images/CustomerIndexImage1.jpg" alt="Desktop Image" class="appointment-image desktop-image">
+    <img src="~/images/CustomerIndexImage2.jpg" alt="Mobile Image" class="appointment-image mobile-image">
+</div>
+
+<div class="container content">
+    <span id="AppointmentIntroductionText"></span>
+</div>
+
+<p></p>
+
+<h3>線上預約</h3>
+
+<!-- 療程部分 -->
+<div class="treatment-section">
+    <h5>選擇療程項目(多選)</h5>
+    <div id="treatmentData" class="row">
+    </div>
+</div>
+
+<!-- 醫師部分 -->
+<div class="doctor-section hidden">
+    <h5>選擇醫師(單選)</h5>
+    <div id="doctorData" class="row">
+    </div>
+</div>
+
+<!-- 日期時間部分 -->
+<div class="dateTime-section ">
+    <h5>選擇日期及時間</h5>
+    <div id="dateData" class="row">
+        <div id="dateList" class="col-md-6">
+        </div>
+        <div class="col-md-6" id="timeList" style="display:none;">
+        </div>
+    </div>
+</div>
+
+<!-- 時間部分 -->
+@* <div class="time-section hidden">
+    <h5>選擇時間</h5>
+    <div id="timeData" class="row">
+    </div>
+</div> *@
+
+<button class="btn btn-primary" onclick="selectDateTime();">下一步</button>
+
+<!-- 治療項目簡介模態框 -->
+<div class="modal fade " id="treatmentModal" tabindex="-1" aria-labelledby="treatmentModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="treatmentModalLabel">治療項目簡介</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @* <h5 id="treatmentModalTitle"></h5> *@
+                <p id="treatmentModalDescription"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">關閉</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 醫師簡介模態框 -->
+<div class="modal fade" id="doctorModal" tabindex="-1" aria-labelledby="doctorModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="doctorModalLabel">醫師簡介</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @* <h5 id="doctorModalTitle"></h5> *@
+                <p id="doctorModalDescription"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">關閉</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/js/jquery-3.5.1.min.js"></script>
+<script>
+    $(document).ready(function () {
+        initData();
+
+        function initData() {
+            setAppointmentIntroductionText();
+            setTreatmentList();
+        }
+
+        // 控制療程多選
+        // $('.selectable[data-type="treatment"] .select-circle').click(function (e) {
+        //     e.stopPropagation();
+        //     $(this).toggleClass('selected');
+        //     toggleDoctorSection();
+        // });
+
+        // 控制醫師單選
+        $('.selectable[data-type="doctor"] .select-circle').click(function (e) {
+            e.stopPropagation();
+            $('.selectable[data-type="doctor"] .select-circle').removeClass('selected');
+            $(this).addClass('selected');
+        });
+
+        // 顯示模態框內容
+        $('#treatmentModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);
+            var title = button.closest('.selectable').data('title');
+            var description = button.closest('.selectable').data('description');
+            var modal = $(this);
+            modal.find('.modal-title').text(title);
+            // modal.find('.modal-body #treatmentModalTitle').text(title);
+            modal.find('.modal-body #treatmentModalDescription').text(description);
+        });
+
+        $('#doctorModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);
+            var title = button.closest('.selectable').data('title');
+            var department = button.closest('.selectable').data('department');
+            var description = button.closest('.selectable').data('description');
+            var modal = $(this);
+            modal.find('.modal-title').text(title + '  ' + department);
+            // modal.find('.modal-body #doctorModalTitle').text(title);
+            modal.find('.modal-body #doctorModalDepartment').text(description);
+            modal.find('.modal-body #doctorModalDescription').text(description);
+        });
+
+    });
+
+    // 切換顯示醫師部分
+    function toggleDoctorSection() {
+        var selectedTreatments = [];
+
+        document.querySelectorAll('input[name="treatments"]:checked').forEach(function (checkbox) {
+            selectedTreatments.push(checkbox.value);
+        });
+
+        if (selectedTreatments.length > 0) {
+            $('.doctor-section').removeClass('hidden');
+        } else {
+            $('.doctor-section').addClass('hidden');
+        }
+    }
+
+    function setAppointmentIntroductionText() {
+        $.ajax({
+            type: 'GET',
+            url: '/Appointment/setAppointmentIntroductionText',
+            datatype: "json",
+            success: function (data) {
+                $('#AppointmentIntroductionText').html(data);
+            }
+        });
+    }
+
+    function setTreatmentList() {
+        $.ajax({
+            type: 'GET',
+            url: '/Appointment/setTreatmentList',
+            datatype: "json",
+            success: function (data) {
+                let inner = "";
+                let i = 0;
+
+                data.forEach(function (x) {
+                    // console.log(x);
+                    i++;
+
+                    inner += `<div class=" selectable" data-title="` + x.treatmentName + `" data-description="` + x.introduction + `" data-type="treatment">`;
+                    inner += `<img src="` + x.image + `" class="img-fluid" data-toggle="modal" data-target="#treatmentModal">`;
+                    inner += `<input type="checkbox" name="treatments" value="` + x.treatmentId + `" class="treatment-checkbox" onclick="treatmentOnClick();"></input>`;
+                    // inner += `<input type="hidden" id="treatmentId-` + i + `" value="` + x.treatmentId + `"></input>`;
+                    inner += `</div>`;
+                })
+
+                $('#treatmentData').html(inner);
+            }
+        });
+    }
+
+    function setDoctorList() {
+        var selectedTreatments = [];
+
+        document.querySelectorAll('input[name="treatments"]:checked').forEach(function (checkbox) {
+            selectedTreatments.push(checkbox.value);
+        });
+
+        $.ajax({
+            type: 'POST',
+            url: '/Appointment/setDoctorList',
+            datatype: "json",
+            data: { treatments: selectedTreatments },
+            success: function (data) {
+                let inner = "";
+                let i = 0;
+
+                if (data.length > 0) {
+                    data.forEach(function (x) {
+                        i++;
+
+                        inner += `<div class=" selectable" data-title="` + x.doctorName + `" data-department="` + x.departmentTitle + `" data-description="` + x.introduction + `" data-type="doctor">`;
+                        inner += `<img src="` + x.image + `" class="img-fluid" data-toggle="modal" data-target="#doctorModal">`;
+                        inner += `<input type="radio" name="doctor" value="` + x.doctorId + `" class="doctor-radio"></input>`;
+                        // inner += `<input type="hidden" id="treatmentId-` + i + `" value="` + x.treatmentId + `"></input>`;
+                        inner += `</div>`;
+                    })
+                } else {
+                    inner += "無符合條件的醫師可供選擇。"
+                }
+
+
+                $('#doctorData').html(inner);
+            }
+        });
+    }
+
+    function treatmentOnClick() {
+        setDoctorList();
+        toggleDoctorSection();
+    }
+
+    function selectDateTime() {
+        var selected = $("input[name='doctor']:checked");
+        var selectedTreatments = [];
+
+        document.querySelectorAll('input[name="treatments"]:checked').forEach(function (checkbox) {
+            selectedTreatments.push(checkbox.value);
+        });
+
+
+
+        if (selected.length > 0 && selectedTreatments.length > 0) {
+            console.log(selected.val());
+            console.log(selectedTreatments);
+
+            $.ajax({
+                type: 'POST',
+                url: '/Appointment/getDateAndTime',
+                datatype: "json",
+                data: { treatments: selectedTreatments, "doctor": selected.val() },
+                success: function (data) {
+                    console.log(data);
+
+                    // let inner = "";
+                    // let i = 0;
+
+                    // if (data.length > 0) {
+
+                    // } else {
+                    //     inner += "無符合條件的醫師可供選擇。"
+                    // }
+
+                }
+            });
+
+        } else {
+            alert("請先選擇療程及醫師!!");
+        }
+
+
+
+        // let alertMessage = "";
+        // var selectedTreatments = [];
+
+        // document.querySelectorAll('input[name="treatments"]:checked').forEach(function (checkbox) {
+        //     selectedTreatments.push(checkbox.value);
+        // });
+        // document.querySelectorAll('input[name="doctor"]').forEach(function (checkbox) {
+        //     selectedTreatments.push(checkbox.value);
+        // });
+
+        // if (selectedTreatments.length == 0) {
+        //     alertMessage = "請至少選擇一項選擇療程項目!!";
+        // }else if ()
+
+    }
+
+</script>

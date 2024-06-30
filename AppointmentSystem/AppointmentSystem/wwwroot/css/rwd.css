@@ -1,0 +1,300 @@
+@charset "utf-8";
+/* CSS Document */
+
+/*-------------------menu設定---------------------*/
+
+
+@media screen and (min-width: 768px) {
+
+    .navbar-expand-md .navbar-nav .nav-link {
+        padding-right: .5rem;
+        padding-left: .5rem;
+    }
+
+    .navbar-expand-md .navbar-nav {
+        --ms-flex-direction: row;
+        flex-direction: row;
+    }
+
+}
+
+/*menu設定結束*/
+
+/*-------------------表格rwd設定---------------------*/
+@media screen and (min-width: 1024px) {
+    .rwd-table td::before {
+        display: none;
+    }
+
+    .rwd-table tr::before {
+        display: none;
+    }
+
+    .rwd-table th,
+    .rwd-table td {
+        display: table-cell;
+    }
+
+    .rwd-table tr:nth-of-type(2n+1) {
+        background: none;
+    }
+
+    .card-columns {
+
+        column-count: 2;
+    }
+}
+
+/*表格rwd設定結束*/
+
+/*-------------------平板版型---------------------*/
+@media screen and (max-width: 1023px) {
+
+    .card-columns {
+
+        column-count: 2;
+    }
+
+/*     .table {
+        border: 0;
+        max-width: 600px;
+        margin: 20px auto;
+    } */
+
+    .rwd-table>tbody>tr>td {
+        border: none;
+    }
+
+
+    .rwd-table>tbody>tr>td {
+        padding: 2rem;
+    }
+
+    .table2 .btn.add {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .table1 tbody tr td {
+        padding: 1rem;
+    }
+
+    .table1 tr:nth-of-type(2n+1) {
+        background: #f2f2f2;
+    }
+
+    .table1 tr:nth-of-type(2n) {
+        background: none;
+        border: 1px solid #f2f2f2;
+    }
+
+    .table i.fa-trash {
+        font-size: 1.5rem;
+    }
+
+
+
+
+}
+
+/*平板版型結束*/
+
+@media screen and (max-width: 991px) {
+
+    header nav.navbar {
+        background-color: #fff;
+    }
+
+    a.header {
+        margin-top: 71.25px;
+        height: 135px;
+    }
+
+    .header img {
+        height: 90%;
+    }
+
+    .navbar-nav {
+        display: block;
+        /* background-color: #F2F8F8; */
+        margin: 3px 0px 0px 0px;
+        padding: 0 10px;
+        /* box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2); */
+    }
+
+
+    .nav-main {
+        position: initial;
+        top: auto;
+        height: auto;
+        box-shadow: none;
+    }
+
+
+    .nav-main .nav-item {
+        border-bottom: 1px solid #69BBC7;
+    }
+
+    .nav-main .nav-item:last-child {
+        border: none;
+    }
+
+    .nav-main li {
+        display: block;
+        border-bottom: 1px solid #007591;
+    }
+
+    .nav-main li:last-child {
+        border: none;
+    }
+
+    .nav-main a.btn {
+        height: 48px;
+        line-height: 48px;
+        padding: 0
+    }
+
+    .nav-top li.nav-item a {
+        /*color: #fff;*/
+    }
+
+    .nav-top li.nav-item {
+        margin-left: 0;
+        margin-right: 5px;
+        padding-left: 10px;
+        /*display: inline-block;*/
+        font-size: .9em;
+    }
+
+    .navbar-toggler {
+        padding: 0;
+    }
+
+    .nav-tabs {
+        margin-top: 0
+    }
+
+    .rwd-table>tbody>tr>td {
+        border: none;
+    }
+
+    /*  .navbar-brand img {
+        width: 150px;
+    } */
+
+    .navbar {
+        /* background: url(../images/navbar-bg2.png) no-repeat center center; */
+        background: #fff;
+        background-size: cover;
+        box-shadow: 0 0px 20px rgb(0, 0, 0, 0.2);
+
+        /* height: 58px; */
+    }
+
+    .navbar-collapse .show {
+        padding: 10px;
+        background-color: #185356;
+    }
+
+    i.fa-bars {
+        color: #185356;
+    }
+}
+
+/*大手機板型結束*/
+
+
+/*-------------------Bootstrap 4 .col---------------------*/
+@media screen and (max-width: 575px) {
+
+    /*---登入頁---*/
+
+    header .logo {
+        max-width: 200px;
+    }
+
+    .login label {
+        text-align: left;
+        padding-left: 0;
+        vertical-align: middle;
+        margin-left: 0.5rem !important;
+    }
+
+    /* ------------------------ */
+
+    footer {
+        font-size: 12px;
+        text-align: left;
+        padding: 10px 5px;
+        padding-right: 50px
+    }
+
+    /*---------------------*/
+
+
+
+    .rwd-table>tbody>tr>td {
+        border: none;
+    }
+
+    .main-left {
+        box-shadow: 0 0px 6px rgba(0, 0, 0, 0.2);
+    }
+
+
+}
+
+/*Bootstrap 4 .col 結束*/
+
+
+/*-------------------小手機板型---------------------*/
+@media screen and (max-width: 479px) {
+
+    a.header {
+        height: 85px;
+    }
+
+    .fa-2x {
+        font-size: 1.5em;
+    }
+
+    .navbar-brand {
+        margin-right: 0;
+    }
+
+    h1 {
+        font-size: 1.5rem;
+    }
+
+    h2 {
+        font-size: 1.2rem;
+    }
+
+
+    .rwd-table>tbody>tr>td {
+        padding: 1.5rem;
+    }
+
+    /* .navbar-brand img {
+        width: 100px;
+    } */
+
+
+}
+
+/*小手機板型結束*/
+
+/*-------------------更小手機板型---------------------*/
+@media screen and (max-width: 320px) {
+
+    header nav.navbar {
+        padding-right: 6px;
+    }
+
+    a.header {
+        height: 78px;
+    }
+
+}
+
+/*更小手機板型結束*/

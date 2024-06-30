@@ -1,0 +1,132 @@
+﻿@model AppointmentSystem.Models.ViewModels.SystemModels.UserAccountVM
+@{
+    ViewData["Title"] = "用戶帳號編輯";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card whiteBG mb-4 pattern-F colorset_B">
+    <div class="card-header">
+        <h3 class="card-title font-weight-bold">@ViewData["Title"]</h3>
+    </div>
+
+    <div class="card whiteBG pattern-F colorset_3">
+        <div class="card-body">
+            <div class="table-responsive" style="overflow-x: unset;">
+                <table class="table table-responsive-md table-hover table2 VA-middle">
+                    <div class="container">
+                        <div class="row justify-content-left">
+                            <div class="col-2">
+                                <button role="button" class="btn btn-shadow btn-block btn-color11-o" style="background-color:#97dded" onclick="location.href='@Url.Action("UserIndex", "System")'">回上頁</button>
+                            </div>
+                        </div>
+                    </div>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <form method="post" asp-action="UserAccountEdit" onsubmit="return flag;">
+        <div class="card whiteBG mb-4 pattern-F colorset_3">
+            <div class="card-body">
+                <div class="table-responsive" style="overflow-x: unset;">
+                    <table class="table table-responsive-md table-hover table2 VA-middle">
+                        <div class="table-responsive">
+                            <table class="table table-hover" id="addnew" table-layout: fixed;>
+                                <colgroup>
+                                    <col width="30%">
+                                    <col width="10%">
+                                    <col width="30%">
+                                    <col width="30%">
+                                </colgroup>
+                                <tbody>
+                                    <tr>
+                                        <td></td>
+                                        <td>用戶帳號</td>
+                                        <td>
+                                            <input type="text" style="width:100%;" asp-for="Account" required="">
+                                        </td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>
+                                            密碼
+                                        </td>
+                                        <td>
+                                            <input type="password" style="width:100%;" asp-for="Password" id="Password" name="Password" onchange="validatePassword()" required="">
+                                        </td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>
+                                            再次輸入密碼
+                                        </td>
+                                        <td>
+                                            <input type="password" style="width:100%;" id="ConfirmPassword" name="ConfirmPassword" onchange="validatePassword()" required="">
+                                            <br />
+                                            <span id="alert" style="color:red;display:none;">
+                                                密碼輸入不一致!!
+                                            </span>
+                                        </td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>
+                                            備註
+                                        </td>
+                                        <td>
+                                            <input type="text" style="width:100%;" asp-for="Memo">
+                                        </td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <br>
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col">
+                                    </div>
+                                    <div class="col">
+                                        <input type="submit" class="btn btn-shadow btn-color11-3 btn-block" onclick="checkDate();" value="儲存">
+                                    </div>
+                                    <div class="col">
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+    </form>
+
+</div>
+
+@section scripts {
+    <script src="~/assets/js/date.format.js"></script>
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/datatables/js/jquery.dataTables.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+
+    <script type="text/javascript">
+        var flag = false;
+
+        function validatePassword() {
+            var password = document.getElementById("Password");
+            var confirm_password = document.getElementById("ConfirmPassword");
+
+            if (password.value != confirm_password.value) {
+                document.getElementById("alert").style.display = "";
+                flag = false;
+            } else {
+                document.getElementById("alert").style.display = "none";
+                flag = true;
+            }
+        }
+    </script>
+}

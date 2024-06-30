@@ -1,0 +1,33 @@
+﻿
+@{
+    ViewData["Title"] = "Login Page";
+    Layout = "~/Views/Shared/CustomerLayout.cshtml";
+}
+
+<div>
+    <img src="~/images/CustomerIndexImage1.jpg" alt="Desktop Image" class="appointment-image desktop-image">
+    <img src="~/images/CustomerIndexImage2.jpg" alt="Mobile Image" class="appointment-image mobile-image">
+</div>
+
+<div class="content">
+    <p>EK美學擁有專業的皮膚科及整形外科醫師團隊，致力提供高品質的醫美服務...</p>
+</div>
+
+<div class="row justify-content-center mb-2 pr-0 pr-md-5">
+    <div class="mx-2 col-12 col-sm-6 col-md-3">
+        <h1>使用 LINE 登入</h1>
+        <button id="line-login-btn" class="btn btn-color1 btn-block btn-radius" onclick="LineLogin();">LINE 登入</button>
+    </div>
+</div>
+
+<script>
+    function LineLogin() {
+        var client_id = '2005627882';
+        var redirect_uri = encodeURIComponent('https://localhost:7146/Appointment/Redirect');
+        var state = 'abcd'; // 用於防止 CSRF 攻擊
+        var scope = 'profile openid';
+
+        var loginUrl = `https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=${client_id}&redirect_uri=${redirect_uri}&state=${state}&scope=${scope}`;
+        window.location.href = loginUrl;
+    }
+</script>

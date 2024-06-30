@@ -1,0 +1,55 @@
+﻿@model AppointmentSystem.Models.ViewModels.AppointmentModels.IndexVM
+
+@{
+    Layout = "~/Views/Shared/CustomerLayout.cshtml";
+    ViewData["Title"] = "首頁";
+}
+
+<div>
+    <img src="~/images/CustomerIndexImage1.jpg" alt="Desktop Image" class="appointment-image desktop-image">
+    <img src="~/images/CustomerIndexImage2.jpg" alt="Mobile Image" class="appointment-image mobile-image">
+</div>
+
+<div class="content">
+    <p>EK美學擁有專業的皮膚科及整形外科醫師團隊，致力提供高品質的醫美服務...</p>
+</div>
+
+<div class="appointment-table">
+    <h5>已預約時段</h5>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>日期</th>
+                <th>時間</th>
+                <th>醫師</th>
+                <th>療程項目</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>2024年6月12日</td>
+                <th>09:00</th>
+                <td>醫師A</td>
+                <td><button class="btn btn-primary btn-sm">詳細</button></td>
+                <td><button class="btn btn-secondary btn-sm">修改</button> <button class="btn btn-danger btn-sm">取消</button></td>
+            </tr>
+            <tr>
+                <td>2024年8月3日</td>
+                <th>15:30</th>
+                <td>醫師A</td>
+                <td><button class="btn btn-primary btn-sm">詳細</button></td>
+                <td><button class="btn btn-secondary btn-sm">修改</button> <button class="btn btn-danger btn-sm">取消</button></td>
+            </tr>
+            <tr>
+                <td>2024年11月30日</td>
+                <th>21:00</th>
+                <td>醫師A</td>
+                <td><button class="btn btn-primary btn-sm">詳細</button></td>
+                <td><button class="btn btn-secondary btn-sm">修改</button> <button class="btn btn-danger btn-sm">取消</button></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <button class="btn btn-primary" onclick="location.href='@Url.Action("Fillin", "Appointment")'">進行預約</button>
+</div>

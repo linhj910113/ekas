@@ -1,0 +1,378 @@
+﻿@model IEnumerable<AppointmentSystem.Models.ViewModels.BaseInfoModels.TreatmentIndexVM>
+@{
+    ViewData["Title"] = "療程基本資料";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    #imageName {
+        margin-left: 10px;
+    }
+
+/*     .add-sidebaritem {
+        background-color: #ffffff;
+        color: #5e1a1a;
+        border: none;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+    } */
+
+    .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+</style>
+
+<h3 class="container">@ViewData["Title"]</h3>
+
+<div class="container content-div">
+    <div class="row">
+        <div class="col-md-3 sidebar" id="sidebar">
+            @{
+                int i = 0;
+            }
+
+            @foreach (var item in Model)
+            {
+                <div class="input-group">
+                    <button class="form-control" id="tb-@i" onclick="showTreatmentDetail('@i');">@item.TreatmentName</button>
+                    <input type="text" id="treatment-@i" class="form-control" placeholder="請輸入療程名稱..." value="@item.TreatmentName" style="text-align:center;display:none;" />
+                    <button class="icon-button" onclick="editTreatment('@i');">
+                        <img src="/images/edit.png" id="img-@i" style="height:2em;width:auto;" />
+                    </button>
+                    <input type="hidden" id="tv-@i" value="@item.TreatmentId" />
+                </div>
+
+                i++;
+            }
+
+            <button class="add-sidebaritem" onclick="addTreatment();">+</button>
+        </div>
+
+        <div class="col-md-9 right-panel" id="treatmentData">
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="addLableModal" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="ModalTitle">新增標籤</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="lableName">輸入標籤名稱：</label>
+                    <input type="text" class="form-control" id="lableName" required>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" id="submitBtn" onclick="creatLable();">送出</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    // $(document).ready(function () {
+    //     $("#FileButton").click(function () {
+    //         $("#uploadImage").click();
+    //     });
+    // });
+
+    function creatLable() {
+        var lableName = $('#lableName').val();
+
+        if (lableName) {
+            createTreatmentLableName(lableName);
+
+            $('#addLableModal').modal('hide');
+        } else {
+            alert("請輸入標籤名稱！");
+        }
+    }
+
+    function createTreatmentLableName(name) {
+        $.ajax({
+            type: "GET",
+            url: "/BaseInfo/TreatmentLableNameCreate",
+            datatype: "json",
+            data: { "name": name },
+            success: function (data) {
+                console.log("Create lable successful.");
+                refreshLableList();
+            }
+        });
+    }
+
+    function refreshLableList() {
+        let treatmentId = $("#treatmentId").val();
+
+        $.ajax({
+            type: "GET",
+            url: "/BaseInfo/GetTreatmentLableList",
+            datatype: "json",
+            data: { id: treatmentId },
+            success: function (data) {
+                console.log(data);
+
+                let inner = "";
+                inner += '<div class="btn-group-toggle container" data-toggle="buttons">';
+
+                data.forEach((item) => {
+                    if (item.isChecked == "Y") {
+                        inner += '<label class="btn btn-secondary btn-checkbox active" style="cursor:pointer;">';
+                        inner += '<input type="checkbox" name="lables" value="' + item.lableId + '" autocomplete="off" checked> ' + item.lableName;
+                        inner += '</label> ';
+                    } else {
+                        inner += '<label class="btn btn-secondary btn-checkbox" style="cursor:pointer;">';
+                        inner += '<input type="checkbox" name="lables" value="' + item.lableId + '" autocomplete="off"> ' + item.lableName;
+                        inner += '</label> ';
+                    }
+                });
+
+                inner += '</div>';
+
+                $('#lableList').html(inner);
+
+            }
+        });
+    }
+
+    function showLableAddModal() {
+        $('#addLableModal').modal('show');
+    }
+
+    function editTreatment(i) {
+        let text = document.getElementById("treatment-" + i);
+        let btn = document.getElementById("tb-" + i);
+        let tv = document.getElementById("tv-" + i);
+        let img = document.getElementById("img-" + i);
+
+        if (text.value == "") {
+            alert("請輸入療程名稱!!");
+        } else {
+            if (text.style.display == "") {
+                //新增療程(僅名稱)
+                if (tv.value == "") {
+                    $.ajax({
+                        type: "GET",
+                        url: "/BaseInfo/TreatmentNameCreate",
+                        datatype: "json",
+                        data: { "name": text.value },
+                        success: function (data) {
+                            console.log("Create treatment successful.");
+                            tv.value = data;
+                            showTreatmentDetail(i)
+                        }
+                    });
+                } else {
+                    $.ajax({
+                        type: "GET",
+                        url: "/BaseInfo/TreatmentNameUpdate",
+                        datatype: "json",
+                        data: { "name": text.value, "id": tv.value },
+                        success: function (data) {
+                            console.log("Update treatment successful.");
+                            tv.value = data;
+                            showTreatmentDetail(i)
+                        }
+                    });
+                }
+
+                btn.innerHTML = text.value;
+                text.style.display = "none";
+                btn.style.display = "";
+                img.src = "/images/edit.png";
+            }
+            else {
+                text.style.display = "";
+                btn.style.display = "none";
+                img.src = "/images/check.png";
+            }
+        }
+    }
+
+    function showTreatmentDetail(i) {
+        let $tv = $("#tv-" + i);
+
+        $.ajax({
+            type: "GET",
+            url: "/BaseInfo/GetTreatmentDetailData",
+            datatype: "json",
+            data: { id: $tv.val() },
+            success: function (data) {
+                console.log(data);
+
+                var inner = "";
+
+                inner += '<h3><label id="treatmentName">療程名稱：' + data.treatmentName + '</label></h3>';
+
+                inner += '<input type="hidden" id="treatmentId" value="' + data.treatmentId + '" />';
+                inner += '<div class="form-group"><label for="introduction">療程介紹*</label><textarea class="form-control" id="introduction" rows="3" placeholder="輸入療程介紹" required="">' + data.introduction + '</textarea></div>';
+                inner += '<div class="form-group"><label for="alertMessage">衛教發送訊息*</label><textarea class="form-control" id="alertMessage" rows="3" placeholder="輸入衛教發送訊息" required="">' + data.alertMessage + '</textarea></div>';
+
+                //產生諮詢時間下拉式選單
+                inner += '<div class="form-group"><label for="time">諮詢時間*</label>';
+                inner += '<select class="form-control" id="time" required="">';
+
+                data.timeSelectList.forEach((item) => {
+                    if (data.time == item.value)
+                        inner += '<option value="' + item.value + '" selected = "selected">' + item.text + '</option>';
+                    else
+                        inner += '<option value="' + item.value + '">' + item.text + '</option>';                    
+                });
+                
+                inner += '</select>';
+                inner += '</div>';
+
+                // inner += '<div class="form-group"><label for="time">諮詢時間*</label><input type="number" class="form-control" id="time" value="' + data.time + '" placeholder="輸入諮詢時間" required=""></div>';
+
+                inner += '<div class="form-group form-check"><input type="checkbox" class="form-check-input" id="hide" ';
+                if (data.hide == "Y")
+                    inner += "checked";
+                inner += '><label class="form-check-label" for="hide">隱藏療程</label></div>';
+
+                inner += '<div class="form-group"><label for="sort">排序*</label><input type="number" class="form-control" id="sort" value="' + data.sort + '" placeholder="輸入排序" required=""></div>';
+                inner += '<div class="form-group"><label for="memo">備註</label><textarea class="form-control" id="memo" rows="3" placeholder="輸入備註">' + data.memo + '</textarea></div>';
+                inner += '<div class="form-group d-flex align-items-center"><label class="mr-2">圖片上傳*</label><input type="file" class="form-control-file" id="imagefile" onchange="setImageName();" style="display:none;" /> <label class="col-form-label btn btn-primary mb-0" onclick="uploadImageClick();" style="cursor:pointer;">選擇檔案</label><div><label id="imageName" class="ml-2">' + data.treatmentImage.fileName + data.treatmentImage.fileExtension + '</label></div></div>';
+
+                //產生標籤清單
+                inner += '<div class="form-group d-flex align-items-center"><label class="mr-2">選擇標籤</label><label class="col-form-label btn btn-primary mb-0" onclick="showLableAddModal();" style="cursor:pointer;">新增標籤</label></div>';
+
+                inner += '<div class="form-group" id="lableList">';
+                inner += '<div class="btn-group-toggle container" data-toggle="buttons">';
+
+                data.lableList.forEach((item) => {
+                    if (item.isChecked == "Y") {
+                        inner += '<label class="btn btn-secondary btn-checkbox active" style="cursor:pointer;">';
+                        inner += '<input type="checkbox" name="lables" value="' + item.lableId + '" autocomplete="off" checked> ' + item.lableName;
+                        inner += '</label> ';
+                    } else {
+                        inner += '<label class="btn btn-secondary btn-checkbox" style="cursor:pointer;">';
+                        inner += '<input type="checkbox" name="lables" value="' + item.lableId + '" autocomplete="off"> ' + item.lableName;
+                        inner += '</label> ';
+                    }
+                });
+
+                inner += '</div>';
+                inner += '</div>';
+
+                inner += '<button class="btn btn-primary" onclick="updateTreatment();">提交</button> <button class="btn btn-primary" onclick="cleanTreatmentData();">取消</button>';
+
+                $("#treatmentData").html(inner);
+            }
+        });
+    }
+
+    function uploadImageClick() {
+        $("#imagefile").click();
+    }
+
+    function cleanTreatmentData() {
+        $("#treatmentData").html("");
+    }
+
+    function setImageName() {
+        if ($('#imagefile').val == "")
+            $('#imageName').text("");
+
+
+        $('#imageName').text($('#imagefile').val().split('\\').pop());
+    }
+
+    function addTreatment() {
+        let $sidebar = $('.sidebar');
+        let itemNo = $sidebar.find('.input-group').length + 1;
+
+        let $newItem = $(`
+                        <div class="input-group">
+                            <button class="form-control" id="tb-${itemNo}" onclick="showTreatmentDetail('${itemNo}');" style="display:none;"></button>
+                            <input type="text" id="treatment-${itemNo}" class="form-control" placeholder="請輸入療程名稱..." value="" style="text-align:center;" />
+                            <button class="icon-button" onclick="editTreatment('${itemNo}');">
+                                <img src="/images/check.png" id="img-${itemNo}" style="height:2em;width:auto;" />
+                            </button>
+                            <input type="hidden" id="tv-${itemNo}" value="" />
+                        </div>
+                    `);
+
+        $sidebar.find('.add-sidebaritem').before($newItem);
+    }
+
+    function updateTreatment() {
+        let alertMsg = "";
+
+        var selectedLables = [];
+        document.querySelectorAll('input[name="lables"]:checked').forEach(function (checkbox) {
+            selectedLables.push(checkbox.value);
+        });
+
+        if ($('#introduction').val() == "")
+            alertMsg = "請輸入療程介紹!!";
+        else if ($('#time').val() == "")
+            alertMsg = "請輸入療程時間!!";
+        else if ($('#AlertMessage').val() == "")
+            alertMsg = "請輸入衛教發送訊息!!";
+        else if ($('#Sort').val() == "")
+            alertMsg = "請輸入排序!!";
+        else if ($('#imageName').html() == "")
+            alertMsg = "請上傳圖片!!";
+
+        if (alertMsg != "") {
+            alert(alertMsg);
+            return false;
+        }
+
+        var formData = new FormData();
+        formData.append('TreatmentId', $('#treatmentId').val());
+        formData.append('Introduction', $('#introduction').val());
+        formData.append('Time', $('#time').val());
+        formData.append('AlertMessage', $('#alertMessage').val());
+        formData.append('Hide', $("#hide").is(":checked"));
+        formData.append('Sort', $('#sort').val());
+        formData.append('Memo', $('#memo').val());
+        // formData.append('Status', $('#status').val());
+        formData.append('TreatmentImage.File', $('#imagefile')[0].files[0]);
+        formData.append('SelectedLable', selectedLables);
+
+        $.ajax({
+            url: '/BaseInfo/TreatmentUpdate',
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (response) {
+                alert('儲存成功');
+                // $("#treatmentData").html("");
+                location.reload()
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert('儲存失敗，請聯絡系統管理員');
+            }
+        });
+    }
+
+
+</script>

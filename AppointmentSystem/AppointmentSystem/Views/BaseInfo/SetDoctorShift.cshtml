@@ -1,0 +1,388 @@
+﻿@* @model AppointmentSystem.Models.ViewModels.AppointmentModels.IndexVM *@
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "設定醫師班表";
+}
+
+<style>
+    .calendar-toolbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem;
+    }
+
+    .calendar-table {
+        width: 100%;
+        table-layout: fixed;
+    }
+
+    .calendar-row {
+        background-color: white;
+    }
+
+        .calendar-row:hover {
+            background-color: #eee;
+        }
+
+    .calendar-day {
+        height: 50px;
+        border: 1px solid #ddd;
+        padding: 0.5rem;
+        cursor: pointer;
+    }
+
+    .calendar-shiftrow {
+        height: 50px;
+    }
+
+    .calendar-shift {
+        height: 50px;
+        border: 1px solid #ddd;
+        padding: 0.5rem;
+        cursor: pointer;
+    }
+
+        .calendar-shift:hover {
+            background-color: #ccc;
+        }
+
+</style>
+
+<div class=" mt-5">
+    <div class="calendar-toolbar">
+        <button id="prevMonth" class="btn btn-primary">上個月</button>
+        <h2 id="monthYear"></h2>
+        <button id="nextMonth" class="btn btn-primary">下個月</button>
+    </div>
+    <table class="calendar-table table table-bordered">
+        <thead>
+            <tr style="background-color:#ddd;">
+                <th></th>
+                <th>星期日</th>
+                <th>星期一</th>
+                <th>星期二</th>
+                <th>星期三</th>
+                <th>星期四</th>
+                <th>星期五</th>
+                <th>星期六</th>
+            </tr>
+        </thead>
+        <tbody id="calendarBody">
+            <!-- 月曆內容會由JavaScript動態生成 -->
+        </tbody>
+    </table>
+
+    <button class="btn btn-primary" id="submitShift" onclick="saveDoctorShift();">儲存</button>
+    <button class="btn btn-secondary" id="lockShift" onclick="LockShift();">產生門診時刻表並鎖定</button>
+    <button class="btn btn-secondary" id="alertbtn" disabled>班表已鎖定</button>
+    <input type="hidden" id="currentYear" value="" />
+    <input type="hidden" id="currentMonth" value="" />
+    <input type="hidden" id="shiftlength" value="" />
+</div>
+
+<script src="~/js/jquery-3.5.1.min.js"></script>
+@* <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script> *@
+<script>
+    $(document).ready(function () {
+        let today = new Date();
+        let currentMonth = today.getMonth();
+        let currentYear = today.getFullYear();
+
+        const monthNames = ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"];
+
+        function generateCalendar(month, year) {
+            let firstDay = (new Date(year, month)).getDay();
+            let daysInMonth = 32 - new Date(year, month, 32).getDate();
+            let calendarBody = $("#calendarBody");
+
+            calendarBody.empty();
+            $("#monthYear").text(`${monthNames[month]} ${year}`);
+
+            document.getElementById("currentYear").value = year;
+            document.getElementById("currentMonth").value = month;
+
+            $.ajax({
+                type: "GET",
+                url: "/BaseInfo/GetDoctorShift",
+                datatype: "json",
+                data: { "year": currentYear, "month": currentMonth + 1 },
+                success: function (data) {
+                    console.log(data);
+
+                    //設定按鈕
+                    if (data.locked == "Y") {
+                        document.getElementById("submitShift").style.display = "none";
+                        document.getElementById("lockShift").style.display = "none";
+                        document.getElementById("alertbtn").style.display = "";                        
+                    } else {
+                        document.getElementById("submitShift").style.display = "";
+                        document.getElementById("lockShift").style.display = "";
+                        document.getElementById("alertbtn").style.display = "none";
+                    }                    
+
+                    let shiftTypeData = data.shiftTypeData;
+                    let doctorData = data.doctorData;
+                    let arrangeDoctorShiftData = data.arrangeDoctorShiftData;
+
+                    document.getElementById("shiftlength").value = shiftTypeData.length
+
+                    let n = 0;
+                    shiftTypeData.forEach((item) => {
+                        calendarBody.append("<input type='hidden' id='shift-" + n + "' value='" + item.shiftId + "' />");
+                        n++;
+                    });
+
+                    let shifts = new Array(shiftTypeData.length);
+                    let date = 1;
+
+                    for (let i = 0; i < 6; i++) {
+                        let row = "";
+
+                        if (date > daysInMonth)
+                            break;
+
+                        row += "<tr class='calendar-row'>";
+                        if (i != 0)
+                            row += "<td style='dispaly:none;' onclick='copyPreviousWeekShift(" + date + "," + shiftTypeData.length + "," + daysInMonth + ");'><button class='btn btn-primary' id='copybtn-" + i + "' style='display:none;'>複製上週班表</button></td>";
+                        else
+                            row += "<td></td>";
+
+                        let c = 0;
+                        shiftTypeData.forEach((item) => {
+                            //編碼原則:shift-(班別)-(第幾列)
+                            shifts[c] = "<tr class='calendar-shiftrow' id='shift-" + c + "-" + i + "' style='display: none;'>";
+                            shifts[c] += "<td>" + item.shiftName + "</td>";
+
+                            c++;
+                        });
+
+                        for (let j = 0; j < 7; j++) {
+                            if (i === 0 && j < firstDay) {
+                                row += "<td></td>";
+
+                                let x = 0;
+                                shiftTypeData.forEach((item) => {
+                                    shifts[x] += "<td></td>";
+
+                                    x++;
+                                });
+
+                            } else if (date > daysInMonth) {
+                                row += "<td></td>";
+
+                                let x = 0;
+                                shiftTypeData.forEach((item) => {
+                                    shifts[x] += "<td></td>";
+
+                                    x++;
+                                });
+                                // break;
+                            } else {
+                                row += "<td class='calendar-day' onclick='showShiftRow(" + i + ");'>" + date + "</td>";
+
+                                let x = 0;
+                                shiftTypeData.forEach((item) => {
+                                    shifts[x] += "<td class='calendar-shift'>";
+
+                                    //編碼原則:cell-(日期)-(班別)
+                                    shifts[x] += "<div id='cell-" + date + "-" + x + "'>";
+
+                                    doctorData.forEach((doctoritem) => {
+                                        if (arrangeDoctorShiftData.filter(e => e.day == date && e.doctorId == doctoritem.doctorId && e.shiftTypeId == item.shiftId).length > 0) {
+                                            shifts[x] += '<label class="btn btn-secondary btn-checkbox" style="cursor:pointer;">';
+                                            shifts[x] += '<input type="checkbox" name="doctors-' + date + '-' + x + '" value="' + doctoritem.doctorId + '" autocomplete="off" onclick="setCheckBoxChecked(this);" checked> ' + doctoritem.doctorName;
+                                            shifts[x] += '</label>';
+                                        } else {
+                                            shifts[x] += '<label class="btn btn-secondary btn-checkbox" style="cursor:pointer;">';
+                                            shifts[x] += '<input type="checkbox" name="doctors-' + date + '-' + x + '" value="' + doctoritem.doctorId + '" autocomplete="off" onclick="setCheckBoxChecked(this);"> ' + doctoritem.doctorName;
+                                            shifts[x] += '</label>';
+                                        }
+                                    });
+
+                                    shifts[x] += "</div>";
+
+                                    shifts[x] += "</td>";
+
+                                    x++;
+                                });
+
+                                date++;
+                            }
+                        }
+
+                        row += "</tr>";
+                        calendarBody.append(row);
+
+                        c = 0;
+                        shiftTypeData.forEach((item) => {
+                            calendarBody.append(shifts[c]);
+
+                            c++;
+                        });
+                    }
+                }
+            });
+
+        }
+
+        $("#prevMonth").click(function () {
+            currentYear = (currentMonth === 0) ? currentYear - 1 : currentYear;
+            currentMonth = (currentMonth === 0) ? 11 : currentMonth - 1;
+            generateCalendar(currentMonth, currentYear);
+        });
+
+        $("#nextMonth").click(function () {
+            currentYear = (currentMonth === 11) ? currentYear + 1 : currentYear;
+            currentMonth = (currentMonth + 1) % 12;
+            generateCalendar(currentMonth, currentYear);
+        });
+
+        generateCalendar(currentMonth, currentYear);
+    });
+
+    function showShiftRow(i) {
+        if (document.getElementById("shift-0-" + i).style.display == "") {
+            document.getElementById("shift-0-" + i).style.display = "none";
+            document.getElementById("shift-1-" + i).style.display = "none";
+            document.getElementById("shift-2-" + i).style.display = "none";
+
+            if (i != 0)
+                document.getElementById("copybtn-" + i).style.display = "none";
+        }
+        else {
+            document.getElementById("shift-0-" + i).style.display = "";
+            document.getElementById("shift-1-" + i).style.display = "";
+            document.getElementById("shift-2-" + i).style.display = "";
+
+            if (i != 0)
+                document.getElementById("copybtn-" + i).style.display = "";
+
+        }
+    }
+
+    function copyPreviousWeekShift(beginday, shiftlength, daysInMonth) {
+        for (let i = beginday; i < beginday + 7; i++) {
+            if (i - 7 <= 0)
+                continue;
+            if (i > daysInMonth)
+                break;
+
+            for (let j = 0; j < shiftlength; j++) {
+                let Content = $("#cell-" + (i - 7) + "-" + j).html();
+                $("#cell-" + i + "-" + j).html(Content);
+
+                $("#cell-" + i + "-" + j + " input[type='checkbox']").each(function () {
+                    let oldName = $(this).attr("name");
+                    let newName = oldName.replace("doctors-" + (i - 7) + "-" + j, "doctors-" + i + "-" + j);
+                    $(this).attr("name", newName);
+                });
+            }
+        }
+
+    }
+
+    function setCheckBoxChecked(element) {
+        if (element.checked) {
+            element.setAttribute('checked', 'checked');
+        } else {
+            element.removeAttribute('checked');
+        }
+    }
+
+    function saveDoctorShift() {
+        let currentYear = document.getElementById("currentYear").value;
+        let currentMonth = document.getElementById("currentMonth").value;
+        let shiftlength = document.getElementById("shiftlength").value;
+        let daysInMonth = 32 - new Date(currentYear, currentMonth, 32).getDate();
+
+        let errorcount = 0;
+
+        //先清除班表資料
+        $.ajax({
+            type: "POST",
+            url: "/BaseInfo/RemoveArrangeDoctorShift",
+            datatype: "json",
+            data: { "year": currentYear, "month": parseInt(currentMonth) + 1 },
+            success: function (data) {
+                console.log("Remove shift success.");
+
+                for (let i = 1; i <= daysInMonth; i++) {
+                    for (let j = 0; j < shiftlength; j++) {
+                        var selectedDoctors = [];
+
+                        //取得哪一天有哪些醫師值班(i:日期，j:班別)
+                        document.querySelectorAll('input[name="doctors-' + i + '-' + j + '"]:checked').forEach(function (checkbox) {
+                            selectedDoctors.push(checkbox.value);
+                        });
+
+                        if (selectedDoctors.length > 0) {
+                            var formData = new FormData();
+                            formData.append('ShiftTypeId', $('#shift-' + j).val());
+                            formData.append('Year', currentYear);
+                            formData.append('Month', parseInt(currentMonth) + 1);
+                            formData.append('Day', i);
+                            formData.append('DoctorIdList', selectedDoctors);
+
+                            let ajax = $.ajax({
+                                url: '/BaseInfo/SaveArrangeDoctorShift',
+                                type: 'POST',
+                                data: formData,
+                                processData: false,
+                                contentType: false,
+                                success: function (response) {
+                                    // alert('儲存成功');
+                                    // location.reload()
+                                },
+                                error: function (jqXHR, textStatus, errorThrown) {
+                                    errorcount++;
+                                    // alert('儲存失敗，請聯絡系統管理員');
+                                }
+                            });
+                        }
+                    }
+                }
+
+                if (errorcount == 0)
+                    alert('儲存成功');
+                else
+                    alert('儲存失敗，請記下所填寫的資料並聯絡系統管理員');
+
+                location.reload()
+            }
+        });
+
+
+
+
+    }
+
+    function LockShift() {
+        if (confirm("產生門診時刻表將會鎖定此月份的醫師班表，你確定要繼續嗎?")) {
+            let currentYear = document.getElementById("currentYear").value;
+            let currentMonth = document.getElementById("currentMonth").value;
+
+            $.ajax({
+                type: "POST",
+                url: "/BaseInfo/LockShift",
+                datatype: "json",
+                data: { "year": currentYear, "month": parseInt(currentMonth) + 1 },
+                success: function (data) {
+                    console.log("Locked shift success.");
+                    
+                    alert('儲存成功');
+
+                    // if (errorcount == 0)
+                    //     alert('儲存成功');
+                    // else
+                    //     alert('儲存失敗，請記下所填寫的資料並聯絡系統管理員');
+
+                    // location.reload()
+                }
+            });
+        }
+    }
+
+</script>

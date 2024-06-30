@@ -1,0 +1,72 @@
+﻿@model IEnumerable<AppointmentSystem.Models.ViewModels.SystemModels.ParameterIndexVM>
+@{
+    ViewData["Title"] = "系統設定管理";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="content-Title">
+    <h3 class="font-weight-bold">@ViewData["Title"]</h3>
+</div>
+
+@* <div class="content-taskbar">
+    <div class="btn-area">
+        <button role="button" class="btn btn-shadow btn-color11-o font-weight-bold" style="background-color:#97dded;" onclick="location.href='@Url.Action("ModuleCreate", "System")'">+ 新增模組</button>
+    </div>
+</div> *@
+
+<div class="card whiteBG mb-4 pattern-F colorset_3">
+    <div class="card-body">
+        <div class="table-responsive" style="overflow-x: unset;">
+            <table class="table table-responsive-md table-hover table2 VA-middle">
+                <div class="table-responsive">
+                    <table class="table table-hover" id="addnew" table-layout: fixed;>
+                        <colgroup>
+                            <col width="30%">
+                            <col width="55%">
+                            <col width="15%">
+                        </colgroup>
+                        <tbody>
+
+                            @if (ViewBag.Count > 0)
+                            {
+                                <tr>
+                                    <th>參數名稱</th>
+                                    <th>敘述</th>                                    
+                                    <th></th>
+                                </tr>
+
+                                foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>@item.ParameterName</td>
+                                        <td>@item.Memo</td>
+                                        <td>
+                                            <a role="button" class="btn btn-shadow btn-color11-d btn-block" style="background-color:#97dded;" asp-action="ParameterEdit" asp-route-id="@item.Index">
+                                                修改<i class="fas fa-edit"></i>
+                                            </a>
+                                        </td>
+                                        <!--
+                                        <td>
+                                            <a href="javascript:void(0)" role="button" class="btn btn-shadow btn-color11-d btn-block" style="background-color:#f97676" onclick="DeleteQuestion('@item.Index')">
+                                                刪除<i class="fas fa-trash-alt"></i>
+                                            </a>
+                                        </td>
+                                        -->
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <th>查無資料</th>
+                                </tr>
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+
+            </table>
+        </div>
+    </div>
+</div>

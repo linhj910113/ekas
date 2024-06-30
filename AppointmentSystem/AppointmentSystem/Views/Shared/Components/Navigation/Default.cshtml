@@ -1,0 +1,27 @@
+﻿@model List<AppointmentSystem.Models.ViewModels.ModuleVM>
+
+@foreach (var module in Model)
+{
+    if (module.IsActive == true)
+    {
+        if (module.Functions.Count > 0)
+        {
+            <p style="color: rgb(2, 144, 201);">@module.ModuleName</p>
+
+            foreach (var function in module.Functions)
+            {
+                <a asp-area="" asp-controller=@function.Controller asp-action=@function.Action>
+                    <div class="collapsed function-div">
+                        @function.FunctionName                        
+                    </div>
+                </a>
+            }
+        }
+    }
+}
+
+<a asp-area="" asp-controller="Home" asp-action="Logout">
+    <div class="collapsed function-div">
+        登出
+    </div>
+</a>

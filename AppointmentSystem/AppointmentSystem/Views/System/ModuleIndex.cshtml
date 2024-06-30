@@ -1,0 +1,78 @@
+﻿@model IEnumerable<AppointmentSystem.Models.ViewModels.SystemModels.ModuleIndexVM>
+@{
+    ViewData["Title"] = "模組管理";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="content-Title">
+    <h3 class="font-weight-bold">@ViewData["Title"]</h3>
+</div>
+
+<div class="content-taskbar">
+    <div class="btn-area">
+        <button role="button" class="btn btn-shadow btn-color11-o font-weight-bold" style="background-color:#97dded;" onclick="location.href='@Url.Action("ModuleCreate", "System")'">+ 新增模組</button>
+    </div>
+</div>
+
+<div class="card whiteBG mb-4 pattern-F colorset_3">
+    <div class="card-body">
+        <div class="table-responsive" style="overflow-x: unset;">
+            <table class="table table-responsive-md table-hover table2 VA-middle">
+                <div class="table-responsive">
+                    <table class="table table-hover" id="addnew" table-layout: fixed;>
+                        <colgroup>
+                            <col width="20%">
+                            <col width="10%">
+                            <col width="30%">
+                            <col width="15%">
+                            <col width="15%">
+                        </colgroup>
+                        <tbody>
+
+                            @if (ViewBag.Count > 0)
+                            {
+                                <tr>
+                                    <th>模組名稱</th>
+                                    <th>排序</th>
+                                    <th>備註</th>
+                                    <th>是否啟用</th>
+                                    <th></th>
+                                </tr>
+
+                                foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>@item.ModuleName</td>
+                                        <td>@item.Sort</td>
+                                        <td>@item.Memo</td>
+                                        <td>@item.Status</td>
+                                        <td>
+                                            <a role="button" class="btn btn-shadow btn-color11-d btn-block" style="background-color:#97dded;" asp-action="ModuleEdit" asp-route-id="@item.ModuleId">
+                                                修改<i class="fas fa-edit"></i>
+                                            </a>
+                                        </td>
+                                        <!--
+                                        <td>
+                                            <a href="javascript:void(0)" role="button" class="btn btn-shadow btn-color11-d btn-block" style="background-color:#f97676" onclick="DeleteQuestion('@item.ModuleId')">
+                                                刪除<i class="fas fa-trash-alt"></i>
+                                            </a>
+                                        </td>
+                                        -->
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <th>查無資料</th>
+                                </tr>
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+
+            </table>
+        </div>
+    </div>
+</div>

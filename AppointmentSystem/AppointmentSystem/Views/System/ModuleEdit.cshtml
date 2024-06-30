@@ -1,0 +1,93 @@
+﻿@model AppointmentSystem.Models.ViewModels.SystemModels.ModuleEditVM
+@{
+    ViewData["Title"] = "模組修改";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card whiteBG mb-4 pattern-F colorset_B">
+    <div class="card-header">
+        <h3 class="card-title font-weight-bold">@ViewData["Title"]</h3>
+    </div>
+
+    <div class="card whiteBG pattern-F colorset_3">
+        <div class="card-body">
+            <div class="table-responsive" style="overflow-x: unset;">
+                <table class="table table-responsive-md table-hover table2 VA-middle">
+                    <div class="container">
+                        <div class="row justify-content-left">
+                            <div class="col-2">
+                                <button role="button" class="btn btn-shadow btn-block btn-color11-o" style="background-color:#97dded" onclick="location.href='@Url.Action("ModuleIndex", "System")'">回上頁</button>
+                            </div>
+                        </div>
+                    </div>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <form method="post" asp-action="ModuleEdit">
+        <div class="card whiteBG mb-4 pattern-F colorset_3">
+            <div class="card-body">
+                <div class="table-responsive" style="overflow-x: unset;">
+                    <table class="table table-responsive-md table-hover table2 VA-middle">
+                        <div class="table-responsive">
+                            <table class="table table-hover" id="addnew" table-layout: fixed;>
+                                <colgroup>
+                                    <col width="30%">
+                                    <col width="10%">
+                                    <col width="30%">
+                                    <col width="30%">
+                                </colgroup>
+                                <tbody>
+                                    <tr>
+                                        <td></td>
+                                        <td>模組名稱</td>
+                                        <td>
+                                            <input type="text" style="width:100%;" asp-for="ModuleName">
+                                        </td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>排序</td>
+                                        <td><input type="number" style="width:100%;" asp-for="Sort"></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>備註</td>
+                                        <td><input type="text" style="width:100%;" asp-for="Memo"></td>
+                                        <td></td>
+                                    </tr>                                    
+                                    <tr>
+                                        <td></td>
+                                        <td>是否啟用</td>
+                                        <td>
+                                            @Html.DropDownListFor(m=>m.Status, Model.StatusList , new { @class = "form-control"})
+                                        </td>
+                                        <td></td>
+                                    </tr>                                    
+                                </tbody>
+                            </table>
+                            <br>
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col">
+                                    </div>
+                                    <div class="col">
+                                        <input type="submit" class="btn btn-shadow btn-color11-3 btn-block" value="儲存">
+                                    </div>
+                                    <div class="col">
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+    </form>
+
+</div>

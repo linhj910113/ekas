@@ -1,0 +1,61 @@
+﻿<!DOCTYPE html>
+
+<html class="text-center">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>EK美學診所預約系統</title>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link href="~/css/bootstrap.min.css" rel="stylesheet" asp-append-version="true">
+    <link rel="stylesheet" href="~/css/ekstyle.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/appointmentsystem.styles.css" asp-append-version="true" />
+
+
+    <!--load all styles -->
+    <link rel="stylesheet" href="~/css/layout.css" asp-append-version="true" />
+    @*
+    <!--自訂CSS-->
+    <link rel="stylesheet" href="~/css/rwd.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/sweetalert2.css" asp-append-version="true" /> *@
+
+</head>
+<body class="index">
+    <header class="header bg-light fixed-top">
+        <div class="container d-flex justify-content-between align-items-center">
+            <a title="回首頁" asp-controller="Appointment" asp-action="index">
+                <img src="~/images/logo_b.png" style="height:3em;width:auto;" />
+            </a>
+
+            <a asp-area="" asp-controller="Appointment" asp-action="Logout" style="width:100px;">
+                <button class="header-toolbar d-flex align-items-center">
+                    登出
+                </button>
+            </a>
+        </div>
+
+    </header>
+
+    <div class="content mt-5 pt-5 customer-content text-center">
+        @RenderBody()
+    </div>
+
+
+
+    <footer class="footer bg-light fixed-bottom">
+        <div class="container text-center">
+            <span>鯨明科技有限公司 Copyright © 2024 All Rights Reserved</span>
+        </div>
+    </footer>
+
+    
+    <script src="~/js/jquery-3.6.0.min.js"></script>
+    <script src="~/js/bootstrap.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @* <script src="~/js/script.js"></script> *@
+    <script src="~/js/sweetalert2.min.js"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,129 @@
+﻿@model AppointmentSystem.Models.ViewModels.SystemModels.UserDefaultPermissionVM
+@{
+    ViewData["Title"] = "用戶權限設定";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    int i = 0;
+}
+
+<div class="card whiteBG mb-4 pattern-F colorset_B">
+    <div class="card-header">
+        <h3 class="card-title font-weight-bold">@ViewData["Title"]</h3>
+    </div>
+
+    <div class="card whiteBG pattern-F colorset_3">
+        <div class="card-body">
+            <div class="table-responsive" style="overflow-x: unset;">
+                <table class="table table-responsive-md table-hover table2 VA-middle">
+                    <div class="container">
+                        <div class="row justify-content-left">
+                            <div class="col-2">
+                                <button role="button" class="btn btn-shadow btn-block btn-color11-o" style="background-color:#97dded" onclick="location.href='@Url.Action("UserIndex", "System")'">回上頁</button>
+                            </div>
+                        </div>
+                    </div>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="card whiteBG mb-4 pattern-F colorset_3">
+        <div class="card-body">
+            <div class="table-responsive" style="overflow-x: unset;">
+                <table class="table table-responsive-md table-hover table2 VA-middle">
+                    <div class="table-responsive">
+                        <table class="table table-hover" id="addnew" table-layout: fixed;>
+                            <colgroup>
+                                <col width="30%">
+                                <col width="20%">
+                                <col width="20%">
+                                <col width="30%">
+                            </colgroup>
+                            <tbody>
+                                @if (Model.Functions.Count() > 0)
+                                {
+                                    <tr>
+                                        <th></th>
+                                        <th>功能名稱</th>
+                                        <th>是否可使用</th>
+                                        <th></th>
+                                    </tr>
+
+                                    foreach (var item in Model.Functions)
+                                    {
+                                        i++;
+
+                                        <tr>
+                                            <td></td>
+                                            <td>@item.FunctionName<input type="hidden" id="FunctionId-@i" value="@item.FunctionId"></td>
+                                            <td>@Html.DropDownListFor(modelItem=>item.IsAllow, item.IsAllowDropdown , new { @class = "form-control", @id = "IsAllow-"+i})</td>
+                                            <td></td>
+                                        </tr>
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <th>查無資料</th>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                        <br>
+                        <div class="container">
+                            <div class="row">
+                                <div class="col">
+                                </div>
+                                <div class="col">
+                                    <button class="btn btn-shadow btn-color11-3 btn-block" id="SubmmitButton" onclick="Submmit();">確定儲存</button>
+                                </div>
+                                <div class="col">
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<input type="hidden" id="UserId" value="@Model.UserId">
+
+@section scripts {
+    <script src="~/assets/js/date.format.js"></script>
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/datatables/js/jquery.dataTables.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+
+    <script type="text/javascript">
+        function Submmit() {
+            var UserId = document.getElementById("UserId").value;
+            var count = parseInt(@i);
+
+            for (var i = 1; i <= count; i++) {
+                var FunctionId = document.getElementById("FunctionId-" + i).value;
+                var IsAllow = document.getElementById("IsAllow-" + i).value;
+
+                $.ajax({
+                    type: "GET",
+                    url: "/System/SaveUserDefaultPermission",
+                    data: { "UserId": UserId, "FunctionId": FunctionId, "IsAllow": IsAllow },
+                    async: false,
+                    datatype: "json",
+                    success: function (data) {
+                        console.log(data);
+
+                        window.location.href = '@Url.Action("UserIndex", "System")';
+                    }
+                })
+            }
+        }
+    </script>
+}
