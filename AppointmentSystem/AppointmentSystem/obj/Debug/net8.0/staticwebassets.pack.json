@@ -1,731 +1,731 @@
 {
   "Files": [
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\AppointmentSystem.bundle.scp.css",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\AppointmentSystem.bundle.scp.css",
       "PackagePath": "staticwebassets\\AppointmentSystem.bundle.scp.css"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\css\\_bootstrap.min.css",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\css\\_bootstrap.min.css",
       "PackagePath": "staticwebassets\\css\\_bootstrap.min.css"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\css\\_bootstrap.min.css.map",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\css\\_bootstrap.min.css.map",
       "PackagePath": "staticwebassets\\css\\_bootstrap.min.css.map"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\css\\bootstrap.min.css",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\css\\bootstrap.min.css",
       "PackagePath": "staticwebassets\\css\\bootstrap.min.css"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\css\\ekstyle.css",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\css\\ekstyle.css",
       "PackagePath": "staticwebassets\\css\\ekstyle.css"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\css\\fontawesome.css",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\css\\fontawesome.css",
       "PackagePath": "staticwebassets\\css\\fontawesome.css"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\css\\fontawesome.min.css",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\css\\fontawesome.min.css",
       "PackagePath": "staticwebassets\\css\\fontawesome.min.css"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\css\\layout.css",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\css\\layout.css",
       "PackagePath": "staticwebassets\\css\\layout.css"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\css\\rwd.css",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\css\\rwd.css",
       "PackagePath": "staticwebassets\\css\\rwd.css"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\css\\site.css",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\css\\site.css",
       "PackagePath": "staticwebassets\\css\\site.css"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\css\\solid.css",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\css\\solid.css",
       "PackagePath": "staticwebassets\\css\\solid.css"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\css\\solid.min.css",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\css\\solid.min.css",
       "PackagePath": "staticwebassets\\css\\solid.min.css"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\css\\sweetalert2.min.css",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\css\\sweetalert2.min.css",
       "PackagePath": "staticwebassets\\css\\sweetalert2.min.css"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\favicon.ico",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\favicon.ico",
       "PackagePath": "staticwebassets\\favicon.ico"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\fonts\\FontAwesome.otf",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\fonts\\FontAwesome.otf",
       "PackagePath": "staticwebassets\\fonts\\FontAwesome.otf"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\fonts\\fontawesome-webfont.eot",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\fonts\\fontawesome-webfont.eot",
       "PackagePath": "staticwebassets\\fonts\\fontawesome-webfont.eot"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\fonts\\fontawesome-webfont.svg",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\fonts\\fontawesome-webfont.svg",
       "PackagePath": "staticwebassets\\fonts\\fontawesome-webfont.svg"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\fonts\\fontawesome-webfont.ttf",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\fonts\\fontawesome-webfont.ttf",
       "PackagePath": "staticwebassets\\fonts\\fontawesome-webfont.ttf"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\fonts\\fontawesome-webfont.woff",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\fonts\\fontawesome-webfont.woff",
       "PackagePath": "staticwebassets\\fonts\\fontawesome-webfont.woff"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\fonts\\fontawesome-webfont.woff2",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\fonts\\fontawesome-webfont.woff2",
       "PackagePath": "staticwebassets\\fonts\\fontawesome-webfont.woff2"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\images\\CustomerIndexImage1.jpg",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\images\\CustomerIndexImage1.jpg",
       "PackagePath": "staticwebassets\\images\\CustomerIndexImage1.jpg"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\images\\CustomerIndexImage2.jpg",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\images\\CustomerIndexImage2.jpg",
       "PackagePath": "staticwebassets\\images\\CustomerIndexImage2.jpg"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\images\\check.png",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\images\\check.png",
       "PackagePath": "staticwebassets\\images\\check.png"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\images\\edit.png",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\images\\edit.png",
       "PackagePath": "staticwebassets\\images\\edit.png"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\images\\gear.png",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\images\\gear.png",
       "PackagePath": "staticwebassets\\images\\gear.png"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\images\\icon-up.png",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\images\\icon-up.png",
       "PackagePath": "staticwebassets\\images\\icon-up.png"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\images\\logo_b.png",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\images\\logo_b.png",
       "PackagePath": "staticwebassets\\images\\logo_b.png"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\images\\z.png",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\images\\z.png",
       "PackagePath": "staticwebassets\\images\\z.png"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\js\\_bootstrap.min.js",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\js\\_bootstrap.min.js",
       "PackagePath": "staticwebassets\\js\\_bootstrap.min.js"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\js\\_bootstrap.min.js.map",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\js\\_bootstrap.min.js.map",
       "PackagePath": "staticwebassets\\js\\_bootstrap.min.js.map"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\js\\bootstrap.min.js",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\js\\bootstrap.min.js",
       "PackagePath": "staticwebassets\\js\\bootstrap.min.js"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\js\\html5shiv.min.js",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\js\\html5shiv.min.js",
       "PackagePath": "staticwebassets\\js\\html5shiv.min.js"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\js\\jquery-3.5.1.min.js",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\js\\jquery-3.5.1.min.js",
       "PackagePath": "staticwebassets\\js\\jquery-3.5.1.min.js"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\js\\jquery-3.6.0.min.js",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\js\\jquery-3.6.0.min.js",
       "PackagePath": "staticwebassets\\js\\jquery-3.6.0.min.js"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\js\\respond.min.js",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\js\\respond.min.js",
       "PackagePath": "staticwebassets\\js\\respond.min.js"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\js\\script.js",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\js\\script.js",
       "PackagePath": "staticwebassets\\js\\script.js"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\js\\site.js",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\js\\site.js",
       "PackagePath": "staticwebassets\\js\\site.js"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\js\\sweetalert2.min.js",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\js\\sweetalert2.min.js",
       "PackagePath": "staticwebassets\\js\\sweetalert2.min.js"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\bootstrap\\LICENSE",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\bootstrap\\LICENSE",
       "PackagePath": "staticwebassets\\lib\\bootstrap"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css.map",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css.map",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css.map"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css.map",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css.map",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css.map"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css.map",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css.map",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css.map"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css.map",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css.map",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css.map"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css.map",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css.map",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css.map"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css.map",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css.map",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css.map"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css.map",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css.map",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css.map"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css.map",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css.map",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css.map"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css.map",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css.map",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css.map"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css.map",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css.map",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css.map"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css.map",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css.map",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css.map"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css.map",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css.map",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css.map"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.css"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css.map",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css.map",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.css.map"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.min.css"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css.map",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css.map",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.min.css.map"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css.map",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css.map",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css.map"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css.map",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css.map",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css.map"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js.map",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js.map",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js.map"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js.map",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js.map",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js.map"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js.map",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js.map",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js.map"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js.map",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js.map",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js.map"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.js",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.js",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.js"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.js.map",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.js.map",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.js.map"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.min.js",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.min.js",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.min.js"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.min.js.map",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.min.js.map",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.min.js.map"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\ckeditor.js",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\ckeditor.js",
       "PackagePath": "staticwebassets\\lib\\ckeditor5\\ckeditor.js"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\ckeditor.js.map",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\ckeditor.js.map",
       "PackagePath": "staticwebassets\\lib\\ckeditor5\\ckeditor.js.map"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\af.js",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\af.js",
       "PackagePath": "staticwebassets\\lib\\ckeditor5\\translations\\af.js"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\ar.js",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\ar.js",
       "PackagePath": "staticwebassets\\lib\\ckeditor5\\translations\\ar.js"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\ast.js",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\ast.js",
       "PackagePath": "staticwebassets\\lib\\ckeditor5\\translations\\ast.js"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\az.js",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\az.js",
       "PackagePath": "staticwebassets\\lib\\ckeditor5\\translations\\az.js"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\bg.js",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\bg.js",
       "PackagePath": "staticwebassets\\lib\\ckeditor5\\translations\\bg.js"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\bn.js",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\bn.js",
       "PackagePath": "staticwebassets\\lib\\ckeditor5\\translations\\bn.js"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\bs.js",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\bs.js",
       "PackagePath": "staticwebassets\\lib\\ckeditor5\\translations\\bs.js"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\ca.js",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\ca.js",
       "PackagePath": "staticwebassets\\lib\\ckeditor5\\translations\\ca.js"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\cs.js",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\cs.js",
       "PackagePath": "staticwebassets\\lib\\ckeditor5\\translations\\cs.js"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\da.js",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\da.js",
       "PackagePath": "staticwebassets\\lib\\ckeditor5\\translations\\da.js"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\de-ch.js",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\de-ch.js",
       "PackagePath": "staticwebassets\\lib\\ckeditor5\\translations\\de-ch.js"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\de.js",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\de.js",
       "PackagePath": "staticwebassets\\lib\\ckeditor5\\translations\\de.js"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\el.js",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\el.js",
       "PackagePath": "staticwebassets\\lib\\ckeditor5\\translations\\el.js"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\en-au.js",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\en-au.js",
       "PackagePath": "staticwebassets\\lib\\ckeditor5\\translations\\en-au.js"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\en-gb.js",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\en-gb.js",
       "PackagePath": "staticwebassets\\lib\\ckeditor5\\translations\\en-gb.js"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\eo.js",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\eo.js",
       "PackagePath": "staticwebassets\\lib\\ckeditor5\\translations\\eo.js"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\es-co.js",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\es-co.js",
       "PackagePath": "staticwebassets\\lib\\ckeditor5\\translations\\es-co.js"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\es.js",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\es.js",
       "PackagePath": "staticwebassets\\lib\\ckeditor5\\translations\\es.js"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\et.js",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\et.js",
       "PackagePath": "staticwebassets\\lib\\ckeditor5\\translations\\et.js"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\eu.js",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\eu.js",
       "PackagePath": "staticwebassets\\lib\\ckeditor5\\translations\\eu.js"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\fa.js",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\fa.js",
       "PackagePath": "staticwebassets\\lib\\ckeditor5\\translations\\fa.js"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\fi.js",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\fi.js",
       "PackagePath": "staticwebassets\\lib\\ckeditor5\\translations\\fi.js"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\fr.js",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\fr.js",
       "PackagePath": "staticwebassets\\lib\\ckeditor5\\translations\\fr.js"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\gl.js",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\gl.js",
       "PackagePath": "staticwebassets\\lib\\ckeditor5\\translations\\gl.js"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\gu.js",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\gu.js",
       "PackagePath": "staticwebassets\\lib\\ckeditor5\\translations\\gu.js"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\he.js",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\he.js",
       "PackagePath": "staticwebassets\\lib\\ckeditor5\\translations\\he.js"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\hi.js",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\hi.js",
       "PackagePath": "staticwebassets\\lib\\ckeditor5\\translations\\hi.js"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\hr.js",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\hr.js",
       "PackagePath": "staticwebassets\\lib\\ckeditor5\\translations\\hr.js"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\hu.js",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\hu.js",
       "PackagePath": "staticwebassets\\lib\\ckeditor5\\translations\\hu.js"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\hy.js",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\hy.js",
       "PackagePath": "staticwebassets\\lib\\ckeditor5\\translations\\hy.js"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\id.js",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\id.js",
       "PackagePath": "staticwebassets\\lib\\ckeditor5\\translations\\id.js"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\it.js",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\it.js",
       "PackagePath": "staticwebassets\\lib\\ckeditor5\\translations\\it.js"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\ja.js",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\ja.js",
       "PackagePath": "staticwebassets\\lib\\ckeditor5\\translations\\ja.js"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\jv.js",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\jv.js",
       "PackagePath": "staticwebassets\\lib\\ckeditor5\\translations\\jv.js"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\km.js",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\km.js",
       "PackagePath": "staticwebassets\\lib\\ckeditor5\\translations\\km.js"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\kn.js",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\kn.js",
       "PackagePath": "staticwebassets\\lib\\ckeditor5\\translations\\kn.js"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\ko.js",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\ko.js",
       "PackagePath": "staticwebassets\\lib\\ckeditor5\\translations\\ko.js"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\ku.js",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\ku.js",
       "PackagePath": "staticwebassets\\lib\\ckeditor5\\translations\\ku.js"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\lt.js",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\lt.js",
       "PackagePath": "staticwebassets\\lib\\ckeditor5\\translations\\lt.js"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\lv.js",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\lv.js",
       "PackagePath": "staticwebassets\\lib\\ckeditor5\\translations\\lv.js"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\ms.js",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\ms.js",
       "PackagePath": "staticwebassets\\lib\\ckeditor5\\translations\\ms.js"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\nb.js",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\nb.js",
       "PackagePath": "staticwebassets\\lib\\ckeditor5\\translations\\nb.js"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\ne.js",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\ne.js",
       "PackagePath": "staticwebassets\\lib\\ckeditor5\\translations\\ne.js"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\nl.js",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\nl.js",
       "PackagePath": "staticwebassets\\lib\\ckeditor5\\translations\\nl.js"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\no.js",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\no.js",
       "PackagePath": "staticwebassets\\lib\\ckeditor5\\translations\\no.js"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\oc.js",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\oc.js",
       "PackagePath": "staticwebassets\\lib\\ckeditor5\\translations\\oc.js"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\pl.js",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\pl.js",
       "PackagePath": "staticwebassets\\lib\\ckeditor5\\translations\\pl.js"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\pt-br.js",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\pt-br.js",
       "PackagePath": "staticwebassets\\lib\\ckeditor5\\translations\\pt-br.js"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\pt.js",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\pt.js",
       "PackagePath": "staticwebassets\\lib\\ckeditor5\\translations\\pt.js"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\ro.js",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\ro.js",
       "PackagePath": "staticwebassets\\lib\\ckeditor5\\translations\\ro.js"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\ru.js",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\ru.js",
       "PackagePath": "staticwebassets\\lib\\ckeditor5\\translations\\ru.js"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\si.js",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\si.js",
       "PackagePath": "staticwebassets\\lib\\ckeditor5\\translations\\si.js"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\sk.js",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\sk.js",
       "PackagePath": "staticwebassets\\lib\\ckeditor5\\translations\\sk.js"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\sl.js",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\sl.js",
       "PackagePath": "staticwebassets\\lib\\ckeditor5\\translations\\sl.js"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\sq.js",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\sq.js",
       "PackagePath": "staticwebassets\\lib\\ckeditor5\\translations\\sq.js"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\sr-latn.js",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\sr-latn.js",
       "PackagePath": "staticwebassets\\lib\\ckeditor5\\translations\\sr-latn.js"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\sr.js",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\sr.js",
       "PackagePath": "staticwebassets\\lib\\ckeditor5\\translations\\sr.js"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\sv.js",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\sv.js",
       "PackagePath": "staticwebassets\\lib\\ckeditor5\\translations\\sv.js"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\th.js",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\th.js",
       "PackagePath": "staticwebassets\\lib\\ckeditor5\\translations\\th.js"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\ti.js",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\ti.js",
       "PackagePath": "staticwebassets\\lib\\ckeditor5\\translations\\ti.js"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\tk.js",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\tk.js",
       "PackagePath": "staticwebassets\\lib\\ckeditor5\\translations\\tk.js"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\tr.js",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\tr.js",
       "PackagePath": "staticwebassets\\lib\\ckeditor5\\translations\\tr.js"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\tt.js",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\tt.js",
       "PackagePath": "staticwebassets\\lib\\ckeditor5\\translations\\tt.js"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\ug.js",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\ug.js",
       "PackagePath": "staticwebassets\\lib\\ckeditor5\\translations\\ug.js"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\uk.js",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\uk.js",
       "PackagePath": "staticwebassets\\lib\\ckeditor5\\translations\\uk.js"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\ur.js",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\ur.js",
       "PackagePath": "staticwebassets\\lib\\ckeditor5\\translations\\ur.js"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\uz.js",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\uz.js",
       "PackagePath": "staticwebassets\\lib\\ckeditor5\\translations\\uz.js"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\vi.js",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\vi.js",
       "PackagePath": "staticwebassets\\lib\\ckeditor5\\translations\\vi.js"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\zh-cn.js",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\zh-cn.js",
       "PackagePath": "staticwebassets\\lib\\ckeditor5\\translations\\zh-cn.js"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\zh.js",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\ckeditor5\\translations\\zh.js",
       "PackagePath": "staticwebassets\\lib\\ckeditor5\\translations\\zh.js"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\jquery-validation-unobtrusive\\LICENSE.txt",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\jquery-validation-unobtrusive\\LICENSE.txt",
       "PackagePath": "staticwebassets\\lib\\jquery-validation-unobtrusive\\LICENSE.txt"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.js",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.js",
       "PackagePath": "staticwebassets\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.js"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.min.js",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.min.js",
       "PackagePath": "staticwebassets\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.min.js"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\jquery-validation\\LICENSE.md",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\jquery-validation\\LICENSE.md",
       "PackagePath": "staticwebassets\\lib\\jquery-validation\\LICENSE.md"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\jquery-validation\\dist\\additional-methods.js",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\jquery-validation\\dist\\additional-methods.js",
       "PackagePath": "staticwebassets\\lib\\jquery-validation\\dist\\additional-methods.js"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\jquery-validation\\dist\\additional-methods.min.js",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\jquery-validation\\dist\\additional-methods.min.js",
       "PackagePath": "staticwebassets\\lib\\jquery-validation\\dist\\additional-methods.min.js"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\jquery-validation\\dist\\jquery.validate.js",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\jquery-validation\\dist\\jquery.validate.js",
       "PackagePath": "staticwebassets\\lib\\jquery-validation\\dist\\jquery.validate.js"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\jquery-validation\\dist\\jquery.validate.min.js",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\jquery-validation\\dist\\jquery.validate.min.js",
       "PackagePath": "staticwebassets\\lib\\jquery-validation\\dist\\jquery.validate.min.js"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\jquery\\LICENSE.txt",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\jquery\\LICENSE.txt",
       "PackagePath": "staticwebassets\\lib\\jquery\\LICENSE.txt"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\jquery\\dist\\jquery.js",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\jquery\\dist\\jquery.js",
       "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.js"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\jquery\\dist\\jquery.min.js",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\jquery\\dist\\jquery.min.js",
       "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.min.js"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\jquery\\dist\\jquery.min.map",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\lib\\jquery\\dist\\jquery.min.map",
       "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.min.map"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\webfonts\\fa-brands-400.eot",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\webfonts\\fa-brands-400.eot",
       "PackagePath": "staticwebassets\\webfonts\\fa-brands-400.eot"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\webfonts\\fa-brands-400.svg",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\webfonts\\fa-brands-400.svg",
       "PackagePath": "staticwebassets\\webfonts\\fa-brands-400.svg"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\webfonts\\fa-brands-400.ttf",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\webfonts\\fa-brands-400.ttf",
       "PackagePath": "staticwebassets\\webfonts\\fa-brands-400.ttf"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\webfonts\\fa-brands-400.woff",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\webfonts\\fa-brands-400.woff",
       "PackagePath": "staticwebassets\\webfonts\\fa-brands-400.woff"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\webfonts\\fa-brands-400.woff2",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\webfonts\\fa-brands-400.woff2",
       "PackagePath": "staticwebassets\\webfonts\\fa-brands-400.woff2"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\webfonts\\fa-regular-400.eot",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\webfonts\\fa-regular-400.eot",
       "PackagePath": "staticwebassets\\webfonts\\fa-regular-400.eot"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\webfonts\\fa-regular-400.svg",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\webfonts\\fa-regular-400.svg",
       "PackagePath": "staticwebassets\\webfonts\\fa-regular-400.svg"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\webfonts\\fa-regular-400.ttf",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\webfonts\\fa-regular-400.ttf",
       "PackagePath": "staticwebassets\\webfonts\\fa-regular-400.ttf"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\webfonts\\fa-regular-400.woff",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\webfonts\\fa-regular-400.woff",
       "PackagePath": "staticwebassets\\webfonts\\fa-regular-400.woff"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\webfonts\\fa-regular-400.woff2",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\webfonts\\fa-regular-400.woff2",
       "PackagePath": "staticwebassets\\webfonts\\fa-regular-400.woff2"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\webfonts\\fa-solid-900.eot",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\webfonts\\fa-solid-900.eot",
       "PackagePath": "staticwebassets\\webfonts\\fa-solid-900.eot"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\webfonts\\fa-solid-900.svg",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\webfonts\\fa-solid-900.svg",
       "PackagePath": "staticwebassets\\webfonts\\fa-solid-900.svg"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\webfonts\\fa-solid-900.ttf",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\webfonts\\fa-solid-900.ttf",
       "PackagePath": "staticwebassets\\webfonts\\fa-solid-900.ttf"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\webfonts\\fa-solid-900.woff",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\webfonts\\fa-solid-900.woff",
       "PackagePath": "staticwebassets\\webfonts\\fa-solid-900.woff"
     },
     {
-      "Id": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\wwwroot\\webfonts\\fa-solid-900.woff2",
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\webfonts\\fa-solid-900.woff2",
       "PackagePath": "staticwebassets\\webfonts\\fa-solid-900.woff2"
     },
     {

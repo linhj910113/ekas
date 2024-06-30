@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\AppointmentSystem.csproj": {}
+    "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\AppointmentSystem.csproj": {}
   },
   "projects": {
-    "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\AppointmentSystem.csproj": {
+    "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\AppointmentSystem.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\AppointmentSystem.csproj",
+        "projectUniqueName": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\AppointmentSystem.csproj",
         "projectName": "AppointmentSystem",
-        "projectPath": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\AppointmentSystem.csproj",
+        "projectPath": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\AppointmentSystem.csproj",
         "packagesPath": "C:\\Users\\candy\\.nuget\\packages\\",
-        "outputPath": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\obj\\",
+        "outputPath": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

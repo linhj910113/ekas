@@ -1,17 +1,21 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\",
+  "WorkspaceRootPath": "D:\\Github\\ekas\\AppointmentSystem\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{089A4388-9D58-4DE9-90D0-03459E5FB736}|AppointmentSystem\\AppointmentSystem.csproj|d:\\github\\appointmentsystem(ek)\\appointmentsystem\\appointmentsystem\\controllers\\appointmentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{089A4388-9D58-4DE9-90D0-03459E5FB736}|AppointmentSystem\\AppointmentSystem.csproj|d:\\github\\ekas\\appointmentsystem\\appointmentsystem\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{089A4388-9D58-4DE9-90D0-03459E5FB736}|AppointmentSystem\\AppointmentSystem.csproj|solutionrelative:appointmentsystem\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{089A4388-9D58-4DE9-90D0-03459E5FB736}|AppointmentSystem\\AppointmentSystem.csproj|d:\\github\\ekas\\appointmentsystem\\appointmentsystem\\controllers\\appointmentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{089A4388-9D58-4DE9-90D0-03459E5FB736}|AppointmentSystem\\AppointmentSystem.csproj|solutionrelative:appointmentsystem\\controllers\\appointmentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{089A4388-9D58-4DE9-90D0-03459E5FB736}|AppointmentSystem\\AppointmentSystem.csproj|d:\\github\\appointmentsystem(ek)\\appointmentsystem\\appointmentsystem\\views\\appointment\\fillin.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "AbsoluteMoniker": "D:0:0:{089A4388-9D58-4DE9-90D0-03459E5FB736}|AppointmentSystem\\AppointmentSystem.csproj|d:\\github\\ekas\\appointmentsystem\\appointmentsystem\\views\\appointment\\fillin.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{089A4388-9D58-4DE9-90D0-03459E5FB736}|AppointmentSystem\\AppointmentSystem.csproj|solutionrelative:appointmentsystem\\views\\appointment\\fillin.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{089A4388-9D58-4DE9-90D0-03459E5FB736}|AppointmentSystem\\AppointmentSystem.csproj|d:\\github\\appointmentsystem(ek)\\appointmentsystem\\appointmentsystem\\views\\baseinfo\\setdoctorshift.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "AbsoluteMoniker": "D:0:0:{089A4388-9D58-4DE9-90D0-03459E5FB736}|AppointmentSystem\\AppointmentSystem.csproj|d:\\github\\ekas\\appointmentsystem\\appointmentsystem\\views\\baseinfo\\setdoctorshift.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{089A4388-9D58-4DE9-90D0-03459E5FB736}|AppointmentSystem\\AppointmentSystem.csproj|solutionrelative:appointmentsystem\\views\\baseinfo\\setdoctorshift.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     }
   ],
@@ -22,41 +26,52 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 0,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\appsettings.json",
+              "RelativeDocumentMoniker": "AppointmentSystem\\appsettings.json",
+              "ToolTip": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\appsettings.json",
+              "RelativeToolTip": "AppointmentSystem\\appsettings.json",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA0AAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2024-06-30T17:05:14.854Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
               "Title": "SetDoctorShift.cshtml",
-              "DocumentMoniker": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\Views\\BaseInfo\\SetDoctorShift.cshtml",
+              "DocumentMoniker": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\Views\\BaseInfo\\SetDoctorShift.cshtml",
               "RelativeDocumentMoniker": "AppointmentSystem\\Views\\BaseInfo\\SetDoctorShift.cshtml",
-              "ToolTip": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\Views\\BaseInfo\\SetDoctorShift.cshtml",
+              "ToolTip": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\Views\\BaseInfo\\SetDoctorShift.cshtml",
               "RelativeToolTip": "AppointmentSystem\\Views\\BaseInfo\\SetDoctorShift.cshtml",
               "ViewState": "AQIAAGAAAAAAAAAAAAAAAHIAAAAaAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-06-30T13:29:37.522Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-06-30T13:29:37.522Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Fillin.cshtml",
+              "DocumentMoniker": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\Views\\Appointment\\Fillin.cshtml",
+              "RelativeDocumentMoniker": "AppointmentSystem\\Views\\Appointment\\Fillin.cshtml",
+              "ToolTip": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\Views\\Appointment\\Fillin.cshtml",
+              "RelativeToolTip": "AppointmentSystem\\Views\\Appointment\\Fillin.cshtml",
+              "ViewState": "AQIAAEEBAAAAAAAAAADwv1oBAAAbAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-06-30T06:52:09.058Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "Fillin.cshtml",
-              "DocumentMoniker": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\Views\\Appointment\\Fillin.cshtml",
-              "RelativeDocumentMoniker": "AppointmentSystem\\Views\\Appointment\\Fillin.cshtml",
-              "ToolTip": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\Views\\Appointment\\Fillin.cshtml",
-              "RelativeToolTip": "AppointmentSystem\\Views\\Appointment\\Fillin.cshtml",
-              "ViewState": "AQIAAEEBAAAAAAAAAADwv1oBAAAbAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-06-30T06:52:09.058Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
               "Title": "AppointmentController.cs",
-              "DocumentMoniker": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\Controllers\\AppointmentController.cs",
+              "DocumentMoniker": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\Controllers\\AppointmentController.cs",
               "RelativeDocumentMoniker": "AppointmentSystem\\Controllers\\AppointmentController.cs",
-              "ToolTip": "D:\\Github\\AppointmentSystem(EK)\\AppointmentSystem\\AppointmentSystem\\Controllers\\AppointmentController.cs",
+              "ToolTip": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\Controllers\\AppointmentController.cs",
               "RelativeToolTip": "AppointmentSystem\\Controllers\\AppointmentController.cs",
               "ViewState": "AQIAAMcAAAAAAAAAAAAIwDUBAAAJAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
