@@ -12,6 +12,19 @@
     .btn-checkbox {
         margin: 5px;
     }
+
+    .add-sidebaritem {
+        background-color: #ffffff;
+        color: #5e1a1a;
+        border: none;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+    }
 </style>
 
 <h3 class="container">@ViewData["Title"]</h3>
@@ -47,11 +60,6 @@
 
 
 <script type="text/javascript">
-    $(document).ready(function () {
-        $("#FileButton").click(function () {
-            $("#uploadImage").click();
-        });
-    });
 
     function editDoctor(i) {
         let text = document.getElementById("doctor-" + i);
@@ -71,7 +79,7 @@
                         datatype: "json",
                         data: { "name": text.value },
                         success: function (data) {
-                            console.log("Create doctor successful.");
+                            console.log("Create doctor success.");
                             dv.value = data;
                             showDoctorDetail(i)
                         }
@@ -83,7 +91,7 @@
                         datatype: "json",
                         data: { "name": text.value, "id": dv.value },
                         success: function (data) {
-                            console.log("Update doctor successful.");
+                            console.log("Update doctor success.");
                             dv.value = data;
                             showDoctorDetail(i)
                         }

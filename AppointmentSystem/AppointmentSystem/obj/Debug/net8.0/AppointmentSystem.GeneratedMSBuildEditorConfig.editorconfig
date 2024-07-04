@@ -18,6 +18,10 @@ build_property.GenerateRazorMetadataSourceChecksumAttributes =
 build_property.MSBuildProjectDirectory = D:\Github\ekas\AppointmentSystem\AppointmentSystem
 build_property._RazorSourceGeneratorDebug = 
 
+[D:/Github/ekas/AppointmentSystem/AppointmentSystem/Views/Appointment/FailedPage.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXBwb2ludG1lbnRcRmFpbGVkUGFnZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/Github/ekas/AppointmentSystem/AppointmentSystem/Views/Appointment/Fillin.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXBwb2ludG1lbnRcRmlsbGluLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
@@ -30,12 +34,16 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXBwb2ludG1lbnRcTG9naW4uY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/Github/ekas/AppointmentSystem/AppointmentSystem/Views/Appointment/NoticeVerification.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXBwb2ludG1lbnRcTm90aWNlVmVyaWZpY2F0aW9uLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/Github/ekas/AppointmentSystem/AppointmentSystem/Views/Appointment/Redirect.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXBwb2ludG1lbnRcUmVkaXJlY3QuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Github/ekas/AppointmentSystem/AppointmentSystem/Views/Appointment/Testpage.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXBwb2ludG1lbnRcVGVzdHBhZ2UuY3NodG1s
+[D:/Github/ekas/AppointmentSystem/AppointmentSystem/Views/Appointment/SuccessPage.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXBwb2ludG1lbnRcU3VjY2Vzc1BhZ2UuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/Github/ekas/AppointmentSystem/AppointmentSystem/Views/BaseInfo/DoctorIndex.cshtml]

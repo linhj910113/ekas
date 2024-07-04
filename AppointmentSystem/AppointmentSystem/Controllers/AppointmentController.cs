@@ -1,19 +1,11 @@
-using AppointmentSystem.Models;
 using AppointmentSystem.Models.DBModels;
-using AppointmentSystem.Models.ViewModels;
 using AppointmentSystem.Models.ViewModels.AppointmentModels;
-using AppointmentSystem.Models.ViewModels.BaseInfoModels;
-using AppointmentSystem.Models.ViewModels.HomeModels;
 using AppointmentSystem.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Razor.TagHelpers;
-using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Linq;
-using System.Diagnostics;
-using System.IO;
+using System.Reflection;
 using System.Security.Claims;
 
 namespace AppointmentSystem.Controllers
@@ -80,7 +72,7 @@ namespace AppointmentSystem.Controllers
                         LineDisplayName = displayName,
                         LinePictureUrl = pictureUrl,
                     };
-                    _appointmentService.UpdateCustomer(item, lineUserId);
+                    _appointmentService.UpdateCustomerLineInformation(item, lineUserId);
 
                     var claims = new List<Claim>
                     {
@@ -249,6 +241,9 @@ namespace AppointmentSystem.Controllers
                 }
                 else
                 {
+                    int AppointmentCount = _appointmentService.GetCustomerAppointmentCount(user.FirstOrDefault(u => u.Type == "UserId").Value);
+
+                    ViewBag.AppointmentCount = AppointmentCount;
                     //var customer = HttpContext.User.Claims.ToList();
                     //var item = _appointmentService.GetCustomerDateByLineId(customer.FirstOrDefault(u => u.Type == "LineId").Value);
 
@@ -271,6 +266,39 @@ namespace AppointmentSystem.Controllers
                 }
             }
         }
+
+        [HttpGet]
+        public IActionResult Verify(string code)
+        {
+            string AppointmentId = _appointmentService.CheckVerificationCode(code);
+
+            if (AppointmentId != "")
+            {
+                var user = HttpContext.User.Claims.ToList();
+
+                Appointment item = new Appointment()
+                {
+                    Modifier = user.FirstOrDefault(u => u.Type == "UserId").Value,
+                    ModifyDate = DateTime.Now,
+
+                    Status = "Y"
+                };
+                _appointmentService.SetAppointmentToOutpatient(AppointmentId, user.FirstOrDefault(u => u.Type == "UserId").Value, item);
+
+                _functions.SaveSystemLog(new Systemlog
+                {
+                    CreateDate = DateTime.Now,
+                    Creator = user.FirstOrDefault(u => u.Type == "UserId").Value,
+                    UserAccount = user.FirstOrDefault(u => u.Type == "UserId").Value,
+                    Description = "Set appointment to outpatient Success, id='" + AppointmentId + "'."
+                });
+
+                return RedirectToAction("SuccessPage", "Appointment");
+            }
+            else
+                return RedirectToAction("FailedPage", "Appointment");
+        }
+
 
         [HttpGet]
         public IActionResult setAppointmentIntroductionText()
@@ -312,75 +340,136 @@ namespace AppointmentSystem.Controllers
         [HttpPost]
         public IActionResult getDateAndTime(string[] treatments, string doctor)
         {
-            
+            List<FillinDateTimeVM> results = _appointmentService.GetFillInDateTimeData(treatments, doctor);
 
-            return new JsonResult("");
+            return new JsonResult(results);
+        }
+
+        [HttpPost]
+        public IActionResult UpdateCustomerInfomation(string customerName, string nationalIdNumber, string cellphone, string gender, string birthday, string email)
+        {
+            var user = HttpContext.User.Claims.ToList();
+
+            Customer item = new Customer()
+            {
+                Modifier = user.FirstOrDefault(u => u.Type == "UserId").Value,
+                ModifyDate = DateTime.Now,
+
+                Name = customerName,
+                NationalIdNumber = nationalIdNumber,
+                CellPhone = cellphone,
+                Gender = gender,
+                Birthday = birthday,
+                Email = email
+            };
+            string result = _appointmentService.UpdateCustomer(user.FirstOrDefault(u => u.Type == "UserId").Value, item);
+
+            _functions.SaveSystemLog(new Systemlog
+            {
+                CreateDate = DateTime.Now,
+                Creator = user.FirstOrDefault(u => u.Type == "UserId").Value,
+                UserAccount = user.FirstOrDefault(u => u.Type == "UserId").Value,
+                Description = "Update customer id='" + user.FirstOrDefault(u => u.Type == "UserId").Value + "'."
+            });
+
+
+            return new JsonResult(result);
+        }
+
+        [HttpPost]
+        public IActionResult CreateAppointment(string[] treatments, string doctor, string date, string beginTime)
+        {
+            var user = HttpContext.User.Claims.ToList();
+            string AppointmentId = _functions.GetGuid();
+
+            while (_appointmentService.CheckAppointmentId(AppointmentId))
+                AppointmentId = _functions.GetGuid();
+
+            string BookingEndTime = TimeSpan.Parse(beginTime).Add(new TimeSpan(0, _appointmentService.GetTreatmentListMaxTime(treatments), 0)).ToString();
+
+            BookingEndTime = DateTime.ParseExact(BookingEndTime, "HH:mm:ss", null).ToString("HH:mm");
+
+            Appointment item = new Appointment()
+            {
+                Creator = user.FirstOrDefault(u => u.Type == "UserId").Value,
+                Modifier = user.FirstOrDefault(u => u.Type == "UserId").Value,
+                CreateDate = DateTime.Now,
+                ModifyDate = DateTime.Now,
+                Status = "N",
+
+                Id = AppointmentId,
+                CustomerId = user.FirstOrDefault(u => u.Type == "UserId").Value,
+                DoctorId = doctor,
+                Date = date,
+                BookingBeginTime = beginTime,
+                BookingEndTime = BookingEndTime,
+                CheckIn = "N",
+                CheckInTime = ""
+            };
+            _appointmentService.CreateAppointment(item);
+
+            //新增預約的療程
+            foreach (var treatment in treatments)
+            {
+                Appointmenttreatment at = new Appointmenttreatment()
+                {
+                    Creator = user.FirstOrDefault(u => u.Type == "UserId").Value,
+                    Modifier = user.FirstOrDefault(u => u.Type == "UserId").Value,
+                    CreateDate = DateTime.Now,
+                    ModifyDate = DateTime.Now,
+                    Status = "Y",
+
+                    AppointmentId = AppointmentId,
+                    Type = "A",
+                    TreatmentId = treatment
+                };
+                _appointmentService.CreateAppointmenttreatment(at);
+            }
+
+            //建立驗證資料
+            Verificationcode vcode = new Verificationcode()
+            {
+                Creator = user.FirstOrDefault(u => u.Type == "UserId").Value,
+                Modifier = user.FirstOrDefault(u => u.Type == "UserId").Value,
+                CreateDate = DateTime.Now,
+                ModifyDate = DateTime.Now,
+                Status = "Y",
+
+                SouceTable = "Appointment",
+                ForeignKey = AppointmentId,
+                HashCode = _functions.GetVerificationCode(),
+                Otp = "",
+                ExpireTime = DateTime.Now.AddSeconds(int.Parse(_functions.GetSystemParameter("VerificationCodeExpireTime")))
+            };
+            _appointmentService.CreateVerificationcode(vcode);
+
+            _functions.SaveSystemLog(new Systemlog
+            {
+                CreateDate = DateTime.Now,
+                Creator = user.FirstOrDefault(u => u.Type == "UserId").Value,
+                UserAccount = user.FirstOrDefault(u => u.Type == "UserId").Value,
+                Description = "Add Appointment id='" + AppointmentId + "'."
+            });
+
+            return new JsonResult(AppointmentId);
         }
 
 
 
-        //public FileContentResult GetImage(string path)
-        //{
-        //    if (path == null)
-        //    {
-        //        return null;
-        //    }
-        //    else
-        //    {
-        //        MemoryStream mstream = new MemoryStream();
-        //        FileStream fs = System.IO.File.OpenRead(path);
-        //        int filelength = 0;
-        //        filelength = (int)fs.Length;
-        //        Byte[] image = new Byte[filelength];
-        //        fs.Read(image, 0, filelength);
-
-        //        using (MemoryStream ms = new MemoryStream())
-        //        {
-        //            ms.Write(image, 0, image.Length);
-        //            return File(ms.ToArray(), "image/jpeg");
-        //        }
-        //    }
-        //}
 
 
-
-
-        public IActionResult TestPage()
+        public IActionResult NoticeVerification()
         {
-            //var user = HttpContext.User.Claims.ToList();
+            return View();
+        }
 
-            //if (user == null)
-            //    return RedirectToAction("Login", "Appointment");
-            //else
-            //{
-            //    if (user.FirstOrDefault(u => u.Type == "LoginType").Value == "EkUser")
-            //    {
-            //        return RedirectToAction("Login", "Appointment");
-            //    }
-            //    else
-            //    {
-            //        var customer = HttpContext.User.Claims.ToList();
-            //        var item = _appointmentService.GetCustomerDateByLineId(customer.FirstOrDefault(u => u.Type == "LineId").Value);
+        public IActionResult SuccessPage()
+        {
+            return View();
+        }
 
-            //        IndexVM indexVM = new IndexVM()
-            //        {
-            //            Id = item.Id,
-            //            Name = item.Name,
-            //            LineId = item.LineId,
-            //            LineDisplayName = item.LineDisplayName,
-            //            LinePictureUrl = item.LinePictureUrl,
-            //            CellPhone = item.CellPhone,
-            //            NationalIdNumber = item.NationalIdNumber,
-            //            Gender = item.Gender,
-            //            Birthday = item.Birthday,
-            //            Email = item.Email,
-            //            Memo = item.Memo
-            //        };
-
-            //        return View(indexVM);
-            //    }
-            //}
-
+        public IActionResult FailedPage()
+        {
             return View();
         }
 
@@ -414,19 +503,19 @@ namespace AppointmentSystem.Controllers
 
 
         //發送訊息測試
-        [HttpGet]
-        [Authorize]
-        public async Task<IActionResult> SendTestMessage(string id)
-        {
-            var result = await _appointmentService.SendLineMessageAsync(id, "傳送訊息功能測試~~~");
-            if (!result)
-            {
-                return BadRequest("訊息傳送失敗");
-            }
+        //[HttpGet]
+        //[Authorize]
+        //public async Task<IActionResult> SendTestMessage(string id)
+        //{
+        //    var result = await _appointmentService.SendLineMessageAsync(id, "傳送訊息功能測試~~~");
+        //    if (!result)
+        //    {
+        //        return BadRequest("訊息傳送失敗");
+        //    }
 
-            return Ok("訊息已傳送");
+        //    return Ok("訊息已傳送");
 
-        }
+        //}
 
 
 

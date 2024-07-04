@@ -65,7 +65,7 @@ namespace AppointmentSystem.Models.ViewModels.BaseInfoModels
         public FileData? TreatmentImage { get; set; }
 
         [Display(Name = "療程用時")]
-        public int? Time { get; set; }
+        public int Time { get; set; }
 
         [Display(Name = "標籤列表")]
         public List<SelectListItem>? TimeSelectList { get; set; }

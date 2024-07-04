@@ -13,6 +13,10 @@
       "PackagePath": "staticwebassets\\css\\_bootstrap.min.css.map"
     },
     {
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\css\\_jquery-ui.css",
+      "PackagePath": "staticwebassets\\css\\_jquery-ui.css"
+    },
+    {
       "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\css\\bootstrap.min.css",
       "PackagePath": "staticwebassets\\css\\bootstrap.min.css"
     },
@@ -27,6 +31,34 @@
     {
       "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\css\\fontawesome.min.css",
       "PackagePath": "staticwebassets\\css\\fontawesome.min.css"
+    },
+    {
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\css\\images\\ui-icons_444444_256x240.png",
+      "PackagePath": "staticwebassets\\css\\images\\ui-icons_444444_256x240.png"
+    },
+    {
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\css\\images\\ui-icons_555555_256x240.png",
+      "PackagePath": "staticwebassets\\css\\images\\ui-icons_555555_256x240.png"
+    },
+    {
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\css\\images\\ui-icons_777620_256x240.png",
+      "PackagePath": "staticwebassets\\css\\images\\ui-icons_777620_256x240.png"
+    },
+    {
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\css\\images\\ui-icons_777777_256x240.png",
+      "PackagePath": "staticwebassets\\css\\images\\ui-icons_777777_256x240.png"
+    },
+    {
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\css\\images\\ui-icons_cc0000_256x240.png",
+      "PackagePath": "staticwebassets\\css\\images\\ui-icons_cc0000_256x240.png"
+    },
+    {
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\css\\images\\ui-icons_ffffff_256x240.png",
+      "PackagePath": "staticwebassets\\css\\images\\ui-icons_ffffff_256x240.png"
+    },
+    {
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\css\\jquery-ui.css",
+      "PackagePath": "staticwebassets\\css\\jquery-ui.css"
     },
     {
       "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\css\\layout.css",
@@ -121,6 +153,10 @@
       "PackagePath": "staticwebassets\\js\\_bootstrap.min.js.map"
     },
     {
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\js\\_jquery-ui.js",
+      "PackagePath": "staticwebassets\\js\\_jquery-ui.js"
+    },
+    {
       "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\js\\bootstrap.min.js",
       "PackagePath": "staticwebassets\\js\\bootstrap.min.js"
     },
@@ -135,6 +171,10 @@
     {
       "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\js\\jquery-3.6.0.min.js",
       "PackagePath": "staticwebassets\\js\\jquery-3.6.0.min.js"
+    },
+    {
+      "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\js\\jquery-ui.js",
+      "PackagePath": "staticwebassets\\js\\jquery-ui.js"
     },
     {
       "Id": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\wwwroot\\js\\respond.min.js",

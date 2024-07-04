@@ -1113,6 +1113,9 @@ public partial class EkasContext : DbContext
             entity.Property(e => e.ExpireTime)
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("datetime");
+            entity.Property(e => e.ForeignKey)
+                .HasMaxLength(50)
+                .HasDefaultValueSql("''");
             entity.Property(e => e.HashCode)
                 .HasMaxLength(50)
                 .HasDefaultValueSql("''");
@@ -1125,12 +1128,12 @@ public partial class EkasContext : DbContext
             entity.Property(e => e.Otp)
                 .HasMaxLength(10)
                 .HasDefaultValueSql("''");
+            entity.Property(e => e.SouceTable)
+                .HasMaxLength(50)
+                .HasDefaultValueSql("''");
             entity.Property(e => e.Status)
                 .HasMaxLength(1)
                 .HasDefaultValueSql("'Y'");
-            entity.Property(e => e.Type)
-                .HasMaxLength(50)
-                .HasDefaultValueSql("''");
         });
 
         OnModelCreatingPartial(modelBuilder);

@@ -36,5 +36,26 @@ namespace AppointmentSystem.Models.ViewModels.AppointmentModels
         public string? Image { get; set; }
     }
 
+    public partial class FillinDateTimeVM
+    {
+        public string? Date { get; set; }
+
+        public List<OutpatientTimeData>? Outpatients { get; set; }
+
+        public FillinDateTimeVM()
+        {
+            Outpatients = new List<OutpatientTimeData>();
+        }
+    }
+
+    public partial class OutpatientTimeData
+    {
+        public string? BeginTime { get; set; }
+
+        public string? EndTime { get; set; }
+
+        public string? Enabled { get; set; }
+    }
+
 
 }

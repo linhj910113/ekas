@@ -20,7 +20,9 @@ public partial class Verificationcode
 
     public long Index { get; set; }
 
-    public string Type { get; set; } = null!;
+    public string SouceTable { get; set; } = null!;
+
+    public string ForeignKey { get; set; } = null!;
 
     public string HashCode { get; set; } = null!;
 

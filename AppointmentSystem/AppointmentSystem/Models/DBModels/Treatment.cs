@@ -26,7 +26,7 @@ public partial class Treatment
 
     public string? ImageFileId { get; set; }
 
-    public int? Time { get; set; }
+    public int Time { get; set; }
 
     public string? AlertMessage { get; set; }
 

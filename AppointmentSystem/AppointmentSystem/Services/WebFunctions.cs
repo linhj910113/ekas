@@ -1,5 +1,7 @@
 ﻿using AppointmentSystem.Models.DBModels;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Newtonsoft.Json;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -18,6 +20,26 @@ namespace AppointmentSystem.Services
         public string GetGuid()
         {
             return Guid.NewGuid().ToString();
+        }
+
+        public string GetVerificationCode()
+        {
+            int codeLength = 32;
+            string code = "";
+
+            while (true)
+            {
+                string letters = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+                Random random = new Random();
+
+                for (int i = 0; i < codeLength; i++)
+                    code += letters[random.Next(0, letters.Length)];
+
+                if (_db.Verificationcodes.Where(x => x.HashCode == code).Count() == 0)
+                    break;
+            }
+
+            return code;
         }
 
         //public long GetMaxLogIndex()
@@ -117,6 +139,32 @@ namespace AppointmentSystem.Services
             string base64String = Convert.ToBase64String(imageBytes);
 
             return base64String;
+        }
+
+        public async Task<bool> SendLineMessageAsync(string to, string message)
+        {
+            string MessagingApiChannelAccessToken = GetSystemParameter("MessagingApiChannelAccessToken");
+
+            using (var client = new HttpClient())
+            {
+                client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", MessagingApiChannelAccessToken);
+
+                var payload = new
+                {
+                    to = to,
+                    messages = new[]
+                    {
+                    new { type = "text", text = message }
+                }
+                };
+
+                var json = JsonConvert.SerializeObject(payload);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                var response = await client.PostAsync("https://api.line.me/v2/bot/message/push", content);
+
+                return response.IsSuccessStatusCode;
+            }
         }
 
         #region -- 前端功能列使用 -- 

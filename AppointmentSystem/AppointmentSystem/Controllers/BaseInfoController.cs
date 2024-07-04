@@ -633,8 +633,8 @@ namespace AppointmentSystem.Controllers
                         Year = year,
                         Month = month,
                         Day = day,
-                        BeginTime = shiftbegin.ToString(),
-                        EndTime = shiftbegin.Add(MinutesPerUnit).ToString(),
+                        BeginTime = shiftbegin.ToString(@"hh\:mm"),
+                        EndTime = shiftbegin.Add(MinutesPerUnit).ToString(@"hh\:mm"),
 
                     };
                     _baseinfoService.SaveDoctorOutpatient(data);
