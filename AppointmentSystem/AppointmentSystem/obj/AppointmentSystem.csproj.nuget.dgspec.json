@@ -1,23 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\AppointmentSystem.csproj": {}
+    "E:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\AppointmentSystem.csproj": {}
   },
   "projects": {
-    "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\AppointmentSystem.csproj": {
+    "E:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\AppointmentSystem.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\AppointmentSystem.csproj",
+        "projectUniqueName": "E:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\AppointmentSystem.csproj",
         "projectName": "AppointmentSystem",
-        "projectPath": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\AppointmentSystem.csproj",
-        "packagesPath": "C:\\Users\\candy\\.nuget\\packages\\",
-        "outputPath": "D:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\obj\\",
+        "projectPath": "E:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\AppointmentSystem.csproj",
+        "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
+        "outputPath": "E:\\Github\\ekas\\AppointmentSystem\\AppointmentSystem\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-        ],
         "configFilePaths": [
-          "C:\\Users\\candy\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -25,7 +22,6 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -101,7 +97,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.300/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.205/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

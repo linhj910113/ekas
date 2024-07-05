@@ -9,7 +9,7 @@ html {
 
 @media (min-width: 768px) {
   html {
-    font-size: 16px;
+    font-size: 14px;
   }
 }
 
@@ -20,16 +20,14 @@ html {
 .layout-header{
   padding-top: 1%;
   padding-bottom: 1%;
-  width: 100%;
-  max-width: 90%;
+  width: 95%;
+  max-width: 1180px;
+
 }
 
 .settings-icon {
   width: 24px;
   height: 24px;
-  background-color: #87ceeb;
-  border-radius: 50%;
-  margin-left: 10px;
 }
 
 .dropdown-function {
@@ -67,17 +65,17 @@ html {
 .main-content {
     flex: 1;
     /* padding: 20px; */
-    padding-top: 70px; /* Offset for the fixed header */
+    padding-top: 3em; /* Offset for the fixed header */
     padding-bottom: 50px; /* Offset for the fixed footer */
     padding-right: 15px;
     padding-left: 15px;
     background-color: #f0f0f0;
     border-radius: 12px;
-    margin-top: 6%;
+    margin-top: 90px;
     margin-right: auto;
     margin-left: auto;
-    width: 100%;
-    max-width: 90%;
+    width: 95%;
+    max-width: 1180px;
     /* max-width: 1440px; */
     min-height: 100%;
 }
@@ -86,14 +84,16 @@ html {
   display: flex;
   align-items: center;
   position: relative;
-  background-color: #808080;
+  background-color: #B4B1B1;
   padding: 10px;
-  border-radius: 5px;
+  border-radius: 10px;
   color: white;
+  border: none;
 }
 
   .header-toolbar span {
       margin-right: 10px;
+      font-size: 14px;
   }
 
 .main-content .content-Title{
@@ -137,13 +137,15 @@ html {
 
 .main-content .sidebar {
   border-radius: 10px;
-  background-color: #5e1a1a;
+  background-color: #B3B3B3;
   padding: 20px;
   min-height: 100%;
+  margin-right: 2%;
 }
 
 .content-div{
     min-height: 100%;
+    
   }
 
 .main-content .right-panel {
@@ -247,3 +249,7 @@ html {
       justify-content: center;
       font-size: 24px;
   } */
+
+  .treatment-item{
+    height: 32px ;
+  }

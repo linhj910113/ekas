@@ -22,18 +22,27 @@
         font-size: 24px;
     }
 
-/*     .add-sidebaritem {
-        background-color: #ffffff;
-        color: #5e1a1a;
-        border: none;
-        border-radius: 50%;
-        width: 40px;
-        height: 40px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 24px;
-    } */
+    .form-control {
+        border-color: #B3B3B3 !important;
+        border-radius: 10px !important;
+    }
+
+        .form-control.textarea {
+            width: 50% !important;
+        }
+
+    /*     .add-sidebaritem {
+                background-color: #ffffff;
+                color: #5e1a1a;
+                border: none;
+                border-radius: 50%;
+                width: 40px;
+                height: 40px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 24px;
+            } */
 
     .close {
         color: #aaa;
@@ -51,10 +60,10 @@
 
 </style>
 
-<h3 class="container">@ViewData["Title"]</h3>
+<div class="container content-div" style="justify-content: center;">
+    <h3 class="container pl-5 mb-3">@ViewData["Title"]</h3>
 
-<div class="container content-div">
-    <div class="row">
+    <div class="row" style="justify-content: center;">
         <div class="col-md-3 sidebar" id="sidebar">
             @{
                 int i = 0;
@@ -63,10 +72,13 @@
             @foreach (var item in Model)
             {
                 <div class="input-group">
-                    <button class="form-control" id="tb-@i" onclick="showTreatmentDetail('@i');">@item.TreatmentName</button>
-                    <input type="text" id="treatment-@i" class="form-control" placeholder="請輸入療程名稱..." value="@item.TreatmentName" style="text-align:center;display:none;" />
-                    <button class="icon-button" onclick="editTreatment('@i');">
-                        <img src="/images/edit.png" id="img-@i" style="height:2em;width:auto;" />
+                    <button class="icon-button mr-1" onclick="editTreatment('@i');">
+                        <img src="/images/Visibility.png" id="img-@i" style="height:2em;width:auto;" />
+                    </button>
+                    <button class="form-control " id="tb-@i" onclick="showTreatmentDetail('@i');">@item.TreatmentName</button>
+                    <input type="text" id="treatment-@i" class="form-control treatment-item" placeholder="請輸入療程名稱..." value="@item.TreatmentName" style="text-align:center;display:none;" />
+                    <button class="icon-button ml-1" onclick="editTreatment('@i');">
+                        <img src="/images/inkmarker.png" id="img-@i" style="height:2em;width:auto;" />
                     </button>
                     <input type="hidden" id="tv-@i" value="@item.TreatmentId" />
                 </div>
@@ -77,7 +89,7 @@
             <button class="add-sidebaritem" onclick="addTreatment();">+</button>
         </div>
 
-        <div class="col-md-9 right-panel" id="treatmentData">
+        <div class="col-md-8 right-panel" id="treatmentData">
         </div>
     </div>
 </div>
@@ -218,7 +230,7 @@
                 btn.innerHTML = text.value;
                 text.style.display = "none";
                 btn.style.display = "";
-                img.src = "/images/edit.png";
+                img.src = "/images/inkmarker.png";
             }
             else {
                 text.style.display = "";
@@ -241,10 +253,10 @@
 
                 var inner = "";
 
-                inner += '<h3><label id="treatmentName">療程名稱：' + data.treatmentName + '</label></h3>';
+                inner += '<h3 class="mt-4 mb-4"><label id="treatmentName">療程名稱：' + data.treatmentName + '</label></h3>';
 
                 inner += '<input type="hidden" id="treatmentId" value="' + data.treatmentId + '" />';
-                inner += '<div class="form-group"><label for="introduction">療程介紹*</label><textarea class="form-control" id="introduction" rows="3" placeholder="輸入療程介紹" required="">' + data.introduction + '</textarea></div>';
+                inner += '<div class="form-group"><label for="introduction" class="ml-3 mb-3">療程介紹*</label><textarea class="form-control textarea ml-5" id="introduction" rows="3" placeholder="輸入療程介紹" required="">' + data.introduction + '</textarea></div>';
                 inner += '<div class="form-group"><label for="alertMessage">衛教發送訊息*</label><textarea class="form-control" id="alertMessage" rows="3" placeholder="輸入衛教發送訊息" required="">' + data.alertMessage + '</textarea></div>';
 
                 //產生諮詢時間下拉式選單
@@ -255,9 +267,9 @@
                     if (data.time == item.value)
                         inner += '<option value="' + item.value + '" selected = "selected">' + item.text + '</option>';
                     else
-                        inner += '<option value="' + item.value + '">' + item.text + '</option>';                    
+                        inner += '<option value="' + item.value + '">' + item.text + '</option>';
                 });
-                
+
                 inner += '</select>';
                 inner += '</div>';
 
@@ -321,15 +333,15 @@
         let itemNo = $sidebar.find('.input-group').length + 1;
 
         let $newItem = $(`
-                        <div class="input-group">
-                            <button class="form-control" id="tb-${itemNo}" onclick="showTreatmentDetail('${itemNo}');" style="display:none;"></button>
-                            <input type="text" id="treatment-${itemNo}" class="form-control" placeholder="請輸入療程名稱..." value="" style="text-align:center;" />
-                            <button class="icon-button" onclick="editTreatment('${itemNo}');">
-                                <img src="/images/check.png" id="img-${itemNo}" style="height:2em;width:auto;" />
-                            </button>
-                            <input type="hidden" id="tv-${itemNo}" value="" />
-                        </div>
-                    `);
+                                <div class="input-group">
+                                    <button class="form-control treatment-item" id="tb-${itemNo}" onclick="showTreatmentDetail('${itemNo}');" style="display:none;"></button>
+                                         <input type="text" id="treatment-${itemNo}" class="form-control treatment-item" placeholder="請輸入療程名稱..." value="" style="text-align:center;" />
+                                    <button class="icon-button" onclick="editTreatment('${itemNo}');">
+                                        <img src="/images/check.png"  class="ml-1" id="img-${itemNo}" style="height:2em;width:auto;" />
+                                    </button>
+                                    <input type="hidden" id="tv-${itemNo}" value="" />
+                                </div>
+                            `);
 
         $sidebar.find('.add-sidebaritem').before($newItem);
     }

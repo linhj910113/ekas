@@ -2,6 +2,14 @@
 
 <html lang="zh-Hant-TW">
 
+<style>
+    .header {
+        padding: 0px !important;
+        height:70px !important;
+    }
+
+</style>
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -16,6 +24,8 @@
     <link rel="stylesheet" href="~/css/bootstrap.min.css" asp-append-version="true">
 </head>
 
+
+
 <body>
     <header class="header bg-white fixed-top">
         <div style="width:100%;display: flex; justify-content: center;">
@@ -26,7 +36,7 @@
 
                 <button class="header-toolbar d-flex align-items-center">
                     <span>目前使用者: VIC</span>
-                    <img src="~/images/z.png" class="settings-icon ml-2" />
+                    <img src="~/images/menu.png" class="settings-icon ml-3" />
 
                     <div class="dropdown-function bg-white shadow p-3">
                         @await Component.InvokeAsync("Navigation")
