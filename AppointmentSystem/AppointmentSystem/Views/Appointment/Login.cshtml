@@ -4,21 +4,48 @@
     Layout = "~/Views/Shared/CustomerLayout.cshtml";
 }
 
-<div>
-    <img src="~/images/CustomerIndexImage1.jpg" alt="Desktop Image" class="appointment-image desktop-image">
-    <img src="~/images/CustomerIndexImage2.jpg" alt="Mobile Image" class="appointment-image mobile-image">
-</div>
 
-<div class="content">
+<!--新增區域開始-->
+<div class="overlay-container" style=" position: relative;display: inline-block;">
+    <img src="~/images/CustomerIndexImage1.jpg" alt="Desktop Image" class="appointment-image desktop-image" >
+    <img src="~/images/CustomerIndexImage2.jpg" alt="Mobile Image" class="appointment-image mobile-image" style="height:25rem; width:auto; object-fit: cover;">
+    <div class="overlay" 
+     style="position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.5), rgba(255, 255, 255, 0));
+            z-index: 1;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            color: #C7C2C2;">
+     
+        <div class="text-content" style=" position: relative;z-index: 2;font-size:14px; padding:15px;" >
+            EK美學擁有專業的皮膚專科與整形外科醫師團隊，致力提供高品質的醫美服務！從皮膚健康、逆齡抗老、美白瘦身到臉部微整、緊實拉提等等醫療美容，EK美學診所專科醫師團隊都是您最值得信賴的選擇。
+        </div>
+    </div>
+
+</div>
+<!--新增區域結束-->
+<!--
+<div class="content m-3">
     <p>EK美學擁有專業的皮膚科及整形外科醫師團隊，致力提供高品質的醫美服務...</p>
 </div>
-
+-->
 <div class="row justify-content-center mb-2 pr-0 pr-md-5">
-    <div class="mx-2 col-12 col-sm-6 col-md-3">
-        <h1>使用 LINE 登入</h1>
-        <button id="line-login-btn" class="btn btn-color1 btn-block btn-radius" onclick="LineLogin();">LINE 登入</button>
+    <div class="mx-2 col-12 col-sm-6 col-md-3 m-3">
+        <div class="m-3">
+            <h>線上預約</h>
+            <!-- <h>線上預約</h>-->
+        </div>
+        
+        <button id="line-login-btn" class="btn btn-block btn-radius" onclick="LineLogin(); " style="">LINE 登入</button>
     </div>
 </div>
+
+
 
 <script>
     function LineLogin() {
