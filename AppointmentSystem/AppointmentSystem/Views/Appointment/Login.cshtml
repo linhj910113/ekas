@@ -1,16 +1,28 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "Login Page";
     Layout = "~/Views/Shared/CustomerLayout.cshtml";
 }
+<style>
+    .loginbtn {
+        cursor: pointer;
+    }
 
+        .loginbtn:hover {
+            content: url("/images/btn_login_hover.png");
+        }
+
+        .loginbtn:active {
+            content: url("/images/btn_login_press.png");
+        }
+</style>
 
 <!--新增區域開始-->
 <div class="overlay-container" style=" position: relative;display: inline-block;">
-    <img src="~/images/CustomerIndexImage1.jpg" alt="Desktop Image" class="appointment-image desktop-image" >
-    <img src="~/images/CustomerIndexImage2.jpg" alt="Mobile Image" class="appointment-image mobile-image" style="height:25rem; width:auto; object-fit: cover;">
-    <div class="overlay" 
-     style="position: absolute;
+    <img id="desktopImage" src="~/images/CustomerIndexImage1.jpg" alt="Desktop Image" class="appointment-image desktop-image">
+    <img id="mobileImage" src="~/images/CustomerIndexImage2.jpg" alt="Mobile Image" class="appointment-image mobile-image" style="height:25rem; width:auto; object-fit: cover;">
+
+    <div class="overlay"
+         style="position: absolute;
             top: 0;
             left: 0;
             width: 100%;
@@ -21,33 +33,55 @@
             justify-content: center;
             align-items: flex-end;
             color: #C7C2C2;">
-     
-        <div class="text-content" style=" position: relative;z-index: 2;font-size:14px; padding:15px;" >
-            EK美學擁有專業的皮膚專科與整形外科醫師團隊，致力提供高品質的醫美服務！從皮膚健康、逆齡抗老、美白瘦身到臉部微整、緊實拉提等等醫療美容，EK美學診所專科醫師團隊都是您最值得信賴的選擇。
+
+        <div class="container content">
+            <span id="AppointmentIntroductionText"></span>
         </div>
+
+        @* <div class="text-content" style=" position: relative;z-index: 2;font-size:14px; padding:15px;">
+        EK美學擁有專業的皮膚專科與整形外科醫師團隊，致力提供高品質的醫美服務！從皮膚健康、逆齡抗老、美白瘦身到臉部微整、緊實拉提等等醫療美容，EK美學診所專科醫師團隊都是您最值得信賴的選擇。
+        </div> *@
     </div>
 
 </div>
 <!--新增區域結束-->
-<!--
-<div class="content m-3">
-    <p>EK美學擁有專業的皮膚科及整形外科醫師團隊，致力提供高品質的醫美服務...</p>
-</div>
--->
-<div class="row justify-content-center mb-2 pr-0 pr-md-5">
-    <div class="mx-2 col-12 col-sm-6 col-md-3 m-3">
-        <div class="m-3">
-            <h>線上預約</h>
+
+
+<!--07061040修改區域-->
+<div class="row justify-content-center mb-1 mt-2 pr-0   " style="margin:0px;padding:0px">
+    <div class="mx-2 col-12 col-sm-6 col-md-6 m-3">
+        <div class="mt-1 mb-4 ">
+            <p style="font-size:20px; color:#202020 ;font-weight: normal;">線上預約</p>
             <!-- <h>線上預約</h>-->
         </div>
-        
-        <button id="line-login-btn" class="btn btn-block btn-radius" onclick="LineLogin(); " style="">LINE 登入</button>
+        <div style="display:flex  justify-content:center; align-items:center; ">
+            <button class="mr-4" style="background-color:#7B7B7B ;color:#ffffff ;border-radius:8px; height:44px ; width:151px; padding:0px; border:0px; margin:0px;margin-top:0.1px;font-family: initial; font-size:16px; "> 手機號碼預約</button>
+            <button id="line-login-btn" class="btn  btn-radius " onclick="LineLogin(); " style="padding:0px; border:0px; margin:0px ; font-family: initial;">
+                <img src="~/images/btn_login_base.png" alt="LoginBtn" />
+
+            </button>
+
+        </div>
+        <div class="col-11 col-sm-8 mt-4" style="display:flex ; justify-content:center; align-items:center; background: linear-gradient(to top, rgba(176, 176, 176, 1), rgba(176, 176, 176, 0.7)); height:150px; margin:auto; border-radius:12px;">
+        </div>
+
+
     </div>
+    <!--07061040修改區域結束-->
 </div>
 
 
 
 <script>
+    $(document).ready(function () {
+        initData();
+
+        function initData() {
+            setAppointmentIntroductionText();
+            setAppointmentImage();
+        }
+    });
+
     function LineLogin() {
         var client_id = '2005627882';
         var redirect_uri = encodeURIComponent('https://localhost:7146/Appointment/Redirect');
@@ -57,4 +91,41 @@
         var loginUrl = `https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=${client_id}&redirect_uri=${redirect_uri}&state=${state}&scope=${scope}`;
         window.location.href = loginUrl;
     }
+
+    function setAppointmentIntroductionText() {
+        $.ajax({
+            type: 'GET',
+            url: '/Appointment/setAppointmentIntroductionText',
+            datatype: "json",
+            success: function (data) {
+                $('#AppointmentIntroductionText').html(data);
+            }
+        });
+    }
+
+    function setAppointmentImage() {
+        $.ajax({
+            type: 'GET',
+            url: '/Appointment/setAppointmentDesktopImage',
+            datatype: "json",
+            success: function (data) {
+                if (data != null) {
+                    // console.log(data);
+                    $('#desktopImage').attr('src', data);
+                }
+            }
+        });
+
+        $.ajax({
+            type: 'GET',
+            url: '/Appointment/setAppointmentMobileImage',
+            datatype: "json",
+            success: function (data) {
+                if (data != null) {
+                    $('#mobileImage').attr('src', data);
+                }
+            }
+        });
+    }
+
 </script>

@@ -1,4 +1,4 @@
-﻿@model AppointmentSystem.Models.ViewModels.AppointmentModels.IndexVM
+﻿@* @model AppointmentSystem.Models.ViewModels.AppointmentModels.IndexVM *@
 
 @{
     Layout = "~/Views/Shared/CustomerLayout.cshtml";
@@ -6,50 +6,196 @@
 }
 
 <div>
-    <img src="~/images/CustomerIndexImage1.jpg" alt="Desktop Image" class="appointment-image desktop-image">
-    <img src="~/images/CustomerIndexImage2.jpg" alt="Mobile Image" class="appointment-image mobile-image">
+    <img id="desktopImage" src="~/images/CustomerIndexImage1.jpg" alt="Desktop Image" class="appointment-image desktop-image">
+    <img id="mobileImage" src="~/images/CustomerIndexImage2.jpg" alt="Mobile Image" class="appointment-image mobile-image">
 </div>
 
-<div class="content">
-    <p>EK美學擁有專業的皮膚科及整形外科醫師團隊，致力提供高品質的醫美服務...</p>
+<div class="container content">
+    <span id="AppointmentIntroductionText"></span>
 </div>
 
 <div class="appointment-table">
     <h5>已預約時段</h5>
+
+
     <table class="table table-bordered">
-        <thead>
+        @if (ViewBag.Count > 0)
+        {
+            <thead>
+                <tr>
+                    <th>日期</th>
+                    <th>時間</th>
+                    <th>醫師</th>
+                    <th>療程項目</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+
+            <tbody id="appointmentsTableBody">
+                @*  @foreach (var item in Model.AppointmentData)
+            {
             <tr>
-                <th>日期</th>
-                <th>時間</th>
-                <th>醫師</th>
-                <th>療程項目</th>
-                <th>操作</th>
+            <td>@item.Date</td>
+            <th>@item.BookingBeginTime</th>
+            <td>@item.DoctorName</td>
+            <td>
+            <button type="button" class="btn btn-primary btn-sm details-btn" data-toggle="modal"
+            data-target="#detailsModal" data-details='{"items": [{"name": "療程1", "description": "療程1介紹", "image": "path/to/image1.jpg"}, {"name": "療程2", "description": "療程2介紹", "image": "path/to/image2.jpg"}]}'>詳細</button>
+            </td>
+
+            <td><button class="btn btn-primary btn-sm">詳細</button></td>
+            <td>
+            <button class="btn btn-secondary btn-sm">修改</button>
+            <button class="btn btn-danger btn-sm">取消</button>
+            </td>
             </tr>
-        </thead>
-        <tbody>
+            } *@
+            </tbody>
+        }
+        else
+        {
             <tr>
-                <td>2024年6月12日</td>
-                <th>09:00</th>
-                <td>醫師A</td>
-                <td><button class="btn btn-primary btn-sm">詳細</button></td>
-                <td><button class="btn btn-secondary btn-sm">修改</button> <button class="btn btn-danger btn-sm">取消</button></td>
+                <th>查無資料</th>
             </tr>
-            <tr>
-                <td>2024年8月3日</td>
-                <th>15:30</th>
-                <td>醫師A</td>
-                <td><button class="btn btn-primary btn-sm">詳細</button></td>
-                <td><button class="btn btn-secondary btn-sm">修改</button> <button class="btn btn-danger btn-sm">取消</button></td>
-            </tr>
-            <tr>
-                <td>2024年11月30日</td>
-                <th>21:00</th>
-                <td>醫師A</td>
-                <td><button class="btn btn-primary btn-sm">詳細</button></td>
-                <td><button class="btn btn-secondary btn-sm">修改</button> <button class="btn btn-danger btn-sm">取消</button></td>
-            </tr>
-        </tbody>
+        }
     </table>
+
 
     <button class="btn btn-primary" onclick="location.href='@Url.Action("Fillin", "Appointment")'">進行預約</button>
 </div>
+
+<!-- 療程項目簡介模態框 -->
+<div class="modal fade" id="detailsModal" tabindex="-1" role="dialog" aria-labelledby="detailsModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="detailsModalLabel">療程項目詳細</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- 動態填充內容 -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">關閉</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        initData();
+
+        $.ajax({
+            url: '/Appointment/GetCustomerAppointmentData',
+            method: 'GET',
+            success: function (data) {
+                console.log(data);
+
+                var tableBody = $('#appointmentsTableBody');
+
+                data.forEach(function (appointment) {
+                    var treatmentDetails = JSON.stringify({ items: appointment.treatmentData });
+
+                    var rowHtml = `
+                                <tr>
+                                    <td>${appointment.date}</td>
+                                        <td>${appointment.bookingBeginTime}</td>
+                                        <td>${appointment.doctorName}</td>
+                                    <td>
+                                        <button type="button" class="btn btn-primary details-btn" data-toggle="modal" data-target="#detailsModal" data-details='${treatmentDetails}'>詳細</button>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-secondary" onclick="editAppointment('`+ appointment.appointmentId + `')">修改</button>
+                                        <button class="btn btn-danger" onclick="cancelAppointment('`+ appointment.appointmentId + `')">取消</button>
+                                    </td>
+                                </tr>
+                            `;
+                    tableBody.append(rowHtml);
+                });
+
+                $('.details-btn').click(function () {
+                    var details = $(this).data('details');
+                    var modalBody = $('#detailsModal .modal-body');
+                    modalBody.empty();
+
+                    details.items.forEach(function (item) {
+                        var itemHtml = `
+                                    <div class="mb-3">
+                                        <h5>${item.treatmentName}</h5>
+                                            <img src="${item.image}" alt="${item.treatmentName}" class="img-fluid">
+                                        <p>${item.introduction}</p>
+                                    </div>
+                                `;
+                        modalBody.append(itemHtml);
+                    });
+                });
+            },
+            error: function (error) {
+                console.error('Error fetching appointments:', error);
+            }
+        });
+
+
+        function initData() {
+            setAppointmentIntroductionText();
+            setAppointmentImage();
+        }
+    });
+
+    function setAppointmentIntroductionText() {
+        $.ajax({
+            type: 'GET',
+            url: '/Appointment/setAppointmentIntroductionText',
+            datatype: "json",
+            success: function (data) {
+                $('#AppointmentIntroductionText').html(data);
+            }
+        });
+    }
+
+    function setAppointmentImage() {
+        $.ajax({
+            type: 'GET',
+            url: '/Appointment/setAppointmentDesktopImage',
+            datatype: "json",
+            success: function (data) {
+                if (data != null) {
+                    // console.log(data);
+                    $('#desktopImage').attr('src', data);
+                }
+            }
+        });
+
+        $.ajax({
+            type: 'GET',
+            url: '/Appointment/setAppointmentMobileImage',
+            datatype: "json",
+            success: function (data) {
+                if (data != null) {
+                    $('#mobileImage').attr('src', data);
+                }
+            }
+        });
+    }
+
+    function editAppointment(appointmentId) {
+        window.location.href = "/Appointment/Edit/" + appointmentId;
+    }
+
+    function cancelAppointment(appointmentId) {
+        if (confirm("你確定要取消此次預約?")) {
+            $.ajax({
+                type: 'POST',
+                url: '/Appointment/CancelAppointment',
+                datatype: "json",
+                data: { "AppointmentId": appointmentId },
+                success: function (data) {
+                    // $('#AppointmentIntroductionText').html(data);
+                }
+            });
+        }
+    }
+</script>

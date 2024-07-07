@@ -2,26 +2,31 @@
 {
     public partial class IndexVM
     {
-        public string? Id { get; set; } = "";
+        public List<AppointmentData>? AppointmentData { get; set; }
 
-        public string? Name { get; set; } = "";
+        public IndexVM()
+        {
+            AppointmentData = new List<AppointmentData>();
+        }
+    }
 
-        public string? LineId { get; set; } = "";
+    public partial class AppointmentData
+    {
+        public string? AppointmentId { get; set; }
 
-        public string? LineDisplayName { get; set; } = "";
+        public string? Date { get; set; }
 
-        public string? LinePictureUrl { get; set; } = "";
+        public string? BookingBeginTime { get; set; }
 
-        public string? CellPhone { get; set; } = "";
+        public string? DoctorId { get; set; }
 
-        public string? NationalIdNumber { get; set; } = "";
+        public string? DoctorName { get; set; }
 
-        public string? Gender { get; set; } = "";
+        public List<TreatmentDataVM>? TreatmentData { get; set; }
 
-        public string? Birthday { get; set; } = "";
-
-        public string? Email { get; set; } = "";
-
-        public string? Memo { get; set; } = "";
+        public AppointmentData()
+        {
+            TreatmentData = new List<TreatmentDataVM>();
+        }
     }
 }

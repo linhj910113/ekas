@@ -20,9 +20,8 @@
             <table class="table table-responsive-md table-hover table2 VA-middle">
                 <div class="table-responsive">
                     <table class="table table-hover" id="addnew" table-layout: fixed;>
-                        <colgroup>
-                            <col width="30%">
-                            <col width="55%">
+                        <colgroup>                            
+                            <col width="85%">
                             <col width="15%">
                         </colgroup>
                         <tbody>
@@ -30,15 +29,13 @@
                             @if (ViewBag.Count > 0)
                             {
                                 <tr>
-                                    <th>參數名稱</th>
-                                    <th>敘述</th>                                    
+                                    <th>敘述</th>
                                     <th></th>
                                 </tr>
 
                                 foreach (var item in Model)
                                 {
                                     <tr>
-                                        <td>@item.ParameterName</td>
                                         <td>@item.Memo</td>
                                         <td>
                                             <a role="button" class="btn btn-shadow btn-color11-d btn-block" style="background-color:#97dded;" asp-action="ParameterEdit" asp-route-id="@item.Index">

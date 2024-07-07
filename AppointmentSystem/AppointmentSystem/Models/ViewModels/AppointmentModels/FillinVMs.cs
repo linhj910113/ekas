@@ -5,6 +5,23 @@ using static AppointmentSystem.Models.ViewModels.SelectListModels;
 
 namespace AppointmentSystem.Models.ViewModels.AppointmentModels
 {
+    //public partial class EditVM
+    //{
+    //    public string? AppointmentId { get; set; }
+
+    //    public string? DoctorId { get; set; }
+
+    //    public string? Date { get; set; }
+
+    //    public string? BookingBeginTime { get; set; }
+
+    //    public List<TreatmentDataVM>? Treatment { get; set; }
+
+    //    public EditVM()
+    //    {
+    //        Treatment = new List<TreatmentDataVM>();
+    //    }
+    //}
 
     public partial class TreatmentDataVM
     {

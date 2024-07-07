@@ -1,10 +1,9 @@
-﻿@* @model AppointmentSystem.Models.ViewModels.AppointmentModels.FillinVM *@
+﻿@model AppointmentSystem.Models.ViewModels.AppointmentModels.EditVM
 
 @{
     Layout = "~/Views/Shared/CustomerLayout.cshtml";
     ViewData["Title"] = "Home Page";
 }
-
 
 <style>
 
@@ -68,8 +67,8 @@
         }
 
     /*  .selectable .select-circle.selected {
-                                    background-color: green;
-                                } */
+                                                                                    background-color: green;
+                                                                                } */
 
     .doctor-section.hidden, .dateTime-section.hidden, .baseInfomation-section.hidden {
         display: none;
@@ -228,6 +227,22 @@
 <div class="treatment-section">
     <h5>選擇療程項目(多選)</h5>
     <div id="treatmentData" class="row" style="display: flex; justify-content: left;">
+        @foreach (var treatment in Model.TreatmentList)
+        {
+            <div class=" selectable" data-title="@treatment.TreatmentName" data-description="@treatment.Introduction" data-type="treatment">
+                <img src="@treatment.Image" class="img-fluid" data-toggle="modal" data-target="#treatmentModal">
+
+                @if (Model.SelectedTreatment.Where(x => x.Contains(treatment.TreatmentId)).Count() > 0)
+                {
+                    <input type="checkbox" name="treatments" value="@treatment.TreatmentId" class="treatment-checkbox" onclick="treatmentOnClick();" checked />
+                }
+                else
+                {
+                    <input type="checkbox" name="treatments" value="@treatment.TreatmentId" class="treatment-checkbox" onclick="treatmentOnClick();" />
+                }
+
+            </div>
+        }
     </div>
 </div>
 
@@ -239,9 +254,24 @@
 </div>
 
 <!-- 醫師部分 -->
-<div class="doctor-section hidden">
+<div class="doctor-section">
     <h5>選擇醫師(單選)</h5>
     <div id="doctorData" class="row" style="display: flex; justify-content: left;">
+        @foreach (var doctor in Model.DoctorList)
+        {
+            <div class=" selectable" data-title="@doctor.DoctorName" data-department="@doctor.DepartmentTitle" data-description="@doctor.Introduction" data-type="doctor">
+                <img src="@doctor.Image" class="img-fluid" data-toggle="modal" data-target="#doctorModal">
+
+                @if (doctor.DoctorId == Model.DoctorId)
+                {
+                    <input type="radio" name="doctor" value="@doctor.DoctorId" class="doctor-radio" checked />
+                }
+                else
+                {
+                    <input type="radio" name="doctor" value="@doctor.DoctorId" class="doctor-radio" />
+                }
+            </div>
+        }
     </div>
 </div>
 
@@ -266,11 +296,32 @@
                 <div class="datepicker-body" id="calendar"></div>
             </div>
 
-            <p id="dateDisplay" class="selected-date">選擇的日期：無</p>
-            <p id="timeDisplay" class="selected-time">選擇的時間：無</p>
+            <p id="dateDisplay" class="selected-date">選擇的日期：@Model.Date</p>
+            <p id="timeDisplay" class="selected-time">選擇的時間：@Model.BookingBeginTime</p>
         </div>
         <div class="col-md-4" id="timeList">
             <div class="time-picker" id="timePicker">
+                @foreach (var time in Model.Outpatients)
+                {
+                    if (time.Enabled == "Y")
+                    {
+                        if (time.BeginTime == Model.BookingBeginTime)
+                        {
+                            <div class="time-slot selected" data-time="@time.BeginTime" onclick="timeSlotClick(this);">@time.BeginTime</div>
+                        }
+                        else
+                        {
+                            <div class="time-slot" data-time="@time.BeginTime" onclick="timeSlotClick(this);">@time.BeginTime</div>
+                        }
+
+                    }
+                    else
+                    {
+                        <div class="time-slot disabled" data-time="@time.BeginTime" onclick="timeSlotClick(this);">@time.BeginTime</div>
+                    }
+
+                }
+
             </div>
 
         </div>
@@ -280,8 +331,8 @@
 <!-- 已選擇的日期時間 -->
 <div class="dateTime-selected">
     <h5>日期及時間</h5>
-    <p id="selectedDateDisplay" class="selected-date">選擇的日期：無</p>
-    <p id="selectedTimeDisplay" class="selected-time">選擇的時間：無</p>
+    <p id="selectedDateDisplay" class="selected-date">選擇的日期：@Model.Date</p>
+    <p id="selectedTimeDisplay" class="selected-time">選擇的時間：@Model.BookingBeginTime</p>
 </div>
 
 <!-- 初診填寫基本資料部分 -->
@@ -320,11 +371,14 @@
     </div>
 </div>
 
+<input type="hidden" id="selectedDate" value="@Model.Date" />
+<input type="hidden" id="selectedTime" value="@Model.BookingBeginTime" />
+<input type="hidden" id="appointmentId" value="@Model.AppointmentId" />
+    
 <button class="btn btn-primary" id="selectDateTimebtn" onclick="selectDateTime();">下一步</button>
-
 <button class="btn btn-primary" id="backToSelectDoctorbtn" onclick="backToSelectDoctor();" style="display:none;">上一步</button>
 <button class="btn btn-primary" id="backToSelectDataTimebtn" onclick="backToSelectDataTime();" style="display:none;">上一步</button>
-<button class="btn btn-primary" id="fillinBaseInformationbtn" onclick="fillinBaseInformation();" style="display:none;">下一步</button>
+@* <button class="btn btn-primary" id="fillinBaseInformationbtn" onclick="fillinBaseInformation();" style="display:none;">下一步</button> *@
 <button class="btn btn-primary" id="fillinCompletebtn" onclick="fillinComplete();" style="display:none;">下一步</button>
 
 
@@ -373,6 +427,7 @@
 @* <script src="~/js/jquery-3.5.1.min.js"></script> *@
 <link rel="stylesheet" href="~/css/jquery-ui.css" asp-append-version="true">
 <script src="~/js/jquery-ui.js" asp-append-version="true"></script>
+
 <script>
     let today = new Date();
     let currentMonth = today.getMonth();
@@ -382,6 +437,7 @@
     let availableDates = [];
     let treatmentList = null;
     let doctorList = null;
+    let sDate = "";
 
     const monthNames = ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"];
     const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
@@ -390,19 +446,14 @@
         initData();
 
         function initData() {
-            // console.log("@ViewBag.AppointmentCount");
-
             setAppointmentIntroductionText();
             setAppointmentImage();
-            setTreatmentList();
-        }
+            setTreatmentListAndDoctorList();
 
-        // 控制療程多選
-        // $('.selectable[data-type="treatment"] .select-circle').click(function (e) {
-        //     e.stopPropagation();
-        //     $(this).toggleClass('selected');
-        //     toggleDoctorSection();
-        // });
+            sDate = $('#selectedDate').val();
+            // treatmentOnClick();
+            // setTreatmentList();
+        }
 
         // 控制醫師單選
         $('.selectable[data-type="doctor"] .select-circle').click(function (e) {
@@ -453,7 +504,22 @@
         });
     });
 
-        function setAppointmentIntroductionText() {
+    // 切換顯示醫師部分
+    function toggleDoctorSection() {
+        let selectedTreatments = [];
+
+        document.querySelectorAll('input[name="treatments"]:checked').forEach(function (checkbox) {
+            selectedTreatments.push(checkbox.value);
+        });
+
+        if (selectedTreatments.length > 0) {
+            $('.doctor-section').removeClass('hidden');
+        } else {
+            $('.doctor-section').addClass('hidden');
+        }
+    }
+
+    function setAppointmentIntroductionText() {
         $.ajax({
             type: 'GET',
             url: '/Appointment/setAppointmentIntroductionText',
@@ -489,42 +555,29 @@
         });
     }
 
-    // 切換顯示醫師部分
-    function toggleDoctorSection() {
-        let selectedTreatments = [];
-
-        document.querySelectorAll('input[name="treatments"]:checked').forEach(function (checkbox) {
-            selectedTreatments.push(checkbox.value);
-        });
-
-        if (selectedTreatments.length > 0) {
-            $('.doctor-section').removeClass('hidden');
-        } else {
-            $('.doctor-section').addClass('hidden');
-        }
-    }
-
-    function setTreatmentList() {
+    function setTreatmentListAndDoctorList() {
         $.ajax({
             type: 'GET',
             url: '/Appointment/setTreatmentList',
             datatype: "json",
             success: function (data) {
                 treatmentList = data;
-                let inner = "";
-                let i = 0;
+            }
+        });
 
-                data.forEach(function (x) {
-                    i++;
+        let selectedTreatments = [];
 
-                    inner += `<div class=" selectable" data-title="` + x.treatmentName + `" data-description="` + x.introduction + `" data-type="treatment">`;
-                    inner += `<img src="` + x.image + `" class="img-fluid" data-toggle="modal" data-target="#treatmentModal">`;
-                    inner += `<input type="checkbox" name="treatments" value="` + x.treatmentId + `" class="treatment-checkbox" onclick="treatmentOnClick();"></input>`;
-                    // inner += `<input type="hidden" id="treatmentId-` + i + `" value="` + x.treatmentId + `"></input>`;
-                    inner += `</div>`;
-                });
+        document.querySelectorAll('input[name="treatments"]:checked').forEach(function (checkbox) {
+            selectedTreatments.push(checkbox.value);
+        });
 
-                $('#treatmentData').html(inner);
+        $.ajax({
+            type: 'POST',
+            url: '/Appointment/setDoctorList',
+            datatype: "json",
+            data: { treatments: selectedTreatments },
+            success: function (data) {
+                doctorList = data;
             }
         });
     }
@@ -583,15 +636,9 @@
             $('.treatment-section').hide();
             $('.doctor-section').hide();
             $('.dateTime-section').show();
-
             $('#selectDateTimebtn').hide();
             $('#backToSelectDoctorbtn').show();
-
-            if (@ViewBag.AppointmentCount> 0)
-                $('#fillinCompletebtn').show();
-            else
-                $('#fillinBaseInformationbtn').show();
-
+            $('#fillinCompletebtn').show();
 
             showSelectedTreatmentAndDoctor();
 
@@ -607,45 +654,7 @@
                         availableDates.push(x.date);
                     });
 
-
                     generateCalendar(currentYear, currentMonth);
-
-                    // $("#datepicker").datepicker({
-                    //     beforeShowDay: function (date) {
-                    //         var dmy = date.getFullYear() + "-" + ("0" + (date.getMonth() + 1)).slice(-2) + "-" + ("0" + date.getDate()).slice(-2);
-
-                    //         if ($.inArray(dmy, availableDates) != -1) {
-                    //             return [true, "", "Available"];
-                    //         } else {
-                    //             return [false, "", "unAvailable"];
-                    //         }
-                    //     },
-                    //     dateFormat: 'yy-mm-dd',
-                    //     onSelect: function (dateText) {
-                    //         $("#selectedDate").text("選擇的日期：" + dateText);
-                    //         var timePicker = $('#timePicker');
-                    //         timePicker.empty();
-
-                    //         data.filter(e => e.date == dateText)[0].outpatients.forEach(function (slot) {
-                    //             var timeSlot = $('<div class="time-slot" data-time="' + slot.beginTime + '">' + slot.beginTime + '</div>');
-                    //             if (slot.enabled == "N") {
-                    //                 timeSlot.addClass('disabled');
-                    //             }
-                    //             timePicker.append(timeSlot);
-
-                    //             $('.time-slot').on('click', function () {
-                    //                 if (!$(this).hasClass('disabled')) {
-                    //                     $('.time-slot').removeClass('selected');
-                    //                     $(this).addClass('selected');
-                    //                 }
-                    //             });
-
-                    //             console.log(slot);
-                    //         });
-
-
-                    //     }
-                    // });
                 }
             });
 
@@ -685,6 +694,14 @@
 
             dateElement.data('date', dateString);
 
+
+
+            if ($("#selectedDate").val() == dateString) {
+                dateElement.addClass('selected');
+                selectedDate = dateElement;
+            }
+
+
             if (availableDates.includes(dateString)) {
                 dateElement.addClass('available').on('click', function () {
                     if (selectedDate) {
@@ -694,6 +711,7 @@
                     selectedDate = dateElement;
                     dateDisplay.text("選擇的日期：" + selectedDate.data('date'));
                     $("#timeDisplay").text("選擇的時間：無");
+                    $("#selectedDate").val(selectedDate.data('date'));
 
                     let timePicker = $('#timePicker');
                     timePicker.empty();
@@ -723,9 +741,11 @@
                     });
                 });
 
-                if (selectedDate != null && selectedDate == selectedDate.data('date')) {
-                    dateElement.addClass('selected');
-                }
+
+
+                // if (selectedDate != null && selectedDate == selectedDate.data('date')) {
+                //     dateElement.addClass('selected');
+                // }
             } else {
                 dateElement.addClass('disabled');
             }
@@ -734,12 +754,26 @@
         }
     }
 
+    function timeSlotClick(element) {
+        if (!$(element).hasClass('disabled')) {
+            $('.time-slot').removeClass('selected');
+            $(element).addClass('selected');
+        }
+
+        let selectedSlot = $('.time-slot.selected');
+        if (selectedSlot.length > 0) {
+            let selectedTime = selectedSlot.data('time');
+            $('#timeDisplay').text("選擇的時間：" + selectedTime);
+        } else {
+            $('#timeDisplay').text("選擇的時間：無");
+        }
+    }
+
     function backToSelectDoctor() {
         const calendar = $('#calendar');
 
         $('#selectDateTimebtn').show();
         $('#backToSelectDoctorbtn').hide();
-        $('#fillinBaseInformationbtn').hide();
         $('#fillinCompletebtn').hide();
 
         $("#datepicker").datepicker("destroy");
@@ -769,15 +803,11 @@
         $('.baseInfomation-section').hide();
         $('#backToSelectDataTimebtn').hide();
         $('#fillinCompletebtn').hide();
-        $('#fillinBaseInformation').hide();
 
         $('.dateTime-section').show();
         $('#backToSelectDoctorbtn').show();
 
-        if (@ViewBag.AppointmentCount> 0)
-            $('#fillinCompletebtn').show();
-        else
-            $('#fillinBaseInformationbtn').show();
+        $('#fillinCompletebtn').show();
     }
 
     function showSelectedTreatmentAndDoctor() {
@@ -827,124 +857,72 @@
         let selectedSlot = $('.time-slot.selected');
         if (selectedSlot.length > 0) {
             selectedTime = selectedSlot.data('time');
-        } else {
-            return false;
         }
 
         if (selectedDate == null || selectedTime == null) {
             alert("請先選擇日期及時間!")
             return false;
         } else {
-            if (@ViewBag.AppointmentCount> 0) {
-                $.ajax({
-                    type: 'POST',
-                    url: '/Appointment/CreateAppointment',
-                    datatype: "json",
-                    data: { treatments: selectedTreatments, "doctor": selectedDoctor, "date": selectedDate.data('date'), "beginTime": selectedTime },
-                    success: function (data) {
-                        console.log("Create appointment success.")
+            $.ajax({
+                type: 'POST',
+                url: '/Appointment/UpdateAppointment',
+                datatype: "json",
+                data: { AppointmentId: $('#appointmentId').val(), treatments: selectedTreatments, "doctor": selectedDoctor, "date": selectedDate.data('date'), "beginTime": selectedTime },
+                success: function (data) {
+                    console.log("Update appointment infomation success.")
 
-                        window.location.href = "@Url.Action("NoticeVerification", "Appointment")";
-                    }
-                });
-            }
-            else {
-                let customerName = $('#name').val();
-                let nationalIdNumber = $('#NationalIdNumber').val();
-                let cellphone = $('#cellphone').val();
-                let gender = $('input[name="gender"]:checked').val();
-                let birthday = $('#birthday').val();
-                let email = $('#email').val();
-                let alertMsg = "";
-
-                if (!customerName)
-                    alertMsg = "請輸入姓名!";
-                else if (!nationalIdNumber)
-                    alertMsg = "請輸入身分證!";
-                else if (!cellphone)
-                    alertMsg = "請輸入手機號碼!";
-                else if (!gender)
-                    alertMsg = "請輸入性別!";
-                else if (!birthday)
-                    alertMsg = "請輸入生日!";
-                else if (!email)
-                    alertMsg = "請輸入E-mail!";
-
-                if (alertMsg != "") {
-                    alert(alertMsg);
-                    return false;
+                    window.location.href = "@Url.Action("Index", "Appointment")";
                 }
-
-                $.ajax({
-                    type: 'POST',
-                    url: '/Appointment/UpdateCustomerInfomation',
-                    datatype: "json",
-                    data: { "customerName": customerName, "nationalIdNumber": nationalIdNumber, "cellphone": cellphone, "gender": gender, "birthday": birthday, "email": email },
-                    success: function (data) {
-                        console.log("Update customer infomation success.")
-                    }
-                });
-
-                $.ajax({
-                    type: 'POST',
-                    url: '/Appointment/CreateAppointment',
-                    datatype: "json",
-                    data: { treatments: selectedTreatments, "doctor": selectedDoctor, "date": selectedDate.data('date'), "beginTime": selectedTime },
-                    success: function (data) {
-                        console.log("Create appointment success.")
-
-                        window.location.href = "@Url.Action("NoticeVerification", "Appointment")";
-                    }
-                });
-
-                // console.log("選擇的療程:" + selectedTreatments);
-                // console.log("選擇的醫師:" + selectedDoctor);
-                // console.log("選擇的日期:" + selectedDate.data('date'));
-                // console.log("選擇的療程:" + selectedTime);
-            }
-
-        }
-    }
-
-    function fillinBaseInformation() {
-        let selectedTime = null;
-        let selectedDoctor = $("input[name='doctor']:checked").val();
-        let selectedTreatments = [];
-
-        document.querySelectorAll('input[name="treatments"]:checked').forEach(function (checkbox) {
-            selectedTreatments.push(checkbox.value);
-        });
-
-        let selectedSlot = $('.time-slot.selected');
-        if (selectedSlot.length > 0) {
-            selectedTime = selectedSlot.data('time');
-        }
-
-        if (selectedDate == null || selectedTime == null) {
-            alert("請先選擇日期及時間!");
-            return false;
-        } else {
-            showSelectedTreatmentAndDoctor();
-
-            $('.dateTime-section').hide();
-            $('#backToSelectDoctorbtn').hide();
-            $('#fillinBaseInformationbtn').hide();
-            $('.dateTime-selected').show();
-            $('.baseInfomation-section').show();
-            $('#backToSelectDataTimebtn').show();
-            $('#fillinCompletebtn').show();
-
-
-            $('#selectedDateDisplay').text("選擇的日期：" + selectedDate.data('date'));
-            $('#selectedTimeDisplay').text("選擇的時間：" + selectedTime);
-
-
+            });
 
             // console.log("選擇的療程:" + selectedTreatments);
             // console.log("選擇的醫師:" + selectedDoctor);
             // console.log("選擇的日期:" + selectedDate.data('date'));
             // console.log("選擇的療程:" + selectedTime);
+            // }
+
         }
     }
+
+    // function fillinBaseInformation() {
+    //     let selectedTime = null;
+    //     let selectedDoctor = $("input[name='doctor']:checked").val();
+    //     let selectedTreatments = [];
+
+    //     document.querySelectorAll('input[name="treatments"]:checked').forEach(function (checkbox) {
+    //         selectedTreatments.push(checkbox.value);
+    //     });
+
+    //     let selectedSlot = $('.time-slot.selected');
+    //     if (selectedSlot.length > 0) {
+    //         selectedTime = selectedSlot.data('time');
+    //     }
+
+    //     if (selectedDate == null || selectedTime == null) {
+    //         alert("請先選擇日期及時間!");
+    //         return false;
+    //     } else {
+    //         showSelectedTreatmentAndDoctor();
+
+    //         $('.dateTime-section').hide();
+    //         $('#backToSelectDoctorbtn').hide();
+    //         $('#fillinBaseInformationbtn').hide();
+    //         $('.dateTime-selected').show();
+    //         $('.baseInfomation-section').show();
+    //         $('#backToSelectDataTimebtn').show();
+    //         $('#fillinCompletebtn').show();
+
+
+    //         $('#selectedDateDisplay').text("選擇的日期：" + selectedDate.data('date'));
+    //         $('#selectedTimeDisplay').text("選擇的時間：" + selectedTime);
+
+
+
+    //         // console.log("選擇的療程:" + selectedTreatments);
+    //         // console.log("選擇的醫師:" + selectedDoctor);
+    //         // console.log("選擇的日期:" + selectedDate.data('date'));
+    //         // console.log("選擇的療程:" + selectedTime);
+    //     }
+    // }
 
 </script>
