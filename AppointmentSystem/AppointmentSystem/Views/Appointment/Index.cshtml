@@ -5,33 +5,71 @@
     ViewData["Title"] = "首頁";
 }
 
-<div>
+
+<style>
+    .table td, .table th {
+        border: none;
+        /* vertical-align: top; */
+        border-top: 0px solid #dee2e6;
+        vertical-align: middle;
+    }
+</style>
+<div class="overlay-container" style=" position: relative;display: inline-block;">
     <img id="desktopImage" src="~/images/CustomerIndexImage1.jpg" alt="Desktop Image" class="appointment-image desktop-image">
-    <img id="mobileImage" src="~/images/CustomerIndexImage2.jpg" alt="Mobile Image" class="appointment-image mobile-image">
+    <img id="mobileImage" src="~/images/CustomerIndexImage2.jpg" alt="Mobile Image" class="appointment-image mobile-image" style="height:25rem; width:auto; object-fit: cover;">
+
+    <div class="overlay"
+         style="position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.5), rgba(255, 255, 255, 0));
+            z-index: 1;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            color: #DCDCDC;
+            font-weight:normal;
+            font-size:16px;
+            line-height: 1.8;
+            margin-bottom:10px;
+            letter-spacing: 2px;">
+
+
+
+        <div class="container content mb-3">
+            <span id="AppointmentIntroductionText"></span>
+        </div>
+
+    </div>
+
 </div>
+
+<!--新增區域結束-->
 
 <div class="container content">
     <span id="AppointmentIntroductionText"></span>
 </div>
 
-<div class="appointment-table">
+<div class="appointment-table" style="width:95%;">
     <h5>已預約時段</h5>
 
 
-    <table class="table table-bordered">
+    <table class="table table-bordered" style="font-size: 14px;">
         @if (ViewBag.Count > 0)
         {
             <thead>
-                <tr>
+                <tr style="font-size: 14px; white-space: nowrap;vertical-align: middle; ">
                     <th>日期</th>
                     <th>時間</th>
                     <th>醫師</th>
                     <th>療程項目</th>
-                    <th>操作</th>
+                    <th>修改/取消</th>
                 </tr>
             </thead>
 
-            <tbody id="appointmentsTableBody">
+            <tbody id="appointmentsTableBody" style="font-size: 14px; white-space: nowrap;vertical-align: middle; ">
                 @*  @foreach (var item in Model.AppointmentData)
             {
             <tr>
@@ -61,7 +99,7 @@
     </table>
 
 
-    <button class="btn btn-primary" onclick="location.href='@Url.Action("Fillin", "Appointment")'">進行預約</button>
+    <button class="btn btn-primary" onclick="location.href='@Url.Action("Fillin", "Appointment")' " style="font-size: 14px; background-color:transparent; border:none;"><img id="desktopImage" src="/images/add_circle_16dp_049FBF_FILL0_wght400_GRAD0_opsz20.png" style="width:40px;height:40px ;" \></button>
 </div>
 
 <!-- 療程項目簡介模態框 -->
@@ -105,11 +143,11 @@
                                         <td>${appointment.bookingBeginTime}</td>
                                         <td>${appointment.doctorName}</td>
                                     <td>
-                                        <button type="button" class="btn btn-primary details-btn" data-toggle="modal" data-target="#detailsModal" data-details='${treatmentDetails}'>詳細</button>
+                                                                    <button type="button" class="btn btn-primary details-btn" data-toggle="modal" data-target="#detailsModal" data-details='${treatmentDetails}' style="font-size: 14px; background-color:transparent; border:none;">  <img id="desktopImage" src="/images/dataset_19dp_666666_FILL0_wght400_GRAD0_opsz20.png" style="width:25px;height:25px ;" \ ></button>
                                     </td>
                                     <td>
-                                        <button class="btn btn-secondary" onclick="editAppointment('`+ appointment.appointmentId + `')">修改</button>
-                                        <button class="btn btn-danger" onclick="cancelAppointment('`+ appointment.appointmentId + `')">取消</button>
+                                                        <button class="btn btn-secondary" onclick="editAppointment('`+ appointment.appointmentId + `' ) "  style="font-size: 14px; background-color:transparent; border:none;"><img id="desktopImage" src="/images/edit_square_16dp_666666_FILL0_wght400_GRAD0_opsz20.png" style="width:25px;height:25px ;" \ ></button>
+                                                        <button class="btn btn-danger" onclick="cancelAppointment('`+ appointment.appointmentId + `')"  style="font-size: 14px; background-color:transparent; border:none;"><img id="desktopImage" src="/images/event_busy_16dp_666666_FILL0_wght400_GRAD0_opsz20.png" style="width:25px;height:25px ;" \ ></button>
                                     </td>
                                 </tr>
                             `;

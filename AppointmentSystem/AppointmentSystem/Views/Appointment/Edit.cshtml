@@ -10,28 +10,33 @@
     .treatment-section, .doctor-section, .dateTime-section, .baseInfomation-section {
         text-align: left;
         margin: 20px auto;
-        width: 80%;
+        width: 85%;
         max-width: 800px;
-        background-color: #f2f2f2;
+        background-color: transparent;
         padding: 20px;
-        border-radius: 10px;
+        border-radius: 13px;
+        border: 0px solid #5F5F5F;
+        box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
     }
 
     .treatment-selected, .doctor-selected, .dateTime-selected {
         text-align: left;
         margin: 20px auto;
-        width: 80%;
+        width: 95%;
         max-width: 800px;
-        background-color: #f2f2f2;
-        padding: 20px;
-        border-radius: 10px;
+        background-color: transparent;
+        border: 3px;
+        border-color: #000000;
+        padding-left: 8%;
+        border-radius: 20px;
         display: none;
+        padding-bottom: 8%;
     }
 
     .selectable {
         position: relative;
         display: inline-block;
-        margin: 10px;
+        margin-top: 5px;
     }
 
         .selectable img {
@@ -83,14 +88,14 @@
     }
 
     .time-slot {
-        width: 100%;
-        padding: 15px;
+        width: 40%;
+        padding: 5px;
         margin: 5px 0;
-        background-color: #d3d3d3;
         text-align: center;
-        border-radius: 15px;
+        border-bottom: 1px solid #dddddd;
         cursor: pointer;
         transition: background-color 0.3s;
+        border-radius: 15px;
     }
 
         .time-slot.selected {
@@ -114,11 +119,8 @@
 
 
     .datepicker {
-        background-color: white;
-        border: 1px solid #ccc;
         border-radius: 10px;
         padding: 20px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         width: 100%;
         max-width: 100%;
         box-sizing: border-box;
@@ -133,7 +135,7 @@
 
         .datepicker-header div {
             cursor: pointer;
-            padding: 5px;
+            padding: 1px;
         }
 
             .datepicker-header div:hover {
@@ -153,15 +155,15 @@
 
         .datepicker-body div {
             text-align: center;
-            padding: 10px;
+            padding: 0px;
             cursor: pointer;
-            border-radius: 50%;
+            border-radius: 100px;
             transition: background-color 0.3s, color 0.3s;
         }
 
         .datepicker-body .header {
             font-weight: bold;
-            color: #333;
+            color: #666666;
         }
 
         .datepicker-body div:hover {
@@ -208,24 +210,50 @@
 
 </style>
 
-<div class="text-center" style="display: flex; justify-content: center; ">
-    <div style="width:50%; align-items:center;">
-        <img id="desktopImage" src="~/images/CustomerIndexImage1.jpg" alt="Desktop Image" class="appointment-image desktop-image">
-        <img id="mobileImage" src="~/images/CustomerIndexImage2.jpg" alt="Mobile Image" class="appointment-image mobile-image">
+<div class="overlay-container" style=" position: relative;display: inline-block;">
+    <img id="desktopImage" src="~/images/CustomerIndexImage1.jpg" alt="Desktop Image" class="appointment-image desktop-image">
+    <img id="mobileImage" src="~/images/CustomerIndexImage2.jpg" alt="Mobile Image" class="appointment-image mobile-image" style="height:25rem; width:auto; object-fit: cover;">
+
+    <div class="overlay"
+         style="position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.5), rgba(255, 255, 255, 0));
+            z-index: 1;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            color: #DCDCDC;
+            font-weight:normal;
+            font-size:16px;
+            line-height: 1.8;
+            margin-bottom:10px;
+            letter-spacing: 2px;">
+
+
+
+        <div class="container content mb-3">
+            <span id="AppointmentIntroductionText"></span>
+        </div>
+
     </div>
+
 </div>
 
-<div class="container content">
-    <span id="AppointmentIntroductionText"></span>
+
+<div class="mt-4 mb-4 ">
+    <p style="font-size:20px ;font-weight:600;">線上預約</p>
+    <!-- <h>線上預約</h>-->
 </div>
-
-<p></p>
-
-<h3>線上預約</h3>
 
 <!-- 療程部分 -->
 <div class="treatment-section">
-    <h5>選擇療程項目(多選)</h5>
+    <div style="display:flex ; align-items:center;">
+
+        <p style="font-size:18px ; color:#049FBF;font-weight:600;">選擇療程項目(多選)</p>
+    </div>
     <div id="treatmentData" class="row" style="display: flex; justify-content: left;">
         @foreach (var treatment in Model.TreatmentList)
         {
@@ -248,14 +276,18 @@
 
 <!-- 已選擇的療程 -->
 <div class="treatment-selected">
-    <h5>療程項目</h5>
+    <div style="display:flex; align-items:center;">
+
+        <p style="font-size:20px; color:#049FBF ;font-weight: normal;">療程項目</p>
+    </div>
     <div id="selectedTreatment" class="row" style="display: flex; justify-content: left;">
     </div>
 </div>
 
 <!-- 醫師部分 -->
 <div class="doctor-section">
-    <h5>選擇醫師(單選)</h5>
+    <p style="font-size:18px ; color:#049FBF;font-weight:600;">選擇醫師(單選)</p>
+
     <div id="doctorData" class="row" style="display: flex; justify-content: left;">
         @foreach (var doctor in Model.DoctorList)
         {
@@ -277,16 +309,16 @@
 
 <!-- 已選擇的醫師 -->
 <div class="doctor-selected">
-    <h5>醫師</h5>
+    <p style="font-size:20px; color:#049FBF ;font-weight: normal;">醫師</p>
     <div id="selectedDoctor" class="row" style="display: flex; justify-content: left;">
     </div>
 </div>
 
 <!-- 日期時間部分 -->
 <div class="dateTime-section hidden">
-    <h5>選擇日期及時間</h5>
+    <p style="font-size:20px; color:#049FBF ;font-weight: normal;">選擇預約時間</p>
     <div id="dateTimeData" class="row">
-        <div id="dateList" class="col-md-8">
+        <div id="dateList" class="col-md-8" style="padding:0px; font-weight: normal;">
             <div class="datepicker" id="datepicker">
                 <div class="datepicker-header">
                     <div id="prev">&lt;</div>
@@ -296,8 +328,8 @@
                 <div class="datepicker-body" id="calendar"></div>
             </div>
 
-            <p id="dateDisplay" class="selected-date">選擇的日期：@Model.Date</p>
-            <p id="timeDisplay" class="selected-time">選擇的時間：@Model.BookingBeginTime</p>
+            <p id="dateDisplay" class="selected-date">預約日期：@Model.Date</p>
+            <p id="timeDisplay" class="selected-time">預約時間：@Model.BookingBeginTime</p>
         </div>
         <div class="col-md-4" id="timeList">
             <div class="time-picker" id="timePicker">
@@ -331,8 +363,8 @@
 <!-- 已選擇的日期時間 -->
 <div class="dateTime-selected">
     <h5>日期及時間</h5>
-    <p id="selectedDateDisplay" class="selected-date">選擇的日期：@Model.Date</p>
-    <p id="selectedTimeDisplay" class="selected-time">選擇的時間：@Model.BookingBeginTime</p>
+    <p id="selectedDateDisplay" class="selected-date">預約日期：@Model.Date</p>
+    <p id="selectedTimeDisplay" class="selected-time">預約時間：@Model.BookingBeginTime</p>
 </div>
 
 <!-- 初診填寫基本資料部分 -->
@@ -375,11 +407,11 @@
 <input type="hidden" id="selectedTime" value="@Model.BookingBeginTime" />
 <input type="hidden" id="appointmentId" value="@Model.AppointmentId" />
     
-<button class="btn btn-primary" id="selectDateTimebtn" onclick="selectDateTime();">下一步</button>
-<button class="btn btn-primary" id="backToSelectDoctorbtn" onclick="backToSelectDoctor();" style="display:none;">上一步</button>
-<button class="btn btn-primary" id="backToSelectDataTimebtn" onclick="backToSelectDataTime();" style="display:none;">上一步</button>
+<button class="btn btn-primary" id="selectDateTimebtn" onclick="selectDateTime();" style="border:none; background-color:transparent;"><img src="~/images/keyboard_double_arrow_down_19dp_666666_FILL0_wght400_GRAD0_opsz20.png" alt="Alternate Text" style="width:45px;height:35px; " /></button>
+<button class="btn btn-primary" id="backToSelectDoctorbtn" onclick="backToSelectDoctor();" style="display:none;border:none; background-color:transparent;"><img src="~/images/fast_rewind_16dp_666666_FILL0_wght400_GRAD0_opsz20.png" alt="Alternate Text" style="width:35px;height:35px; " /></button>
+<button class="btn btn-primary" id="backToSelectDataTimebtn" onclick="backToSelectDataTime();" style="display:none;border:none; background-color:transparent;"><img src="~/images/fast_rewind_16dp_666666_FILL0_wght400_GRAD0_opsz20.png" alt="Alternate Text" style="width:35px;height:35px; " /></button>
 @* <button class="btn btn-primary" id="fillinBaseInformationbtn" onclick="fillinBaseInformation();" style="display:none;">下一步</button> *@
-<button class="btn btn-primary" id="fillinCompletebtn" onclick="fillinComplete();" style="display:none;">下一步</button>
+<button class="btn btn-primary" id="fillinCompletebtn" onclick="fillinComplete();" style="display:none;border:none; background-color:transparent;"><img src="~/images/check_circle_16dp_666666_FILL0_wght400_GRAD0_opsz20.png" alt="Alternate Text" style="width:35px;height:35px; " /></button>
 
 
 <!-- 療程項目簡介模態框 -->
@@ -709,8 +741,8 @@
                     }
                     dateElement.addClass('selected');
                     selectedDate = dateElement;
-                    dateDisplay.text("選擇的日期：" + selectedDate.data('date'));
-                    $("#timeDisplay").text("選擇的時間：無");
+                    dateDisplay.text("預約日期：" + selectedDate.data('date'));
+                    $("#timeDisplay").text("預約時間：無");
                     $("#selectedDate").val(selectedDate.data('date'));
 
                     let timePicker = $('#timePicker');
@@ -732,9 +764,9 @@
                             let selectedSlot = $('.time-slot.selected');
                             if (selectedSlot.length > 0) {
                                 let selectedTime = selectedSlot.data('time');
-                                $('#timeDisplay').text("選擇的時間：" + selectedTime);
+                                $('#timeDisplay').text("預約時間：" + selectedTime);
                             } else {
-                                $('#timeDisplay').text("選擇的時間：無");
+                                $('#timeDisplay').text("預約時間：無");
                             }
                         });
 
@@ -763,9 +795,9 @@
         let selectedSlot = $('.time-slot.selected');
         if (selectedSlot.length > 0) {
             let selectedTime = selectedSlot.data('time');
-            $('#timeDisplay').text("選擇的時間：" + selectedTime);
+            $('#timeDisplay').text("預約時間：" + selectedTime);
         } else {
-            $('#timeDisplay').text("選擇的時間：無");
+            $('#timeDisplay').text("預約時間：無");
         }
     }
 
@@ -778,10 +810,10 @@
 
         $("#datepicker").datepicker("destroy");
         $("#timePicker").empty();
-        $("#dateDisplay").text("選擇的日期：無");
-        $("#timeDisplay").text("選擇的時間：無");
-        $('#selectedDateDisplay').text("選擇的時間：無");
-        $('#selectedTimeDisplay').text("選擇的時間：無");
+        $("#dateDisplay").text("預約日期：無");
+        $("#timeDisplay").text("預約時間：無");
+        $('#selectedDateDisplay').text("預約時間：無");
+        $('#selectedTimeDisplay').text("預約時間：無");
 
         $('.treatment-section').show();
         $('.doctor-section').show();
@@ -824,7 +856,7 @@
         selectedTreatments.forEach(function (x) {
             let item = treatmentList.filter(e => e.treatmentId == x)[0];
 
-            inner += `<div class="selectable" data-title="` + item.treatmentName + `" data-description="` + item.introduction + `" data-type="selectedTreatment">`;
+            inner += `<div class="selectable col-4" data-title="` + item.treatmentName + `" data-description="` + item.introduction + `" data-type="selectedTreatment">`;
             inner += `<img src="` + item.image + `" class="img-fluid" data-toggle="modal" data-target="#treatmentModal">`;
             inner += `</div>`;
         });
@@ -835,7 +867,7 @@
 
         let item = doctorList.filter(e => e.doctorId == selectedDoctor)[0];
 
-        inner += `<div class="selectable" data-title="` + item.doctorName + `" data-department="` + item.departmentTitle + `" data-description="` + item.introduction + `" data-type="selectedDoctor">`;
+        inner += `<div class="selectable col-4" data-title="` + item.doctorName + `" data-department="` + item.departmentTitle + `" data-description="` + item.introduction + `" data-type="selectedDoctor">`;
         inner += `<img src="` + item.image + `" class="img-fluid" data-toggle="modal" data-target="#doctorModal">`;
         inner += `</div>`;
 
