@@ -6,38 +6,32 @@
 }
 
 
-<style>
-
+@* <style>
     .treatment-section, .doctor-section, .dateTime-section, .baseInfomation-section {
         text-align: left;
         margin: 20px auto;
-        width: 85%;
+        width: 80%;
         max-width: 800px;
-        background-color: transparent;
+        background-color: #f2f2f2;
         padding: 20px;
-        border-radius: 13px;
-        border: 0px solid #5F5F5F;
-        box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3); 
+        border-radius: 10px;
     }
 
     .treatment-selected, .doctor-selected, .dateTime-selected {
         text-align: left;
         margin: 20px auto;
-        width: 95%;
+        width: 80%;
         max-width: 800px;
-        background-color: transparent;
-        border:3px;
-        border-color: #000000;
-        padding-left: 8%;
-        border-radius: 20px;
+        background-color: #f2f2f2;
+        padding: 20px;
+        border-radius: 10px;
         display: none;
-        padding-bottom: 8%;
     }
 
     .selectable {
         position: relative;
         display: inline-block;
-        margin-top: 5px;
+        margin: 10px;
     }
 
         .selectable img {
@@ -46,7 +40,7 @@
             cursor: pointer;
         }
 
-        .selectable .treatment-checkbox {
+        .selectable .treatment-info {
             position: absolute;
             top: 0px;
             right: 0px;
@@ -54,30 +48,27 @@
             height: 20px;
             display: flex;
             cursor: pointer;
-            border-radius: 10px;
         }
 
 
-        .selectable .doctor-radio {
+        .selectable .doctor-info {
             position: absolute;
             top: 0px;
             right: 0px;
             width: 20px;
             height: 20px;
-            background-color: white;
-            border-radius: 10px;
-            border: 2px solid #007bff;
+            /*      background-color: white;
+                        border-radius: 50%;
+                        border: 2px solid #007bff; */
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            background: rgba(0, 0, 0, 0.3);
-            box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
         }
 
     /*  .selectable .select-circle.selected {
-                                    background-color: green;
-                                } */
+                                                                        background-color: green;
+                                                                    } */
 
     .doctor-section.hidden, .dateTime-section.hidden, .baseInfomation-section.hidden {
         display: none;
@@ -92,16 +83,14 @@
     }
 
     .time-slot {
-        width: 40%;
-        padding: 5px;
+        width: 100%;
+        padding: 15px;
         margin: 5px 0;
-        
-       
+        background-color: #d3d3d3;
         text-align: center;
-        border-bottom: 1px solid #dddddd;
+        border-radius: 15px;
         cursor: pointer;
         transition: background-color 0.3s;
-        border-radius:15px;
     }
 
         .time-slot.selected {
@@ -125,10 +114,212 @@
 
 
     .datepicker {
-
+        background-color: white;
+        border: 1px solid #ccc;
         border-radius: 10px;
         padding: 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+    }
 
+    .datepicker-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+        .datepicker-header div {
+            cursor: pointer;
+            padding: 5px;
+        }
+
+            .datepicker-header div:hover {
+                background-color: #eee;
+            }
+
+        .datepicker-header span {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+    .datepicker-body {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 10px;
+    }
+
+        .datepicker-body div {
+            text-align: center;
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 50%;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .datepicker-body .header {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .datepicker-body div:hover {
+            background-color: #eee;
+        }
+
+        .datepicker-body .disabled {
+            color: #ccc;
+            cursor: not-allowed;
+        }
+
+        .datepicker-body .available {
+            color: black;
+            cursor: pointer;
+        }
+
+            .datepicker-body .available:hover {
+                background-color: #bcbcbc;
+            }
+
+        .datepicker-body .selected {
+            background-color: #d9534f;
+            color: white;
+        }
+
+    .selected-date, .selected-time {
+        margin-top: 20px;
+        font-size: 18px;
+    }
+
+
+
+
+
+    .form-container {
+        background-color: #7f7f7f;
+        padding: 20px;
+        border-radius: 10px;
+        width: 300px;
+        margin: auto;
+        margin-top: 50px;
+        color: white;
+    }
+
+</style> *@
+
+<style>
+    .treatment-section, .doctor-section, .dateTime-section, .baseInfomation-section {
+        text-align: left;
+        margin: 20px auto;
+        width: 85%;
+        max-width: 800px;
+        background-color: transparent;
+        padding: 20px;
+        border-radius: 13px;
+        border: 0px solid #5F5F5F;
+        box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    .treatment-selected, .doctor-selected, .dateTime-selected {
+        text-align: left;
+        margin: 20px auto;
+        width: 95%;
+        max-width: 800px;
+        background-color: transparent;
+        border: 3px;
+        border-color: #000000;
+        padding-left: 8%;
+        border-radius: 20px;
+        display: none;
+        padding-bottom: 8%;
+    }
+
+    .selectable {
+        position: relative;
+        display: inline-block;
+        margin-top: 5px;
+    }
+
+        .selectable img {
+            width: 100px; /* 設置圖片寬度 */
+            height: 100px; /* 設置圖片高度 */
+            cursor: pointer;
+        }
+
+        .selectable .treatment-info {
+            position: absolute;
+            top: 0px;
+            right: 0px;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            cursor: pointer;
+        }
+
+
+        .selectable .doctor-info {
+            position: absolute;
+            top: 0px;
+            right: 0px;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+    /*  .selectable .select-circle.selected {
+                                                                                                                            background-color: green;
+                                                                                                                        } */
+
+    .doctor-section.hidden, .dateTime-section.hidden, .baseInfomation-section.hidden {
+        display: none;
+    }
+
+    .time-picker {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        margin: 0 auto;
+    }
+
+    .time-slot {
+        width: 40%;
+        padding: 5px;
+        margin: 5px 0;
+        text-align: center;
+        border-bottom: 1px solid #dddddd;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        border-radius: 15px;
+    }
+
+        .time-slot.selected {
+            background-color: #a9a9a9;
+        }
+
+        .time-slot:hover {
+            background-color: #bcbcbc;
+        }
+
+        .time-slot.disabled {
+            background-color: #f0f0f0;
+            color: #aaa;
+            cursor: not-allowed;
+        }
+
+    .selected-time {
+        margin-top: 20px;
+        font-size: 18px;
+    }
+
+
+    .datepicker {
+        border-radius: 10px;
+        padding: 20px;
         width: 100%;
         max-width: 100%;
         box-sizing: border-box;
@@ -202,10 +393,6 @@
         font-size: 18px;
     }
 
-
-
-
-
     .form-container {
         background-color: #7f7f7f;
         padding: 20px;
@@ -239,8 +426,8 @@
             line-height: 1.8;
             margin-bottom:10px;
             letter-spacing: 2px;">
-            
-            
+
+
 
         <div class="container content mb-3">
             <span id="AppointmentIntroductionText"></span>
@@ -254,28 +441,27 @@
     <span id="AppointmentIntroductionText"></span>
 </div>
 
+<p></p>
+
 <div class="mt-4 mb-4 ">
     <p style="font-size:20px ;font-weight:600;">線上預約</p>
     <!-- <h>線上預約</h>-->
 </div>
 
-
 <!-- 療程部分 -->
 <div class="treatment-section">
     <div style="display:flex ; align-items:center;">
-    
-    <p style="font-size:18px ; color:#049FBF;font-weight:600;">選擇療程項目(多選)</p>
+        <p style="font-size:18px ; color:#049FBF;font-weight:600;">選擇療程項目(多選)</p>
     </div>
     <div id="treatmentData" class="row" style="display: flex; justify-content: left;">
     </div>
 </div>
 
 <!-- 已選擇的療程 -->
-<div class="treatment-selected" >
+<div class="treatment-selected">
     <div style="display:flex; align-items:center;">
-    
-    <p style="font-size:20px; color:#049FBF ;font-weight: normal;">療程項目</p>
-    </div>   
+        <p style="font-size:20px; color:#049FBF ;font-weight: normal;">療程項目</p>
+    </div>
     <div id="selectedTreatment" class="row" style="display: flex; justify-content: left;">
     </div>
 </div>
@@ -283,7 +469,7 @@
 <!-- 醫師部分 -->
 <div class="doctor-section hidden">
     <p style="font-size:18px ; color:#049FBF;font-weight:600;">選擇醫師(單選)</p>
-    
+
     <div id="doctorData" class="row" style="display: flex; justify-content: left;">
     </div>
 </div>
@@ -291,7 +477,7 @@
 <!-- 已選擇的醫師 -->
 <div class="doctor-selected">
     <p style="font-size:20px; color:#049FBF ;font-weight: normal;">醫師</p>
-   
+
     <div id="selectedDoctor" class="row" style="display: flex; justify-content: left;">
     </div>
 </div>
@@ -299,7 +485,7 @@
 <!-- 日期時間部分 -->
 <div class="dateTime-section hidden">
     <p style="font-size:20px; color:#049FBF ;font-weight: normal;">選擇預約時間</p>
-    
+
     <div id="dateTimeData" class="row">
         <div id="dateList" class="col-md-8" style="padding:0px; font-weight: normal;">
             <div class="datepicker" id="datepicker">
@@ -365,12 +551,32 @@
     </div>
 </div>
 
-<button class="btn btn-primary" id="selectDateTimebtn" onclick="selectDateTime(); " style="border:none; background-color:transparent;"><img src="~/images/keyboard_double_arrow_down_19dp_666666_FILL0_wght400_GRAD0_opsz20.png" alt="Alternate Text" style="width:45px;height:35px; " /></button>
+<button class="btn btn-secondary" id="backToIndex" onclick="backToIndex();">取消</button>
+@* <button class="btn btn-primary" id="selectDateTimebtn" onclick="selectDateTime();">下一步</button> *@
+<button class="btn btn-primary" id="selectDateTimebtn" onclick="selectDateTime();" style="border:none; background-color:transparent;">
+    <img src="~/images/keyboard_double_arrow_down_19dp_666666_FILL0_wght400_GRAD0_opsz20.png" alt="Alternate Text" style="width:45px;height:35px; " />
+</button>
 
-<button class="btn btn-primary" id="backToSelectDoctorbtn" onclick="backToSelectDoctor();" style="display:none;border:none; background-color:transparent;"><img src="~/images/fast_rewind_16dp_666666_FILL0_wght400_GRAD0_opsz20.png" alt="Alternate Text" style="width:35px;height:35px; " /></button>
-<button class="btn btn-primary" id="backToSelectDataTimebtn" onclick="backToSelectDataTime();" style="display:none;border:none; background-color:transparent;"><img src="~/images/fast_rewind_16dp_666666_FILL0_wght400_GRAD0_opsz20.png" alt="Alternate Text" style="width:35px;height:35px; " /></button>
-<button class="btn btn-primary" id="fillinBaseInformationbtn" onclick="fillinBaseInformation();" style="display:none;border:none; background-color:transparent;"><img src="~/images/check_circle_16dp_666666_FILL0_wght400_GRAD0_opsz20.png" alt="Alternate Text" style="width:35px;height:35px; " /></button>
-<button class="btn btn-primary" id="fillinCompletebtn" onclick="fillinComplete();" style="display:none;border:none; background-color:transparent;"><img src="~/images/check_circle_16dp_666666_FILL0_wght400_GRAD0_opsz20.png" alt="Alternate Text" style="width:35px;height:35px; " /></button>
+<button class="btn btn-primary" id="backToSelectDoctorbtn" onclick="backToSelectDoctor();" style="display:none;border:none; background-color:transparent;">
+    <img src="~/images/fast_rewind_16dp_666666_FILL0_wght400_GRAD0_opsz20.png" alt="Alternate Text" style="width:35px;height:35px; " />
+</button>
+
+<button class="btn btn-primary" id="backToSelectDataTimebtn" onclick="backToSelectDataTime();" style="display:none;border:none; background-color:transparent;">
+    <img src="~/images/fast_rewind_16dp_666666_FILL0_wght400_GRAD0_opsz20.png" alt="Alternate Text" style="width:35px;height:35px; " />
+</button>
+
+<button class="btn btn-primary" id="fillinBaseInformationbtn" onclick="fillinBaseInformation();" style="display:none;border:none; background-color:transparent;">
+    <img src="~/images/check_circle_16dp_666666_FILL0_wght400_GRAD0_opsz20.png" alt="Alternate Text" style="width:35px;height:35px; " />
+</button>
+
+<button class="btn btn-primary" id="fillinCompletebtn" onclick="fillinComplete();" style="display:none;border:none; background-color:transparent;">
+    <img src="~/images/check_circle_16dp_666666_FILL0_wght400_GRAD0_opsz20.png" alt="Alternate Text" style="width:35px;height:35px; " />
+</button>
+
+@* <button class="btn btn-primary" id="backToSelectDoctorbtn" onclick="backToSelectDoctor();" style="display:none;">上一步</button>
+<button class="btn btn-primary" id="backToSelectDataTimebtn" onclick="backToSelectDataTime();" style="display:none;">上一步</button>
+<button class="btn btn-primary" id="fillinBaseInformationbtn" onclick="fillinBaseInformation();" style="display:none;">下一步</button>
+<button class="btn btn-primary" id="fillinCompletebtn" onclick="fillinComplete();" style="display:none;">下一步</button> *@
 
 
 <!-- 療程項目簡介模態框 -->
@@ -498,7 +704,7 @@
         });
     });
 
-        function setAppointmentIntroductionText() {
+    function setAppointmentIntroductionText() {
         $.ajax({
             type: 'GET',
             url: '/Appointment/setAppointmentIntroductionText',
@@ -562,9 +768,10 @@
                 data.forEach(function (x) {
                     i++;
 
-                    inner += `<div class=" selectable col-4" data-title="` + x.treatmentName + `" data-description="` + x.introduction + `" data-type="treatment">`;
-                    inner += `<img src="` + x.image + `" class="img-fluid" data-toggle="modal" data-target="#treatmentModal">`;
-                    inner += `<input type="checkbox" name="treatments" value="` + x.treatmentId + `" class="treatment-checkbox" onclick="treatmentOnClick();"></input>`;
+                    inner += `<div class="selectable treatmentDiv" id="treatmentDiv-` + i + `" data-title="` + x.treatmentName + `" data-description="` + x.introduction + `" data-type="treatment">`;
+                    inner += `<img src="` + x.image + `" class="img-fluid" onclick="treatmentOnClick('` + i + `');">`;
+                    inner += `<img src="/images/info.png" class="img-fluid treatment-info" data-toggle="modal" data-target="#treatmentModal" />`;
+                    inner += `<input type="checkbox" id="treatment-` + i + `" name="treatments" value="` + x.treatmentId + `" style="display:none;" />`;
                     // inner += `<input type="hidden" id="treatmentId-` + i + `" value="` + x.treatmentId + `"></input>`;
                     inner += `</div>`;
                 });
@@ -595,9 +802,10 @@
                     data.forEach(function (x) {
                         i++;
 
-                        inner += `<div class=" selectable col-4" data-title="` + x.doctorName + `" data-department="` + x.departmentTitle + `" data-description="` + x.introduction + `" data-type="doctor">`;
-                        inner += `<img src="` + x.image + `" class="img-fluid" data-toggle="modal" data-target="#doctorModal">`;
-                        inner += `<input type="radio" name="doctor" value="` + x.doctorId + `" class="doctor-radio"></input>`;
+                        inner += `<div class="selectable doctorDiv" id="doctorDiv-` + i + `" data-title="` + x.doctorName + `" data-department="` + x.departmentTitle + `" data-description="` + x.introduction + `" data-type="doctor">`;
+                        inner += `<img src="` + x.image + `" class="img-fluid" onclick="doctorOnClick('` + i + `')">`;
+                        inner += `<img src="/images/info.png" class="img-fluid doctor-info" data-toggle="modal" data-target="#doctorModal" />`;
+                        inner += `<input type="radio" id="doctor-` + i + `" name="doctor" value="` + x.doctorId + `" class="doctor-info" style="display:none;" />`;
                         // inner += `<input type="hidden" id="treatmentId-` + i + `" value="` + x.treatmentId + `"></input>`;
                         inner += `</div>`;
                     });
@@ -610,9 +818,24 @@
         });
     }
 
-    function treatmentOnClick() {
+    function treatmentOnClick(i) {
+        $('#treatment-' + i).click();
+
+        if ($('#treatment-' + i).prop("checked")) {
+            $('#treatmentDiv-' + i).css("border", "2px solid red");
+        } else {
+            $('#treatmentDiv-' + i).css("border", "0px");
+        }
+
         setDoctorList();
         toggleDoctorSection();
+    }
+
+    function doctorOnClick(i) {
+        $('#doctor-' + i).click();
+
+        $('.doctorDiv').css("border", "0px");
+        $('#doctorDiv-' + i).css("border", "2px solid red");
     }
 
     function selectDateTime() {
@@ -759,7 +982,7 @@
                             let selectedSlot = $('.time-slot.selected');
                             if (selectedSlot.length > 0) {
                                 let selectedTime = selectedSlot.data('time');
-                                $('#timeDisplay').text("預約時間：" + selectedTime);
+                                ('#timeDisplay').text("預約時間：" + selectedTime);
                             } else {
                                 $('#timeDisplay').text("預約時間：無");
                             }
@@ -990,6 +1213,10 @@
             // console.log("選擇的日期:" + selectedDate.data('date'));
             // console.log("選擇的療程:" + selectedTime);
         }
+    }
+
+    function backToIndex() {
+        window.location.href = "@Url.Action("Index", "Appointment")";
     }
 
 </script>

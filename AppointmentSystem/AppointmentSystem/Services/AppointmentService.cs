@@ -198,6 +198,72 @@ namespace AppointmentSystem.Services
             return result;
         }
 
+        public SuccessPageVM GetAppointmentDataByIdForSuccessPage(string AppointmentId)
+        {
+            string date = DateTime.Now.ToString("yyyy-MM-dd");
+
+            SuccessPageVM result = new SuccessPageVM();
+            var appointment = _db.Appointments.AsEnumerable().FirstOrDefault(x => x.Id == AppointmentId);
+
+            result.Date = appointment.Date;
+            result.BookingBeginTime = appointment.BookingBeginTime;
+            result.NotifyMessage = _functions.GetSystemParameter("AppointmentSuccessNotice");
+
+            var ats = _db.Appointmenttreatments.Where(x => x.AppointmentId == appointment.Id && x.Type == "A").ToList();
+
+            foreach (var at in ats)
+            {
+                var treatment = _db.Treatments.FirstOrDefault(x => x.Id == at.TreatmentId);
+                TreatmentDataVM treatmentDataVM = new TreatmentDataVM();
+
+                if (treatment != null)
+                {
+                    var file = _db.Systemfiles.FirstOrDefault(x => x.Id == treatment.ImageFileId);
+
+                    treatmentDataVM.TreatmentId = treatment.Id;
+                    treatmentDataVM.TreatmentName = treatment.TreatmentName;
+                    treatmentDataVM.Time = treatment.Time;
+                    treatmentDataVM.Introduction = treatment.Introduction;
+                    treatmentDataVM.Image = "data:image/" + file.FileExtension.Replace(".", "") + "; base64," + _functions.ConvertJpgToBase64(file.Path);
+                    treatmentDataVM.ImageFile = new FileData()
+                    {
+                        FileID = file.Id,
+                        FileName = file.FileName,
+                        FileExtension = file.FileExtension,
+                        FileSize = file.FileSize,
+                        Path = file.Path,
+                    };
+
+                    result.SelectedTreatment.Add(treatmentDataVM);
+                }
+            }
+
+            var doc = _db.Doctors.FirstOrDefault(x => x.Id == appointment.DoctorId);
+            if (doc != null)
+            {
+                var file = _db.Systemfiles.FirstOrDefault(x => x.Id == doc.ImageFileId);
+
+                result.SelectedDoctor = new DoctorDataVM()
+                {
+                    DoctorId = doc.Id,
+                    DoctorName = doc.DoctorName,
+                    DepartmentTitle = doc.DepartmentTitle,
+                    Introduction = doc.Introduction,
+                    Image = "data:image/" + file.FileExtension.Replace(".", "") + "; base64," + _functions.ConvertJpgToBase64(file.Path),
+                    ImageFile = new FileData()
+                    {
+                        FileID = file.Id,
+                        FileName = file.FileName,
+                        FileExtension = file.FileExtension,
+                        FileSize = file.FileSize,
+                        Path = file.Path,
+                    }
+                };
+            }
+
+            return result;
+        }
+
         public void CreateCustomer(Customer value)
         {
             _db.Customers.Add(value);

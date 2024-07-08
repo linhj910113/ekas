@@ -6,7 +6,6 @@
 }
 
 <style>
-
     .treatment-section, .doctor-section, .dateTime-section, .baseInfomation-section {
         text-align: left;
         margin: 20px auto;
@@ -45,7 +44,7 @@
             cursor: pointer;
         }
 
-        .selectable .treatment-checkbox {
+        .selectable .treatment-info {
             position: absolute;
             top: 0px;
             right: 0px;
@@ -56,15 +55,12 @@
         }
 
 
-        .selectable .doctor-radio {
+        .selectable .doctor-info {
             position: absolute;
             top: 0px;
             right: 0px;
             width: 20px;
             height: 20px;
-            background-color: white;
-            border-radius: 50%;
-            border: 2px solid #007bff;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -72,8 +68,8 @@
         }
 
     /*  .selectable .select-circle.selected {
-                                                                                    background-color: green;
-                                                                                } */
+                                                                                                                background-color: green;
+                                                                                                            } */
 
     .doctor-section.hidden, .dateTime-section.hidden, .baseInfomation-section.hidden {
         display: none;
@@ -239,9 +235,9 @@
         </div>
 
     </div>
-
 </div>
 
+<p></p>
 
 <div class="mt-4 mb-4 ">
     <p style="font-size:20px ;font-weight:600;">線上預約</p>
@@ -251,25 +247,34 @@
 <!-- 療程部分 -->
 <div class="treatment-section">
     <div style="display:flex ; align-items:center;">
-
         <p style="font-size:18px ; color:#049FBF;font-weight:600;">選擇療程項目(多選)</p>
     </div>
+
     <div id="treatmentData" class="row" style="display: flex; justify-content: left;">
+        @{
+            int i = 0;
+        }
+
         @foreach (var treatment in Model.TreatmentList)
         {
-            <div class=" selectable" data-title="@treatment.TreatmentName" data-description="@treatment.Introduction" data-type="treatment">
-                <img src="@treatment.Image" class="img-fluid" data-toggle="modal" data-target="#treatmentModal">
+            i++;
 
-                @if (Model.SelectedTreatment.Where(x => x.Contains(treatment.TreatmentId)).Count() > 0)
-                {
-                    <input type="checkbox" name="treatments" value="@treatment.TreatmentId" class="treatment-checkbox" onclick="treatmentOnClick();" checked />
-                }
-                else
-                {
-                    <input type="checkbox" name="treatments" value="@treatment.TreatmentId" class="treatment-checkbox" onclick="treatmentOnClick();" />
-                }
-
-            </div>
+            @if (Model.SelectedTreatment.Where(x => x.Contains(treatment.TreatmentId)).Count() > 0)
+            {
+                <div class="selectable treatmentDiv" id="treatmentDiv-@i" data-title="@treatment.TreatmentName" data-description="@treatment.Introduction" data-type="treatment" style="border:2px solid red;">
+                    <img src="@treatment.Image" class="img-fluid" onclick="treatmentOnClick('@i');">
+                    <img src="~/images/info.png" class="img-fluid treatment-info" data-toggle="modal" data-target="#treatmentModal" />
+                    <input type="checkbox" id="treatment-@i" name="treatments" value="@treatment.TreatmentId" style="display:none;" checked />
+                </div>
+            }
+            else
+            {
+                <div class="selectable treatmentDiv" id="treatmentDiv-@i" data-title="@treatment.TreatmentName" data-description="@treatment.Introduction" data-type="treatment">
+                    <img src="@treatment.Image" class="img-fluid" onclick="treatmentOnClick('@i');">
+                    <img src="~/images/info.png" class="img-fluid treatment-info" data-toggle="modal" data-target="#treatmentModal" />
+                    <input type="checkbox" id="treatment-@i" name="treatments" value="@treatment.TreatmentId" style="display:none;" />
+                </div>
+            }
         }
     </div>
 </div>
@@ -277,9 +282,9 @@
 <!-- 已選擇的療程 -->
 <div class="treatment-selected">
     <div style="display:flex; align-items:center;">
-
         <p style="font-size:20px; color:#049FBF ;font-weight: normal;">療程項目</p>
     </div>
+
     <div id="selectedTreatment" class="row" style="display: flex; justify-content: left;">
     </div>
 </div>
@@ -289,20 +294,28 @@
     <p style="font-size:18px ; color:#049FBF;font-weight:600;">選擇醫師(單選)</p>
 
     <div id="doctorData" class="row" style="display: flex; justify-content: left;">
+        @{
+            i = 0;
+        }
+
         @foreach (var doctor in Model.DoctorList)
         {
-            <div class=" selectable" data-title="@doctor.DoctorName" data-department="@doctor.DepartmentTitle" data-description="@doctor.Introduction" data-type="doctor">
-                <img src="@doctor.Image" class="img-fluid" data-toggle="modal" data-target="#doctorModal">
-
-                @if (doctor.DoctorId == Model.DoctorId)
-                {
-                    <input type="radio" name="doctor" value="@doctor.DoctorId" class="doctor-radio" checked />
-                }
-                else
-                {
+            i++;
+            @if (doctor.DoctorId == Model.DoctorId)
+            {
+                <div class=" selectable doctorDiv" id="doctorDiv-@i" data-title="@doctor.DoctorName" data-department="@doctor.DepartmentTitle" data-description="@doctor.Introduction" data-type="doctor" style="border:2px solid red;">
+                    <img src="@doctor.Image" class="img-fluid" onclick="doctorOnClick('@i')">
+                    <img src="~/images/info.png" class="img-fluid doctor-info" data-toggle="modal" data-target="#doctorModal" />
+                    <input type="radio" id="doctor-@i" name="doctor" value="@doctor.DoctorId" class="doctor-info" style="display:none;" checked />
+                </div>
+            }
+            else
+            {
+                <div class=" selectable" data-title="@doctor.DoctorName" data-department="@doctor.DepartmentTitle" data-description="@doctor.Introduction" data-type="doctor">
+                    <img src="@doctor.Image" class="img-fluid" data-toggle="modal" data-target="#doctorModal">
                     <input type="radio" name="doctor" value="@doctor.DoctorId" class="doctor-radio" />
-                }
-            </div>
+                </div>
+            }
         }
     </div>
 </div>
@@ -317,6 +330,7 @@
 <!-- 日期時間部分 -->
 <div class="dateTime-section hidden">
     <p style="font-size:20px; color:#049FBF ;font-weight: normal;">選擇預約時間</p>
+
     <div id="dateTimeData" class="row">
         <div id="dateList" class="col-md-8" style="padding:0px; font-weight: normal;">
             <div class="datepicker" id="datepicker">
@@ -406,12 +420,29 @@
 <input type="hidden" id="selectedDate" value="@Model.Date" />
 <input type="hidden" id="selectedTime" value="@Model.BookingBeginTime" />
 <input type="hidden" id="appointmentId" value="@Model.AppointmentId" />
-    
-<button class="btn btn-primary" id="selectDateTimebtn" onclick="selectDateTime();" style="border:none; background-color:transparent;"><img src="~/images/keyboard_double_arrow_down_19dp_666666_FILL0_wght400_GRAD0_opsz20.png" alt="Alternate Text" style="width:45px;height:35px; " /></button>
-<button class="btn btn-primary" id="backToSelectDoctorbtn" onclick="backToSelectDoctor();" style="display:none;border:none; background-color:transparent;"><img src="~/images/fast_rewind_16dp_666666_FILL0_wght400_GRAD0_opsz20.png" alt="Alternate Text" style="width:35px;height:35px; " /></button>
-<button class="btn btn-primary" id="backToSelectDataTimebtn" onclick="backToSelectDataTime();" style="display:none;border:none; background-color:transparent;"><img src="~/images/fast_rewind_16dp_666666_FILL0_wght400_GRAD0_opsz20.png" alt="Alternate Text" style="width:35px;height:35px; " /></button>
+
+<button class="btn btn-secondary" id="backToIndex" onclick="backToIndex();">取消</button>
+
+<button class="btn btn-primary" id="selectDateTimebtn" onclick="selectDateTime();" style="border:none; background-color:transparent;">
+    <img src="~/images/keyboard_double_arrow_down_19dp_666666_FILL0_wght400_GRAD0_opsz20.png" alt="Alternate Text" style="width:45px;height:35px; " />
+</button>
+
+<button class="btn btn-primary" id="backToSelectDoctorbtn" onclick="backToSelectDoctor();" style="display:none;border:none; background-color:transparent;">
+    <img src="~/images/fast_rewind_16dp_666666_FILL0_wght400_GRAD0_opsz20.png" alt="Alternate Text" style="width:35px;height:35px; " />
+</button>
+
+<button class="btn btn-primary" id="backToSelectDataTimebtn" onclick="backToSelectDataTime();" style="display:none;border:none; background-color:transparent;">
+    <img src="~/images/fast_rewind_16dp_666666_FILL0_wght400_GRAD0_opsz20.png" alt="Alternate Text" style="width:35px;height:35px; " />
+</button>
+
+@* <button class="btn btn-primary" id="selectDateTimebtn" onclick="selectDateTime();">下一步</button>
+<button class="btn btn-primary" id="backToSelectDoctorbtn" onclick="backToSelectDoctor();" style="display:none;">上一步</button>
+<button class="btn btn-primary" id="backToSelectDataTimebtn" onclick="backToSelectDataTime();" style="display:none;">上一步</button> *@
 @* <button class="btn btn-primary" id="fillinBaseInformationbtn" onclick="fillinBaseInformation();" style="display:none;">下一步</button> *@
-<button class="btn btn-primary" id="fillinCompletebtn" onclick="fillinComplete();" style="display:none;border:none; background-color:transparent;"><img src="~/images/check_circle_16dp_666666_FILL0_wght400_GRAD0_opsz20.png" alt="Alternate Text" style="width:35px;height:35px; " /></button>
+
+<button class="btn btn-primary" id="fillinCompletebtn" onclick="fillinComplete();" style="display:none;border:none; background-color:transparent;">
+    <img src="~/images/check_circle_16dp_666666_FILL0_wght400_GRAD0_opsz20.png" alt="Alternate Text" style="width:35px;height:35px; " />
+</button>
 
 
 <!-- 療程項目簡介模態框 -->
@@ -635,9 +666,10 @@
                     data.forEach(function (x) {
                         i++;
 
-                        inner += `<div class=" selectable" data-title="` + x.doctorName + `" data-department="` + x.departmentTitle + `" data-description="` + x.introduction + `" data-type="doctor">`;
-                        inner += `<img src="` + x.image + `" class="img-fluid" data-toggle="modal" data-target="#doctorModal">`;
-                        inner += `<input type="radio" name="doctor" value="` + x.doctorId + `" class="doctor-radio"></input>`;
+                        inner += `<div class="selectable doctorDiv" id="doctorDiv-` + i + `" data-title="` + x.doctorName + `" data-department="` + x.departmentTitle + `" data-description="` + x.introduction + `" data-type="doctor">`;
+                        inner += `<img src="` + x.image + `" class="img-fluid" onclick="doctorOnClick('` + i + `')">`;
+                        inner += `<img src="/images/info.png" class="img-fluid doctor-info" data-toggle="modal" data-target="#doctorModal" />`;
+                        inner += `<input type="radio" id="doctor-` + i + `" name="doctor" value="` + x.doctorId + `" class="doctor-info" style="display:none;" />`;
                         // inner += `<input type="hidden" id="treatmentId-` + i + `" value="` + x.treatmentId + `"></input>`;
                         inner += `</div>`;
                     });
@@ -650,9 +682,24 @@
         });
     }
 
-    function treatmentOnClick() {
+    function treatmentOnClick(i) {
+        $('#treatment-' + i).click();
+
+        if ($('#treatment-' + i).prop("checked")) {
+            $('#treatmentDiv-' + i).css("border", "2px solid red");
+        } else {
+            $('#treatmentDiv-' + i).css("border", "0px");
+        }
+
         setDoctorList();
         toggleDoctorSection();
+    }
+
+    function doctorOnClick(i) {
+        $('#doctor-' + i).click();
+
+        $('.doctorDiv').css("border", "0px");
+        $('#doctorDiv-' + i).css("border", "2px solid red");
     }
 
     function selectDateTime() {
@@ -914,6 +961,10 @@
             // }
 
         }
+    }
+
+    function backToIndex() {
+        window.location.href = "@Url.Action("Index", "Appointment")";
     }
 
     // function fillinBaseInformation() {

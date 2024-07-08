@@ -1,11 +1,130 @@
-﻿@* @model AppointmentSystem.Models.ViewModels.AppointmentModels.IndexVM *@
+﻿@model AppointmentSystem.Models.ViewModels.AppointmentModels.SuccessPageVM
 
 @{
     Layout = "~/Views/Shared/CustomerLayout.cshtml";
     ViewData["Title"] = "Home Page";
 }
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<style>
+    .treatment-selected, .doctor-selected, .dateTime-selected {
+        text-align: left;
+        margin: 20px auto;
+        width: 80%;
+        max-width: 800px;
+        background-color: #f2f2f2;
+        padding: 20px;
+        border-radius: 10px;
+    }
 
-<div class="container mt-5">
-    已成功驗證
+    .selectable {
+        position: relative;
+        display: inline-block;
+        margin: 10px;
+    }
+
+        .selectable img {
+            width: 100px; /* 設置圖片寬度 */
+            height: 100px; /* 設置圖片高度 */
+            cursor: pointer;
+        }
+
+</style>
+
+<div class="treatment-selected">
+    <h5>療程項目</h5>
+    <div id="selectedTreatment" class="row" style="display: flex; justify-content: left;">
+        @foreach (var treatment in Model.SelectedTreatment)
+        {
+            <div class="selectable" data-title="@treatment.TreatmentName" data-description="@treatment.Introduction" data-type="selectedTreatment">
+                <img src="@treatment.Image" class="img-fluid" data-toggle="modal" data-target="#treatmentModal">
+            </div>
+        }
+    </div>
 </div>
+
+<div class="doctor-selected">
+    <h5>醫師</h5>
+    <div id="selectedDoctor" class="row" style="display: flex; justify-content: left;">
+        <div class="selectable" data-title="@Model.SelectedDoctor.DoctorName" data-department="@Model.SelectedDoctor.DepartmentTitle" data-description="@Model.SelectedDoctor.Introduction" data-type="selectedDoctor">
+            <img src="@Model.SelectedDoctor.Image" class="img-fluid" data-toggle="modal" data-target="#doctorModal">
+        </div>
+    </div>
+</div>
+
+<div class="dateTime-selected">
+    <h5>日期及時間</h5>
+    <p id="selectedDateDisplay" class="selected-date">選擇的日期：@Model.Date</p>
+    <p id="selectedTimeDisplay" class="selected-time">選擇的時間：@Model.BookingBeginTime</p>
+</div>
+
+<div class="dateTime-selected">
+    <p id="notifyMessage" class="selected-date">@Model.NotifyMessage</p>
+</div>
+
+<!-- 療程項目簡介模態框 -->
+<div class="modal fade " id="treatmentModal" tabindex="-1" aria-labelledby="treatmentModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="treatmentModalLabel">治療項目簡介</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @* <h5 id="treatmentModalTitle"></h5> *@
+                <p id="treatmentModalDescription"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">關閉</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 醫師簡介模態框 -->
+<div class="modal fade" id="doctorModal" tabindex="-1" aria-labelledby="doctorModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="doctorModalLabel">醫師簡介</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @* <h5 id="doctorModalTitle"></h5> *@
+                <p id="doctorModalDescription"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">關閉</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        // 顯示模態框內容
+        $('#treatmentModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);
+            var title = button.closest('.selectable').data('title');
+            var description = button.closest('.selectable').data('description');
+            var modal = $(this);
+            modal.find('.modal-title').text(title);
+            // modal.find('.modal-body #treatmentModalTitle').text(title);
+            modal.find('.modal-body #treatmentModalDescription').text(description);
+        });
+
+        $('#doctorModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);
+            var title = button.closest('.selectable').data('title');
+            var department = button.closest('.selectable').data('department');
+            var description = button.closest('.selectable').data('description');
+            var modal = $(this);
+            modal.find('.modal-title').text(title + '  ' + department);
+            // modal.find('.modal-body #doctorModalTitle').text(title);
+            modal.find('.modal-body #doctorModalDepartment').text(description);
+            modal.find('.modal-body #doctorModalDescription').text(description);
+        });
+    });
+</script>

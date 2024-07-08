@@ -125,12 +125,6 @@ pre {
 
 /* ---------------------登入區塊------------------------*/
 
-body.index {
-    background: url(../images/登入頁_v2.jpg) left center no-repeat;
-    background-size: cover;
-    padding: 0;
-}
-
 
 .box {
     position: absolute;
@@ -168,12 +162,6 @@ body.index {
 
 /* --------------分眾頁面--------------- */
 
-body.mainpage-bg {
-    background: url(../images/機關版登入後頁面.jpg) center no-repeat;
-    background-size: cover;
-
-}
-
 .mainpage-box {
     position: absolute;
     top: 40%;
@@ -199,7 +187,7 @@ body.mainpage-bg {
     font-size: 2rem;
     font-weight: bold;
 }
-
+/*
 .img01 {
     background: url(../images/img01.jpg) center no-repeat;
     background-size: cover;
@@ -240,7 +228,7 @@ body.mainpage-demobg {
     background: url(../images/0203_menu-bg.png) center no-repeat;
     background-size: cover;
 }
-
+    */
 .mainpage-demobg .box {
     position: absolute;
     top: 40%;
@@ -280,33 +268,6 @@ body.mainpage-demobg {
     max-width: 500px;
 }
 
-
-/* --------工程改善前中後----------- */
-
-.ing,
-.after,
-.before {
-    padding: 5px 15px;
-    text-align: center;
-    border-radius: 100px;
-}
-
-.ing {
-
-    background: #F3CF43;
-    color: #3F3F3F;
-
-}
-
-.after {
-    background: #85A728;
-    color: #fff;
-}
-
-.before {
-    background: #F87878;
-    color: #fff;
-}
 
 
 /* ---------------------內頁開始------------------------*/
@@ -443,18 +404,6 @@ a.header {
 .header img {
     height: 100%;
 }
-
-/* ---------目前位置-------- */
-.breadcrumb {
-    background-color: transparent;
-    padding: 0.5rem;
-    margin-bottom: 0;
-    font-size: 0.875rem;
-}
-
-/* .breadcrumb a {
-    color: #3067A8;
-} */
 
 /* ---------標題設定----------- */
 

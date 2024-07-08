@@ -112,9 +112,11 @@ namespace AppointmentSystem.Controllers
             return View();
         }
 
-        public IActionResult SuccessPage()
+        public IActionResult SuccessPage(string id)
         {
-            return View();
+            SuccessPageVM AppointmentData = _appointmentService.GetAppointmentDataByIdForSuccessPage(id);
+
+            return View(AppointmentData);
         }
 
         public IActionResult FailedPage()
@@ -345,7 +347,7 @@ namespace AppointmentSystem.Controllers
                     Description = "Set appointment to outpatient Success, id='" + AppointmentId + "'."
                 });
 
-                return RedirectToAction("SuccessPage", "Appointment");
+                return RedirectToAction("SuccessPage", "Appointment", new { id = AppointmentId });
             }
             else
                 return RedirectToAction("FailedPage", "Appointment");

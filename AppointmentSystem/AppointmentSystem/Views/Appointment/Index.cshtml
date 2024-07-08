@@ -5,7 +5,6 @@
     ViewData["Title"] = "首頁";
 }
 
-
 <style>
     .table td, .table th {
         border: none;
@@ -14,6 +13,7 @@
         vertical-align: middle;
     }
 </style>
+
 <div class="overlay-container" style=" position: relative;display: inline-block;">
     <img id="desktopImage" src="~/images/CustomerIndexImage1.jpg" alt="Desktop Image" class="appointment-image desktop-image">
     <img id="mobileImage" src="~/images/CustomerIndexImage2.jpg" alt="Mobile Image" class="appointment-image mobile-image" style="height:25rem; width:auto; object-fit: cover;">
@@ -43,10 +43,7 @@
         </div>
 
     </div>
-
 </div>
-
-<!--新增區域結束-->
 
 <div class="container content">
     <span id="AppointmentIntroductionText"></span>
@@ -54,7 +51,6 @@
 
 <div class="appointment-table" style="width:95%;">
     <h5>已預約時段</h5>
-
 
     <table class="table table-bordered" style="font-size: 14px;">
         @if (ViewBag.Count > 0)
@@ -99,7 +95,9 @@
     </table>
 
 
-    <button class="btn btn-primary" onclick="location.href='@Url.Action("Fillin", "Appointment")' " style="font-size: 14px; background-color:transparent; border:none;"><img id="desktopImage" src="/images/add_circle_16dp_049FBF_FILL0_wght400_GRAD0_opsz20.png" style="width:40px;height:40px ;" \></button>
+    <button class="btn btn-primary" onclick="location.href='@Url.Action("Fillin", "Appointment")' " style="font-size: 14px; background-color:transparent; border:none;">
+        <img id="desktopImage" src="/images/add_circle_16dp_049FBF_FILL0_wght400_GRAD0_opsz20.png" style="width:40px;height:40px ;" \>
+    </button>
 </div>
 
 <!-- 療程項目簡介模態框 -->
@@ -138,19 +136,19 @@
                     var treatmentDetails = JSON.stringify({ items: appointment.treatmentData });
 
                     var rowHtml = `
-                                <tr>
-                                    <td>${appointment.date}</td>
-                                        <td>${appointment.bookingBeginTime}</td>
-                                        <td>${appointment.doctorName}</td>
-                                    <td>
-                                                                    <button type="button" class="btn btn-primary details-btn" data-toggle="modal" data-target="#detailsModal" data-details='${treatmentDetails}' style="font-size: 14px; background-color:transparent; border:none;">  <img id="desktopImage" src="/images/dataset_19dp_666666_FILL0_wght400_GRAD0_opsz20.png" style="width:25px;height:25px ;" \ ></button>
-                                    </td>
-                                    <td>
-                                                        <button class="btn btn-secondary" onclick="editAppointment('`+ appointment.appointmentId + `' ) "  style="font-size: 14px; background-color:transparent; border:none;"><img id="desktopImage" src="/images/edit_square_16dp_666666_FILL0_wght400_GRAD0_opsz20.png" style="width:25px;height:25px ;" \ ></button>
-                                                        <button class="btn btn-danger" onclick="cancelAppointment('`+ appointment.appointmentId + `')"  style="font-size: 14px; background-color:transparent; border:none;"><img id="desktopImage" src="/images/event_busy_16dp_666666_FILL0_wght400_GRAD0_opsz20.png" style="width:25px;height:25px ;" \ ></button>
-                                    </td>
-                                </tr>
-                            `;
+                        <tr>
+                            <td>${appointment.date}</td>
+                                <td>${appointment.bookingBeginTime}</td>
+                                <td>${appointment.doctorName}</td>
+                            <td>
+                                <button type="button" class="btn btn-primary details-btn" data-toggle="modal" data-target="#detailsModal" data-details='${treatmentDetails}' style="font-size: 14px; background-color:transparent; border:none;">  <img id="desktopImage" src="/images/dataset_19dp_666666_FILL0_wght400_GRAD0_opsz20.png" style="width:25px;height:25px ;" \ ></button>
+                            </td>
+                            <td>
+                                <button class="btn btn-secondary" onclick="editAppointment('`+ appointment.appointmentId + `' ) "  style="font-size: 14px; background-color:transparent; border:none;"><img id="desktopImage" src="/images/edit_square_16dp_666666_FILL0_wght400_GRAD0_opsz20.png" style="width:25px;height:25px ;" \ ></button>
+                                <button class="btn btn-danger" onclick="cancelAppointment('`+ appointment.appointmentId + `')"  style="font-size: 14px; background-color:transparent; border:none;"><img id="desktopImage" src="/images/event_busy_16dp_666666_FILL0_wght400_GRAD0_opsz20.png" style="width:25px;height:25px ;" \ ></button>
+                            </td>
+                        </tr>
+                    `;
                     tableBody.append(rowHtml);
                 });
 
@@ -161,12 +159,12 @@
 
                     details.items.forEach(function (item) {
                         var itemHtml = `
-                                    <div class="mb-3">
-                                        <h5>${item.treatmentName}</h5>
-                                            <img src="${item.image}" alt="${item.treatmentName}" class="img-fluid">
-                                        <p>${item.introduction}</p>
-                                    </div>
-                                `;
+                            <div class="mb-3">
+                                <h5>${item.treatmentName}</h5>
+                                    <img src="${item.image}" alt="${item.treatmentName}" class="img-fluid">
+                                <p>${item.introduction}</p>
+                            </div>
+                        `;
                         modalBody.append(itemHtml);
                     });
                 });
