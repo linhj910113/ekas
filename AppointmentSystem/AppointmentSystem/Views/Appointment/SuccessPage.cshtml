@@ -60,6 +60,8 @@
     <p id="notifyMessage" class="selected-date">@Model.NotifyMessage</p>
 </div>
 
+<button class="btn btn-secondary" id="backToIndex" onclick="backToIndex();">回首頁</button>
+
 <!-- 療程項目簡介模態框 -->
 <div class="modal fade " id="treatmentModal" tabindex="-1" aria-labelledby="treatmentModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -127,4 +129,8 @@
             modal.find('.modal-body #doctorModalDescription').text(description);
         });
     });
+
+    function backToIndex() {
+        window.location.href = "@Url.Action("Index", "Appointment")";
+    }
 </script>

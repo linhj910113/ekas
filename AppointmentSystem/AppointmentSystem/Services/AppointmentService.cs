@@ -198,6 +198,33 @@ namespace AppointmentSystem.Services
             return result;
         }
 
+        public CustomerData GetAppointmentCustomerData(string AppointmentId)
+        {
+            var item = _db.Appointments.FirstOrDefault(x => x.Id == AppointmentId);
+
+            if (item != null)
+            {
+                var customer = _db.Customers.FirstOrDefault(x => x.Id == item.CustomerId);
+
+                return new CustomerData()
+                {
+                    Id = customer.Id,
+                    LineId = customer.LineId,
+                    LineDiaplayName = customer.LineDisplayName,
+                    LinePictureUrl = customer.LinePictureUrl,
+                    CellPhone = customer.CellPhone,
+                    NationalIdNumber = customer.NationalIdNumber,
+                    Gender = customer.Gender,
+                    Birthday = customer.Birthday,
+                    Email = customer.Email
+                };
+            }
+            else
+            {
+                return null;
+            }
+        }
+
         public SuccessPageVM GetAppointmentDataByIdForSuccessPage(string AppointmentId)
         {
             string date = DateTime.Now.ToString("yyyy-MM-dd");

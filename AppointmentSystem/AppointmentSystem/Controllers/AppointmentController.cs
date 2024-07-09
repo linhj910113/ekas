@@ -322,30 +322,34 @@ namespace AppointmentSystem.Controllers
         }
 
         [HttpGet]
-        public IActionResult Verify(string code)
+        public async Task<IActionResult> Verify(string code)
         {
             string AppointmentId = _appointmentService.CheckVerificationCode(code);
 
             if (AppointmentId != "")
             {
-                var user = HttpContext.User.Claims.ToList();
+                var user = _appointmentService.GetAppointmentCustomerData(AppointmentId);
 
                 Appointment item = new Appointment()
                 {
-                    Modifier = user.FirstOrDefault(u => u.Type == "UserId").Value,
+                    Modifier = user.Id!,
                     ModifyDate = DateTime.Now,
 
                     Status = "Y"
                 };
-                _appointmentService.SetAppointmentToOutpatient(AppointmentId, user.FirstOrDefault(u => u.Type == "UserId").Value, item);
+                _appointmentService.SetAppointmentToOutpatient(AppointmentId, user.Id, item);
 
                 _functions.SaveSystemLog(new Systemlog
                 {
                     CreateDate = DateTime.Now,
-                    Creator = user.FirstOrDefault(u => u.Type == "UserId").Value,
-                    UserAccount = user.FirstOrDefault(u => u.Type == "UserId").Value,
+                    Creator = user.Id,
+                    UserAccount = user.Id,
                     Description = "Set appointment to outpatient Success, id='" + AppointmentId + "'."
                 });
+
+                //¶Ç°eLINE°T®§
+                string message = _functions.GetSystemParameter("AppointmentVerifySuccess");
+                await _functions.SendLineMessageAsync(user.LineId, message);
 
                 return RedirectToAction("SuccessPage", "Appointment", new { id = AppointmentId });
             }

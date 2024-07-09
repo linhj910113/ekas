@@ -219,7 +219,6 @@
         border-radius: 13px;
         border: 0px solid #5F5F5F;
         box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
-        
     }
 
     .treatment-selected, .doctor-selected, .dateTime-selected {
@@ -272,8 +271,8 @@
         }
 
     /*  .selectable .select-circle.selected {
-                                                                                                                            background-color: green;
-                                                                                                                        } */
+                                                                                                                                        background-color: green;
+                                                                                                                                    } */
 
     .doctor-section.hidden, .dateTime-section.hidden, .baseInfomation-section.hidden {
         display: none;
@@ -591,7 +590,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                @* <h5 id="treatmentModalTitle"></h5> *@
+                <div id="treatmentImage"></div>
                 <p id="treatmentModalDescription"></p>
             </div>
             <div class="modal-footer">
@@ -612,7 +611,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                @* <h5 id="doctorModalTitle"></h5> *@
+                <div id="doctorImage"></div>
                 <p id="doctorModalDescription"></p>
             </div>
             <div class="modal-footer">
@@ -668,10 +667,13 @@
             var button = $(event.relatedTarget);
             var title = button.closest('.selectable').data('title');
             var description = button.closest('.selectable').data('description');
+            var image = button.closest('.selectable').data('image');
             var modal = $(this);
+
             modal.find('.modal-title').text(title);
             // modal.find('.modal-body #treatmentModalTitle').text(title);
             modal.find('.modal-body #treatmentModalDescription').text(description);
+            modal.find('.modal-body #treatmentImage').html("<img src='" + image + "' alt='treatment' class='img-fluid'>");            
         });
 
         $('#doctorModal').on('show.bs.modal', function (event) {
@@ -679,11 +681,14 @@
             var title = button.closest('.selectable').data('title');
             var department = button.closest('.selectable').data('department');
             var description = button.closest('.selectable').data('description');
+            var image = button.closest('.selectable').data('image');
             var modal = $(this);
+
             modal.find('.modal-title').text(title + '  ' + department);
             // modal.find('.modal-body #doctorModalTitle').text(title);
             modal.find('.modal-body #doctorModalDepartment').text(description);
             modal.find('.modal-body #doctorModalDescription').text(description);
+            modal.find('.modal-body #doctorImage').html("<img src='" + image + "' alt='doctor' class='img-fluid'>");
         });
 
         $('#prev').on('click', function () {
@@ -769,11 +774,11 @@
                 data.forEach(function (x) {
                     i++;
 
-                    inner += `<div class="selectable treatmentDiv" style="border-radius: 15px;  overflow: hidden;  margin: 3px;  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.2);"  id="treatmentDiv-` + i + `" data-title="` + x.treatmentName + `" data-description="` + x.introduction + `" data-type="treatment">`;
+                    inner += `<div class="selectable treatmentDiv" style="border-radius: 15px;  overflow: hidden;  margin: 3px;  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.2);"  id="treatmentDiv-` + i + `" data-title="` + x.treatmentName + `" data-description="` + x.introduction + `" data-image="` + x.image + `" data-type="treatment">`;
                     inner += `<img  src="` + x.image + `" class="img-fluid" onclick="treatmentOnClick('` + i + `');">`;
-                    inner += `<img  src="/images/info.png" style="margin:5px; width:30px ; height:30px;"  class="img-fluid treatment-info" data-toggle="modal" data-target="#treatmentModal" />`;
+                    // inner += `<img  src="/images/info.png" style="margin:5px; width:30px ; height:30px;"  class="img-fluid treatment-info" data-toggle="modal" data-target="#treatmentModal" />`;
+                    inner += `<div style="display: flex; align-items: center; justify-content: center; cursor:pointer;" data-toggle="modal" data-target="#treatmentModal">` + x.treatmentName + `<img src="/images/info.png" style="width:20px ; height:20px;" class="img-fluid"  /></div>`;
                     inner += `<input type="checkbox" id="treatment-` + i + `" name="treatments" value="` + x.treatmentId + `" style="display:none;" />`;
-                    // inner += `<input type="hidden" id="treatmentId-` + i + `" value="` + x.treatmentId + `"></input>`;
                     inner += `</div>`;
                 });
 
@@ -803,11 +808,11 @@
                     data.forEach(function (x) {
                         i++;
 
-                        inner += `<div class="selectable doctorDiv " style="border-radius: 15px;  overflow: hidden; margin: 10px; box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);" id="doctorDiv-` + i + `" data-title="` + x.doctorName + `" data-department="` + x.departmentTitle + `" data-description="` + x.introduction + `" data-type="doctor">`;
+                        inner += `<div class="selectable doctorDiv " style="border-radius: 15px;  overflow: hidden; margin: 10px; box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);" id="doctorDiv-` + i + `" data-title="` + x.doctorName + `" data-department="` + x.departmentTitle + `" data-image="` + x.image + `" data-description="` + x.introduction + `" data-type="doctor">`;
                         inner += `<img src="` + x.image + `" class="img-fluid" onclick="doctorOnClick('` + i + `')">`;
-                        inner += `<img src="/images/info.png" class="img-fluid doctor-info" data-toggle="modal" data-target="#doctorModal" />`;
+                        // inner += `<img src="/images/info.png" class="img-fluid doctor-info" data-toggle="modal" data-target="#doctorModal" />`;
+                        inner += `<div style="display: flex; align-items: center; justify-content: center; cursor:pointer;" data-toggle="modal" data-target="#doctorModal">` + x.doctorName + `<img src="/images/info.png" style="width:20px ; height:20px;" class="img-fluid"  /></div>`;
                         inner += `<input type="radio" id="doctor-` + i + `" name="doctor" value="` + x.doctorId + `" class="doctor-info" style="display:none;" />`;
-                        // inner += `<input type="hidden" id="treatmentId-` + i + `" value="` + x.treatmentId + `"></input>`;
                         inner += `</div>`;
                     });
                 } else {
@@ -1065,6 +1070,7 @@
 
             inner += `<div class="selectable col-4" data-title="` + item.treatmentName + `" data-description="` + item.introduction + `" data-type="selectedTreatment">`;
             inner += `<img src="` + item.image + `" class="img-fluid" data-toggle="modal" data-target="#treatmentModal">`;
+            inner += `<div style=" cursor:pointer;" data-toggle="modal" data-target="#treatmentModal" >` + item.treatmentName + `<img src="/images/info.png" style="width:20px ; height:20px;" class="img-fluid" /></div>`;
             inner += `</div>`;
         });
         $('#selectedTreatment').html(inner);
@@ -1074,8 +1080,9 @@
 
         let item = doctorList.filter(e => e.doctorId == selectedDoctor)[0];
 
-        inner += `<div class="selectable col-4" data-title="` + item.doctorName + `" data-department="` + item.departmentTitle + `" data-description="` + item.introduction + `" data-type="selectedDoctor">`;
-        inner += `<img src="` + item.image + `" class="img-fluid" data-toggle="modal" data-target="#doctorModal">`;
+        inner += `<div class="selectable col-4" data-title="` + item.doctorName + `" data-department="` + item.departmentTitle + `" data-description="` + item.introduction + `" data-type="selectedDoctor" >`;
+        inner += `<img src="` + item.image + `" class="img-fluid" data-toggle="modal" data-target="#doctorModal" >`;
+        inner += `<div style=" cursor:pointer;" data-toggle="modal" data-target="#doctorModal" >` + item.doctorName + `<img src="/images/info.png" style="width:20px ; height:20px;" class="img-fluid" /></div>`;
         inner += `</div>`;
 
         $('#selectedDoctor').html(inner);
