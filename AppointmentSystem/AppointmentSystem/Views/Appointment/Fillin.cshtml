@@ -219,6 +219,7 @@
         border-radius: 13px;
         border: 0px solid #5F5F5F;
         box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
+        
     }
 
     .treatment-selected, .doctor-selected, .dateTime-selected {
@@ -449,7 +450,7 @@
 </div>
 
 <!-- 療程部分 -->
-<div class="treatment-section">
+<div class="treatment-section" style="min-height:450px ;">
     <div style="display:flex ; align-items:center;">
         <p style="font-size:18px ; color:#049FBF;font-weight:600;">選擇療程項目(多選)</p>
     </div>
@@ -768,9 +769,9 @@
                 data.forEach(function (x) {
                     i++;
 
-                    inner += `<div class="selectable treatmentDiv" id="treatmentDiv-` + i + `" data-title="` + x.treatmentName + `" data-description="` + x.introduction + `" data-type="treatment">`;
-                    inner += `<img src="` + x.image + `" class="img-fluid" onclick="treatmentOnClick('` + i + `');">`;
-                    inner += `<img src="/images/info.png" class="img-fluid treatment-info" data-toggle="modal" data-target="#treatmentModal" />`;
+                    inner += `<div class="selectable treatmentDiv" style="border-radius: 15px;  overflow: hidden;  margin: 3px;  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.2);"  id="treatmentDiv-` + i + `" data-title="` + x.treatmentName + `" data-description="` + x.introduction + `" data-type="treatment">`;
+                    inner += `<img  src="` + x.image + `" class="img-fluid" onclick="treatmentOnClick('` + i + `');">`;
+                    inner += `<img  src="/images/info.png" style="margin:5px; width:30px ; height:30px;"  class="img-fluid treatment-info" data-toggle="modal" data-target="#treatmentModal" />`;
                     inner += `<input type="checkbox" id="treatment-` + i + `" name="treatments" value="` + x.treatmentId + `" style="display:none;" />`;
                     // inner += `<input type="hidden" id="treatmentId-` + i + `" value="` + x.treatmentId + `"></input>`;
                     inner += `</div>`;
@@ -802,7 +803,7 @@
                     data.forEach(function (x) {
                         i++;
 
-                        inner += `<div class="selectable doctorDiv" id="doctorDiv-` + i + `" data-title="` + x.doctorName + `" data-department="` + x.departmentTitle + `" data-description="` + x.introduction + `" data-type="doctor">`;
+                        inner += `<div class="selectable doctorDiv " style="border-radius: 15px;  overflow: hidden; margin: 10px; box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);" id="doctorDiv-` + i + `" data-title="` + x.doctorName + `" data-department="` + x.departmentTitle + `" data-description="` + x.introduction + `" data-type="doctor">`;
                         inner += `<img src="` + x.image + `" class="img-fluid" onclick="doctorOnClick('` + i + `')">`;
                         inner += `<img src="/images/info.png" class="img-fluid doctor-info" data-toggle="modal" data-target="#doctorModal" />`;
                         inner += `<input type="radio" id="doctor-` + i + `" name="doctor" value="` + x.doctorId + `" class="doctor-info" style="display:none;" />`;
@@ -822,9 +823,9 @@
         $('#treatment-' + i).click();
 
         if ($('#treatment-' + i).prop("checked")) {
-            $('#treatmentDiv-' + i).css("border", "2px solid red");
+            $('#treatmentDiv-' + i).css("outline", "4px solid #049FBF");
         } else {
-            $('#treatmentDiv-' + i).css("border", "0px");
+            $('#treatmentDiv-' + i).css("outline", "0px");
         }
 
         setDoctorList();
@@ -834,8 +835,8 @@
     function doctorOnClick(i) {
         $('#doctor-' + i).click();
 
-        $('.doctorDiv').css("border", "0px");
-        $('#doctorDiv-' + i).css("border", "2px solid red");
+        $('.doctorDiv').css("outline", "0px");
+        $('#doctorDiv-' + i).css("outline", "4px solid #049FBF");
     }
 
     function selectDateTime() {
