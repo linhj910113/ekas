@@ -1,6 +1,7 @@
 ﻿using AppointmentSystem.Models.DBModels;
 using AppointmentSystem.Models.ViewModels;
 using AppointmentSystem.Models.ViewModels.AppointmentModels;
+using AppointmentSystem.Models.ViewModels.BaseInfoModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing.Constraints;
 using Newtonsoft.Json;
@@ -675,7 +676,7 @@ namespace AppointmentSystem.Services
 
         public void RemoveAppointmenttreatment(string? AppointmentId)
         {
-            _db.Appointmenttreatments.RemoveRange(_db.Appointmenttreatments.Where(x => x.AppointmentId == AppointmentId));
+            _db.Appointmenttreatments.RemoveRange(_db.Appointmenttreatments.Where(x => x.AppointmentId == AppointmentId && x.Type=="A"));
 
             _db.SaveChanges();
         }

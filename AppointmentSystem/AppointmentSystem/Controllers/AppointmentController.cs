@@ -1,5 +1,6 @@
 using AppointmentSystem.Models.DBModels;
 using AppointmentSystem.Models.ViewModels.AppointmentModels;
+using AppointmentSystem.Models.ViewModels.BaseInfoModels;
 using AppointmentSystem.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -26,7 +27,7 @@ namespace AppointmentSystem.Controllers
         {
             var user = HttpContext.User.Claims.ToList();
 
-            if (user == null)
+            if (user.Count() == 0)
                 return RedirectToAction("Login", "Appointment");
             else
             {
@@ -49,7 +50,7 @@ namespace AppointmentSystem.Controllers
         {
             var user = HttpContext.User.Claims.ToList();
 
-            if (user == null)
+            if (user.Count() == 0)
                 return RedirectToAction("Login", "Appointment");
             else
             {
@@ -90,7 +91,7 @@ namespace AppointmentSystem.Controllers
         {
             var user = HttpContext.User.Claims.ToList();
 
-            if (user == null)
+            if (user.Count() == 0)
                 return RedirectToAction("Login", "Appointment");
             else
             {

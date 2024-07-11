@@ -100,4 +100,19 @@ namespace AppointmentSystem.Models.ViewModels.BaseInfoModels
         }
     }
 
+    public partial class TreatmentDataVM
+    {
+        public string? TreatmentId { get; set; }
+
+        public string? TreatmentName { get; set; }
+
+        public string? Introduction { get; set; }
+
+        public FileData? ImageFile { get; set; }
+
+        public string? Image { get; set; }
+
+        public int? Time { get; set; }
+    }
+
 }

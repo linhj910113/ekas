@@ -59,4 +59,18 @@ namespace AppointmentSystem.Models.ViewModels.BaseInfoModels
         }
     }
 
+    public partial class DoctorDataVM
+    {
+        public string? DoctorId { get; set; }
+
+        public string? DoctorName { get; set; }
+
+        public string? Introduction { get; set; }
+
+        public string? DepartmentTitle { get; set; }
+
+        public FileData? ImageFile { get; set; }
+
+        public string? Image { get; set; }
+    }
 }

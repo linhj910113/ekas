@@ -1,5 +1,7 @@
 using AppointmentSystem.Models;
 using AppointmentSystem.Models.DBModels;
+using AppointmentSystem.Models.ViewModels.AppointmentModels;
+using AppointmentSystem.Models.ViewModels.BaseInfoModels;
 using AppointmentSystem.Models.ViewModels.HomeModels;
 using AppointmentSystem.Services;
 using Microsoft.AspNetCore.Authentication;
@@ -32,14 +34,16 @@ namespace AppointmentSystem.Controllers
 
             if (user.FirstOrDefault(u => u.Type == "LoginType").Value == "EkUser")
             {
-                return View();                
+                Models.ViewModels.HomeModels.IndexVM indexVM = _homeService.GetIndexVMData();
+
+                return View(indexVM);
             }
             else
             {
                 return RedirectToAction("Login", "Appointment");
             }
 
-            
+
         }
 
         public IActionResult Login()
@@ -116,5 +120,119 @@ namespace AppointmentSystem.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+
+
+        [HttpPost]
+        public IActionResult SetAppointmentTable(string currentYear, string currentMonth, string currentDay)
+        {
+            IndexAppointmentVM indexVM = _homeService.GetIndexAppointmentVMData(currentYear, currentMonth, currentDay);
+
+            return new JsonResult(indexVM);
+        }
+
+        [HttpPost]
+        public IActionResult SetAppointmentData(string currentYear, string currentMonth, string currentDay)
+        {
+            List<AppointmentData> result = _homeService.GetAppointmentData(currentYear, currentMonth, currentDay);
+
+            return new JsonResult(result);
+        }
+
+        [HttpPost]
+        public IActionResult SetAppointmentDetail(string appointmentId)
+        {
+            AppointmentData result = _homeService.GetAppointmentDetail(appointmentId);
+
+            return new JsonResult(result);
+        }
+
+        [HttpPost]
+        public IActionResult appointmentCheckIn(string appointmentId)
+        {
+            var user = HttpContext.User.Claims.ToList();
+
+            Appointment item = new Appointment()
+            {
+                Modifier = user.FirstOrDefault(u => u.Type == "Account").Value,
+                ModifyDate = DateTime.Now,
+                CheckIn = "Y"
+            };
+
+            _homeService.AppointmentCheckIn(appointmentId, user.FirstOrDefault(u => u.Type == "Account").Value, item);
+
+            _functions.SaveSystemLog(new Systemlog
+            {
+                CreateDate = DateTime.Now,
+                Creator = user.FirstOrDefault(u => u.Type == "Account").Value,
+                UserAccount = user.FirstOrDefault(u => u.Type == "Account").Value,
+                Description = "Appointment check in success id='" + appointmentId + "'."
+            });
+
+            return new JsonResult("success.");
+        }
+
+        [HttpPost]
+        public IActionResult appointmentCancel(string appointmentId)
+        {
+            var user = HttpContext.User.Claims.ToList();
+
+            Appointment item = new Appointment()
+            {
+                Modifier = user.FirstOrDefault(u => u.Type == "Account").Value,
+                ModifyDate = DateTime.Now,
+                Status = "C"
+            };
+
+            _homeService.AppointmentCancel(appointmentId, user.FirstOrDefault(u => u.Type == "Account").Value, item);
+
+            _functions.SaveSystemLog(new Systemlog
+            {
+                CreateDate = DateTime.Now,
+                Creator = user.FirstOrDefault(u => u.Type == "Account").Value,
+                UserAccount = user.FirstOrDefault(u => u.Type == "Account").Value,
+                Description = "Appointment check in success id='" + appointmentId + "'."
+            });
+
+            return new JsonResult("success.");
+        }
+
+        [HttpPost]
+        public IActionResult saveSelectedTreatment(string appointmentId, string[] treatments)
+        {
+            var user = HttpContext.User.Claims.ToList();
+
+            //先刪除再新增
+            _homeService.RemoveActualAppointmentTreatment(appointmentId);
+            foreach (var treatment in treatments)
+            {
+                Appointmenttreatment at = new Appointmenttreatment()
+                {
+                    Creator = user.FirstOrDefault(u => u.Type == "UserId").Value,
+                    Modifier = user.FirstOrDefault(u => u.Type == "UserId").Value,
+                    CreateDate = DateTime.Now,
+                    ModifyDate = DateTime.Now,
+                    Status = "Y",
+
+                    AppointmentId = appointmentId,
+                    Type = "T",
+                    TreatmentId = treatment
+                };
+                _homeService.CreateAppointmenttreatment(at);
+            }
+
+            _functions.SaveSystemLog(new Systemlog
+            {
+                CreateDate = DateTime.Now,
+                Creator = user.FirstOrDefault(u => u.Type == "Account").Value,
+                UserAccount = user.FirstOrDefault(u => u.Type == "Account").Value,
+                Description = "Appointment check in success id='" + appointmentId + "'."
+            });
+
+            return new JsonResult("success.");
+        }
+
+
+
     }
 }

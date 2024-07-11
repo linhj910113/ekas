@@ -1,4 +1,6 @@
-﻿namespace AppointmentSystem.Models.ViewModels.AppointmentModels
+﻿using AppointmentSystem.Models.ViewModels.BaseInfoModels;
+
+namespace AppointmentSystem.Models.ViewModels.AppointmentModels
 {
     public partial class EditVM
     {

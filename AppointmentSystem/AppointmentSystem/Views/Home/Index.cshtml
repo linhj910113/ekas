@@ -1,37 +1,539 @@
-﻿@{
+﻿@model AppointmentSystem.Models.ViewModels.HomeModels.IndexVM
+
+@{
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewData["Title"] = "Home Page";
 }
+<style>
+    .appointmentTable {
+        border-collapse: separate;
+        border-spacing: 1px;
+        width: 100%;
+        /* max-width: 800px; */
+        margin: 0 auto;
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    .tableHeader {
+        border: 1px solid #e0e0e0;
+        padding: 10px;
+        text-align: left;
+        vertical-align: top;
+        height: 50px;
+        position: relative;
+        background-color: #f8f9fa;
+        font-weight: normal;
+        color: #5f6368;
+        text-align: center;
+        width: 180px;
+        display: inline-block;
+        font-size: 16px;
+    }
+
+    .appointmentTable td {
+        border: 1px solid #e0e0e0;
+        padding: 10px;
+        text-align: left;
+        vertical-align: top;
+        width: 180px;
+        height: 100px;
+        position: relative;
+        display: inline-block;
+    }
+
+    .event {
+        position: absolute;
+        background-color: #999999;
+        color: white;
+        padding-left: 10px;
+        padding-right: 10px;
+        padding-top: 5px;
+        padding-bottom: 10px;
+        border-radius: 10px;
+        font-size: 0.9em;
+        top: 20px;
+        left: 5px;
+        right: -101%; /* 延伸到下一個單元格 */
+        z-index: 1;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        cursor: pointer;
+    }
+
+    .doctor-td {
+        align-content: center !important;
+        text-align: center !important;
+        font-size: 16px;
+    }
+
+    .appointmentTime {
+        margin-bottom: 5px;
+    }
+
+    .treatmentItem {
+        border: 1px;
+        border-radius: 12px;
+        display: inline-block;
+        width: fit-content;
+        background-color: white;
+        color: red;
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+
+    .appointmentDetail {
+        background-color: #ccc;
+        transition: .4s;
+        border-radius: 34px;
+        padding-top: 10px;
+    }
+
+    .userinfo-sidebar {
+        text-align: center;
+        vertical-align: central;
+        display: none;
+    }
+
+        .userinfo-sidebar h5 {
+            margin-bottom: 0;
+        }
+
+        .userinfo-sidebar p {
+            margin-bottom: 10px;
+        }
+
+    .userinfo-item {
+        display: flex;
+        justify-content: center;
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+
+        .userinfo-item .gender, .userinfo-item .age {
+            background-color: #7B7373;
+            color: white;
+            border-radius: 10px;
+            margin-left: 10px;
+            margin-right: 10px;
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+
+    .sidebarbtn {
+        background-color: #a9a9a9;
+        border: none;
+        margin: 2px;
+        border-radius: 5px;
+    }
+
+
+    .switch {
+        position: relative;
+        display: inline-block;
+        width: 34px;
+        height: 20px;
+    }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+    .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        transition: .4s;
+        border-radius: 34px;
+    }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 14px;
+            width: 14px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+    input:checked + .slider {
+        background-color: #2196F3;
+    }
+
+        input:checked + .slider:before {
+            transform: translateX(14px);
+        }
+
+    .treatmentSelectMenu {
+        display: none;
+        position: absolute;
+        top: 50%;
+        left: -110%;
+        background-color: #d3d3d3;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        width: 300px;
+        transform: translateX(20px);
+    }
+
+    .label-item, .treatment-item, actualTreatment-item {
+        margin-bottom: 10px !important;
+    }
+
+</style>
+
+<div class="row">
+    <div class="col-9">
+        <div style="width:100%;align-items:center;text-align:center;font-size:16px;margin-bottom:10px;">
+            <input type="number" id="currentYear" style="width:80px;border:0px;" />年
+            <input type="number" id="currentMonth" style="width:50px;border:0px;" />月
+            <input type="number" id="currentDay" style="width:50px;border:0px;" />日
+            <button class="btn btn-primary" onclick="refreshTable();">確定</button>
+        </div>
+        <table class="appointmentTable">
+        </table>
+    </div>
+    <div class="col-3 appointmentDetail" id="appointmentDetail">
+        <div class="userinfo-sidebar">
+            <h5 id="name">VIC</h5>
+            <div class="userinfo-item">
+                <div class="gender" id="gender">男</div>
+                <div class="age" id="age">29</div>
+            </div>
+
+            <div id="phone">電話號碼：0912345678</div>
+            <div id="birth">生日：1993/10/11</div>
+            <div id="email">電子郵件：asdfasf@asdfazxc.asdf</div>
+
+            <div class="userinfo-item" style="margin-bottom:30px;">
+                <button class="btn sidebarbtn">編輯</button>
+            </div>
+
+            <div class="userinfo-item">
+                <div id="checkIn">
+                    <button class="btn sidebarbtn">預約報到</button>
+                </div>
+
+                <div id="cancelAppointment">
+                    <button class="btn sidebarbtn" onclick="appointmentCancel();">取消預約</button>
+                </div>
+            </div>
+
+
+
+            <div class="userinfo-item">
+                <span class="btn sidebarbtn" style="margin-right:10px">未到次數</span>
+                <span class="missed">目前次數:0</span>
+            </div>
+
+            <div class="userinfo-item" style="margin-top:30px;">
+                <span>實際施作項目</span>
+            </div>
+
+            <div class="userinfo-item">
+                <div id="actualList" class="btn-group-toggle" data-toggle="buttons">
+                    <label class="btn btn-secondary btn-checkbox label-item" style="cursor:pointer;">
+                        <input type="checkbox" name="lables" id="dfg" value="sdfg" autocomplete="off">xcvbsdg
+                        <input type="hidden" id="xcvb" value="sdfgxcb" />
+                    </label>
+                </div>
+            </div>
+
+            <button class="btn btn-primary" onclick="showTreatmentSelectMenu();" style="font-size: 14px; background-color:transparent; border:none;">
+                <img src="/images/add_circle_16dp_049FBF_FILL0_wght400_GRAD0_opsz20.png" style="width:40px;height:40px ;" \>
+            </button>
+
+            <div class="treatmentSelectMenu" id="treatmentSelectMenu">
+                <h6>標籤列表</h6>
+                <div id="lableList" class="btn-group-toggle" data-toggle="buttons">
+                    @{
+                        int i = 0;
+                    }
+
+                    @foreach (var lable in Model.LableList)
+                    {
+                        i++;
+
+                        <label class="btn btn-secondary btn-checkbox label-item" style="cursor:pointer;">
+                            <input type="checkbox" name="lables" id="@lable.LableId" value="@lable.LableId" autocomplete="off">@lable.LableName
+                            <input type="hidden" id="tl-@i" value="@lable.TreatmentIdList" />
+                        </label>
+                    }
+                </div>
+                <h6 style="margin-top:30px">療程列表</h6>
+                <div id="treatmentList" class="btn-group-toggle" data-toggle="buttons">
+                    @foreach (var treatment in Model.TreatmentList)
+                    {
+                        <label class="btn btn-secondary btn-checkbox treatment-item" style="cursor:pointer;">
+                            <input type="checkbox" name="treatments" id="@treatment.TreatmentId" value="@treatment.TreatmentId" autocomplete="off">@treatment.TreatmentName
+                        </label>
+                    }
+                </div>
+                <p></p>
+                <button class="btn btn-primary" onclick="saveSelectedTreatment();">確定</button>
+            </div>
+
+        </div>
+    </div>
 </div>
 
-<p>123</p>
-<p>123</p>
-<p>123</p>
-<p>123</p>
-<p>123</p>
-<p>123</p>
-<p>123</p>
-<p>123</p>
-<p>123</p>
-<p>123</p>
-<p>123</p>
-<p>123</p>
-<p>123</p>
-<p>123</p>
-<p>123</p>
-<p>123</p>
-<p>123</p>
-<p>123</p>
-<p>123</p>
-<p>123</p>
-<p>123</p>
-<p>123</p>
-<p>123</p>
-<p>123</p>
-<p>123</p>
-<p>123</p>
-<p>123</p>
+<input type="hidden" id="selectedAppointment" value="" />
+
+<script>
+    let today = new Date();
+    let currentYear = today.getFullYear();
+    let currentMonth = today.getMonth();
+    let currentDay = today.getDate();
+
+    $(document).ready(function () {
+        init();
+
+        function init() {
+            $('#currentYear').val(currentYear);
+            $('#currentMonth').val(currentMonth + 1);
+            $('#currentDay').val(currentDay);
+
+            setAppointmentTable(currentYear, currentMonth, currentDay);
+        }
+
+        $('.appointmentTable').on('mousewheel', function (event) {
+            if (event.originalEvent.deltaY) {
+                this.scrollLeft += (event.originalEvent.deltaY > 0 ? 1 : -1) * 100;
+                event.preventDefault();
+            }
+        });
+
+        $("label.label-item").click(function () {
+            $(this).toggleClass("active");
+            setTimeout(setTreatmentList, 0);
+        });
+    });
+
+    function appointmentOnClick(appointmentId) {
+        console.log(appointmentId);
+
+        $.ajax({
+            type: 'POST',
+            url: '/Home/SetAppointmentDetail',
+            datatype: "json",
+            data: { "appointmentId": appointmentId },
+            success: function (data) {
+                console.log(data);
+
+                $('#selectedAppointment').val(appointmentId);
+                $('#name').html(data.customerData.name);
+                $('#gender').html(data.customerData.gender);
+                $('#age').html(data.customerData.age);
+                $('#phone').html("電話號碼：" + data.customerData.cellPhone);
+                $('#birth').html("生日：" + data.customerData.birthday);
+                $('#email').html("電子郵件：" + data.customerData.email);
+                $('#missed').html(data.customerData.missed);
+
+                if (data.checkIn == "Y") {
+                    $('#checkIn').html('<button class="btn sidebarbtn" disabled>已報到</button>');
+                } else {
+                    $('#checkIn').html('<button class="btn sidebarbtn" onclick="appointmentCheckIn();">預約報到</button>');
+                }
+
+                let inner = ``;
+                data.actualTreatmentData.forEach(function (x) {
+                    inner += `<label class="btn btn-secondary btn-checkbox actualTreatment-item" style="cursor:pointer;">`;
+                    inner += `<input type="checkbox" name="lables" autocomplete="off">` + x.treatmentName;
+                    inner += `</label>`;
+                });
+                $('#actualList').html(inner);
+
+                $('.userinfo-sidebar').show();
+
+                // data.forEach(function (item) {
+                //     let tdName = $('#' + item.doctorId + '-' + item.bookingBeginTime.toString().replace(':', '') + '')
+                //     let divHTML = ``;
+
+                //     divHTML += `<div class="event" onclick="appointmentOnClick('` + item.appointmentId + `');" style="right:` + (-101) * (item.timeUnitCount - 1) + `%">`;
+
+                //     divHTML += `<div class="appointmentTime">` + item.bookingBeginTime + `-` + item.bookingEndTime + ` 姓名:` + item.customerData.name + `-` + item.customerData.gender + `</div>`;
+                //     item.treatmentData.forEach(function (x) {
+                //         divHTML += `<div class="treatmentItem">` + x.treatmentName + `</div>`;
+                //     });
+                //     divHTML += `</div>`;
+
+                //     tdName.html(divHTML);
+                // });
+            }
+        });
+    }
+
+    function setAppointmentTable(currentYear, currentMonth, currentDay) {
+        $.ajax({
+            type: 'POST',
+            url: '/Home/SetAppointmentTable',
+            datatype: "json",
+            data: { "currentYear": currentYear, "currentMonth": currentMonth + 1, "currentDay": currentDay },
+            success: function (data) {
+                console.log(data)
+                let appointmentTable = $('.appointmentTable');
+                let innerHTML = ``;
+                let outpatientCount = data.outpatientTimeDatas.length;
+
+                //設定table header
+                innerHTML += `<tr>`;
+                innerHTML += `<th class="tableHeader"></th>`;
+                data.outpatientTimeDatas.forEach(function (item) {
+                    innerHTML += `<th class="tableHeader">` + item.beginTime + `</th>`;
+                });
+                innerHTML += `</tr>`;
+
+                //設定醫師門診資料
+                data.doctorDatas.forEach(function (item) {
+                    innerHTML += `<tr>`;
+                    innerHTML += `<td class="doctor-td">` + item.doctorName + `</td>`;
+
+                    //醫師各個時段的格子
+                    data.outpatientTimeDatas.forEach(function (x) {
+                        innerHTML += `<td id="` + item.doctorId + `-` + x.beginTime.toString().replace(':', '') + `"></td>`;
+                    });
+
+                    innerHTML += `</tr>`;
+                });
+
+                appointmentTable.html(innerHTML);
+
+                //取得預約資料並設定
+                $.ajax({
+                    type: 'POST',
+                    url: '/Home/SetAppointmentData',
+                    datatype: "json",
+                    data: { "currentYear": currentYear, "currentMonth": currentMonth + 1, "currentDay": currentDay },
+                    success: function (data) {
+                        console.log(data);
+
+                        data.forEach(function (item) {
+                            let tdName = $('#' + item.doctorId + '-' + item.bookingBeginTime.toString().replace(':', '') + '')
+                            let divHTML = ``;
+
+                            divHTML += `<div class="event" onclick="appointmentOnClick('` + item.appointmentId + `');" style="right:` + (-101) * (item.timeUnitCount - 1) + `%">`;
+
+                            divHTML += `<div class="appointmentTime">` + item.bookingBeginTime + `-` + item.bookingEndTime + ` 姓名:` + item.customerData.name + `-` + item.customerData.gender + `</div>`;
+                            item.treatmentData.forEach(function (x) {
+                                divHTML += `<div class="treatmentItem">` + x.treatmentName + `</div>`;
+                            });
+                            divHTML += `</div>`;
+
+                            tdName.html(divHTML);
+                        });
+                    }
+                });
+            }
+        });
+    }
+
+    function appointmentCheckIn() {
+        let Id = $('#selectedAppointment').val();
+
+        $.ajax({
+            type: 'POST',
+            url: '/Home/appointmentCheckIn',
+            datatype: "json",
+            data: { "appointmentId": Id },
+            success: function (data) {
+                console.log("Check in success.");
+
+                $('#checkIn').html('<button class="btn sidebarbtn" disabled>已報到</button>');
+            }
+        });
+    }
+
+    function appointmentCancel() {
+        let Id = $('#selectedAppointment').val();
+
+        $.ajax({
+            type: 'POST',
+            url: '/Home/appointmentCancel',
+            datatype: "json",
+            data: { "appointmentId": Id },
+            success: function (data) {
+                console.log("Appointment cancel success.");
+
+                $('#selectedAppointment').val("");
+                $('.userinfo-sidebar').hide();
+                setAppointmentTable(currentYear, currentMonth, currentDay);
+            }
+        });
+    }
+
+    function showTreatmentSelectMenu() {
+        if ($('#treatmentSelectMenu'))
+            $('#treatmentSelectMenu').toggle();
+    }
+
+    function setTreatmentList(i) {
+        let treatments = [];
+
+        $("label.active input[id^='tl-']").each(function () {
+            treatments.push($(this).val().split(","));
+        });
+
+        if (treatments.length === 0) {
+            $(".treatment-item").show();
+        } else {
+            let intersection = treatments.reduce((a, b) => a.filter(c => b.includes(c)));
+
+            $(".treatment-item").hide();
+
+            intersection.forEach(function (id) {
+                $(`#${id}`).closest('.treatment-item').show();
+            });
+        }
+    }
+
+    function saveSelectedTreatment() {
+        let Id = $('#selectedAppointment').val();
+        let selectedTreatments = [];
+
+        $("input[name='treatments']:checked").each(function () {
+            selectedTreatments.push($(this).val());
+        });
+
+        $.ajax({
+            type: 'POST',
+            url: '/Home/saveSelectedTreatment',
+            datatype: "json",
+            data: { "appointmentId": Id, treatments: selectedTreatments },
+            success: function (data) {
+                console.log("Save actual treatment success.");
+
+                if ($('#treatmentSelectMenu'))
+                    $('#treatmentSelectMenu').toggle();
+
+                appointmentOnClick(Id)
+            }
+        });
+    }
+
+    function refreshTable() {
+        currentYear = $('#currentYear').val();
+        currentMonth = parseInt($('#currentMonth').val()-1);
+        currentDay = $('#currentDay').val();
+
+        console.log(currentYear);
+        console.log(currentMonth);
+        console.log(currentDay);
+
+        setAppointmentTable(currentYear, currentMonth, currentDay);
+    }
+
+
+
+</script>
