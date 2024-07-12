@@ -1,9 +1,11 @@
 ﻿using AppointmentSystem.Models.DBModels;
 using AppointmentSystem.Models.ViewModels.BaseInfoModels;
 using AppointmentSystem.Models.ViewModels.SystemModels;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
 using static AppointmentSystem.Models.ViewModels.SelectListModels;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace AppointmentSystem.Services
 {
@@ -39,8 +41,7 @@ namespace AppointmentSystem.Services
                 {
                     DoctorId = item.Id,
                     DoctorName = item.DoctorName,
-                    Sort = item.Sort,
-                    //Status = item.Status
+                    Sort = item.Sort
                 });
             }
 
@@ -183,8 +184,8 @@ namespace AppointmentSystem.Services
                 {
                     TreatmentId = item.Id,
                     TreatmentName = item.TreatmentName,
+                    Hide = item.Hide,
                     Sort = item.Sort,
-                    //Status = item.Status
                 });
             }
 
@@ -202,7 +203,6 @@ namespace AppointmentSystem.Services
             treatment.TreatmentImage.FileID = item.ImageFileId;
             treatment.Time = item.Time;
             treatment.AlertMessage = item.AlertMessage;
-            treatment.Hide = item.Hide;
             treatment.Memo = item.Memo;
             treatment.Sort = item.Sort;
             treatment.Status = item.Status;
@@ -285,7 +285,6 @@ namespace AppointmentSystem.Services
             _db.Treatments.FirstOrDefault(x => x.Id == id).Introduction = value.Introduction;
             _db.Treatments.FirstOrDefault(x => x.Id == id).AlertMessage = value.AlertMessage;
             _db.Treatments.FirstOrDefault(x => x.Id == id).Time = value.Time;
-            _db.Treatments.FirstOrDefault(x => x.Id == id).Hide = value.Hide;
             _db.Treatments.FirstOrDefault(x => x.Id == id).Sort = value.Sort;
             _db.Treatments.FirstOrDefault(x => x.Id == id).Memo = value.Memo;
             _db.Treatments.FirstOrDefault(x => x.Id == id).ImageFileId = value.ImageFileId;
@@ -320,6 +319,14 @@ namespace AppointmentSystem.Services
             _db.SaveChanges();
         }
 
+        public void setTreatmentHideValue(string treatmentId, Treatment value)
+        {
+            _db.Treatments.FirstOrDefault(x => x.Id == treatmentId).Modifier = value.Modifier;
+            _db.Treatments.FirstOrDefault(x => x.Id == treatmentId).ModifyDate = value.ModifyDate;
+            _db.Treatments.FirstOrDefault(x => x.Id == treatmentId).Hide = value.Hide;
+
+            _db.SaveChanges();
+        }
 
         #endregion
 
@@ -466,7 +473,142 @@ namespace AppointmentSystem.Services
 
         #endregion
 
+        #region -- 醫師請假 -- (DoctorDayOff)
 
+        public List<DoctorCheckboxList> GetDoctorListForDropdown()
+        {
+            var items = _db.Doctors.Where(x => x.Status == "Y").OrderBy(x => x.Sort);
+
+            List<DoctorCheckboxList> doctors = new List<DoctorCheckboxList>();
+
+            foreach (var item in items)
+            {
+                doctors.Add(new DoctorCheckboxList
+                {
+                    DoctorId = item.Id,
+                    DoctorName = item.DoctorName
+                });
+            }
+
+            return doctors;
+        }
+
+        public List<DoctorDayOffIndexVM> GetDoctorDayOffForIndex()
+        {
+            var items = _db.Doctordayoffs.Where(x => x.Status == "Y").OrderByDescending(x => x.Date).ToList();
+
+            List<DoctorDayOffIndexVM> ddo = new List<DoctorDayOffIndexVM>();
+
+            foreach (var item in items)
+            {
+                var doctor = _db.Doctors.FirstOrDefault(x => x.Id == item.DoctorId);
+                var type = _db.Systemselectlists.FirstOrDefault(x => x.GroupName == "DoctorDayOffSelectList" && x.SelectValue == item.Type);
+
+                ddo.Add(new DoctorDayOffIndexVM
+                {
+                    DayOffIndex = item.Index,
+                    DoctorName = doctor.DoctorName,
+                    Type = type.SelectName,
+                    Date = item.Date,
+                    BeginTime = item.BeginTime,
+                    EndTime = item.EndTime
+                });
+            }
+
+            return ddo;
+        }
+
+        public void CreateDoctorDayOff(Doctordayoff value)
+        {
+            //建立假單資料
+            _db.Doctordayoffs.Add(value);
+            _db.SaveChanges();
+
+            //修改門診表狀態
+            DateTime d = DateTime.Parse(value.Date);
+            int year = d.Year; int month = d.Month; int day = d.Day;
+
+            var OutpatientTimes = _db.Doctoroutpatients.AsEnumerable().Where(
+                x => x.Status != "N" &&
+                x.DoctorId == value.DoctorId &&
+                int.Parse(x.Year) == year &&
+                int.Parse(x.Month) == month &&
+                int.Parse(x.Day) == day && x.AppointmentId == ""
+            ).OrderBy(x => TimeSpan.Parse(x.BeginTime)).ToList();
+
+            foreach (var times in OutpatientTimes)
+            {
+                if (TimeSpan.Parse(times.BeginTime) < TimeSpan.Parse(value.EndTime) && TimeSpan.Parse(times.EndTime) > TimeSpan.Parse(value.BeginTime))
+                    times.Status = value.Type;
+            }
+
+            _db.SaveChanges();
+        }
+
+        public string CheckDayOffData(string doctorId, string date, string beginTime, string endTime)
+        {
+            //確認該月份是否已排班
+            DateTime d = DateTime.Parse(date);
+            int year = d.Year; int month = d.Month; int day = d.Day;
+
+            var monthshift = _db.Arrangemonthshifts.AsEnumerable().Where(x => x.Status == "Y" && x.Year == year.ToString() && x.Month == month.ToString() && x.Locked == "Y").ToList();
+            if (monthshift.Count() == 0)
+                return "該月尚無班表，請先設定班表並鎖定。";
+
+            //確認該時端是否已有預約
+            var OutpatientTimes = _db.Doctoroutpatients.AsEnumerable().Where(
+                x => x.Status != "N" &&
+                x.DoctorId == doctorId &&
+                int.Parse(x.Year) == year &&
+                int.Parse(x.Month) == month &&
+                int.Parse(x.Day) == day &&
+                x.AppointmentId != ""
+            ).OrderBy(x => TimeSpan.Parse(x.BeginTime)).ToList();
+
+            foreach (var times in OutpatientTimes)
+            {
+                if (TimeSpan.Parse(times.BeginTime) < TimeSpan.Parse(endTime) && TimeSpan.Parse(times.EndTime) > TimeSpan.Parse(beginTime))
+                    return "請假時間內已有顧客預約，請先調整預約再進行請假。";
+            }
+
+            return "";
+        }
+
+        public string DeleteDoctorDayOff(long Index)
+        {
+            var ddo = _db.Doctordayoffs.FirstOrDefault(x => x.Index == Index);
+
+            //修改門診表狀態
+            DateTime d = DateTime.Parse(ddo.Date);
+            int year = d.Year; int month = d.Month; int day = d.Day;
+
+            var OutpatientTimes = _db.Doctoroutpatients.AsEnumerable().Where(
+                x => x.Status != "N" &&
+                x.DoctorId == ddo.DoctorId &&
+                int.Parse(x.Year) == year &&
+                int.Parse(x.Month) == month &&
+                int.Parse(x.Day) == day && x.AppointmentId == ""
+            ).OrderBy(x => TimeSpan.Parse(x.BeginTime));
+
+            foreach (var times in OutpatientTimes)
+            {
+                if (TimeSpan.Parse(times.BeginTime) < TimeSpan.Parse(ddo.EndTime) && TimeSpan.Parse(times.EndTime) > TimeSpan.Parse(ddo.BeginTime))
+                    times.Status = "Y";
+            }
+            _db.SaveChanges();
+
+            //設定假單狀態為N(保留原假單)
+            _db.Doctordayoffs.FirstOrDefault(x => x.Index == Index).Status = "N";
+            _db.SaveChanges();
+
+            return "success";
+        }
+
+
+
+
+
+        #endregion
 
     }
 }

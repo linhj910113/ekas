@@ -222,8 +222,8 @@
             </div>
 
             <div class="userinfo-item">
-                <div id="checkIn">
-                    <button class="btn sidebarbtn">預約報到</button>
+                <div id="editAppointment">
+                    <button class="btn sidebarbtn">修改預約</button>
                 </div>
 
                 <div id="cancelAppointment">
@@ -231,7 +231,10 @@
                 </div>
             </div>
 
-
+            <div class="userinfo-item">
+                <div id="checkIn">
+                </div>
+            </div>
 
             <div class="userinfo-item">
                 <span class="btn sidebarbtn" style="margin-right:10px">未到次數</span>
@@ -347,6 +350,8 @@
                     $('#checkIn').html('<button class="btn sidebarbtn" onclick="appointmentCheckIn();">預約報到</button>');
                 }
 
+                $('#editAppointment').html('<button class="btn sidebarbtn" onclick="editAppointment();">修改預約</button>');
+
                 let inner = ``;
                 data.actualTreatmentData.forEach(function (x) {
                     inner += `<label class="btn btn-secondary btn-checkbox actualTreatment-item" style="cursor:pointer;">`;
@@ -455,6 +460,12 @@
         });
     }
 
+    function editAppointment() {
+        let appointmentId = $('#selectedAppointment').val();
+
+        window.location.href = "/Home/AppointmentEdit?id=" + encodeURIComponent(appointmentId);
+    }
+
     function appointmentCancel() {
         let Id = $('#selectedAppointment').val();
 
@@ -524,7 +535,7 @@
 
     function refreshTable() {
         currentYear = $('#currentYear').val();
-        currentMonth = parseInt($('#currentMonth').val()-1);
+        currentMonth = parseInt($('#currentMonth').val() - 1);
         currentDay = $('#currentDay').val();
 
         console.log(currentYear);

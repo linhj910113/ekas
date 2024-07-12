@@ -396,9 +396,14 @@ namespace AppointmentSystem.Controllers
         }
 
         [HttpPost]
-        public IActionResult getDateAndTime(string[] treatments, string doctor)
+        public IActionResult getDateAndTime(string[] treatments, string doctor, string appointmentId)
         {
-            List<FillinDateTimeVM> results = _appointmentService.GetFillInDateTimeData(treatments, doctor);
+            string user = HttpContext.User.Claims.ToList().FirstOrDefault(u => u.Type == "UserId").Value;
+
+            if (appointmentId is not null && appointmentId != "")
+                user = _appointmentService.GetAppointmentCustomerData(appointmentId).Id!;
+
+            List<FillinDateTimeVM> results = _appointmentService.GetFillInDateTimeData(treatments, doctor, user, appointmentId);
 
             return new JsonResult(results);
         }

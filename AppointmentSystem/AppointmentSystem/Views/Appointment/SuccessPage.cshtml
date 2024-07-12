@@ -34,8 +34,9 @@
     <div id="selectedTreatment" class="row" style="display: flex; justify-content: left;">
         @foreach (var treatment in Model.SelectedTreatment)
         {
-            <div class="selectable" data-title="@treatment.TreatmentName" data-description="@treatment.Introduction" data-type="selectedTreatment">
+            <div class="selectable" data-title="@treatment.TreatmentName" data-description="@treatment.Introduction" data-image="@treatment.Image" data-type="selectedTreatment">
                 <img src="@treatment.Image" class="img-fluid" data-toggle="modal" data-target="#treatmentModal">
+                <div style="display: flex; align-items: center; justify-content: center; cursor:pointer;" data-toggle="modal" data-target="#treatmentModal">@treatment.TreatmentName<img src="/images/info.png" style="width:20px ; height:20px;" class="img-fluid" /></div>
             </div>
         }
     </div>
@@ -44,8 +45,9 @@
 <div class="doctor-selected">
     <h5>醫師</h5>
     <div id="selectedDoctor" class="row" style="display: flex; justify-content: left;">
-        <div class="selectable" data-title="@Model.SelectedDoctor.DoctorName" data-department="@Model.SelectedDoctor.DepartmentTitle" data-description="@Model.SelectedDoctor.Introduction" data-type="selectedDoctor">
+        <div class="selectable" data-title="@Model.SelectedDoctor.DoctorName" data-department="@Model.SelectedDoctor.DepartmentTitle" data-image="@Model.SelectedDoctor.Image" data-description="@Model.SelectedDoctor.Introduction" data-type="selectedDoctor">
             <img src="@Model.SelectedDoctor.Image" class="img-fluid" data-toggle="modal" data-target="#doctorModal">
+            <div style="display: flex; align-items: center; justify-content: center; cursor:pointer;" data-toggle="modal" data-target="#doctorModal">@Model.SelectedDoctor.DoctorName<img src="/images/info.png" style="width:20px ; height:20px;" class="img-fluid" /></div>
         </div>
     </div>
 </div>
@@ -73,7 +75,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                @* <h5 id="treatmentModalTitle"></h5> *@
+                <div id="treatmentImage"></div>
                 <p id="treatmentModalDescription"></p>
             </div>
             <div class="modal-footer">
@@ -94,7 +96,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                @* <h5 id="doctorModalTitle"></h5> *@
+                <div id="doctorImage"></div>
                 <p id="doctorModalDescription"></p>
             </div>
             <div class="modal-footer">
@@ -111,10 +113,13 @@
             var button = $(event.relatedTarget);
             var title = button.closest('.selectable').data('title');
             var description = button.closest('.selectable').data('description');
+            var image = button.closest('.selectable').data('image');
             var modal = $(this);
+
             modal.find('.modal-title').text(title);
             // modal.find('.modal-body #treatmentModalTitle').text(title);
             modal.find('.modal-body #treatmentModalDescription').text(description);
+            modal.find('.modal-body #treatmentImage').html("<img src='" + image + "' alt='treatment' class='img-fluid'>");
         });
 
         $('#doctorModal').on('show.bs.modal', function (event) {
@@ -122,11 +127,14 @@
             var title = button.closest('.selectable').data('title');
             var department = button.closest('.selectable').data('department');
             var description = button.closest('.selectable').data('description');
+            var image = button.closest('.selectable').data('image');
             var modal = $(this);
+
             modal.find('.modal-title').text(title + '  ' + department);
             // modal.find('.modal-body #doctorModalTitle').text(title);
             modal.find('.modal-body #doctorModalDepartment').text(description);
             modal.find('.modal-body #doctorModalDescription').text(description);
+            modal.find('.modal-body #doctorImage').html("<img src='" + image + "' alt='doctor' class='img-fluid'>");
         });
     });
 

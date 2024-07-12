@@ -1,7 +1,7 @@
 ﻿@model AppointmentSystem.Models.ViewModels.AppointmentModels.EditVM
 
 @{
-    Layout = "~/Views/Shared/CustomerLayout.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
     ViewData["Title"] = "Home Page";
 }
 
@@ -68,8 +68,8 @@
         }
 
     /*  .selectable .select-circle.selected {
-                                                                                                                background-color: green;
-                                                                                                            } */
+                                                                                                                    background-color: green;
+                                                                                                                } */
 
     .doctor-section.hidden, .dateTime-section.hidden, .baseInfomation-section.hidden {
         display: none;
@@ -728,8 +728,10 @@
                 type: 'POST',
                 url: '/Appointment/getDateAndTime',
                 datatype: "json",
-                data: { treatments: selectedTreatments, "doctor": selected.val() },
+                data: { treatments: selectedTreatments, "doctor": selected.val(), "appointmentId": $('#appointmentId').val() },
                 success: function (data) {
+                    console.log(data);
+
                     outpatientDateTimes = data;
 
                     data.forEach(function (x) {
@@ -775,8 +777,6 @@
             let dateString = `${year}-${String(month + 1).padStart(2, '0')}-${String(date).padStart(2, '0')}`;
 
             dateElement.data('date', dateString);
-
-
 
             if ($("#selectedDate").val() == dateString) {
                 dateElement.addClass('selected');
@@ -949,13 +949,13 @@
         } else {
             $.ajax({
                 type: 'POST',
-                url: '/Appointment/UpdateAppointment',
+                url: '/Home/UpdateAppointment',
                 datatype: "json",
                 data: { AppointmentId: $('#appointmentId').val(), treatments: selectedTreatments, "doctor": selectedDoctor, "date": selectedDate.data('date'), "beginTime": selectedTime },
                 success: function (data) {
                     console.log("Update appointment infomation success.")
 
-                    window.location.href = "@Url.Action("Index", "Appointment")";
+                    window.location.href = "@Url.Action("Index", "Home")";
                 }
             });
 
@@ -969,7 +969,7 @@
     }
 
     function backToIndex() {
-        window.location.href = "@Url.Action("Index", "Appointment")";
+        window.location.href = "@Url.Action("Index", "Home")";
     }
 
     // function fillinBaseInformation() {
