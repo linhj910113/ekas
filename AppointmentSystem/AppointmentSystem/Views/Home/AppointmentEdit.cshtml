@@ -1,7 +1,7 @@
 ﻿@model AppointmentSystem.Models.ViewModels.AppointmentModels.EditVM
 
 @{
-    Layout = "~/Views/Shared/CustomerLayout.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
     ViewData["Title"] = "Home Page";
 }
 
@@ -68,8 +68,8 @@
         }
 
     /*  .selectable .select-circle.selected {
-                                                                                                                background-color: green;
-                                                                                                            } */
+                                                                                                                    background-color: green;
+                                                                                                                } */
 
     .doctor-section.hidden, .dateTime-section.hidden, .baseInfomation-section.hidden {
         display: none;
@@ -203,7 +203,9 @@
 </style>
 
 <div class="overlay-container" style=" position: relative;display: inline-block;">
-   
+    <img id="desktopImage" src="~/images/CustomerIndexImage1.jpg" alt="Desktop Image" class="appointment-image desktop-image">
+    <img id="mobileImage" src="~/images/CustomerIndexImage2.jpg" alt="Mobile Image" class="appointment-image mobile-image" style="height:25rem; width:auto; object-fit: cover;">
+
     <div class="overlay"
          style="position: absolute;
             top: 0;
@@ -222,7 +224,9 @@
             margin-bottom:10px;
             letter-spacing: 2px;">
 
-
+        <div class="container content mb-3">
+            <span id="AppointmentIntroductionText"></span>
+        </div>
 
     </div>
 </div>
@@ -235,7 +239,7 @@
 </div>
 
 <!-- 療程部分 -->
-<div class="treatment-section" style="min-height:380px ; background-color:white;">
+<div class="treatment-section">
     <div style="display:flex ; align-items:center;">
         <p style="font-size:18px ; color:#049FBF;font-weight:600;">選擇療程項目(多選)</p>
     </div>
@@ -272,7 +276,7 @@
 </div>
 
 <!-- 已選擇的療程 -->
-<div class="treatment-selected" style="background-color:white; width: 85%;box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);">
+<div class="treatment-selected">
     <div style="display:flex; align-items:center;">
         <p style="font-size:20px; color:#049FBF ;font-weight: normal;">療程項目</p>
     </div>
@@ -282,7 +286,7 @@
 </div>
 
 <!-- 醫師部分 -->
-<div class="doctor-section " style="background-color:white;width: 85%;">
+<div class="doctor-section">
     <p style="font-size:18px ; color:#049FBF;font-weight:600;">選擇醫師(單選)</p>
 
     <div id="doctorData" class="row" style="display: flex; justify-content: left;">
@@ -315,14 +319,14 @@
 </div>
 
 <!-- 已選擇的醫師 -->
-<div class="doctor-selected" style="background-color:white;width: 85%; box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);">
+<div class="doctor-selected">
     <p style="font-size:20px; color:#049FBF ;font-weight: normal;">醫師</p>
     <div id="selectedDoctor" class="row" style="display: flex; justify-content: left;">
     </div>
 </div>
 
 <!-- 日期時間部分 -->
-<div class="dateTime-section hidden" style="background-color:white;width: 85%;">
+<div class="dateTime-section hidden">
     <p style="font-size:20px; color:#049FBF ;font-weight: normal;">選擇預約時間</p>
 
     <div id="dateTimeData" class="row">
@@ -368,14 +372,14 @@
 </div>
 
 <!-- 已選擇的日期時間 -->
-<div class="dateTime-selected" style="background-color:white;">
+<div class="dateTime-selected">
     <h5>日期及時間</h5>
     <p id="selectedDateDisplay" class="selected-date">預約日期：@Model.Date</p>
     <p id="selectedTimeDisplay" class="selected-time">預約時間：@Model.BookingBeginTime</p>
 </div>
 
 <!-- 初診填寫基本資料部分 -->
-<div class="baseInfomation-section hidden" style="background-color:white;">
+<div class="baseInfomation-section hidden">
     <h5>初診基本資料填寫</h5>
     <div class="form-group">
         <label for="name">姓名</label>
@@ -414,17 +418,13 @@
 <input type="hidden" id="selectedTime" value="@Model.BookingBeginTime" />
 <input type="hidden" id="appointmentId" value="@Model.AppointmentId" />
 
+<button class="btn btn-secondary" id="backToIndex" onclick="backToIndex();">取消</button>
 
-<div style="display:flex ; align-content:center ; justify-content:end; width:85%;margin:auto; padding-right:15px;">
-    <button class="btn btn-secondary" id="backToIndex" onclick="backToIndex();" style="border:none;border:none;border-radius:10pt; background-color:#0F376C;padding:2px;margin-right:10px  ; width:40px;height:40px">
-        <img src="~/images/close_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.png" alt="Alternate Text" style="width:30px;height:30px; " />
-    </button>
-
-    <button class="btn btn-primary" id="selectDateTimebtn" onclick="selectDateTime();" style="border:none;border-radius:10pt; background-color:#0F376C;padding:2px;">
+<button class="btn btn-primary" id="selectDateTimebtn" onclick="selectDateTime();" style="border:none; background-color:transparent;">
     <img src="~/images/keyboard_double_arrow_down_19dp_666666_FILL0_wght400_GRAD0_opsz20.png" alt="Alternate Text" style="width:45px;height:35px; " />
 </button>
 
-    <button class="btn btn-primary" id="backToSelectDoctorbtn" onclick="backToSelectDoctor();" style="display:none;border:none; background-color:transparent;">
+<button class="btn btn-primary" id="backToSelectDoctorbtn" onclick="backToSelectDoctor();" style="display:none;border:none; background-color:transparent;">
     <img src="~/images/fast_rewind_16dp_666666_FILL0_wght400_GRAD0_opsz20.png" alt="Alternate Text" style="width:35px;height:35px; " />
 </button>
 
@@ -440,7 +440,7 @@
 <button class="btn btn-primary" id="fillinCompletebtn" onclick="fillinComplete();" style="display:none;border:none; background-color:transparent;">
     <img src="~/images/check_circle_16dp_666666_FILL0_wght400_GRAD0_opsz20.png" alt="Alternate Text" style="width:35px;height:35px; " />
 </button>
-</div>
+
 
 <!-- 療程項目簡介模態框 -->
 <div class="modal fade " id="treatmentModal" tabindex="-1" aria-labelledby="treatmentModalLabel" aria-hidden="true">
@@ -669,10 +669,10 @@
                     data.forEach(function (x) {
                         i++;
 
-                        inner += `<div class="selectable doctorDiv "  style="border-radius: 15px;  overflow: hidden; margin: 3px; box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);" id="doctorDiv-` + i + `" data-title="` + x.doctorName + `" data-department="` + x.departmentTitle + `" data-image="` + x.image + `" data-description="` + x.introduction + `" data-type="doctor">`;
-                        inner += `<img src="` + x.image + `" style="border-radius: 15px; padding:3px;" class="img-fluid" onclick="doctorOnClick('` + i + `')">`;
+                        inner += `<div class="selectable doctorDiv " style="border-radius: 15px;  overflow: hidden; margin: 10px; box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);" id="doctorDiv-` + i + `" data-title="` + x.doctorName + `" data-department="` + x.departmentTitle + `" data-image="` + x.image + `" data-description="` + x.introduction + `" data-type="doctor">`;
+                        inner += `<img src="` + x.image + `" class="img-fluid" onclick="doctorOnClick('` + i + `')">`;
                         // inner += `<img src="/images/info.png" class="img-fluid doctor-info" data-toggle="modal" data-target="#doctorModal" />`;
-                        inner += `<div style=" line-height: 2;display: flex; align-items: center; justify-content: center; cursor:pointer;" data-toggle="modal" data-target="#doctorModal"><span style="font-size:14px;">` + x.doctorName + `</span></div>`;
+                        inner += `<div style="display: flex; align-items: center; justify-content: center; cursor:pointer;" data-toggle="modal" data-target="#doctorModal">` + x.doctorName + `<img src="/images/info.png" style="width:20px ; height:20px;" class="img-fluid"  /></div>`;
                         inner += `<input type="radio" id="doctor-` + i + `" name="doctor" value="` + x.doctorId + `" class="doctor-info" style="display:none;" />`;
                         inner += `</div>`;
                     });
@@ -728,8 +728,10 @@
                 type: 'POST',
                 url: '/Appointment/getDateAndTime',
                 datatype: "json",
-                data: { treatments: selectedTreatments, "doctor": selected.val() },
+                data: { treatments: selectedTreatments, "doctor": selected.val(), "appointmentId": $('#appointmentId').val() },
                 success: function (data) {
+                    console.log(data);
+
                     outpatientDateTimes = data;
 
                     data.forEach(function (x) {
@@ -775,8 +777,6 @@
             let dateString = `${year}-${String(month + 1).padStart(2, '0')}-${String(date).padStart(2, '0')}`;
 
             dateElement.data('date', dateString);
-
-
 
             if ($("#selectedDate").val() == dateString) {
                 dateElement.addClass('selected');
@@ -906,9 +906,9 @@
         selectedTreatments.forEach(function (x) {
             let item = treatmentList.filter(e => e.treatmentId == x)[0];
 
-            inner += `<div class="selectable "  style="border-radius: 15px;  overflow: hidden; margin: 3px; box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);" data-title="` + item.treatmentName + `" data-description="` + item.introduction + `" data-type="selectedTreatment">`;
-            inner += `<img src="` + item.image + `" style="border-radius: 15px; padding:3px;" class="img-fluid" data-toggle="modal" data-target="#treatmentModal">`;
-            inner += `<div style="line-height: 2;display: flex; align-items: center; justify-content: center; cursor:pointer;" data-toggle="modal" data-target="#treatmentModal" ><span style="font-size:14px;">` + item.treatmentName + `</span></div>`;
+            inner += `<div class="selectable col-4" data-title="` + item.treatmentName + `" data-description="` + item.introduction + `" data-type="selectedTreatment">`;
+            inner += `<img src="` + item.image + `" class="img-fluid" data-toggle="modal" data-target="#treatmentModal">`;
+            inner += `<div style=" cursor:pointer;" data-toggle="modal" data-target="#treatmentModal" >` + item.treatmentName + `<img src="/images/info.png" style="width:20px ; height:20px;" class="img-fluid" /></div>`;
             inner += `</div>`;
         });
         $('#selectedTreatment').html(inner);
@@ -918,9 +918,9 @@
 
         let item = doctorList.filter(e => e.doctorId == selectedDoctor)[0];
 
-        inner += `<div class="selectable"  style="border-radius: 15px;  overflow: hidden; margin: 3px; box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);"  data-title="` + item.doctorName + `" data-department="` + item.departmentTitle + `" data-description="` + item.introduction + `" data-type="selectedDoctor" >`;
-        inner += `<img src="` + item.image + `"  style="border-radius: 15px; padding:3px;"  class="img-fluid" data-toggle="modal" data-target="#doctorModal" >`;
-        inner += `<div  style="line-height: 2;display: flex; align-items: center; justify-content: center; cursor:pointer;" data-toggle="modal" data-target="#doctorModal" ><span style="font-size:14px;">` + item.doctorName + `</span></div>`;
+        inner += `<div class="selectable col-4" data-title="` + item.doctorName + `" data-department="` + item.departmentTitle + `" data-description="` + item.introduction + `" data-type="selectedDoctor" >`;
+        inner += `<img src="` + item.image + `" class="img-fluid" data-toggle="modal" data-target="#doctorModal" >`;
+        inner += `<div style=" cursor:pointer;" data-toggle="modal" data-target="#doctorModal" >` + item.doctorName + `<img src="/images/info.png" style="width:20px ; height:20px;" class="img-fluid" /></div>`;
         inner += `</div>`;
 
         $('#selectedDoctor').html(inner);
@@ -949,13 +949,13 @@
         } else {
             $.ajax({
                 type: 'POST',
-                url: '/Appointment/UpdateAppointment',
+                url: '/Home/UpdateAppointment',
                 datatype: "json",
                 data: { AppointmentId: $('#appointmentId').val(), treatments: selectedTreatments, "doctor": selectedDoctor, "date": selectedDate.data('date'), "beginTime": selectedTime },
                 success: function (data) {
                     console.log("Update appointment infomation success.")
 
-                    window.location.href = "@Url.Action("Index", "Appointment")";
+                    window.location.href = "@Url.Action("Index", "Home")";
                 }
             });
 
@@ -969,7 +969,7 @@
     }
 
     function backToIndex() {
-        window.location.href = "@Url.Action("Index", "Appointment")";
+        window.location.href = "@Url.Action("Index", "Home")";
     }
 
     // function fillinBaseInformation() {

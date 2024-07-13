@@ -12,6 +12,8 @@ namespace AppointmentSystem.Models.ViewModels.BaseInfoModels
         [Display(Name = "療程名稱")]
         public string? TreatmentName { get; set; }
 
+        public string? Hide { get; set; }
+
         public int? Sort { get; set; }
 
         //public string? Status { get; set; }
@@ -72,9 +74,6 @@ namespace AppointmentSystem.Models.ViewModels.BaseInfoModels
 
         [Display(Name = "術後提醒訊息")]
         public string? AlertMessage { get; set; }
-
-        [Display(Name = "是否隱藏")]
-        public string? Hide { get; set; }
 
         [Display(Name = "排序")]
         public int? Sort { get; set; }

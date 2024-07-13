@@ -26,26 +26,6 @@ namespace AppointmentSystem.Controllers
             _homeService = new HomeService(context);
         }
 
-        [Authorize]
-        public IActionResult Index()
-        {
-            //判斷cookie是員工還是顧客
-            var user = HttpContext.User.Claims.ToList();
-
-            if (user.FirstOrDefault(u => u.Type == "LoginType").Value == "EkUser")
-            {
-                Models.ViewModels.HomeModels.IndexVM indexVM = _homeService.GetIndexVMData();
-
-                return View(indexVM);
-            }
-            else
-            {
-                return RedirectToAction("Login", "Appointment");
-            }
-
-
-        }
-
         public IActionResult Login()
         {
             //有登入就跳轉到首頁
@@ -108,6 +88,35 @@ namespace AppointmentSystem.Controllers
             return View();
         }
 
+        [Authorize]
+        public IActionResult Index()
+        {
+            //判斷cookie是員工還是顧客
+            var user = HttpContext.User.Claims.ToList();
+
+            if (user.FirstOrDefault(u => u.Type == "LoginType").Value == "EkUser")
+            {
+                Models.ViewModels.HomeModels.IndexVM indexVM = _homeService.GetIndexVMData();
+
+                return View(indexVM);
+            }
+            else
+            {
+                return RedirectToAction("Login", "Appointment");
+            }
+        }
+
+        [Authorize]
+        [HttpGet]
+        public IActionResult AppointmentEdit(string id)
+        {
+            var user = HttpContext.User.Claims.ToList();
+
+            EditVM AppointmentData = _homeService.GetAppointmentDataById(id);
+
+            return View(AppointmentData);
+        }
+
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync();
@@ -120,6 +129,8 @@ namespace AppointmentSystem.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+
 
 
 
@@ -156,7 +167,8 @@ namespace AppointmentSystem.Controllers
             {
                 Modifier = user.FirstOrDefault(u => u.Type == "Account").Value,
                 ModifyDate = DateTime.Now,
-                CheckIn = "Y"
+                CheckIn = "Y",
+                CheckInTime = DateTime.Now.ToString()
             };
 
             _homeService.AppointmentCheckIn(appointmentId, user.FirstOrDefault(u => u.Type == "Account").Value, item);
@@ -232,7 +244,59 @@ namespace AppointmentSystem.Controllers
             return new JsonResult("success.");
         }
 
+        [HttpPost]
+        public IActionResult UpdateAppointment(string AppointmentId, string[] treatments, string doctor, string date, string beginTime)
+        {
+            var user = HttpContext.User.Claims.ToList();
 
+            string BookingEndTime = TimeSpan.Parse(beginTime).Add(new TimeSpan(0, _homeService.GetTreatmentListMaxTime(treatments), 0)).ToString();
+            BookingEndTime = DateTime.ParseExact(BookingEndTime, "HH:mm:ss", null).ToString("HH:mm");
+
+            Appointment item = new Appointment()
+            {
+                Modifier = user.FirstOrDefault(u => u.Type == "Account").Value,
+                ModifyDate = DateTime.Now,
+
+                DoctorId = doctor,
+                Date = date,
+                BookingBeginTime = beginTime,
+                BookingEndTime = BookingEndTime
+            };
+            _homeService.UpdateAppointment(item, AppointmentId);
+
+            //刪除原本的療程後新增
+            _homeService.RemoveAppointmenttreatment(AppointmentId);
+
+            foreach (var treatment in treatments)
+            {
+                Appointmenttreatment at = new Appointmenttreatment()
+                {
+                    Creator = user.FirstOrDefault(u => u.Type == "Account").Value,
+                    Modifier = user.FirstOrDefault(u => u.Type == "Account").Value,
+                    CreateDate = DateTime.Now,
+                    ModifyDate = DateTime.Now,
+                    Status = "Y",
+
+                    AppointmentId = AppointmentId,
+                    Type = "A",
+                    TreatmentId = treatment
+                };
+                _homeService.CreateAppointmenttreatment(at);
+            }
+
+            //更新門診時刻表
+            _homeService.UpdateAppointmentToOutpatient(AppointmentId, user.FirstOrDefault(u => u.Type == "Account").Value, item);
+
+            _functions.SaveSystemLog(new Systemlog
+            {
+                CreateDate = DateTime.Now,
+                Creator = user.FirstOrDefault(u => u.Type == "Account").Value,
+                UserAccount = user.FirstOrDefault(u => u.Type == "Account").Value,
+                Description = "Add Appointment id='" + AppointmentId + "'."
+            });
+
+            return new JsonResult(AppointmentId);
+        }
 
     }
 }

@@ -32,17 +32,17 @@
         }
 
     /*     .add-sidebaritem {
-                background-color: #ffffff;
-                color: #5e1a1a;
-                border: none;
-                border-radius: 50%;
-                width: 40px;
-                height: 40px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                font-size: 24px;
-            } */
+                                                    background-color: #ffffff;
+                                                    color: #5e1a1a;
+                                                    border: none;
+                                                    border-radius: 50%;
+                                                    width: 40px;
+                                                    height: 40px;
+                                                    display: flex;
+                                                    align-items: center;
+                                                    justify-content: center;
+                                                    font-size: 24px;
+                                                } */
 
     .close {
         color: #aaa;
@@ -72,8 +72,18 @@
             @foreach (var item in Model)
             {
                 <div class="input-group">
-                    <button class="icon-button mr-1" onclick="editTreatment('@i');">
-                        <img src="/images/Visibility.png" id="img-@i" style="height:2em;width:auto;" />
+                    <button class="icon-button mr-1">
+                        @if (item.Hide == "Y")
+                        {
+                            <img src="/images/Visibility.png" id="vis-@i" style="height:2em;width:auto;" onclick="setTreatmentShow(@i);" />
+                            <img src="/images/VisibilityOff.png" id="vih-@i" style="height:2em;width:auto;display:none;" onclick="setTreatmentHide(@i);" />
+                        }
+                        else
+                        {
+                            <img src="/images/Visibility.png" id="vis-@i" style="height:2em;width:auto;display:none;" onclick="setTreatmentShow(@i);" />
+                            <img src="/images/VisibilityOff.png" id="vih-@i" style="height:2em;width:auto;" onclick="setTreatmentHide(@i);" />
+                        }
+
                     </button>
                     <button class="form-control " id="tb-@i" onclick="showTreatmentDetail('@i');">@item.TreatmentName</button>
                     <input type="text" id="treatment-@i" class="form-control treatment-item" placeholder="請輸入療程名稱..." value="@item.TreatmentName" style="text-align:center;display:none;" />
@@ -275,11 +285,6 @@
 
                 // inner += '<div class="form-group"><label for="time">諮詢時間*</label><input type="number" class="form-control" id="time" value="' + data.time + '" placeholder="輸入諮詢時間" required=""></div>';
 
-                inner += '<div class="form-group form-check"><input type="checkbox" class="form-check-input" id="hide" ';
-                if (data.hide == "Y")
-                    inner += "checked";
-                inner += '><label class="form-check-label" for="hide">隱藏療程</label></div>';
-
                 inner += '<div class="form-group"><label for="sort">排序*</label><input type="number" class="form-control" id="sort" value="' + data.sort + '" placeholder="輸入排序" required=""></div>';
                 inner += '<div class="form-group"><label for="memo">備註</label><textarea class="form-control" id="memo" rows="3" placeholder="輸入備註">' + data.memo + '</textarea></div>';
                 inner += '<div class="form-group d-flex align-items-center"><label class="mr-2">圖片上傳*</label><input type="file" class="form-control-file" id="imagefile" onchange="setImageName();" style="display:none;" /> <label class="col-form-label btn btn-primary mb-0" onclick="uploadImageClick();" style="cursor:pointer;">選擇檔案</label><div><label id="imageName" class="ml-2">' + data.treatmentImage.fileName + data.treatmentImage.fileExtension + '</label></div></div>';
@@ -333,15 +338,19 @@
         let itemNo = $sidebar.find('.input-group').length + 1;
 
         let $newItem = $(`
-                                <div class="input-group">
-                                    <button class="form-control treatment-item" id="tb-${itemNo}" onclick="showTreatmentDetail('${itemNo}');" style="display:none;"></button>
-                                         <input type="text" id="treatment-${itemNo}" class="form-control treatment-item" placeholder="請輸入療程名稱..." value="" style="text-align:center;" />
-                                    <button class="icon-button" onclick="editTreatment('${itemNo}');">
-                                        <img src="/images/check.png"  class="ml-1" id="img-${itemNo}" style="height:2em;width:auto;" />
-                                    </button>
-                                    <input type="hidden" id="tv-${itemNo}" value="" />
-                                </div>
-                            `);
+            <div class="input-group">
+                <button class="icon-button mr-1">
+                    <img src="/images/Visibility.png" id="vis-${itemNo}" style="height:2em;width:auto;" onclick="setTreatmentShow(${itemNo});" />
+                    <img src="/images/VisibilityOff.png" id="vih-${itemNo}" style="height:2em;width:auto;display:none;" onclick="setTreatmentHide(${itemNo});" />
+                </button>
+                <button class="form-control treatment-item" id="tb-${itemNo}" onclick="showTreatmentDetail('${itemNo}');" style="display:none;"></button>
+                        <input type="text" id="treatment-${itemNo}" class="form-control treatment-item" placeholder="請輸入療程名稱..." value="" style="text-align:center;" />
+                <button class="icon-button" onclick="editTreatment('${itemNo}');">
+                    <img src="/images/check.png"  class="ml-1" id="img-${itemNo}" style="height:2em;width:auto;" />
+                </button>
+                <input type="hidden" id="tv-${itemNo}" value="" />
+            </div>
+        `);
 
         $sidebar.find('.add-sidebaritem').before($newItem);
     }
@@ -375,7 +384,6 @@
         formData.append('Introduction', $('#introduction').val());
         formData.append('Time', $('#time').val());
         formData.append('AlertMessage', $('#alertMessage').val());
-        formData.append('Hide', $("#hide").is(":checked"));
         formData.append('Sort', $('#sort').val());
         formData.append('Memo', $('#memo').val());
         // formData.append('Status', $('#status').val());
@@ -399,5 +407,44 @@
         });
     }
 
+    function setTreatmentShow(i) {
+        let tv = $("#tv-" + i).val();
+
+        if (tv == "") {
+            alert("查無療程資料，如為新療程請先按確定!");
+        } else {
+            $.ajax({
+                type: "POST",
+                url: "/BaseInfo/setTreatmentHideValue",
+                datatype: "json",
+                data: { "treatmentId": tv, "Hide": "N" },
+                success: function (data) {
+                    $('#vis-' + i).hide();
+                    $('#vih-' + i).show();
+                }
+            });
+        }
+    }
+
+    function setTreatmentHide(i) {
+        let tv = $("#tv-" + i).val();
+
+        if (tv == "") {
+            alert("查無療程資料，如為新療程請先按確定!");
+        } else {
+            $.ajax({
+                type: "POST",
+                url: "/BaseInfo/setTreatmentHideValue",
+                datatype: "json",
+                data: { "treatmentId": tv, "hide": "Y" },
+                success: function (data) {
+                    $('#vis-' + i).show();
+                    $('#vih-' + i).hide();
+                }
+            });
+        }
+
+
+    }
 
 </script>

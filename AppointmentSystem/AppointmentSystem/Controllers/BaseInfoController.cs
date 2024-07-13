@@ -1,4 +1,5 @@
 ﻿using AppointmentSystem.Models.DBModels;
+using AppointmentSystem.Models.ViewModels.AppointmentModels;
 using AppointmentSystem.Models.ViewModels.BaseInfoModels;
 using AppointmentSystem.Models.ViewModels.SystemModels;
 using AppointmentSystem.Services;
@@ -294,13 +295,6 @@ namespace AppointmentSystem.Controllers
             else
                 FileId = _baseinfoService.GetTreatmentImageIdByTreatmentId(value.TreatmentId);
 
-            string HideValue = "";
-
-            if (value.Hide == "false")
-                HideValue = "N";
-            else
-                HideValue = "Y";
-
             if (String.IsNullOrEmpty(value.Memo))
                 value.Memo = "";
 
@@ -312,7 +306,6 @@ namespace AppointmentSystem.Controllers
                 Introduction = value.Introduction,
                 AlertMessage = value.AlertMessage,
                 Time = value.Time,
-                Hide = HideValue,
                 Sort = value.Sort,
                 Memo = value.Memo,
                 ImageFileId = FileId
@@ -413,6 +406,32 @@ namespace AppointmentSystem.Controllers
             List<LableCheckboxList> LableCheckboxList = CreateLableList(id);
 
             return new JsonResult(LableCheckboxList);
+        }
+
+        [HttpPost]
+        [Authorize]
+        public IActionResult setTreatmentHideValue(string treatmentId, string hide)
+        {
+            var user = HttpContext.User.Claims.ToList();
+
+            Treatment item = new Treatment()
+            {
+                Modifier = user.FirstOrDefault(u => u.Type == "Account").Value,
+                ModifyDate = DateTime.Now,
+
+                Hide = hide
+            };
+            _baseinfoService.setTreatmentHideValue(treatmentId, item);
+
+            _functions.SaveSystemLog(new Systemlog
+            {
+                CreateDate = DateTime.Now,
+                Creator = user.FirstOrDefault(u => u.Type == "Account").Value,
+                UserAccount = user.FirstOrDefault(u => u.Type == "Account").Value,
+                Description = "Set treatment hide='" + hide + "', id='" + treatmentId + "'."
+            });
+
+            return new JsonResult(treatmentId);
         }
 
 
@@ -659,6 +678,114 @@ namespace AppointmentSystem.Controllers
 
         #endregion
 
+        #region -- 醫師請假 -- (DoctorDayOff)
+
+        [Authorize]
+        public IActionResult DoctorDayOffIndex()
+        {
+            //判斷cookie是員工還是顧客
+            var user = HttpContext.User.Claims.ToList();
+
+            if (user.FirstOrDefault(u => u.Type == "LoginType").Value == "EkUser")
+            {
+                List<DoctorDayOffIndexVM> ddo = _baseinfoService.GetDoctorDayOffForIndex();
+                ViewBag.Count = ddo.Count;
+
+                return View(ddo);
+            }
+            else
+            {
+                return RedirectToAction("Login", "Appointment");
+            }
+        }
+
+        [Authorize]
+        public IActionResult DoctorDayOffCreate()
+        {
+            //判斷cookie是員工還是顧客
+            var user = HttpContext.User.Claims.ToList();
+
+            if (user.FirstOrDefault(u => u.Type == "LoginType").Value == "EkUser")
+            {
+                List<SelectListItem> doctorList = CreateDoctorSelectList();
+                List<SelectListItem> beginTimeList = CreateTimeSelectList();
+                List<SelectListItem> endTimeList = CreateTimeSelectList();
+
+                DoctorDayOffCreateVM model = new DoctorDayOffCreateVM() //上面的 Model
+                {
+
+                    TypeList = _functions.CreateSelectList("DoctorDayOffSelectList", true),
+                    BeginTimeList = beginTimeList,
+                    EndTimeList = endTimeList,
+                    DoctorList = doctorList
+                };
+
+                return View(model);
+            }
+            else
+            {
+                return RedirectToAction("Login", "Appointment");
+            }
+        }
+
+        [HttpPost]
+        [Authorize]
+        public IActionResult DoctorDayOffCreate(DoctorDayOffCreateVM value)
+        {
+            var user = HttpContext.User.Claims.ToList();
+
+            Doctordayoff item = new Doctordayoff()
+            {
+                Creator = user.FirstOrDefault(u => u.Type == "Account").Value,
+                Modifier = user.FirstOrDefault(u => u.Type == "Account").Value,
+                CreateDate = DateTime.Now,
+                ModifyDate = DateTime.Now,
+                Status = "Y",
+
+                DoctorId = value.DoctorId!,
+                Type = value.Type!,
+                Date = value.Date!,
+                BeginTime = value.BeginTime!,
+                EndTime = value.EndTime!
+            };
+            _baseinfoService.CreateDoctorDayOff(item);
+
+            _functions.SaveSystemLog(new Systemlog
+            {
+                CreateDate = DateTime.Now,
+                Creator = user.FirstOrDefault(u => u.Type == "Account").Value,
+                UserAccount = user.FirstOrDefault(u => u.Type == "Account").Value,
+                Description = "Add doctor day off doctor id='" + value.DoctorId + "'."
+            });
+
+            return RedirectToAction("DoctorDayOffIndex");
+        }
+
+        [HttpPost]
+        public IActionResult CheckDayOffData(string doctorId, string date, string beginTime, string endTime)
+        {
+            string result = _baseinfoService.CheckDayOffData(doctorId, date, beginTime, endTime);
+
+            return new JsonResult(result);
+        }
+
+        [HttpPost]
+        public IActionResult DeleteDoctorDayOff(long Index)
+        {
+            string result = _baseinfoService.DeleteDoctorDayOff(Index);
+
+            return new JsonResult(result);
+        }
+
+
+
+
+
+
+
+        #endregion
+
+
 
 
         [Authorize]
@@ -675,6 +802,63 @@ namespace AppointmentSystem.Controllers
             List<LableCheckboxList> LableList = _baseinfoService.GetLableListForCheckbox(TreatmentId);
 
             return LableList;
+        }
+
+        [Authorize]
+        private List<SelectListItem> CreateTimeSelectList()
+        {
+            List<SelectListItem> SelectItemList = new List<SelectListItem>();
+
+            SelectItemList.Add(new SelectListItem()
+            {
+                Text = "請選擇...",
+                Value = "",
+                Selected = true
+            });
+
+            DateTime startTime = DateTime.Parse("06:00");
+            DateTime endTime = DateTime.Parse("23:00");
+            TimeSpan interval = new TimeSpan(0, int.Parse(_functions.GetSystemParameter("MinutesPerUnit")), 0);
+
+            while (startTime <= endTime)
+            {
+                SelectItemList.Add(new SelectListItem()
+                {
+                    Text = startTime.ToString("HH:mm"),
+                    Value = startTime.ToString("HH:mm"),
+                    Selected = false
+                });
+
+                startTime = startTime.Add(interval);
+            }
+
+            return SelectItemList;
+        }
+
+        [Authorize]
+        private List<SelectListItem> CreateDoctorSelectList()
+        {
+            List<DoctorCheckboxList> DoctorList = _baseinfoService.GetDoctorListForDropdown();
+            List<SelectListItem> SelectItemList = new List<SelectListItem>();
+
+            SelectItemList.Add(new SelectListItem()
+            {
+                Text = "請選擇...",
+                Value = "",
+                Selected = true
+            });
+
+            foreach (var item in DoctorList)
+            {
+                SelectItemList.Add(new SelectListItem()
+                {
+                    Text = item.DoctorName,
+                    Value = item.DoctorId,
+                    Selected = false
+                });
+            }
+
+            return SelectItemList;
         }
     }
 }

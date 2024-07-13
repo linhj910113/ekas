@@ -32,6 +32,8 @@ public partial class EkasContext : DbContext
 
     public virtual DbSet<Doctor> Doctors { get; set; }
 
+    public virtual DbSet<Doctordayoff> Doctordayoffs { get; set; }
+
     public virtual DbSet<Doctoroutpatient> Doctoroutpatients { get; set; }
 
     public virtual DbSet<Doctortreatment> Doctortreatments { get; set; }
@@ -448,6 +450,45 @@ public partial class EkasContext : DbContext
             entity.HasOne(d => d.ImageFile).WithMany(p => p.Doctors)
                 .HasForeignKey(d => d.ImageFileId)
                 .HasConstraintName("FK_doctor_systemfile");
+        });
+
+        modelBuilder.Entity<Doctordayoff>(entity =>
+        {
+            entity.HasKey(e => e.Index).HasName("PRIMARY");
+
+            entity.ToTable("doctordayoff", tb => tb.HasComment("醫師請假資料表"));
+
+            entity.Property(e => e.Index).HasColumnType("bigint(20)");
+            entity.Property(e => e.BeginTime)
+                .HasMaxLength(50)
+                .HasDefaultValueSql("''");
+            entity.Property(e => e.CreateDate)
+                .HasDefaultValueSql("current_timestamp()")
+                .HasColumnType("datetime");
+            entity.Property(e => e.Creator)
+                .HasMaxLength(50)
+                .HasDefaultValueSql("'Default'");
+            entity.Property(e => e.Date)
+                .HasMaxLength(50)
+                .HasDefaultValueSql("''");
+            entity.Property(e => e.DoctorId)
+                .HasMaxLength(50)
+                .HasDefaultValueSql("''");
+            entity.Property(e => e.EndTime)
+                .HasMaxLength(50)
+                .HasDefaultValueSql("''");
+            entity.Property(e => e.Modifier)
+                .HasMaxLength(50)
+                .HasDefaultValueSql("'Default'");
+            entity.Property(e => e.ModifyDate)
+                .HasDefaultValueSql("current_timestamp()")
+                .HasColumnType("datetime");
+            entity.Property(e => e.Status)
+                .HasMaxLength(1)
+                .HasDefaultValueSql("'Y'");
+            entity.Property(e => e.Type)
+                .HasMaxLength(50)
+                .HasDefaultValueSql("''");
         });
 
         modelBuilder.Entity<Doctoroutpatient>(entity =>

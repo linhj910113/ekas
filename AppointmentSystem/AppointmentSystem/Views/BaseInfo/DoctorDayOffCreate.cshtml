@@ -1,0 +1,146 @@
+﻿@model AppointmentSystem.Models.ViewModels.BaseInfoModels.DoctorDayOffCreateVM
+@{
+    ViewData["Title"] = "醫師請假新增";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card whiteBG mb-4 pattern-F colorset_B">
+    <div class="card-header">
+        <h3 class="card-title font-weight-bold">@ViewData["Title"]</h3>
+    </div>
+
+    <div class="card whiteBG pattern-F colorset_3">
+        <div class="card-body">
+            <div class="table-responsive" style="overflow-x: unset;">
+                <table class="table table-responsive-md table-hover table2 VA-middle">
+                    <div class="container">
+                        <div class="row justify-content-left">
+                            <div class="col-2">
+                                <button role="button" class="btn btn-shadow btn-block btn-color11-o" style="background-color:#97dded" onclick="location.href='@Url.Action("DoctorDayOffIndex", "BaseInfo")'">回上頁</button>
+                            </div>
+                        </div>
+                    </div>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <form method="post" asp-action="DoctorDayOffCreate" onsubmit="return verifyData();">
+        <div class="card whiteBG mb-4 pattern-F colorset_3">
+            <div class="card-body">
+                <div class="table-responsive" style="overflow-x: unset;">
+                    <table class="table table-responsive-md table-hover table2 VA-middle">
+                        <div class="table-responsive">
+                            <table class="table table-hover" id="addnew" table-layout: fixed;>
+                                <colgroup>
+                                    <col width="30%">
+                                    <col width="10%">
+                                    <col width="30%">
+                                    <col width="30%">
+                                </colgroup>
+                                <tbody>
+                                    <tr>
+                                        <td></td>
+                                        <td>醫師名稱</td>
+                                        <td>@Html.DropDownListFor(m => m.DoctorId, Model.DoctorList, new { @class = "form-control", @required = "", @id = "doctorId" })</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>假別</td>
+                                        <td>@Html.DropDownListFor(m => m.Type, Model.TypeList, new { @class = "form-control", @required = "", @id = "type" })</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>日期</td>
+                                        <td>
+                                            <input type="date" id="date" style="width:100%;" asp-for="Date" required="">
+                                        </td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>開始時間</td>
+                                        <td>@Html.DropDownListFor(m => m.BeginTime, Model.BeginTimeList, new { @class = "form-control", @required = "", @id = "beginTime" })</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>結束時間</td>
+                                        <td>@Html.DropDownListFor(m => m.EndTime, Model.EndTimeList, new { @class = "form-control", @required = "", @id = "endTime" })</td>
+                                        <td></td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                            <br>
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col">
+                                    </div>
+                                    <div class="col">
+                                        <input type="submit" class="btn btn-shadow btn-color11-3 btn-block" value="儲存">
+                                    </div>
+                                    <div class="col">
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+    </form>
+
+</div>
+
+<script>
+    function verifyData() {
+        let doctorId = $('#doctorId').val();
+        let type = $('#type').val();
+        let date = $('#date').val();
+        let beginTime = $('#beginTime').val();
+        let endTime = $('#endTime').val();
+
+        date = new Date(date);
+        date.setHours(0, 0, 0, 0);
+
+        if (date < new Date().setHours(0, 0, 0, 0)) {
+            alert("日期不能是過去的日期。");
+            return false;
+        }
+        if (endTime <= beginTime) {
+            alert("結束時間必須大於開始時間。");
+            return false;
+        }
+
+        let ajaxFlag = true;
+
+        $.ajax({
+            type: 'POST',
+            url: '/BaseInfo/CheckDayOffData',
+            async: false,
+            datatype: "json",
+            data: { "doctorId": doctorId, "date": formatDate(date), "beginTime": beginTime, "endTime": endTime },
+            success: function (data) {
+                if (data != "") {
+                    alert(data);
+                    ajaxFlag = false;
+                }
+            }
+        });
+
+        return ajaxFlag;
+    }
+
+    function formatDate(date) {
+        let year = date.getFullYear();
+        let month = (date.getMonth() + 1).toString().padStart(2, '0');
+        let day = date.getDate().toString().padStart(2, '0');
+        return `${year}-${month}-${day}`;
+    }
+
+</script>

@@ -70,9 +70,14 @@ namespace AppointmentSystem.Services
             return _db.Appointments.Where(x => x.CustomerId == CustomerId && x.Status == "Y").Count();
         }
 
-        public int CheckFirstAppointmentWithoutSelf(string CustomerId, string AppointmentId)
+        public int CheckFirstAppointmentWithoutSelf(string CustomerId, string AppointmentId, string date)
         {
-            return _db.Appointments.Where(x => x.CustomerId == CustomerId && x.Status == "Y" && x.Id != AppointmentId).Count();
+            var appointment = _db.Appointments.AsEnumerable().Where(x => x.CustomerId == CustomerId && x.Status == "Y" && DateTime.Parse(x.Date) < DateTime.Parse(date)).ToList();
+
+            if (AppointmentId is not null && AppointmentId != "")
+                appointment = appointment.AsEnumerable().Where(x => x.Id != AppointmentId).ToList();
+
+            return appointment.Count();
         }
 
         public IndexVM GetCustomerAppointmentData(string CustomerId)
@@ -134,6 +139,11 @@ namespace AppointmentSystem.Services
             EditVM result = new EditVM();
             var appointment = _db.Appointments.AsEnumerable().FirstOrDefault(x => x.Id == AppointmentId);
 
+            //確認是否為第一次預約(Count=0為第一次)
+            int AppointmentCount = CheckFirstAppointmentWithoutSelf(appointment.CustomerId, AppointmentId, date);
+            //取得新客填寫資料時間
+            int FillinTime = int.Parse(_functions.GetSystemParameter("NewCustomerFillInInformationTime"));
+
             result.AppointmentId = appointment.Id;
             result.Date = appointment.Date;
             result.DoctorId = appointment.DoctorId;
@@ -161,16 +171,38 @@ namespace AppointmentSystem.Services
             int MaxTreatmentTime = GetTreatmentListMaxTime(result.SelectedTreatment.ToArray());
 
             List<OutpatientTimeData> outpatientTimeData = new List<OutpatientTimeData>();
-            var OutpatientTimes = _db.Doctoroutpatients.AsEnumerable().Where(x => x.Status != "N" && x.DoctorId == appointment.DoctorId && int.Parse(x.Year) == Year && int.Parse(x.Month) == Month && int.Parse(x.Day) == Day).OrderBy(x => TimeSpan.Parse(x.BeginTime)).ToList();
+            var OutpatientTimes = _db.Doctoroutpatients.AsEnumerable().Where(
+                x => x.Status != "N" && 
+                x.DoctorId == appointment.DoctorId && 
+                int.Parse(x.Year) == Year && 
+                int.Parse(x.Month) == Month && 
+                int.Parse(x.Day) == Day
+            ).OrderBy(x => TimeSpan.Parse(x.BeginTime)).ToList();
 
             foreach (var times in OutpatientTimes)
             {
                 //判斷該時段是否可使用
                 string enabled = "Y";
                 bool flag = false;
+                string BookingBeginTime = times.BeginTime;
                 string BookingEndTime = TimeSpan.Parse(times.BeginTime).Add(new TimeSpan(0, MaxTreatmentTime, 0)).ToString();
 
-                var dt = _db.Doctoroutpatients.AsEnumerable().Where(x => x.Status == "Y" && x.AppointmentId == "" && x.DoctorId == appointment.DoctorId && int.Parse(x.Year) == Year && int.Parse(x.Month) == Month && int.Parse(x.Day) == Day && TimeSpan.Parse(x.BeginTime) >= TimeSpan.Parse(times.BeginTime) && TimeSpan.Parse(x.EndTime) <= TimeSpan.Parse(BookingEndTime)).OrderBy(x => TimeSpan.Parse(x.BeginTime)).ToList();
+                if (AppointmentCount == 0)
+                {
+                    BookingBeginTime = DateTime.ParseExact(TimeSpan.Parse(BookingBeginTime).Add(new TimeSpan(0, FillinTime, 0)).ToString(), "HH:mm:ss", null).ToString("HH:mm");
+                    BookingEndTime = DateTime.ParseExact(TimeSpan.Parse(BookingEndTime).Add(new TimeSpan(0, FillinTime, 0)).ToString(), "HH:mm:ss", null).ToString("HH:mm");
+                }
+
+                var dt = _db.Doctoroutpatients.AsEnumerable().Where(
+                    x => x.Status == "Y" &&
+                    x.AppointmentId == "" &&
+                    x.DoctorId == appointment.DoctorId &&
+                    int.Parse(x.Year) == Year &&
+                    int.Parse(x.Month) == Month &&
+                    int.Parse(x.Day) == Day &&
+                    TimeSpan.Parse(x.BeginTime) >= TimeSpan.Parse(BookingBeginTime) &&
+                    TimeSpan.Parse(x.EndTime) <= TimeSpan.Parse(BookingEndTime)
+                ).OrderBy(x => TimeSpan.Parse(x.BeginTime)).ToList();
                 double sum = 0;
 
                 foreach (var d in dt)
@@ -467,13 +499,19 @@ namespace AppointmentSystem.Services
             return list;
         }
 
-        public List<FillinDateTimeVM> GetFillInDateTimeData(string[] treatments, string doctor)
+        public List<FillinDateTimeVM> GetFillInDateTimeData(string[] treatments, string doctor, string CustomerId, string appointmentId)
         {
             List<FillinDateTimeVM> result = new List<FillinDateTimeVM>();
             int CurrentYear = DateTime.Now.Year;
             int CurrentMonth = DateTime.Now.Month;
             int CurrentDay = DateTime.Now.Day;
             int MaxTreatmentTime = GetTreatmentListMaxTime(treatments);
+            string cd = CurrentYear + "-" + CurrentMonth.ToString("D2") + "-" + CurrentDay.ToString("D2");
+
+            //確認是否為第一次預約(Count=0為第一次)
+            int AppointmentCount = CheckFirstAppointmentWithoutSelf(CustomerId, appointmentId, cd);
+            //取得新客填寫資料時間
+            int FillinTime = int.Parse(_functions.GetSystemParameter("NewCustomerFillInInformationTime"));
 
             var OutaetientDates = _db.Doctoroutpatients.AsEnumerable().Where(x => x.DoctorId == doctor && int.Parse(x.Year) >= CurrentYear && int.Parse(x.Month) >= CurrentMonth && int.Parse(x.Day) >= CurrentDay).Select(x => new { x.Year, x.Month, x.Day }).Distinct().OrderBy(x => int.Parse(x.Year)).ThenBy(x => int.Parse(x.Month)).ThenBy(x => int.Parse(x.Day)).ToList();
             //var doctoroutaetients = _db.Doctoroutpatients.AsEnumerable().Where(x => x.DoctorId == doctor && int.Parse(x.Year) >= CurrentYear && int.Parse(x.Month) >= CurrentMonth && int.Parse(x.Day) >= CurrentDay).OrderBy(x => int.Parse(x.Year)).ThenBy(x => int.Parse(x.Month)).ThenBy(x => int.Parse(x.Day)).ThenBy(x => TimeSpan.Parse(x.BeginTime)).ToList();
@@ -491,9 +529,25 @@ namespace AppointmentSystem.Services
                     //判斷該時段是否可使用
                     string enabled = "Y";
                     bool flag = false;
+                    string BookingBeginTime = times.BeginTime;
                     string BookingEndTime = TimeSpan.Parse(times.BeginTime).Add(new TimeSpan(0, MaxTreatmentTime, 0)).ToString();
 
-                    var dt = _db.Doctoroutpatients.AsEnumerable().Where(x => x.Status == "Y" && x.AppointmentId == "" && x.DoctorId == doctor && x.Year == date.Year && x.Month == date.Month && x.Day == date.Day && TimeSpan.Parse(x.BeginTime) >= TimeSpan.Parse(times.BeginTime) && TimeSpan.Parse(x.EndTime) <= TimeSpan.Parse(BookingEndTime)).OrderBy(x => TimeSpan.Parse(x.BeginTime)).ToList();
+                    if (AppointmentCount == 0)
+                    {
+                        BookingBeginTime = DateTime.ParseExact(TimeSpan.Parse(BookingBeginTime).Add(new TimeSpan(0, FillinTime, 0)).ToString(), "HH:mm:ss", null).ToString("HH:mm");
+                        BookingEndTime = DateTime.ParseExact(TimeSpan.Parse(BookingEndTime).Add(new TimeSpan(0, FillinTime, 0)).ToString(), "HH:mm:ss", null).ToString("HH:mm");
+                    }
+
+                    var dt = _db.Doctoroutpatients.AsEnumerable().Where(x =>
+                        x.Status == "Y" &&
+                        x.AppointmentId == "" &&
+                        x.DoctorId == doctor &&
+                        x.Year == date.Year &&
+                        x.Month == date.Month &&
+                        x.Day == date.Day &&
+                        TimeSpan.Parse(x.BeginTime) >= TimeSpan.Parse(BookingBeginTime) &&
+                        TimeSpan.Parse(x.EndTime) <= TimeSpan.Parse(BookingEndTime)
+                    ).OrderBy(x => TimeSpan.Parse(x.BeginTime)).ToList();
                     double sum = 0;
 
                     foreach (var d in dt)
@@ -591,13 +645,13 @@ namespace AppointmentSystem.Services
                 });
             _db.SaveChanges();
 
-            //確認是否為第一次預約(Count=0為第一次)
-            int AppointmentCount = CheckFirstAppointmentWithoutSelf(UserId, AppointmentId);
-            //取得新客填寫資料時間
-            int FillinTime = int.Parse(_functions.GetSystemParameter("NewCustomerFillInInformationTime"));
-
             //將門診時段綁定預約資料
             var AppointmentData = _db.Appointments.FirstOrDefault(x => x.Id == AppointmentId);
+
+            //確認是否為第一次預約(Count=0為第一次)
+            int AppointmentCount = CheckFirstAppointmentWithoutSelf(UserId, AppointmentId, AppointmentData.Date);
+            //取得新客填寫資料時間
+            int FillinTime = int.Parse(_functions.GetSystemParameter("NewCustomerFillInInformationTime"));
 
             if (AppointmentData != null)
             {
@@ -676,7 +730,7 @@ namespace AppointmentSystem.Services
 
         public void RemoveAppointmenttreatment(string? AppointmentId)
         {
-            _db.Appointmenttreatments.RemoveRange(_db.Appointmenttreatments.Where(x => x.AppointmentId == AppointmentId && x.Type=="A"));
+            _db.Appointmenttreatments.RemoveRange(_db.Appointmenttreatments.Where(x => x.AppointmentId == AppointmentId && x.Type == "A"));
 
             _db.SaveChanges();
         }

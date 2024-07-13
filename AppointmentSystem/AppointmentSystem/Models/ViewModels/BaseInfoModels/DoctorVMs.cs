@@ -73,4 +73,77 @@ namespace AppointmentSystem.Models.ViewModels.BaseInfoModels
 
         public string? Image { get; set; }
     }
+
+    #region -- 醫師請假 -- (DoctorDayOff)
+
+    public partial class DoctorDayOffIndexVM
+    {
+        public long? DayOffIndex { get; set; }
+
+        public string? DoctorName { get; set; }
+
+        public string? Type { get; set; }
+
+        public string? Date { get; set; }
+
+        public string? BeginTime { get; set; }
+
+        public string? EndTime { get; set; }
+
+        public string? Status { get; set; }
+    }
+
+    public partial class DoctorDayOffCreateVM
+    {
+        [Display(Name = "醫師ID")]
+        public string? DoctorId { get; set; }
+
+        public IEnumerable<SelectListItem>? DoctorList { get; set; }
+
+        [Display(Name = "假別")]
+        public string? Type { get; set; }
+
+        public IEnumerable<SelectListItem>? TypeList { get; set; }
+
+        [Display(Name = "日期")]
+        public string? Date { get; set; }
+
+        [Display(Name = "開始時間")]
+        public string? BeginTime { get; set; }
+
+        public IEnumerable<SelectListItem>? BeginTimeList { get; set; }
+
+        [Display(Name = "結束時間")]
+        public string? EndTime { get; set; }
+
+        public IEnumerable<SelectListItem>? EndTimeList { get; set; }
+    }
+
+    public partial class DoctorDayOffEditVM
+    {
+        [Display(Name = "醫師ID")]
+        public string? DoctorId { get; set; }
+
+        public IEnumerable<SelectListItem>? DoctorList { get; set; }
+
+        [Display(Name = "假別")]
+        public string? Type { get; set; }
+
+        public IEnumerable<SelectListItem>? TypeList { get; set; }
+
+        [Display(Name = "日期")]
+        public string? Date { get; set; }
+
+        [Display(Name = "開始時間")]
+        public string? BeginTime { get; set; }
+
+        public IEnumerable<SelectListItem>? BeginTimeList { get; set; }
+
+        [Display(Name = "結束時間")]
+        public string? EndTime { get; set; }
+
+        public IEnumerable<SelectListItem>? EndTimeList { get; set; }
+    }
+
+    #endregion
 }
