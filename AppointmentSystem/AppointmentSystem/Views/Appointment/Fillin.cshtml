@@ -271,8 +271,8 @@
         }
 
     /*  .selectable .select-circle.selected {
-                                                                                                                                        background-color: green;
-                                                                                                                                    } */
+                                                                                                                                                    background-color: green;
+                                                                                                                                                } */
 
     .doctor-section.hidden, .dateTime-section.hidden, .baseInfomation-section.hidden {
         display: none;
@@ -406,6 +406,8 @@
 </style>
 
 <div class="overlay-container" style=" position: relative;display: inline-block;">
+    @*     <img id="desktopImage" src="~/images/CustomerIndexImage1.jpg" alt="Desktop Image" class="appointment-image desktop-image">
+    <img id="mobileImage" src="~/images/CustomerIndexImage2.jpg" alt="Mobile Image" class="appointment-image mobile-image" style="height:25rem; width:auto; object-fit: cover;"> *@
 
     <div class="overlay"
          style="position: absolute;
@@ -425,15 +427,17 @@
             margin-bottom:10px;
             letter-spacing: 2px;">
 
-
-
-
+        @*         <div class="container content mb-3">
+        <span id="AppointmentIntroductionText"></span>
+        </div> *@
 
     </div>
 
 </div>
 
-
+@* <div class="container content">
+    <span id="AppointmentIntroductionText"></span>
+</div> *@
 
 <p></p>
 
@@ -461,7 +465,7 @@
 </div>
 
 <!-- 醫師部分 -->
-<div class="doctor-section hidden" style="background-color:white;width: 85%;">
+<div class="doctor-section" style="background-color:white;width: 85%;">
     <p style="font-size:18px ; color:#049FBF;font-weight:600;">選擇醫師(單選)</p>
 
     <div id="doctorData" class="row" style="display: flex; justify-content: left;">
@@ -548,33 +552,27 @@
 <div style="display:flex ; align-content:center ; justify-content:end; width:85%;margin:auto; padding-right:15px;">
     <button class="btn btn-secondary" id="backToIndex" onclick="backToIndex();" style="border:none;border:none;border-radius:10pt; background-color:#0F376C;padding:2px;margin-right:10px  ; width:40px;height:40px">
         <img src="~/images/close_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.png" alt="Alternate Text" style="width:30px;height:30px; " />
-</button>
-@* <button class="btn btn-primary" id="selectDateTimebtn" onclick="selectDateTime();">下一步</button> *@
-<button class="btn btn-primary" id="selectDateTimebtn" onclick="selectDateTime();" style="border:none;border-radius:10pt; background-color:#0F376C;padding:2px;">
-    <img src="~/images/arrow_right_alt_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.png" alt="Alternate Text" style="width:35px;height:35px; " />
-</button>
+    </button>
+    <button class="btn btn-primary" id="selectDateTimebtn" onclick="selectDateTime();" style="border:none;border-radius:10pt; background-color:#0F376C;padding:2px;">
+        <img src="~/images/arrow_right_alt_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.png" alt="Alternate Text" style="width:35px;height:35px; " />
+    </button>
 
-<button class="btn btn-primary" id="backToSelectDoctorbtn" onclick="backToSelectDoctor();" style="display:none;border:none; background-color:transparent;">
-    <img src="~/images/fast_rewind_16dp_666666_FILL0_wght400_GRAD0_opsz20.png" alt="Alternate Text" style="width:35px;height:35px; " />
-</button>
+    <button class="btn btn-primary" id="backToSelectDoctorbtn" onclick="backToSelectDoctor();" style="display:none;border:none; background-color:transparent;">
+        <img src="~/images/fast_rewind_16dp_666666_FILL0_wght400_GRAD0_opsz20.png" alt="Alternate Text" style="width:35px;height:35px; " />
+    </button>
 
-<button class="btn btn-primary" id="backToSelectDataTimebtn" onclick="backToSelectDataTime();" style="display:none;border:none; background-color:transparent;">
-    <img src="~/images/fast_rewind_16dp_666666_FILL0_wght400_GRAD0_opsz20.png" alt="Alternate Text" style="width:35px;height:35px; " />
-</button>
+    <button class="btn btn-primary" id="backToSelectDataTimebtn" onclick="backToSelectDataTime();" style="display:none;border:none; background-color:transparent;">
+        <img src="~/images/fast_rewind_16dp_666666_FILL0_wght400_GRAD0_opsz20.png" alt="Alternate Text" style="width:35px;height:35px; " />
+    </button>
 
-<button class="btn btn-primary" id="fillinBaseInformationbtn" onclick="fillinBaseInformation();" style="display:none;border:none; background-color:transparent;">
-    <img src="~/images/arrow_right_alt_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.png" alt="Alternate Text" style="width:35px;height:35px; " />
-</button>
+    <button class="btn btn-primary" id="fillinBaseInformationbtn" onclick="fillinBaseInformation();" style="display:none;border:none; background-color:transparent;">
+        <img src="~/images/arrow_right_alt_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.png" alt="Alternate Text" style="width:35px;height:35px; " />
+    </button>
 
     <button class="btn btn-primary" id="fillinCompletebtn" onclick="fillinComplete();" style="display:none;border:none;border-radius:10pt; background-color:#0F376C;padding:2px; width:40px;height:40px">
-    <img src="~/images/arrow_right_alt_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.png" alt="Alternate Text" style="width:35px;height:35px; " />
-</button>
+        <img src="~/images/arrow_right_alt_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.png" alt="Alternate Text" style="width:35px;height:35px; " />
+    </button>
 </div>
-@* <button class="btn btn-primary" id="backToSelectDoctorbtn" onclick="backToSelectDoctor();" style="display:none;">上一步</button>
-<button class="btn btn-primary" id="backToSelectDataTimebtn" onclick="backToSelectDataTime();" style="display:none;">上一步</button>
-<button class="btn btn-primary" id="fillinBaseInformationbtn" onclick="fillinBaseInformation();" style="display:none;">下一步</button>
-<button class="btn btn-primary" id="fillinCompletebtn" onclick="fillinComplete();" style="display:none;">下一步</button> *@
-
 
 <!-- 療程項目簡介模態框 -->
 <div class="modal fade " id="treatmentModal" tabindex="-1" aria-labelledby="treatmentModalLabel" aria-hidden="true">
@@ -640,8 +638,8 @@
         function initData() {
             // console.log("@ViewBag.AppointmentCount");
 
-            setAppointmentIntroductionText();
-            setAppointmentImage();
+            // setAppointmentIntroductionText();
+            // setAppointmentImage();
             setTreatmentList();
         }
 
@@ -670,7 +668,7 @@
             modal.find('.modal-title').text(title);
             // modal.find('.modal-body #treatmentModalTitle').text(title);
             modal.find('.modal-body #treatmentModalDescription').text(description);
-            modal.find('.modal-body #treatmentImage').html("<img src='" + image + "' alt='treatment' class='img-fluid'>");            
+            modal.find('.modal-body #treatmentImage').html("<img src='" + image + "' alt='treatment' class='img-fluid'>");
         });
 
         $('#doctorModal').on('show.bs.modal', function (event) {
@@ -707,41 +705,41 @@
         });
     });
 
-    function setAppointmentIntroductionText() {
-        $.ajax({
-            type: 'GET',
-            url: '/Appointment/setAppointmentIntroductionText',
-            datatype: "json",
-            success: function (data) {
-                $('#AppointmentIntroductionText').html(data);
-            }
-        });
-    }
+    // function setAppointmentIntroductionText() {
+    //     $.ajax({
+    //         type: 'GET',
+    //         url: '/Appointment/setAppointmentIntroductionText',
+    //         datatype: "json",
+    //         success: function (data) {
+    //             $('#AppointmentIntroductionText').html(data);
+    //         }
+    //     });
+    // }
 
-    function setAppointmentImage() {
-        $.ajax({
-            type: 'GET',
-            url: '/Appointment/setAppointmentDesktopImage',
-            datatype: "json",
-            success: function (data) {
-                if (data != null) {
-                    // console.log(data);
-                    $('#desktopImage').attr('src', data);
-                }
-            }
-        });
+    // function setAppointmentImage() {
+    //     $.ajax({
+    //         type: 'GET',
+    //         url: '/Appointment/setAppointmentDesktopImage',
+    //         datatype: "json",
+    //         success: function (data) {
+    //             if (data != null) {
+    //                 // console.log(data);
+    //                 $('#desktopImage').attr('src', data);
+    //             }
+    //         }
+    //     });
 
-        $.ajax({
-            type: 'GET',
-            url: '/Appointment/setAppointmentMobileImage',
-            datatype: "json",
-            success: function (data) {
-                if (data != null) {
-                    $('#mobileImage').attr('src', data);
-                }
-            }
-        });
-    }
+    //     $.ajax({
+    //         type: 'GET',
+    //         url: '/Appointment/setAppointmentMobileImage',
+    //         datatype: "json",
+    //         success: function (data) {
+    //             if (data != null) {
+    //                 $('#mobileImage').attr('src', data);
+    //             }
+    //         }
+    //     });
+    // }
 
     // 切換顯示醫師部分
     function toggleDoctorSection() {
@@ -1065,7 +1063,7 @@
         selectedTreatments.forEach(function (x) {
             let item = treatmentList.filter(e => e.treatmentId == x)[0];
 
-            inner += `<div class="selectable " style="border-radius: 15px;  overflow: hidden; margin: 3px; box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);" data-title="` + item.treatmentName + `" data-description="` + item.introduction + `" data-type="selectedTreatment">`;
+            inner += `<div class="selectable " style="border-radius: 15px;  overflow: hidden; margin: 3px; box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);" data-title="` + item.treatmentName + `" data-image="` + item.image + `" data-description="` + item.introduction + `" data-type="selectedTreatment">`;
             inner += `<img src="` + item.image + `"style="border-radius: 15px; padding:3px;" class="img-fluid" data-toggle="modal" data-target="#treatmentModal">`;
             inner += `<div style="line-height: 2;display: flex; align-items: center; justify-content: center; cursor:pointer;" data-toggle="modal" data-target="#treatmentModal" ><span style="font-size:14px;">` + item.treatmentName + `</span></div>`;
             inner += `</div>`;
@@ -1077,7 +1075,7 @@
 
         let item = doctorList.filter(e => e.doctorId == selectedDoctor)[0];
 
-        inner += `<div class="selectable " style="border-radius: 15px;  overflow: hidden; margin: 3px; box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);" data-title="` + item.doctorName + `" data-department="` + item.departmentTitle + `" data-description="` + item.introduction + `" data-type="selectedDoctor" >`;
+        inner += `<div class="selectable " style="border-radius: 15px;  overflow: hidden; margin: 3px; box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);" data-title="` + item.doctorName + `" data-image="` + item.image + `" data-department="` + item.departmentTitle + `" data-description="` + item.introduction + `" data-type="selectedDoctor" >`;
         inner += `<img src="` + item.image + `"style="border-radius: 15px; padding:3px;" class="img-fluid" data-toggle="modal" data-target="#doctorModal" >`;
         inner += `<div style="line-height: 2;display: flex; align-items: center; justify-content: center; cursor:pointer;" data-toggle="modal" data-target="#doctorModal" ><span style="font-size:14px;">` + item.doctorName + `</span></div>`;
         inner += `</div>`;

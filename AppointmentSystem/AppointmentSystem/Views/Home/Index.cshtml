@@ -218,7 +218,7 @@
             <div id="email">電子郵件：asdfasf@asdfazxc.asdf</div>
 
             <div class="userinfo-item" style="margin-bottom:30px;">
-                <button class="btn sidebarbtn">編輯</button>
+                <button class="btn sidebarbtn" onclick="showEditCustomerInfoModal();">編輯</button>
             </div>
 
             <div class="userinfo-item">
@@ -292,6 +292,41 @@
     </div>
 </div>
 
+<div class="modal fade" id="editCustomerInfoModal" tabindex="-1" aria-labelledby="ModalInfo" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="ModalTitle">編輯客戶資料</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="customerName">客戶名稱：</label>
+                    <input type="text" class="form-control" id="customerName" required>
+                </div>
+                <div class="form-group">
+                    <label for="customerCellPhone">手機號碼：</label>
+                    <input type="text" class="form-control" id="customerCellPhone" required>
+                </div>
+                <div class="form-group">
+                    <label for="customerBirth">生日：</label>
+                    <input type="date" class="form-control" id="customerBirth" required>
+                </div>
+                <div class="form-group">
+                    <label for="customerEmail">電子郵件：</label>
+                    <input type="text" class="form-control" id="customerEmail" required>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" id="submitBtn" onclick="editCustomerInfo();">送出</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <input type="hidden" id="selectedAppointment" value="" />
 
 <script>
@@ -336,13 +371,23 @@
                 console.log(data);
 
                 $('#selectedAppointment').val(appointmentId);
-                $('#name').html(data.customerData.name);
                 $('#gender').html(data.customerData.gender);
                 $('#age').html(data.customerData.age);
-                $('#phone').html("電話號碼：" + data.customerData.cellPhone);
-                $('#birth').html("生日：" + data.customerData.birthday);
-                $('#email').html("電子郵件：" + data.customerData.email);
                 $('#missed').html(data.customerData.missed);
+
+                $('#name').html(data.customerData.name);
+                $('#customerName').val(data.customerData.name);
+
+                $('#phone').html("電話號碼：" + data.customerData.cellPhone);
+                $('#customerCellPhone').val(data.customerData.cellPhone);
+
+                $('#birth').html("生日：" + data.customerData.birthday);
+                $('#customerBirth').val(data.customerData.birthday);
+
+                $('#email').html("電子郵件：" + data.customerData.email);
+                $('#customerEmail').val(data.customerData.cellPhone);
+
+
 
                 if (data.checkIn == "Y") {
                     $('#checkIn').html('<button class="btn sidebarbtn" disabled>已報到</button>');
@@ -376,6 +421,38 @@
 
                 //     tdName.html(divHTML);
                 // });
+            }
+        });
+    }
+
+    function showEditCustomerInfoModal() {
+        let Id = $('#selectedAppointment').val();
+
+        if (Id == "")
+            return false;
+        else {
+            $('#editCustomerInfoModal').modal('show');
+        }
+    }
+
+    function editCustomerInfo() {
+        let id = $('#selectedAppointment').val();
+        let customerName = $('#customerName').val();
+        let customerCellPhone = $('#customerCellPhone').val();
+        let customerBirth = $('#customerBirth').val();
+        let customerEmail = $('#customerEmail').val();
+
+        $.ajax({
+            type: "POST",
+            url: "/Home/editCustomerInfo",
+            datatype: "json",
+            data: { "appointmentId": id, "customerName": customerName, "customerCellPhone": customerCellPhone, "customerBirth": customerBirth, "customerEmail": customerEmail },
+            success: function (data) {
+                console.log("Create lable successful.");                
+                
+                $('#editCustomerInfoModal').modal('hide');
+                appointmentOnClick(id);
+                refreshTable();
             }
         });
     }
@@ -467,6 +544,8 @@
     }
 
     function appointmentCancel() {
+
+
         let Id = $('#selectedAppointment').val();
 
         $.ajax({

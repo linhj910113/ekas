@@ -135,6 +135,7 @@ namespace AppointmentSystem.Controllers
 
 
         [HttpPost]
+        [Authorize]
         public IActionResult SetAppointmentTable(string currentYear, string currentMonth, string currentDay)
         {
             IndexAppointmentVM indexVM = _homeService.GetIndexAppointmentVMData(currentYear, currentMonth, currentDay);
@@ -143,6 +144,7 @@ namespace AppointmentSystem.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public IActionResult SetAppointmentData(string currentYear, string currentMonth, string currentDay)
         {
             List<AppointmentData> result = _homeService.GetAppointmentData(currentYear, currentMonth, currentDay);
@@ -151,6 +153,7 @@ namespace AppointmentSystem.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public IActionResult SetAppointmentDetail(string appointmentId)
         {
             AppointmentData result = _homeService.GetAppointmentDetail(appointmentId);
@@ -159,6 +162,7 @@ namespace AppointmentSystem.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public IActionResult appointmentCheckIn(string appointmentId)
         {
             var user = HttpContext.User.Claims.ToList();
@@ -185,6 +189,7 @@ namespace AppointmentSystem.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public IActionResult appointmentCancel(string appointmentId)
         {
             var user = HttpContext.User.Claims.ToList();
@@ -210,6 +215,7 @@ namespace AppointmentSystem.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public IActionResult saveSelectedTreatment(string appointmentId, string[] treatments)
         {
             var user = HttpContext.User.Claims.ToList();
@@ -245,6 +251,7 @@ namespace AppointmentSystem.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public IActionResult UpdateAppointment(string AppointmentId, string[] treatments, string doctor, string date, string beginTime)
         {
             var user = HttpContext.User.Claims.ToList();
@@ -296,6 +303,15 @@ namespace AppointmentSystem.Controllers
             });
 
             return new JsonResult(AppointmentId);
+        }
+
+        [HttpPost]
+        [Authorize]
+        public IActionResult editCustomerInfo(string AppointmentId, string customerName, string customerCellPhone, string customerBirth, string customerEmail)
+        {
+            string result = _homeService.EditCustomerInfo(AppointmentId, customerName, customerCellPhone, customerBirth, customerEmail);
+
+            return new JsonResult(result);
         }
 
     }

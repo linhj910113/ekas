@@ -256,7 +256,7 @@ namespace AppointmentSystem.Services
                 BookingEndTime = item.BookingEndTime,
                 TimeUnitCount = (TimeSpan.Parse(item.BookingEndTime) - TimeSpan.Parse(item.BookingBeginTime)).TotalMinutes / double.Parse(_functions.GetSystemParameter("MinutesPerUnit")),
                 TreatmentData = treatmentDataVMs,
-                ActualTreatmentData= ActualTreatmentData,
+                ActualTreatmentData = ActualTreatmentData,
                 CheckIn = item.CheckIn,
                 CheckInTime = item.CheckInTime,
                 customerData = new CustomerData()
@@ -367,13 +367,13 @@ namespace AppointmentSystem.Services
                 }
 
                 var dt = _db.Doctoroutpatients.AsEnumerable().Where(
-                    x => x.Status == "Y" && 
-                    x.AppointmentId == "" && 
-                    x.DoctorId == appointment.DoctorId && 
-                    int.Parse(x.Year) == Year && 
-                    int.Parse(x.Month) == Month && 
-                    int.Parse(x.Day) == Day && 
-                    TimeSpan.Parse(x.BeginTime) >= TimeSpan.Parse(BookingBeginTime) && 
+                    x => x.Status == "Y" &&
+                    x.AppointmentId == "" &&
+                    x.DoctorId == appointment.DoctorId &&
+                    int.Parse(x.Year) == Year &&
+                    int.Parse(x.Month) == Month &&
+                    int.Parse(x.Day) == Day &&
+                    TimeSpan.Parse(x.BeginTime) >= TimeSpan.Parse(BookingBeginTime) &&
                     TimeSpan.Parse(x.EndTime) <= TimeSpan.Parse(BookingEndTime)
                 ).OrderBy(x => TimeSpan.Parse(x.BeginTime)).ToList();
                 double sum = 0;
@@ -548,7 +548,7 @@ namespace AppointmentSystem.Services
             int AppointmentCount = CheckFirstAppointmentWithoutSelf(UserId, AppointmentId, AppointmentData.Date);
             //取得新客填寫資料時間
             int FillinTime = int.Parse(_functions.GetSystemParameter("NewCustomerFillInInformationTime"));
-            
+
 
             if (AppointmentData != null)
             {
@@ -579,6 +579,50 @@ namespace AppointmentSystem.Services
                 });
                 _db.SaveChanges();
             }
+        }
+
+        public string EditCustomerInfo(string AppointmentId, string customerName, string customerCellPhone, string customerBirth, string customerEmail)
+        {
+            var appointment = _db.Appointments.FirstOrDefault(x => x.Id == AppointmentId);
+
+            if (appointment != null)
+            {
+                string customerId = appointment.CustomerId;
+
+                _db.Customers.FirstOrDefault(x => x.Id == customerId).Name = customerName;
+                _db.Customers.FirstOrDefault(x => x.Id == customerId).CellPhone = customerCellPhone;
+                _db.Customers.FirstOrDefault(x => x.Id == customerId).Birthday = customerBirth;
+                _db.Customers.FirstOrDefault(x => x.Id == customerId).Email = customerEmail;
+
+                _db.SaveChanges();
+            }
+
+            //var ddo = _db.Doctordayoffs.FirstOrDefault(x => x.Index == Index);
+
+            ////修改門診表狀態
+            //DateTime d = DateTime.Parse(ddo.Date);
+            //int year = d.Year; int month = d.Month; int day = d.Day;
+
+            //var OutpatientTimes = _db.Doctoroutpatients.AsEnumerable().Where(
+            //    x => x.Status != "N" &&
+            //    x.DoctorId == ddo.DoctorId &&
+            //    int.Parse(x.Year) == year &&
+            //    int.Parse(x.Month) == month &&
+            //    int.Parse(x.Day) == day && x.AppointmentId == ""
+            //).OrderBy(x => TimeSpan.Parse(x.BeginTime));
+
+            //foreach (var times in OutpatientTimes)
+            //{
+            //    if (TimeSpan.Parse(times.BeginTime) < TimeSpan.Parse(ddo.EndTime) && TimeSpan.Parse(times.EndTime) > TimeSpan.Parse(ddo.BeginTime))
+            //        times.Status = "Y";
+            //}
+            //_db.SaveChanges();
+
+            ////設定假單狀態為N(保留原假單)
+            //_db.Doctordayoffs.FirstOrDefault(x => x.Index == Index).Status = "N";
+            //_db.SaveChanges();
+
+            return "success";
         }
 
         public User GetUserDate(string account)

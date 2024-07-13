@@ -762,6 +762,7 @@ namespace AppointmentSystem.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public IActionResult CheckDayOffData(string doctorId, string date, string beginTime, string endTime)
         {
             string result = _baseinfoService.CheckDayOffData(doctorId, date, beginTime, endTime);
@@ -770,6 +771,7 @@ namespace AppointmentSystem.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public IActionResult DeleteDoctorDayOff(long Index)
         {
             string result = _baseinfoService.DeleteDoctorDayOff(Index);
