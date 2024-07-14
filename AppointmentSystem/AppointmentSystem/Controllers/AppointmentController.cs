@@ -127,7 +127,7 @@ namespace AppointmentSystem.Controllers
 
         public IActionResult Login()
         {
-            //¦³µn¤J´N¸õÂà¨ì­º­¶
+            //æœ‰ç™»å…¥å°±è·³è½‰åˆ°é¦–é 
             var user = HttpContext.User.Claims.ToList();
 
             if (user.Count == 0)
@@ -164,7 +164,7 @@ namespace AppointmentSystem.Controllers
 
                 if (!tokenResponse.IsSuccessStatusCode)
                 {
-                    return BadRequest("µn¤J¥¢±Ñ");
+                    return BadRequest("ç™»å…¥å¤±æ•—");
                 }
 
                 var tokenContent = await tokenResponse.Content.ReadAsStringAsync();
@@ -238,7 +238,7 @@ namespace AppointmentSystem.Controllers
                 }
                 else
                 {
-                    //·sÅU«È
+                    //æ–°é¡§å®¢
                     string CustomerId = _functions.GetGuid();
 
                     while (_appointmentService.CheckCustomerId(CustomerId))
@@ -353,10 +353,10 @@ namespace AppointmentSystem.Controllers
                     Description = "Set appointment to outpatient Success, id='" + AppointmentId + "'."
                 });
 
-                //¶Ç°eLINE°T®§
+                //å‚³é€LINEè¨Šæ¯
                 //string message = _functions.GetSystemParameter("AppointmentVerifySuccess");
                 string Url = "https://" + _functions.GetSystemParameter("SystemDomainName") + ":7146/Appointment/SuccessPage/" + AppointmentId;
-                string message = "¹w¬ùÅçÃÒ¦¨¥\¡A¸Ô²Ó¸ê®Æ¦p¤Uºô§}\n" + Url;
+                string message = "é ç´„é©—è­‰æˆåŠŸï¼Œè©³ç´°è³‡æ–™å¦‚ä¸‹ç¶²å€\n" + Url;
 
                 if (vc.LoginBy == "Line")
                     await _functions.SendLineMessageAsync(user.LineId, message);
@@ -482,7 +482,7 @@ namespace AppointmentSystem.Controllers
             };
             _appointmentService.CreateAppointment(item);
 
-            //·s¼W¹w¬ùªºÀøµ{
+            //æ–°å¢é ç´„çš„ç™‚ç¨‹
             foreach (var treatment in treatments)
             {
                 Appointmenttreatment at = new Appointmenttreatment()
@@ -500,7 +500,7 @@ namespace AppointmentSystem.Controllers
                 _appointmentService.CreateAppointmenttreatment(at);
             }
 
-            //«Ø¥ßÅçÃÒ¸ê®Æ
+            //å»ºç«‹é©—è­‰è³‡æ–™
             string code = _functions.GetVerificationCode();
 
             Verificationcode vcode = new Verificationcode()
@@ -520,9 +520,9 @@ namespace AppointmentSystem.Controllers
             };
             _appointmentService.CreateVerificationcode(vcode);
 
-            //¶Ç°elineÅçÃÒ½X
+            //å‚³é€lineé©—è­‰ç¢¼
             string VerifyUrl = "https://" + _functions.GetSystemParameter("SystemDomainName") + ":7146/Appointment/Verify?code=" + code;
-            string message = "¹w¬ùÅçÃÒºô§}¦p¤U¡A½Ğ©ó5¤ÀÄÁ¤º¶i¦æÅçÃÒ\n" + VerifyUrl;
+            string message = "é ç´„é©—è­‰ç¶²å€å¦‚ä¸‹ï¼Œè«‹æ–¼5åˆ†é˜å…§é€²è¡Œé©—è­‰\n" + VerifyUrl;
 
             if (user.FirstOrDefault(u => u.Type == "LoginBy").Value == "Line")
                 await _functions.SendLineMessageAsync(user.FirstOrDefault(u => u.Type == "LineId").Value, message);
@@ -561,7 +561,7 @@ namespace AppointmentSystem.Controllers
             };
             _appointmentService.UpdateAppointment(item, AppointmentId);
 
-            //§R°£­ì¥»ªºÀøµ{«á·s¼W
+            //åˆªé™¤åŸæœ¬çš„ç™‚ç¨‹å¾Œæ–°å¢
             _appointmentService.RemoveAppointmenttreatment(AppointmentId);
 
             foreach (var treatment in treatments)
@@ -581,7 +581,7 @@ namespace AppointmentSystem.Controllers
                 _appointmentService.CreateAppointmenttreatment(at);
             }
 
-            //§ó·sªù¶E®É¨èªí
+            //æ›´æ–°é–€è¨ºæ™‚åˆ»è¡¨
             _appointmentService.UpdateAppointmentToOutpatient(AppointmentId, user.FirstOrDefault(u => u.Type == "UserId").Value, item);
 
             _functions.SaveSystemLog(new Systemlog
@@ -600,7 +600,7 @@ namespace AppointmentSystem.Controllers
         {
             var user = HttpContext.User.Claims.ToList();
 
-            //³]©wappointmentª¬ºA¬°C(cancel)
+            //è¨­å®šappointmentç‹€æ…‹ç‚ºC(cancel)
             Appointment item = new Appointment()
             {
                 Modifier = user.FirstOrDefault(u => u.Type == "UserId").Value,
@@ -648,25 +648,25 @@ namespace AppointmentSystem.Controllers
         {
             await HttpContext.SignOutAsync();
 
-            return RedirectToAction("Login", "Appointment");//¾É¦Üµn¤J­¶
+            return RedirectToAction("Login", "Appointment");//å°è‡³ç™»å…¥é 
         }
 
         #endregion
 
 
 
-        //µo°e°T®§´ú¸Õ
+        //ç™¼é€è¨Šæ¯æ¸¬è©¦
         //[HttpGet]
         //[Authorize]
         //public async Task<IActionResult> SendTestMessage(string id)
         //{
-        //    var result = await _appointmentService.SendLineMessageAsync(id, "¶Ç°e°T®§¥\¯à´ú¸Õ~~~");
+        //    var result = await _appointmentService.SendLineMessageAsync(id, "å‚³é€è¨Šæ¯åŠŸèƒ½æ¸¬è©¦~~~");
         //    if (!result)
         //    {
-        //        return BadRequest("°T®§¶Ç°e¥¢±Ñ");
+        //        return BadRequest("è¨Šæ¯å‚³é€å¤±æ•—");
         //    }
 
-        //    return Ok("°T®§¤w¶Ç°e");
+        //    return Ok("è¨Šæ¯å·²å‚³é€");
 
         //}
 
