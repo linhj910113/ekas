@@ -132,7 +132,18 @@ namespace AppointmentSystem.Controllers
 
 
 
+        [HttpPost]
+        public IActionResult setHeaderUserName()
+        {
+            //判斷cookie是員工還是顧客
+            var user = HttpContext.User.Claims.ToList();
+            UsernameAndRoleNameVM result = new UsernameAndRoleNameVM();
 
+            result.Username = user.FirstOrDefault(u => u.Type == "Name").Value;
+            result.Rolename = _homeService.GetUserRoleName(user.FirstOrDefault(u => u.Type == "UserId").Value);
+
+            return new JsonResult(result);
+        }
 
         [HttpPost]
         [Authorize]

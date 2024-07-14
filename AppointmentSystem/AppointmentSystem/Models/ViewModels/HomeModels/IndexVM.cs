@@ -31,6 +31,13 @@ namespace AppointmentSystem.Models.ViewModels.HomeModels
         }
     }
 
+    public partial class UsernameAndRoleNameVM
+    {
+        public string? Username { get; set; }
+
+        public string? Rolename { get; set; }
+    }
+
     public partial class LableListWithTreatment
     {
         public string? LableId { get; set; }

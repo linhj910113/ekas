@@ -24,6 +24,8 @@ public partial class Verificationcode
 
     public string ForeignKey { get; set; } = null!;
 
+    public string LoginBy { get; set; } = null!;
+
     public string HashCode { get; set; } = null!;
 
     public string Otp { get; set; } = null!;

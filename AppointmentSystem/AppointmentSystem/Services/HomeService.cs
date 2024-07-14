@@ -633,6 +633,24 @@ namespace AppointmentSystem.Services
             return user;
         }
 
+        public string GetUserRoleName(string userId)
+        {
+            var user = _db.Users.FirstOrDefault(x => x.Id == userId);
+
+            if (user != null)
+            {
+                var role = _db.Roles.FirstOrDefault(x => x.Id == user.RoleId);
+
+                if (role != null)
+                    return role.RoleName;
+                else
+                    return null;
+            }
+            else
+                return null;
+
+        }
+
         //public string GetAdminName()
         //{
         //    var user = _db.SysParameters.Where(x => x.Name == "AdminName").FirstOrDefault();

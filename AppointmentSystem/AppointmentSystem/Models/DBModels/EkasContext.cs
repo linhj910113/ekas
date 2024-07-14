@@ -147,7 +147,7 @@ public partial class EkasContext : DbContext
                 .HasMaxLength(10)
                 .HasDefaultValueSql("'N'");
             entity.Property(e => e.CheckInTime)
-                .HasMaxLength(10)
+                .HasMaxLength(50)
                 .HasDefaultValueSql("''");
             entity.Property(e => e.CreateDate)
                 .HasDefaultValueSql("current_timestamp()")
@@ -1158,6 +1158,9 @@ public partial class EkasContext : DbContext
                 .HasMaxLength(50)
                 .HasDefaultValueSql("''");
             entity.Property(e => e.HashCode)
+                .HasMaxLength(50)
+                .HasDefaultValueSql("''");
+            entity.Property(e => e.LoginBy)
                 .HasMaxLength(50)
                 .HasDefaultValueSql("''");
             entity.Property(e => e.Modifier)

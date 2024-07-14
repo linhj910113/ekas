@@ -38,8 +38,8 @@
 
                 <button class="header-toolbar d-flex align-items-center">
                     <div class="d-flex flex-column">
-                        <span id="header-username">目前使用者: VIC</span>
-                        <span id="header-rolename">TEST</span>
+                        <span id="header-username">目前使用者: </span>
+                        <span id="header-rolename"></span>
                     </div>
                     
 
@@ -68,6 +68,14 @@
 </html>
 
 <script type="text/javascript">
+
+    $(document).ready(function () {
+        init();
+        function init() {
+            setHeaderUserName();
+        }
+    });
+
     document.addEventListener('DOMContentLoaded', function () {
         const toolbar = document.querySelector('.header-toolbar');
         const dropdown = document.querySelector('.dropdown-function');
@@ -82,6 +90,18 @@
             }
         });
     });
+
+    function setHeaderUserName() {
+        $.ajax({
+            type: 'POST',
+            url: '/Home/setHeaderUserName',
+            datatype: "json",
+            success: function (data) {
+                $('#header-username').html("目前使用者:" + data.username);
+                $('#header-rolename').html(data.rolename);
+            }
+        });
+    }
 </script>
 
 

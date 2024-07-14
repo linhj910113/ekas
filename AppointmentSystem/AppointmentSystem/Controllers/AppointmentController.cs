@@ -201,8 +201,10 @@ namespace AppointmentSystem.Controllers
                     {
                         new Claim("LoginType", "Customer"),
                         new Claim("UserId", user.Id),
+                        new Claim("LoginBy", "Line"),
                         new Claim("LineId", lineUserId),
                         new Claim("Name", displayName),
+                        new Claim("Phone", user.CellPhone),
                         new Claim("IsAdmin", "N")
                     };
 
@@ -276,8 +278,10 @@ namespace AppointmentSystem.Controllers
                     {
                         new Claim("LoginType", "Customer"),
                         new Claim("UserId", CustomerId),
+                        new Claim("LoginBy", "Line"),
                         new Claim("LineId", lineUserId),
                         new Claim("Name", displayName),
+                        new Claim("Phone", ""),
                         new Claim("IsAdmin", "N")
                     };
 
@@ -325,10 +329,11 @@ namespace AppointmentSystem.Controllers
         [HttpGet]
         public async Task<IActionResult> Verify(string code)
         {
-            string AppointmentId = _appointmentService.CheckVerificationCode(code);
+            Verificationcode vc = _appointmentService.CheckVerificationCode(code);
 
-            if (AppointmentId != "")
+            if (vc is not null)
             {
+                string AppointmentId = vc.ForeignKey;
                 var user = _appointmentService.GetAppointmentCustomerData(AppointmentId);
 
                 Appointment item = new Appointment()
@@ -349,8 +354,14 @@ namespace AppointmentSystem.Controllers
                 });
 
                 //傳送LINE訊息
-                string message = _functions.GetSystemParameter("AppointmentVerifySuccess");
-                await _functions.SendLineMessageAsync(user.LineId, message);
+                //string message = _functions.GetSystemParameter("AppointmentVerifySuccess");
+                string Url = "https://" + _functions.GetSystemParameter("SystemDomainName") + ":7146/Appointment/SuccessPage/" + AppointmentId;
+                string message = "預約驗證成功，詳細資料如下網址\n" + Url;
+
+                if (vc.LoginBy == "Line")
+                    await _functions.SendLineMessageAsync(user.LineId, message);
+                else if (vc.LoginBy == "Cellphone")
+                    await _functions.SendSmsAsync(user.CellPhone, message);
 
                 return RedirectToAction("SuccessPage", "Appointment", new { id = AppointmentId });
             }
@@ -502,6 +513,7 @@ namespace AppointmentSystem.Controllers
 
                 SouceTable = "Appointment",
                 ForeignKey = AppointmentId,
+                LoginBy = user.FirstOrDefault(u => u.Type == "LoginBy").Value,
                 HashCode = code,
                 Otp = "",
                 ExpireTime = DateTime.Now.AddSeconds(int.Parse(_functions.GetSystemParameter("VerificationCodeExpireTime")))
@@ -509,10 +521,13 @@ namespace AppointmentSystem.Controllers
             _appointmentService.CreateVerificationcode(vcode);
 
             //傳送line驗證碼
-            string VerifyUrl = "https://localhost:7146/Appointment/Verify?code=" + code;
+            string VerifyUrl = "https://" + _functions.GetSystemParameter("SystemDomainName") + ":7146/Appointment/Verify?code=" + code;
             string message = "預約驗證網址如下，請於5分鐘內進行驗證\n" + VerifyUrl;
 
-            await _functions.SendLineMessageAsync(user.FirstOrDefault(u => u.Type == "LineId").Value, message);
+            if (user.FirstOrDefault(u => u.Type == "LoginBy").Value == "Line")
+                await _functions.SendLineMessageAsync(user.FirstOrDefault(u => u.Type == "LineId").Value, message);
+            else if (user.FirstOrDefault(u => u.Type == "LoginBy").Value == "Cellphone")
+                await _functions.SendSmsAsync(user.FirstOrDefault(u => u.Type == "Phone").Value, message);
 
             _functions.SaveSystemLog(new Systemlog
             {

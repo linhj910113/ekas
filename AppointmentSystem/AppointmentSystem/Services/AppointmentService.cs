@@ -577,14 +577,14 @@ namespace AppointmentSystem.Services
             return result;
         }
 
-        public string CheckVerificationCode(string code)
+        public Verificationcode CheckVerificationCode(string code)
         {
             DateTime now = DateTime.Now;
 
             if (_db.Verificationcodes.Where(x => x.SouceTable == "Appointment" && x.HashCode == code && x.ExpireTime >= now).Count() == 0)
-                return "";
+                return null;
             else
-                return _db.Verificationcodes.FirstOrDefault(x => x.SouceTable == "Appointment" && x.HashCode == code).ForeignKey;
+                return _db.Verificationcodes.FirstOrDefault(x => x.SouceTable == "Appointment" && x.HashCode == code);
         }
 
         public void SetAppointmentToOutpatient(string AppointmentId, string UserId, Appointment value)

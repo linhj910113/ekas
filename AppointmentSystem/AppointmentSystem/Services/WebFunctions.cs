@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
+using System.Net;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -166,6 +167,50 @@ namespace AppointmentSystem.Services
                 return response.IsSuccessStatusCode;
             }
         }
+
+        public async Task<string> SendSmsAsync(string to, string message)
+        {
+            string _apiUrl = "https://smsapi.mitake.com.tw/api/mtk/SmSend";
+            string _username = "47576286SMS";
+            string _password = "EK23102666";
+
+            try
+            {
+                //格式化手機號碼為09XXXXXXXX
+                to = to.Replace("-", "");
+
+                StringBuilder para = new StringBuilder();
+                para.Append($"username={_username}");
+                para.Append($"&password={_password}");
+                para.Append($"&dstaddr={to}");
+                para.Append($"&smbody={message}");
+
+                var reqUrl = $"{_apiUrl}?CharsetURL=UTF-8";
+
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(new Uri(reqUrl));
+                request.Method = "POST";
+                request.ContentType = "application/x-www-form-urlencoded";
+
+                byte[] bs = Encoding.UTF8.GetBytes(para.ToString());
+                request.ContentLength = bs.Length;
+
+                using (Stream reqStream = await request.GetRequestStreamAsync())
+                {
+                    await reqStream.WriteAsync(bs, 0, bs.Length);
+                }
+
+                using (HttpWebResponse response = (HttpWebResponse)await request.GetResponseAsync())
+                using (StreamReader sr = new StreamReader(response.GetResponseStream()))
+                {
+                    return await sr.ReadToEndAsync();
+                }
+            }
+            catch (Exception ex)
+            {
+                return $"Exception: {ex.Message}";
+            }
+        }
+
 
         #region -- 前端功能列使用 -- 
 
