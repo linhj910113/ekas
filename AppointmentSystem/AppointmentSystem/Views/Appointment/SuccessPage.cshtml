@@ -8,11 +8,13 @@
     .treatment-selected, .doctor-selected, .dateTime-selected {
         text-align: left;
         margin: 20px auto;
-        width: 80%;
+        width: 85%;
         max-width: 800px;
-        background-color: #f2f2f2;
+        background: linear-gradient(to top,#ffffff, #ffffff);
         padding: 20px;
-        border-radius: 10px;
+        border-radius: 13px;
+        border: 0px solid #5F5F5F;
+        box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
     }
 
     .selectable {
@@ -27,33 +29,39 @@
             cursor: pointer;
         }
 
+    #treatmentImage img {
+        width: 50%;
+        height: 50%;
+        border-radius: 20px;
+        margin: 5%
+    }
 </style>
 
-<div class="treatment-selected">
-    <h5>療程項目</h5>
+<div class="treatment-selected" style="margin-top:70px;">
+    <p style="font-size:18px ; color:#049FBF;font-weight:600;">療程項目</p>
     <div id="selectedTreatment" class="row" style="display: flex; justify-content: left;">
         @foreach (var treatment in Model.SelectedTreatment)
         {
-            <div class="selectable" data-title="@treatment.TreatmentName" data-description="@treatment.Introduction" data-image="@treatment.Image" data-type="selectedTreatment">
-                <img src="@treatment.Image" class="img-fluid" data-toggle="modal" data-target="#treatmentModal">
-                <div style="display: flex; align-items: center; justify-content: center; cursor:pointer;" data-toggle="modal" data-target="#treatmentModal">@treatment.TreatmentName<img src="/images/info.png" style="width:20px ; height:20px;" class="img-fluid" /></div>
+            <div class="selectable" style="background: linear-gradient(to top, rgba(255, 255, 255, 1), rgba(255, 255, 255, 1));border-radius: 15px;  overflow: hidden;  margin: 3px;  box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.2);" data-title="@treatment.TreatmentName" data-description="@treatment.Introduction" data-image="@treatment.Image" data-type="selectedTreatment">
+                <img src="@treatment.Image" style="border-radius: 15px; padding:3px;" class="img-fluid" data-toggle="modal" data-target="#treatmentModal">
+                <div style="display: flex; align-items: center; justify-content: center; cursor:pointer;" data-toggle="modal" data-target="#treatmentModal"><span style="font-size:14px;">@treatment.TreatmentName</span></div>
             </div>
         }
     </div>
 </div>
 
 <div class="doctor-selected">
-    <h5>醫師</h5>
+    <p style="font-size:18px ; color:#049FBF;font-weight:600;">預約醫師</p>
     <div id="selectedDoctor" class="row" style="display: flex; justify-content: left;">
-        <div class="selectable" data-title="@Model.SelectedDoctor.DoctorName" data-department="@Model.SelectedDoctor.DepartmentTitle" data-image="@Model.SelectedDoctor.Image" data-description="@Model.SelectedDoctor.Introduction" data-type="selectedDoctor">
-            <img src="@Model.SelectedDoctor.Image" class="img-fluid" data-toggle="modal" data-target="#doctorModal">
-            <div style="display: flex; align-items: center; justify-content: center; cursor:pointer;" data-toggle="modal" data-target="#doctorModal">@Model.SelectedDoctor.DoctorName<img src="/images/info.png" style="width:20px ; height:20px;" class="img-fluid" /></div>
+        <div class="selectable" style="background: linear-gradient(to top, rgba(255, 255, 255, 1), rgba(255, 255, 255, 1));border-radius: 15px;  overflow: hidden;  margin: 3px;  box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.2);" data-title="@Model.SelectedDoctor.DoctorName" data-department="@Model.SelectedDoctor.DepartmentTitle" data-image="@Model.SelectedDoctor.Image" data-description="@Model.SelectedDoctor.Introduction" data-type="selectedDoctor">
+            <img src="@Model.SelectedDoctor.Image" style="border-radius: 15px; padding:3px;" class="img-fluid" data-toggle="modal" data-target="#doctorModal">
+            <div style="display: flex; align-items: center; justify-content: center; cursor:pointer;" data-toggle="modal" data-target="#doctorModal"><span style="font-size:14px;">@Model.SelectedDoctor.DoctorName</span></div>
         </div>
     </div>
 </div>
 
 <div class="dateTime-selected">
-    <h5>日期及時間</h5>
+    <p style="font-size:18px ; color:#049FBF;font-weight:600;">日期及時間</p>
     <p id="selectedDateDisplay" class="selected-date">選擇的日期：@Model.Date</p>
     <p id="selectedTimeDisplay" class="selected-time">選擇的時間：@Model.BookingBeginTime</p>
 </div>
@@ -62,12 +70,14 @@
     <p id="notifyMessage" class="selected-date">@Model.NotifyMessage</p>
 </div>
 
-<button class="btn btn-secondary" id="backToIndex" onclick="backToIndex();">回首頁</button>
+<button class="btn btn-secondary" style=" background-color: #385466 ;color: #F7F6EE ;border-radius: 10px;" id="backToIndex" onclick="backToIndex();">
+    回首頁
+</button>
 
 <!-- 療程項目簡介模態框 -->
 <div class="modal fade " id="treatmentModal" tabindex="-1" aria-labelledby="treatmentModalLabel" aria-hidden="true">
     <div class="modal-dialog">
-        <div class="modal-content">
+        <div class="modal-content" style="border-radius:15px;">
             <div class="modal-header">
                 <h5 class="modal-title" id="treatmentModalLabel">治療項目簡介</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -88,7 +98,7 @@
 <!-- 醫師簡介模態框 -->
 <div class="modal fade" id="doctorModal" tabindex="-1" aria-labelledby="doctorModalLabel" aria-hidden="true">
     <div class="modal-dialog">
-        <div class="modal-content">
+        <div class="modal-content" style="border-radius:15px;">
             <div class="modal-header">
                 <h5 class="modal-title" id="doctorModalLabel">醫師簡介</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
