@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<AppointmentSystem.Models.ViewModels.BaseInfoModels.DoctorDayOffIndexVM>
 @{
-    ViewData["Title"] = "醫師請假管理";
+    ViewData["Title"] = "醫師手術時間";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -16,7 +16,7 @@
                     <div class="container">
                         <div class="row justify-content-left">
                             <div class="col-2">
-                                <button role="button" class="btn btn-shadow btn-block btn-color11-o" style="background-color:#97dded" onclick="location.href='@Url.Action("DoctorDayOffCreate", "BaseInfo")'">+ 新增請假資料</button>
+                                <button role="button" class="btn btn-shadow btn-block btn-color11-o" style="background-color:#97dded" onclick="location.href='@Url.Action("DoctorDayOffCreate", "BaseInfo")'">+ 新增手術時間</button>
                             </div>
                         </div>
                     </div>
@@ -45,7 +45,7 @@
                                 {
                                     <tr>
                                         <th>醫師名稱</th>
-                                        <th>假別</th>
+                                        <th>類別</th>
                                         <th>日期</th>
                                         <th>開始時間</th>
                                         <th>結束時間</th>

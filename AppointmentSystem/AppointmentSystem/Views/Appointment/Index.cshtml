@@ -15,8 +15,8 @@
 </style>
 
 <div class="overlay-container" style=" position: relative;display: inline-block;">
-    <img id="desktopImage" src="~/images/CustomerIndexImage1.jpg" alt="Desktop Image" class="appointment-image desktop-image">
-    <img id="mobileImage" src="~/images/CustomerIndexImage2.jpg" alt="Mobile Image" class="appointment-image mobile-image" style="height:25rem; width:auto; object-fit: cover;">
+    <img id="desktopImage" src="~/images/EKMainBanner.jpg" alt="Desktop Image" class="appointment-image desktop-image">
+    <img id="mobileImage" src="~/images/EKMainBanner.jpg" alt="Mobile Image" class="appointment-image mobile-image" style="height:25rem; width:auto; object-fit: cover;">
 
     <div class="overlay"
          style="position: absolute;
@@ -49,13 +49,13 @@
     <span id="AppointmentIntroductionText"></span>
 </div>
 
-<div class="appointment-table" style="width:95%;">
-    <h5>已預約時段</h5>
+<div class="appointment-table" style="width:95%;padding:20px 5px;     border-radius: 20px;">
+    <span style="font-weight:200;background-color:#528452;color:#ffffff;border-radius: 50px; padding-left:15px;padding-right:15px;padding-top:5px;padding-bottom:5px; margin:30px;">已預約時段</span>
 
-    <table class="table table-bordered" style="font-size: 14px;">
+    <table class="table table-bordered" style="border:none;font-size: 14px; margin: 15px 0px;">
         @if (ViewBag.Count > 0)
         {
-            <thead>
+            <thead style="border:none;border-radius:50%;">
                 <tr style="font-size: 14px; white-space: nowrap;vertical-align: middle; ">
                     <th>日期</th>
                     <th>時間</th>
@@ -101,9 +101,9 @@
 </div>
 
 <!-- 療程項目簡介模態框 -->
-<div class="modal fade" id="detailsModal" tabindex="-1" role="dialog" aria-labelledby="detailsModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
+<div class="modal fade" id="detailsModal" tabindex="-1" role="dialog" aria-labelledby="detailsModalLabel" aria-hidden="true" >
+    <div class="modal-dialog" role="document" >
+        <div class="modal-content" style="border-radius:15px;">
             <div class="modal-header">
                 <h5 class="modal-title" id="detailsModalLabel">療程項目詳細</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -160,8 +160,8 @@
                     details.items.forEach(function (item) {
                         var itemHtml = `
                             <div class="mb-3">
-                                <h5>${item.treatmentName}</h5>
-                                    <img src="${item.image}" alt="${item.treatmentName}" class="img-fluid">
+                                     <span style="font-weight:200;background-color:#528452;color:#ffffff;border-radius: 50px; padding-left:15px;padding-right:15px;padding-top:5px;padding-bottom:5px; margin:30%;">${item.treatmentName}</span>
+                                        <img src="${item.image}" alt="${item.treatmentName}" class="img-fluid" style="width:50%;height:50%;border-radius:20px;margin:5%">
                                 <p>${item.introduction}</p>
                             </div>
                         `;

@@ -52,13 +52,13 @@
 
 <div class=" mt-5">
     <div class="calendar-toolbar">
-        <button id="prevMonth" class="btn btn-primary">上個月</button>
+        <button id="prevMonth" style="background-color:#385466;color:#F7F6EE; border-radius:10px;border:none" class="btn btn-primary">上個月</button>
         <h2 id="monthYear"></h2>
-        <button id="nextMonth" class="btn btn-primary">下個月</button>
+        <button id="nextMonth" style="background-color:#385466;color:#F7F6EE; border-radius:10px;border:none;" class="btn btn-primary">下個月</button>
     </div>
     <table class="calendar-table table table-bordered">
         <thead>
-            <tr style="background-color:#ddd;">
+            <tr style="background-color:#385466;color: #ffffff;">
                 <th></th>
                 <th>星期日</th>
                 <th>星期一</th>
@@ -69,14 +69,14 @@
                 <th>星期六</th>
             </tr>
         </thead>
-        <tbody id="calendarBody">
+        <tbody id="calendarBody" style="background-color: #F7F6EE">
             <!-- 月曆內容會由JavaScript動態生成 -->
         </tbody>
     </table>
 
-    <button class="btn btn-primary" id="submitShift" onclick="saveDoctorShift();">儲存</button>
-    <button class="btn btn-secondary" id="lockShift" onclick="LockShift();">產生門診時刻表並鎖定</button>
-    <button class="btn btn-secondary" id="alertbtn" disabled>班表已鎖定</button>
+    <button class="btn btn-primary" id="submitShift" style="background-color:#385466;color:#F7F6EE; border-radius:10px;" onclick="saveDoctorShift();">儲存</button>
+    <button class="btn btn-secondary" id="lockShift" style="background-color:#385466;color:#F7F6EE; border-radius:10px;" onclick="LockShift();">產生門診時刻表並鎖定</button>
+    <button class="btn btn-secondary" id="alertbtn" style=" border-radius:10px;" disabled>班表已鎖定</button>
     <input type="hidden" id="currentYear" value="" />
     <input type="hidden" id="currentMonth" value="" />
     <input type="hidden" id="shiftlength" value="" />
