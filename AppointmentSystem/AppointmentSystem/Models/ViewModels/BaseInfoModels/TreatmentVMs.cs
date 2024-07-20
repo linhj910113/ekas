@@ -19,39 +19,14 @@ namespace AppointmentSystem.Models.ViewModels.BaseInfoModels
         //public string? Status { get; set; }
     }
 
-    //public partial class TreatmentCreateVM
-    //{
-    //    [Display(Name = "療程名稱")]
-    //    public string? TreatmentName { get; set; }
+    public partial class TreatmentCreateVM
+    {
+        [Display(Name = "時間列表")]
+        public List<SelectListItem>? TimeSelectList { get; set; }
 
-    //    [Display(Name = "療程介紹")]
-    //    public string? Introduction { get; set; }
-
-    //    [Display(Name = "療程圖片")]
-    //    public FileData? TreatmentImage { get; set; }
-
-    //    [Display(Name = "療程用時")]
-    //    public sbyte? Time { get; set; }
-
-    //    [Display(Name = "術後提醒訊息")]
-    //    public string? AlertMessage { get; set; }
-
-    //    [Display(Name = "是否隱藏")]
-    //    public string? Hide { get; set; }
-
-    //    [Display(Name = "排序")]
-    //    public int? Sort { get; set; }
-
-    //    [Display(Name = "備註")]
-    //    public string? Memo { get; set; }
-
-    //    public TreatmentCreateVM()
-    //    {
-    //        AlertMessage = "";
-    //        Memo = "";
-    //        TreatmentImage = new FileData();
-    //    }
-    //}
+        [Display(Name = "標籤列表")]
+        public List<LabelCheckboxList>? LabelList { get; set; }
+    }
 
     public partial class TreatmentEditVM
     {
@@ -69,11 +44,14 @@ namespace AppointmentSystem.Models.ViewModels.BaseInfoModels
         [Display(Name = "療程用時")]
         public int Time { get; set; }
 
-        [Display(Name = "標籤列表")]
+        [Display(Name = "時間列表")]
         public List<SelectListItem>? TimeSelectList { get; set; }
 
         [Display(Name = "術後提醒訊息")]
         public string? AlertMessage { get; set; }
+
+        [Display(Name = "隱藏")]
+        public string? Hide { get; set; }
 
         [Display(Name = "排序")]
         public int? Sort { get; set; }
@@ -85,12 +63,12 @@ namespace AppointmentSystem.Models.ViewModels.BaseInfoModels
         public string? Status { get; set; }
 
         [Display(Name = "標籤列表")]
-        public List<LableCheckboxList>? LableList { get; set; }
+        public List<LabelCheckboxList>? LabelList { get; set; }
 
         public IEnumerable<SelectListItem>? StatusList { get; set; }
 
         [Display(Name = "選取的標籤")]
-        public string? SelectedLable { get; set; }
+        public string? SelectedLabel { get; set; }
 
         public TreatmentEditVM()
         {

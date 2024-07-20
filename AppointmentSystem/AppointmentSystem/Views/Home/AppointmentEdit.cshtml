@@ -183,12 +183,12 @@
             cursor: not-allowed;
         }
 
-        .datepicker-body .available {
+        .datepicker-body .availabel {
             color: black;
             cursor: pointer;
         }
 
-            .datepicker-body .available:hover {
+            .datepicker-body .availabel:hover {
                 background-color: #bcbcbc;
             }
 
@@ -513,7 +513,7 @@
     let currentYear = today.getFullYear();
     let selectedDate = null;
     let outpatientDateTimes = null;
-    let availableDates = [];
+    let availabelDates = [];
     let treatmentList = null;
     let doctorList = null;
     let sDate = "";
@@ -754,7 +754,7 @@
                     outpatientDateTimes = data;
 
                     data.forEach(function (x) {
-                        availableDates.push(x.date);
+                        availabelDates.push(x.date);
                     });
 
                     generateCalendar(currentYear, currentMonth);
@@ -803,8 +803,8 @@
             }
 
 
-            if (availableDates.includes(dateString)) {
-                dateElement.addClass('available').on('click', function () {
+            if (availabelDates.includes(dateString)) {
+                dateElement.addClass('availabel').on('click', function () {
                     if (selectedDate) {
                         selectedDate.removeClass('selected');
                     }
@@ -893,7 +893,7 @@
 
         selectedDate = null;
         calendar.empty();
-        availableDates = [];
+        availabelDates = [];
         outpatientDateTimes = null;
         $('#selectedTreatment').html("");
         $('#selectedDoctor').html("");

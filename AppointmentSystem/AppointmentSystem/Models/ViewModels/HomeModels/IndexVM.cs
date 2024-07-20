@@ -6,13 +6,13 @@ namespace AppointmentSystem.Models.ViewModels.HomeModels
 {
     public partial class IndexVM
     {
-        public List<LableListWithTreatment>? LableList { get; set; }
+        public List<LabelListWithTreatment>? LabelList { get; set; }
 
         public List<TreatmentCheckboxList>? TreatmentList { get; set; }
 
         public IndexVM()
         {
-            LableList = new List<LableListWithTreatment>();
+            LabelList = new List<LabelListWithTreatment>();
             TreatmentList = new List<TreatmentCheckboxList>();
         }
     }
@@ -38,17 +38,17 @@ namespace AppointmentSystem.Models.ViewModels.HomeModels
         public string? Rolename { get; set; }
     }
 
-    public partial class LableListWithTreatment
+    public partial class LabelListWithTreatment
     {
-        public string? LableId { get; set; }
+        public string? LabelId { get; set; }
 
-        public string? LableName { get; set; }
+        public string? LabelName { get; set; }
 
         public string? TreatmentIdList { get; set; }
 
         //public List<string>? TreatmentIdList { get; set; }
 
-        //public LableListWithTreatment()
+        //public LabelListWithTreatment()
         //{
         //    TreatmentIdList = new List<string>();
         //}

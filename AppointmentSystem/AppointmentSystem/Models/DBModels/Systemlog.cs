@@ -10,11 +10,11 @@ public partial class Systemlog
 {
     public DateTime CreateDate { get; set; }
 
-    public string Creator { get; set; } = null!;
+    public string Creator { get; set; }
 
     public long Index { get; set; }
 
-    public string? UserAccount { get; set; }
+    public string UserAccount { get; set; }
 
-    public string? Description { get; set; }
+    public string Description { get; set; }
 }

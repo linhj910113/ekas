@@ -653,6 +653,88 @@ namespace AppointmentSystem.Services
 
         #endregion
 
+        #region -- 標籤管理 -- (Label)
+
+        public bool CheckLabelId(string LabelId)
+        {
+            if (_db.Labels.Where(x => x.Id == LabelId).Count() == 0)
+                return false;
+            else
+                return true;
+        }
+
+        public int GetLabelCount()
+        {
+            return _db.Labels.Count();
+        }
+
+        public List<LabelIndexVM> GetLabelListForIndex()
+        {
+            var items = _db.Labels.OrderBy(x => x.Sort);
+
+            List<LabelIndexVM> Labels = new List<LabelIndexVM>();
+
+            foreach (var item in items)
+            {
+                Labels.Add(new LabelIndexVM
+                {
+                    LabelId = item.Id,
+                    Type = item.Type,
+                    LabelName = item.LabelName,
+                    Sort = item.Sort,
+                    Status = item.Status
+                });
+            }
+
+            return Labels;
+        }
+
+        public LabelEditVM GetLabelById(string id)
+        {
+            var item = _db.Labels.Where(x => x.Id == id).FirstOrDefault();
+
+            LabelEditVM Label = new LabelEditVM();
+
+            Label.Type = item.Type;
+            Label.LabelName = item.LabelName;
+            Label.Sort = item.Sort;
+            Label.Status = item.Status;
+
+            return Label;
+        }
+
+        public void CreateLabel(Label value)
+        {
+            _db.Labels.Add(value);
+            _db.SaveChanges();
+        }
+
+        public void UpdateLabel(string id, string account, Label value)
+        {
+            _db.Labels.FirstOrDefault(x => x.Id == id).Modifier = account;
+            _db.Labels.FirstOrDefault(x => x.Id == id).ModifyDate = DateTime.Now;
+
+            _db.Labels.FirstOrDefault(x => x.Id == id).Type = value.Type;
+            _db.Labels.FirstOrDefault(x => x.Id == id).LabelName = value.LabelName;
+            _db.Labels.FirstOrDefault(x => x.Id == id).Sort = value.Sort;
+            _db.Labels.FirstOrDefault(x => x.Id == id).Status = value.Status;
+
+            _db.SaveChanges();
+        }
+
+        public string DeleteLabel(string id)
+        {
+            //先刪除有使用到此標籤的療程單身資料
+            _db.Treatmentlabels.RemoveRange(_db.Treatmentlabels.Where(x => x.LabelId == id));
+            //此刪除此標籤
+            _db.Labels.RemoveRange(_db.Labels.Where(x => x.Id == id));
+            _db.SaveChanges();
+
+            return "success";
+        }
+
+        #endregion
+
         #region -- 系統參數 -- (SystemParameter)
 
         public string GetParameterImageIdByIndex(long? index)
@@ -692,7 +774,7 @@ namespace AppointmentSystem.Services
             {
                 if (item.Type == "Text" || item.Type == "Time(minutes)" || item.Type == "Time(seconds)")
                 {
-                    
+
                     ParameterEditVM parameter = new ParameterEditVM()
                     {
                         ParameterName = item.Name,

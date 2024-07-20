@@ -53,9 +53,11 @@ namespace AppointmentSystem.Models.ViewModels.AppointmentModels
 
         public string? LineId { get; set; }
 
-        public string? LineDiaplayName { get; set; }
+        public string? DisplayName { get; set; }
 
         public string? LinePictureUrl { get; set; }
+
+        public string? MedicalRecordNumber { get; set; }
 
         public string? Name { get; set; }
 

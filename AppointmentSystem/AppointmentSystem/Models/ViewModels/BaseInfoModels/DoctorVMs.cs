@@ -32,8 +32,13 @@ namespace AppointmentSystem.Models.ViewModels.BaseInfoModels
         [Display(Name = "科別/職稱")]
         public string? DepartmentTitle { get; set; }
 
+        [Display(Name = "醫師代表顏色")]
+        public string? ColorHEX { get; set; }
+
         [Display(Name = "醫師照片")]
         public FileData? DoctorImage { get; set; }
+
+        public string? Image { get; set; }
 
         [Display(Name = "療程列表")]
         public List<TreatmentCheckboxList>? TreatmentList { get; set; }
@@ -68,6 +73,8 @@ namespace AppointmentSystem.Models.ViewModels.BaseInfoModels
         public string? Introduction { get; set; }
 
         public string? DepartmentTitle { get; set; }
+
+        public string? ColorHEX { get; set; }
 
         public FileData? ImageFile { get; set; }
 

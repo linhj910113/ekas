@@ -173,12 +173,12 @@
             cursor: not-allowed;
         }
 
-        .datepicker-body .available {
+        .datepicker-body .availabel {
             color: black;
             cursor: pointer;
         }
 
-            .datepicker-body .available:hover {
+            .datepicker-body .availabel:hover {
                 background-color: #bcbcbc;
             }
 
@@ -232,16 +232,14 @@
         border: 0px solid #5F5F5F;
         box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
         display: none;
-       
     }
 
-    .buttonDIV{
+    .buttonDIV {
         text-align: left;
         margin: 20px auto;
         width: 85%;
         max-width: 800px;
         background-color: transparent;
-   
         border-radius: 13px;
         border: 0px solid #5F5F5F;
         display: none;
@@ -284,8 +282,8 @@
         }
 
     /*  .selectable .select-circle.selected {
-                                                                                                                                                    background-color: green;
-                                                                                                                                                } */
+                                                                                                                                                                            background-color: green;
+                                                                                                                                                                        } */
 
     .doctor-section.hidden, .dateTime-section.hidden, .baseInfomation-section.hidden {
         display: none;
@@ -387,12 +385,12 @@
             cursor: not-allowed;
         }
 
-        .datepicker-body .available {
+        .datepicker-body .availabel {
             color: black;
             cursor: pointer;
         }
 
-            .datepicker-body .available:hover {
+            .datepicker-body .availabel:hover {
                 background-color: #bcbcbc;
             }
 
@@ -417,7 +415,7 @@
     }
 
 
-    #treatmentImage img{
+    #treatmentImage img {
         width: 50%;
         height: 50%;
         border-radius: 20px;
@@ -480,7 +478,8 @@
     <div style="display:flex; align-items:center;">
         <p style="font-size:20px; color:#049FBF ;font-weight: normal;">療程項目</p>
     </div>
-    <div id="selectedTreatment" class="row" style="display: flex; justify-content: left;">=
+    <div id="selectedTreatment" class="row" style="display: flex; justify-content: left;">
+        =
     </div>
 </div>
 
@@ -542,11 +541,11 @@
     </div>
     <div class="form-group">
         <label for="NationalIdNumber">身分證</label>
-        <input type="text" class="form-control" id="NationalIdNumber">
+        <input type="text" class="form-control" id="NationalIdNumber" onchange="checkCellphoneAndNationalIdNumber();">
     </div>
     <div class="form-group">
         <label for="cellphone">手機號碼</label>
-        <input type="text" class="form-control" id="cellphone">
+        <input type="text" class="form-control" id="cellphone" onchange="checkCellphoneAndNationalIdNumber();">
     </div>
     <div class="form-group">
         <label>性別</label><br>
@@ -567,6 +566,9 @@
         <label for="email">Email</label>
         <input type="email" class="form-control" id="email">
     </div>
+    <div class="form-group">
+        <label id="alert" style="color:red;"></label>
+    </div>
 </div>
 
 <div class="buttonDIV" style="display:flex ; align-content:center ; justify-content:end; width:85%;margin:auto; padding-right:15px; border-radius:30px;">
@@ -585,7 +587,7 @@
         <img src="~/images/arrow_left_alt_24dp_4A707A_FILL0_wght400_GRAD0_opsz24.png" alt="Alternate Text" style="width:35px;height:35px;" />
     </button>
 
-    <button class="btn btn-primary" id="fillinBaseInformationbtn" onclick="fillinBaseInformation();" style="display:none;border:none;border-radius:100px; background-color:transparent;">
+    <button class="btn btn-primary" id="fillinBaseInformationbtn" onclick="fillinBaseInformation();" style="display:none;border:none;border-radius:100px; background-color:#4A707A;padding:2px; width:40px;height:40px">
         <img src="~/images/arrow_right_alt_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.png" alt="Alternate Text" style="width:35px;height:35px; " />
     </button>
 
@@ -645,7 +647,7 @@
     let currentYear = today.getFullYear();
     let selectedDate = null;
     let outpatientDateTimes = null;
-    let availableDates = [];
+    let availabelDates = [];
     let treatmentList = null;
     let doctorList = null;
 
@@ -893,7 +895,7 @@
                     outpatientDateTimes = data;
 
                     data.forEach(function (x) {
-                        availableDates.push(x.date);
+                        availabelDates.push(x.date);
                     });
 
 
@@ -903,10 +905,10 @@
                     //     beforeShowDay: function (date) {
                     //         var dmy = date.getFullYear() + "-" + ("0" + (date.getMonth() + 1)).slice(-2) + "-" + ("0" + date.getDate()).slice(-2);
 
-                    //         if ($.inArray(dmy, availableDates) != -1) {
-                    //             return [true, "", "Available"];
+                    //         if ($.inArray(dmy, availabelDates) != -1) {
+                    //             return [true, "", "Availabel"];
                     //         } else {
-                    //             return [false, "", "unAvailable"];
+                    //             return [false, "", "unAvailabel"];
                     //         }
                     //     },
                     //     dateFormat: 'yy-mm-dd',
@@ -974,8 +976,8 @@
 
             dateElement.data('date', dateString);
 
-            if (availableDates.includes(dateString)) {
-                dateElement.addClass('available').on('click', function () {
+            if (availabelDates.includes(dateString)) {
+                dateElement.addClass('availabel').on('click', function () {
                     if (selectedDate) {
                         selectedDate.removeClass('selected');
                     }
@@ -1047,7 +1049,7 @@
 
         selectedDate = null;
         calendar.empty();
-        availableDates = [];
+        availabelDates = [];
         outpatientDateTimes = null;
         $('#selectedTreatment').html("");
         $('#selectedDoctor').html("");
@@ -1166,6 +1168,11 @@
                     return false;
                 }
 
+                if ($('#alert').html() != "") {
+                    alert($('#alert').html());
+                    return false;
+                }
+
                 $.ajax({
                     type: 'POST',
                     url: '/Appointment/UpdateCustomerInfomation',
@@ -1240,6 +1247,55 @@
 
     function backToIndex() {
         window.location.href = "@Url.Action("Index", "Appointment")";
+    }
+
+    function checkCellphoneAndNationalIdNumber() {
+        let nationalIdNumber = $('#NationalIdNumber').val();
+        let cellphone = $('#cellphone').val();
+
+        //先確認身分證有無重複，再確認手機
+        if (nationalIdNumber != "") {
+            $.ajax({
+                type: 'POST',
+                url: '/Appointment/checkNationalIdNumber',
+                datatype: "json",
+                data: { "nationalIdNumber": nationalIdNumber },
+                async: false,
+                success: function (data) {
+                    if (data != "")
+                        $('#alert').html(data);
+                    else
+                        $('#alert').html("");
+                }
+            });
+        } else {
+            $('#alert').html("");
+        }
+
+        if ($('#alert').html() == "") {
+            if (cellphone != "") {
+                $.ajax({
+                    type: 'POST',
+                    url: '/Appointment/checkCellphone',
+                    datatype: "json",
+                    data: { "cellphone": cellphone },
+                    async: false,
+                    success: function (data) {
+                        if (data != "")
+                            $('#alert').html(data);
+                        else {
+                            $('#alert').html("");
+
+                        }
+                    }
+                });
+            } else {
+                $('#alert').html("");
+            }
+        }
+
+
+
     }
 
 </script>

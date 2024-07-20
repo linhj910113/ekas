@@ -37,26 +37,26 @@ namespace AppointmentSystem.Services
             Models.ViewModels.HomeModels.IndexVM indexVM = new Models.ViewModels.HomeModels.IndexVM();
 
             //取得療程標籤列表
-            var LableList = _db.Lables.Where(x => x.Status == "Y" && x.Type == "Treatment").OrderBy(x => x.CreateDate).ToList();
+            var LabelList = _db.Labels.Where(x => x.Status == "Y" && x.Type == "Treatment").OrderBy(x => x.CreateDate).ToList();
 
-            foreach (var item in LableList)
+            foreach (var item in LabelList)
             {
-                var tl = _db.Treatmentlables.AsEnumerable().Where(x => x.Status == "Y" && x.LabelId == item.Id).ToList();
-                LableListWithTreatment lableList = new LableListWithTreatment();
+                var tl = _db.Treatmentlabels.AsEnumerable().Where(x => x.Status == "Y" && x.LabelId == item.Id).ToList();
+                LabelListWithTreatment labelList = new LabelListWithTreatment();
 
-                lableList.LableId = item.Id;
-                lableList.LableName = item.LableName;
-                lableList.TreatmentIdList = "";
+                labelList.LabelId = item.Id;
+                labelList.LabelName = item.LabelName;
+                labelList.TreatmentIdList = "";
 
                 foreach (var treatment in tl)
                 {
-                    if (lableList.TreatmentIdList != "")
-                        lableList.TreatmentIdList += ",";
+                    if (labelList.TreatmentIdList != "")
+                        labelList.TreatmentIdList += ",";
 
-                    lableList.TreatmentIdList += treatment.TreatmentId;
+                    labelList.TreatmentIdList += treatment.TreatmentId;
                 }
 
-                indexVM.LableList.Add(lableList);
+                indexVM.LabelList.Add(labelList);
             }
 
             //取得療程列表
@@ -162,8 +162,9 @@ namespace AppointmentSystem.Services
                     {
                         Id = customer.Id,
                         LineId = customer.LineId,
-                        LineDiaplayName = customer.LineDisplayName,
+                        DisplayName = customer.DisplayName,
                         LinePictureUrl = customer.LinePictureUrl,
+                        MedicalRecordNumber = customer.MedicalRecordNumber,
                         Name = customer.Name,
                         CellPhone = customer.CellPhone,
                         Email = customer.Email,
@@ -263,8 +264,9 @@ namespace AppointmentSystem.Services
                 {
                     Id = customer.Id,
                     LineId = customer.LineId,
-                    LineDiaplayName = customer.LineDisplayName,
+                    DisplayName = customer.DisplayName,
                     LinePictureUrl = customer.LinePictureUrl,
+                    MedicalRecordNumber = customer.MedicalRecordNumber,
                     Name = customer.Name,
                     CellPhone = customer.CellPhone,
                     Email = customer.Email,
@@ -581,7 +583,7 @@ namespace AppointmentSystem.Services
             }
         }
 
-        public string EditCustomerInfo(string AppointmentId, string customerName, string customerCellPhone, string customerBirth, string customerEmail)
+        public string EditCustomerInfo(string AppointmentId, string customerMedicalRecordNumber, string customerName, string customerCellPhone, string customerBirth, string customerEmail)
         {
             var appointment = _db.Appointments.FirstOrDefault(x => x.Id == AppointmentId);
 
@@ -589,6 +591,7 @@ namespace AppointmentSystem.Services
             {
                 string customerId = appointment.CustomerId;
 
+                _db.Customers.FirstOrDefault(x => x.Id == customerId).MedicalRecordNumber = customerMedicalRecordNumber;
                 _db.Customers.FirstOrDefault(x => x.Id == customerId).Name = customerName;
                 _db.Customers.FirstOrDefault(x => x.Id == customerId).CellPhone = customerCellPhone;
                 _db.Customers.FirstOrDefault(x => x.Id == customerId).Birthday = customerBirth;

@@ -2,6 +2,7 @@ using AppointmentSystem.Models.DBModels;
 using AppointmentSystem.Models.ViewModels.AppointmentModels;
 using AppointmentSystem.Models.ViewModels.BaseInfoModels;
 using AppointmentSystem.Services;
+using Azure.Core;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
@@ -141,6 +142,117 @@ namespace AppointmentSystem.Controllers
             return View();
         }
 
+        public async Task<IActionResult> CellphoneLogin(string cellphone, string hashCode, string otp)
+        {
+            //驗證登入資料
+            string result = "";
+
+            if (cellphone == "")
+                result = "手機號碼資料空白，請確認!!";
+            else if (hashCode == "" || otp == "")
+                result = "驗證碼資料空白，請確認!!";
+            else
+                result = _appointmentService.VerifyLoginInfo(cellphone, hashCode, otp);
+
+            if (result == "OK")
+            {
+                if (_appointmentService.CheckCustomerExistByCellphone(cellphone))
+                {
+                    var user = _appointmentService.GetCustomerDateByCellphone(cellphone);
+
+                    var claims = new List<Claim>
+                    {
+                        new Claim("LoginType", "Customer"),
+                        new Claim("UserId", user.Id),
+                        new Claim("LoginBy", "Cellphone"),
+                        new Claim("LineId", user.LineId),
+                        new Claim("Name", user.DisplayName),
+                        new Claim("Phone", user.CellPhone),
+                        new Claim("IsAdmin", "N")
+                    };
+
+                    var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                    await HttpContext.SignInAsync(new ClaimsPrincipal(claimsIdentity));
+
+                    _functions.SaveSystemLog(new Systemlog()
+                    {
+                        CreateDate = DateTime.Now,
+                        Creator = user.Id,
+                        UserAccount = user.Id,
+                        Description = "Customer '" + user.Id + "' login."
+                    });
+                }
+                else
+                {
+                    //新顧客
+                    string CustomerId = _functions.GetGuid();
+
+                    while (_appointmentService.CheckCustomerId(CustomerId))
+                        CustomerId = _functions.GetGuid();
+
+                    Customer item = new Customer()
+                    {
+                        Creator = "Default",
+                        Modifier = "Default",
+                        CreateDate = DateTime.Now,
+                        ModifyDate = DateTime.Now,
+                        Status = "Y",
+
+                        Id = CustomerId,
+                        Name = cellphone,
+                        LineId = "",
+                        DisplayName = cellphone,
+                        LinePictureUrl = "",
+                        CellPhone = cellphone,
+                        NationalIdNumber = "",
+                        Gender = "",
+                        Birthday = "",
+                        Email = "",
+                        Memo = ""
+                    };
+                    _appointmentService.CreateCustomer(item);
+
+                    _functions.SaveSystemLog(new Systemlog
+                    {
+                        CreateDate = DateTime.Now,
+                        Creator = "Default",
+                        UserAccount = "Default",
+                        Description = "Add customer id='" + CustomerId + "'."
+                    });
+
+                    var claims = new List<Claim>
+                    {
+                        new Claim("LoginType", "Customer"),
+                        new Claim("UserId", CustomerId),
+                        new Claim("LoginBy", "Cellphone"),
+                        new Claim("LineId", ""),
+                        new Claim("Name", cellphone),
+                        new Claim("Phone", cellphone),
+                        new Claim("IsAdmin", "N")
+                    };
+
+                    var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                    await HttpContext.SignInAsync(new ClaimsPrincipal(claimsIdentity));
+
+                    _functions.SaveSystemLog(new Systemlog()
+                    {
+                        CreateDate = DateTime.Now,
+                        Creator = CustomerId,
+                        UserAccount = CustomerId,
+                        Description = "Customer '" + CustomerId + "' login."
+                    });
+                }
+
+                return RedirectToAction("Index", "Appointment");
+            }
+            else
+            {
+                ViewBag.ErrorMsg = result;
+
+                return View();
+            }
+        }
+
 
         #region ---AJAX---
 
@@ -192,7 +304,6 @@ namespace AppointmentSystem.Controllers
                         ModifyDate = DateTime.Now,
                         Status = "Y",
 
-                        LineDisplayName = displayName,
                         LinePictureUrl = pictureUrl,
                     };
                     _appointmentService.UpdateCustomerLineInformation(item, lineUserId);
@@ -215,11 +326,11 @@ namespace AppointmentSystem.Controllers
                     {
                         CreateDate = DateTime.Now,
                         Creator = user.Id,
-                        UserAccount = lineUserId,
+                        UserAccount = user.Id,
                         Description = "Customer '" + user.Id + "' login."
                     });
 
-
+                    //Line Token
                     var token = new Customertoken
                     {
                         Creator = "Default",
@@ -255,7 +366,7 @@ namespace AppointmentSystem.Controllers
                         Id = CustomerId,
                         Name = displayName,
                         LineId = lineUserId,
-                        LineDisplayName = displayName,
+                        DisplayName = displayName,
                         LinePictureUrl = pictureUrl,
                         CellPhone = "",
                         NationalIdNumber = "",
@@ -292,7 +403,7 @@ namespace AppointmentSystem.Controllers
                     {
                         CreateDate = DateTime.Now,
                         Creator = CustomerId,
-                        UserAccount = lineUserId,
+                        UserAccount = CustomerId,
                         Description = "Customer '" + CustomerId + "' login."
                     });
 
@@ -649,6 +760,56 @@ namespace AppointmentSystem.Controllers
             await HttpContext.SignOutAsync();
 
             return RedirectToAction("Login", "Appointment");//�ɦܵn�J��
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> sendVerificationCode(string cellphone, string hashCode)
+        {
+            //確認該是否有生效中的驗證碼，如果有就註銷(手機查一次，hashCode查一次)
+            _appointmentService.CheckActiveVerificationCode(cellphone, hashCode);
+
+            //建立驗證資料
+            Random random = new Random();
+
+            string code = _functions.GetVerificationCode();
+            string randomNumber = (random.Next(1, 10) * 100000 + random.Next(0, 100000)).ToString("D6");
+
+            Verificationcode vcode = new Verificationcode()
+            {
+                CreateDate = DateTime.Now,
+                ModifyDate = DateTime.Now,
+                Status = "Y",
+
+                SouceTable = "Customer",
+                ForeignKey = cellphone,
+                LoginBy = "Cellphone",
+                HashCode = code,
+                Otp = randomNumber,
+                ExpireTime = DateTime.Now.AddSeconds(int.Parse(_functions.GetSystemParameter("VerificationCodeExpireTime")))
+            };
+            _appointmentService.CreateVerificationcode(vcode);
+
+            //TODO:發送手機簡訊
+            string message = "EK美學診所手機登入驗證碼如下，請於5分鐘內進行驗證\n" + randomNumber;
+            await _functions.SendSmsAsync(cellphone, message);
+
+            return new JsonResult(code);
+        }
+
+        [HttpPost]
+        public IActionResult checkCellphone(string cellphone)
+        {
+            var user = HttpContext.User.Claims.ToList();
+
+            return new JsonResult(_appointmentService.checkCellphone(cellphone, user.FirstOrDefault(u => u.Type == "UserId").Value));
+        }
+
+        [HttpPost]
+        public IActionResult checkNationalIdNumber(string nationalIdNumber)
+        {
+            var user = HttpContext.User.Claims.ToList();
+
+            return new JsonResult(_appointmentService.checkNationalIdNumber(nationalIdNumber, user.FirstOrDefault(u => u.Type == "UserId").Value));
         }
 
         #endregion

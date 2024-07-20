@@ -35,6 +35,16 @@ namespace AppointmentSystem.Services
                 return true;
         }
 
+        public bool CheckCustomerExistByCellphone(string cellphone)
+        {
+            var c = _db.Customers.Where(x => x.CellPhone == cellphone).FirstOrDefault();
+
+            if (c == null)
+                return false;
+            else
+                return true;
+        }
+
         public bool CheckCustomerId(string CustomerId)
         {
             if (_db.Customers.Where(x => x.Id == CustomerId).Count() == 0)
@@ -61,6 +71,13 @@ namespace AppointmentSystem.Services
         public Customer GetCustomerDateByLineId(string LineId)
         {
             var customer = _db.Customers.FirstOrDefault(x => x.LineId == LineId);
+
+            return customer;
+        }
+
+        public Customer GetCustomerDateByCellphone(string cellphone)
+        {
+            var customer = _db.Customers.FirstOrDefault(x => x.CellPhone == cellphone);
 
             return customer;
         }
@@ -172,10 +189,10 @@ namespace AppointmentSystem.Services
 
             List<OutpatientTimeData> outpatientTimeData = new List<OutpatientTimeData>();
             var OutpatientTimes = _db.Doctoroutpatients.AsEnumerable().Where(
-                x => x.Status != "N" && 
-                x.DoctorId == appointment.DoctorId && 
-                int.Parse(x.Year) == Year && 
-                int.Parse(x.Month) == Month && 
+                x => x.Status != "N" &&
+                x.DoctorId == appointment.DoctorId &&
+                int.Parse(x.Year) == Year &&
+                int.Parse(x.Month) == Month &&
                 int.Parse(x.Day) == Day
             ).OrderBy(x => TimeSpan.Parse(x.BeginTime)).ToList();
 
@@ -243,7 +260,7 @@ namespace AppointmentSystem.Services
                 {
                     Id = customer.Id,
                     LineId = customer.LineId,
-                    LineDiaplayName = customer.LineDisplayName,
+                    DisplayName = customer.DisplayName,
                     LinePictureUrl = customer.LinePictureUrl,
                     CellPhone = customer.CellPhone,
                     NationalIdNumber = customer.NationalIdNumber,
@@ -372,7 +389,6 @@ namespace AppointmentSystem.Services
             _db.Customers.FirstOrDefault(x => x.LineId == LineId).Modifier = value.Modifier;
             _db.Customers.FirstOrDefault(x => x.LineId == LineId).ModifyDate = value.ModifyDate;
 
-            _db.Customers.FirstOrDefault(x => x.LineId == LineId).LineDisplayName = value.LineDisplayName;
             _db.Customers.FirstOrDefault(x => x.LineId == LineId).LinePictureUrl = value.LinePictureUrl;
 
             _db.SaveChanges();
@@ -734,6 +750,65 @@ namespace AppointmentSystem.Services
 
             _db.SaveChanges();
         }
+
+        public void CheckActiveVerificationCode(string cellphone, string hashCode)
+        {
+            DateTime now = DateTime.Now;
+
+            //用hashCode查詢是否有生效中驗證碼
+            var item = _db.Verificationcodes.FirstOrDefault(x => x.Status == "Y" && x.SouceTable == "Customer" && x.HashCode == hashCode && x.ExpireTime >= now);
+            if (item != null)
+            {
+                item.Status = "N";
+                _db.SaveChanges();
+            }
+
+            //用手機號碼查詢是否有生效中驗證碼
+            item = _db.Verificationcodes.FirstOrDefault(x => x.Status == "Y" && x.SouceTable == "Customer" && x.ForeignKey == cellphone && x.ExpireTime >= now);
+            if (item != null)
+            {
+                item.Status = "N";
+                _db.SaveChanges();
+            }
+        }
+
+        public string VerifyLoginInfo(string cellphone, string hashCode, string otp)
+        {
+            DateTime now = DateTime.Now;
+            var item = _db.Verificationcodes.FirstOrDefault(x => x.Status == "Y" && x.SouceTable == "Customer" && x.HashCode == hashCode);
+
+            if (item is null)
+                return "驗證碼無效或已過期，請重新登入。";
+            else if (item.ForeignKey == cellphone && item.Otp == otp)
+                return "OK";
+            else if (item.ForeignKey != cellphone)
+                return "手機號碼與驗證碼紀錄不符合，請重新登入。";
+            else if (item.Otp != otp)
+                return "驗證碼有誤，請重新登入。";
+            else
+                return "其他錯誤，請重新登入或洽詢櫃台人員。";
+        }
+
+        public string checkCellphone(string cellphone, string userId)
+        {
+            var item = _db.Customers.Where(x => x.CellPhone == cellphone && x.Id != userId);
+
+            if (item.Count() > 0)
+                return "電話號碼已重複，請確認!!";
+            else
+                return "";
+        }
+
+        public string checkNationalIdNumber(string nationalIdNumber, string userId)
+        {
+            var item = _db.Customers.Where(x => x.NationalIdNumber == nationalIdNumber && x.Id != userId);
+
+            if (item.Count() > 0)
+                return "身分證字號已重複，請確認!!";
+            else
+                return "";
+        }
+
 
         public Systemfile GetFileData(string fileId)
         {

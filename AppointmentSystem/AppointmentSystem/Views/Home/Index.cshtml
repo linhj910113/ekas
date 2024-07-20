@@ -2,7 +2,7 @@
 
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "後臺首頁";
 }
 <style>
     .appointmentTable {
@@ -215,42 +215,42 @@
 
 
     /*.treatmentSelectMenu button {
-                    background-color: #385460 !important;
+                        background-color: #385460 !important;
+                        color: #F7F6EE !important;
+                        border-radius: 10px !important;
+                    }
+
+
+                .appointmentDetail label {
+                    background-color: #385466 !important;
+                    color: #F7F6EE !important;
+                    border-radius: 10px !important;
+                }
+                   .treatmentSelectMenu  label {
+                    background-color: #385466 !important;
                     color: #F7F6EE !important;
                     border-radius: 10px !important;
                 }
 
+                .treatmentSelectMenu label:focus,
+                .treatmentSelectMenu label:hover,
+                .treatmentSelectMenu label:active {
+                    background-color: #2A3A4A !important;
+                    color: #FFFFFF !important;
+                }
 
-            .appointmentDetail label {
-                background-color: #385466 !important;
-                color: #F7F6EE !important;
-                border-radius: 10px !important;
-            }
-               .treatmentSelectMenu  label {
-                background-color: #385466 !important;
-                color: #F7F6EE !important;
-                border-radius: 10px !important;
-            }
-
-            .treatmentSelectMenu label:focus,
-            .treatmentSelectMenu label:hover,
-            .treatmentSelectMenu label:active {
-                background-color: #2A3A4A !important;
-                color: #FFFFFF !important;
+                .treatmentSelectMenu label.selected {
+                    background-color: #2A3A4A !important;
+                    color: #FFFFFF !important;
+                }
+            .label-item, .treatment-item, actualTreatment-item {
+                margin-bottom: 10px !important;
             }
 
-            .treatmentSelectMenu label.selected {
-                background-color: #2A3A4A !important;
-                color: #FFFFFF !important;
-            }
-        .label-item, .treatment-item, actualTreatment-item {
-            margin-bottom: 10px !important;
-        }
-
-        */
+            */
 
     .date-input {
-        width: 80px;
+        width: 200px;
         border: 1px solid #ccc;
         border-radius: 13px;
         padding-top: 3px;
@@ -264,9 +264,9 @@
         -moz-appearance: textfield; /* For Firefox */
     }
 
-        .date-input#currentMonth, .date-input#currentDay {
+        /* .date-input#currentMonth, .date-input#currentDay {
             width: 50px;
-        }
+        } */
 
         .date-input::-webkit-inner-spin-button,
         .date-input::-webkit-outer-spin-button {
@@ -299,33 +299,108 @@
         background-color: #5BC2E7 !important;
         border: none;
     }
+
+    .datepicker {
+        border-radius: 10px;
+        padding: 20px;
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+
+    .datepicker-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+        .datepicker-header div {
+            cursor: pointer;
+            padding: 1px;
+        }
+
+            .datepicker-header div:hover {
+                background-color: #eee;
+            }
+
+        .datepicker-header span {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+    .datepicker-body {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 10px;
+    }
+
+        .datepicker-body div {
+            text-align: center;
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 100px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .datepicker-body .header {
+            font-weight: bold;
+            color: #666666;
+        }
+
+        .datepicker-body div:hover {
+            background-color: #eee;
+        }
+
+        .datepicker-body .disabled {
+            color: #ccc;
+            cursor: not-allowed;
+        }
+
+        .datepicker-body .availabel {
+            color: black;
+            cursor: pointer;
+        }
+
+            .datepicker-body .availabel:hover {
+                background-color: #bcbcbc;
+            }
+
+        .datepicker-body .selected {
+            background-color: #d9534f;
+            color: white;
+        }
 </style>
+
+<h3 class="container " style="text-align:start; margin:10px;">@ViewData["Title"]</h3>
 
 <div class="row">
     <div class="col-9">
         <div style="width:100%;align-items:center;text-align:center;font-size:16px;margin-bottom:10px;">
-            <input type="number" id="currentYear" class="date-input" min="1900" max="2100" />
+            <input type="text" id="currentDate" class="date-input" style="cursor:pointer;" data-toggle="modal" data-target="#calendarModal" />
+            @* <input type="number" id="currentYear" class="date-input" min="1900" max="2100" />
             <label class="date-label" for="currentYear">年</label>
             <input type="number" id="currentMonth" class="date-input" min="1" max="12" />
             <label class="date-label" for="currentMonth">月</label>
             <input type="number" id="currentDay" class="date-input" min="1" max="31" />
             <label class="date-label" for="currentDay">日</label>
-            <button class="btn btn-primary" style="border:none; background-color:transparent; padding:0px;" onclick="refreshTable();"> <img src="~/images/refresh_24dp_4A707A_FILL0_wght400_GRAD0_opsz24.png" alt="Refresh" style="width:25px;height:25px; " /></button>
+            <button class="btn btn-primary" style="border:none; background-color:transparent; padding:0px;" onclick="refreshTable();"> <img src="~/images/refresh_24dp_4A707A_FILL0_wght400_GRAD0_opsz24.png" alt="Refresh" style="width:25px;height:25px; " /></button> *@
         </div>
         <table class="appointmentTable">
         </table>
     </div>
     <div class="col-2 appointmentDetail" id="appointmentDetail">
         <div class="userinfo-sidebar">
-            <h5 id="name">VIC</h5>
+            <h5 id="name"></h5>
             <div class="userinfo-item">
-                <div class="gender" id="gender">男</div>
-                <div class="age" id="age">29</div>
+                <div class="gender" id="gender"></div>
+                <div class="age" id="age"></div>
             </div>
 
-            <div id="phone">電話號碼：0912345678</div>
-            <div id="birth">生日：1993/10/11</div>
-            <div id="email">電子郵件：asdfasf@asdfazxc.asdf</div>
+            <div id="medicalRecordNumber">病歷號：</div>
+            <div id="phone">電話號碼：</div>
+            <div id="birth">生日：</div>
+            <div id="email">電子郵件：</div>
 
             <div class="userinfo-item" style="margin-bottom:30px;">
                 <button class="btn sidebarbtn" style="background-color:#385466;color:#F7F6EE; border-radius:10px;" onclick="showEditCustomerInfoModal();">編輯</button>
@@ -343,8 +418,7 @@
             </div>
 
             <div class="userinfo-item">
-                <div id="checkIn">
-                </div>
+                <div id="checkIn"></div>
             </div>
 
             <div class="userinfo-item">
@@ -359,7 +433,7 @@
             <div class="userinfo-item">
                 <div id="actualList" class="btn-group-toggle" data-toggle="buttons">
                     <label class="btn btn-secondary btn-checkbox label-item" style="cursor:pointer; border-radius:13px;">
-                        <input type="checkbox" name="lables" id="dfg" value="sdfg" autocomplete="off">xcvbsdg
+                        <input type="checkbox" name="labels" id="dfg" value="sdfg" autocomplete="off">xcvbsdg
                         <input type="hidden" id="xcvb" value="sdfgxcb" />
                     </label>
                 </div>
@@ -371,18 +445,18 @@
 
             <div class="treatmentSelectMenu" id="treatmentSelectMenu">
                 <h6>標籤列表</h6>
-                <div id="lableList" class="btn-group-toggle" data-toggle="buttons">
+                <div id="labelList" class="btn-group-toggle" data-toggle="buttons">
                     @{
                         int i = 0;
                     }
 
-                    @foreach (var lable in Model.LableList)
+                    @foreach (var label in Model.LabelList)
                     {
                         i++;
 
                         <label class="btn btn-secondary btn-checkbox label-item" style="cursor:pointer;margin:3px; border-radius:13px;">
-                            <input type="checkbox" name="lables" id="@lable.LableId" value="@lable.LableId" autocomplete="off">@lable.LableName
-                            <input type="hidden" id="tl-@i" value="@lable.TreatmentIdList" />
+                            <input type="checkbox" name="labels" id="@label.LabelId" value="@label.LabelId" autocomplete="off">@label.LabelName
+                            <input type="hidden" id="tl-@i" value="@label.TreatmentIdList" />
                         </label>
                     }
                 </div>
@@ -414,6 +488,10 @@
             </div>
             <div class="modal-body">
                 <div class="form-group">
+                    <label for="customerMedicalRecordNumber">病歷號：</label>
+                    <input type="text" class="form-control" id="customerMedicalRecordNumber" required>
+                </div>
+                <div class="form-group">
                     <label for="customerName">客戶名稱：</label>
                     <input type="text" class="form-control" id="customerName" required>
                 </div>
@@ -438,6 +516,23 @@
     </div>
 </div>
 
+<!-- 日期選擇的Modal -->
+<div id="calendarModal" class="modal fade" tabindex="-1" aria-labelledby="calendarModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content datepicker">
+            <div class="modal-header datepicker-header">
+                <div id="prevMonth">&lt;</div>
+                <span id="monthYear"></span>
+                <div id="nextMonth">&gt;</div>
+            </div>
+            <div class="modal-body datepicker-body" id="calendar"></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">關閉</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <input type="hidden" id="selectedAppointment" value="" />
 
 <script>
@@ -445,6 +540,7 @@
     let currentYear = today.getFullYear();
     let currentMonth = today.getMonth();
     let currentDay = today.getDate();
+    let selectedDate = null;
 
     $(document).ready(function () {
         init();
@@ -470,6 +566,86 @@
         });
     });
 
+    const monthNames = ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"];
+    const daysOfWeek = ["日", "一", "二", "三", "四", "五", "六"];
+
+    function generateCalendar(year, month) {
+        const monthYear = $('#monthYear');
+        const calendar = $('#calendar');
+        calendar.empty();
+
+        let firstDay = new Date(year, month).getDay();
+        let daysInMonth = 32 - new Date(year, month, 32).getDate();
+
+        monthYear.text(`${monthNames[month]} ${year}`);
+
+        for (let day of daysOfWeek) {
+            let dayElement = $('<div>').text(day).addClass('header');
+            calendar.append(dayElement);
+        }
+
+        for (let i = 0; i < firstDay; i++) {
+            let emptyCell = $('<div>');
+            calendar.append(emptyCell);
+        }
+
+        for (let date = 1; date <= daysInMonth; date++) {
+            let dateElement = $('<div>').text(date);
+
+            let dateToCheck = new Date(year, month, date);
+            let dateString = `${year}-${String(month + 1).padStart(2, '0')}-${String(date).padStart(2, '0')}`;
+
+            dateElement.data('date', dateString);
+            dateElement.addClass('availabel');
+
+            // 添加點擊事件
+            dateElement.on('click', function () {
+                if (selectedDate) {
+                    selectedDate.removeClass('selected');
+                }
+                dateElement.addClass('selected');
+                selectedDate = dateElement;
+
+                // 更新 input 的值
+                $('#currentDate').val(dateString);
+                // 隱藏 modal
+                $('#calendarModal').modal('hide');
+
+                refreshTable();
+            });
+
+            calendar.append(dateElement);
+        }
+    }
+
+    function updateCalendar() {
+        generateCalendar(currentYear, currentMonth);
+    }
+
+    $('#prevMonth').on('click', function () {
+        if (currentMonth === 0) {
+            currentMonth = 11;
+            currentYear--;
+        } else {
+            currentMonth--;
+        }
+        updateCalendar();
+    });
+
+    $('#nextMonth').on('click', function () {
+        if (currentMonth === 11) {
+            currentMonth = 0;
+            currentYear++;
+        } else {
+            currentMonth++;
+        }
+        updateCalendar();
+    });
+
+    $('#calendarModal').on('shown.bs.modal', function () {
+        updateCalendar();
+    });
+
     function appointmentOnClick(appointmentId) {
         $.ajax({
             type: 'POST',
@@ -485,6 +661,9 @@
 
                 $('#name').html(data.customerData.name);
                 $('#customerName').val(data.customerData.name);
+
+                $('#medicalRecordNumber').html("病歷號：" + data.customerData.medicalRecordNumber);
+                $('#customerMedicalRecordNumber').val(data.customerData.medicalRecordNumber);
 
                 $('#phone').html("電話號碼：" + data.customerData.cellPhone);
                 $('#customerCellPhone').val(data.customerData.cellPhone);
@@ -507,7 +686,7 @@
                 let inner = ``;
                 data.actualTreatmentData.forEach(function (x) {
                     inner += `<label class="btn btn-secondary btn-checkbox actualTreatment-item" style="cursor:pointer;">`;
-                    inner += `<input type="checkbox" name="lables" autocomplete="off">` + x.treatmentName;
+                    inner += `<input type="checkbox" name="labels" autocomplete="off">` + x.treatmentName;
                     inner += `</label>`;
                 });
                 $('#actualList').html(inner);
@@ -529,6 +708,7 @@
 
     function editCustomerInfo() {
         let id = $('#selectedAppointment').val();
+        let customerMedicalRecordNumber = $('#customerMedicalRecordNumber').val();
         let customerName = $('#customerName').val();
         let customerCellPhone = $('#customerCellPhone').val();
         let customerBirth = $('#customerBirth').val();
@@ -538,9 +718,9 @@
             type: "POST",
             url: "/Home/editCustomerInfo",
             datatype: "json",
-            data: { "appointmentId": id, "customerName": customerName, "customerCellPhone": customerCellPhone, "customerBirth": customerBirth, "customerEmail": customerEmail },
+            data: { "appointmentId": id, "customerMedicalRecordNumber": customerMedicalRecordNumber, "customerName": customerName, "customerCellPhone": customerCellPhone, "customerBirth": customerBirth, "customerEmail": customerEmail },
             success: function (data) {
-                console.log("Create lable successful.");
+                console.log("Create label successful.");
 
                 $('#editCustomerInfoModal').modal('hide');
                 appointmentOnClick(id);
@@ -603,10 +783,10 @@
                         data.forEach(function (item) {
                             let tdName = $('#' + item.doctorId + '-' + item.bookingBeginTime.toString().replace(':', '') + '')
                             let divHTML = ``;
-
+                            
                             divHTML += `<div class="event" onclick="appointmentOnClick('` + item.appointmentId + `');" style="right:` + (-101) * (item.timeUnitCount - 1) + `%">`;
 
-                            divHTML += `<div class="appointmentTime"><p>` + item.bookingBeginTime + `-` + item.bookingEndTime + `</p><p> 姓名:` + item.customerData.name + `-` + item.customerData.gender + `</p></div>`;
+                            divHTML += `<div class="appointmentTime">` + item.bookingBeginTime + `-` + item.bookingEndTime + `<br />病歷號:` + item.customerData.medicalRecordNumber + `<br /><p> 姓名:` + item.customerData.name + `-` + item.customerData.gender + `</p></div>`;
                             item.treatmentData.forEach(function (x) {
                                 divHTML += `<div class="treatmentItem">` + x.treatmentName + `</div>`;
                             });
@@ -712,9 +892,11 @@
     }
 
     function refreshTable() {
-        currentYear = $('#currentYear').val();
-        currentMonth = parseInt($('#currentMonth').val() - 1);
-        currentDay = $('#currentDay').val();
+        let [year, month, day] = $('#currentDate').val().split('-');
+
+        currentYear = parseInt(year);
+        currentMonth = parseInt(month-1);
+        currentDay = parseInt(day);
 
         console.log(currentYear);
         console.log(currentMonth);

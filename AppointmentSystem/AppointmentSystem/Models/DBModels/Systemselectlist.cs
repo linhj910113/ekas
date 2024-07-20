@@ -10,21 +10,21 @@ public partial class Systemselectlist
 {
     public DateTime CreateDate { get; set; }
 
-    public string Creator { get; set; } = null!;
+    public string Creator { get; set; }
 
     public DateTime ModifyDate { get; set; }
 
-    public string Modifier { get; set; } = null!;
+    public string Modifier { get; set; }
 
-    public string Status { get; set; } = null!;
+    public string Status { get; set; }
 
     public long Id { get; set; }
 
-    public string? GroupName { get; set; }
+    public string GroupName { get; set; }
 
-    public string? SelectName { get; set; }
+    public string SelectName { get; set; }
 
-    public string? SelectValue { get; set; }
+    public string SelectValue { get; set; }
 
-    public string? Memo { get; set; }
+    public string Memo { get; set; }
 }

@@ -318,9 +318,9 @@ namespace AppointmentSystem.Controllers
 
         [HttpPost]
         [Authorize]
-        public IActionResult editCustomerInfo(string AppointmentId, string customerName, string customerCellPhone, string customerBirth, string customerEmail)
+        public IActionResult editCustomerInfo(string AppointmentId, string customerMedicalRecordNumber, string customerName, string customerCellPhone, string customerBirth, string customerEmail)
         {
-            string result = _homeService.EditCustomerInfo(AppointmentId, customerName, customerCellPhone, customerBirth, customerEmail);
+            string result = _homeService.EditCustomerInfo(AppointmentId, customerMedicalRecordNumber, customerName, customerCellPhone, customerBirth, customerEmail);
 
             return new JsonResult(result);
         }
