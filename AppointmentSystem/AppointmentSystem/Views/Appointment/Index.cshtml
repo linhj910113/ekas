@@ -3,8 +3,8 @@
 @{
     Layout = "~/Views/Shared/CustomerLayout.cshtml";
     ViewData["Title"] = "首頁";
-}
 
+}
 <style>
     .table td, .table th {
         border: none;
@@ -12,50 +12,144 @@
         border-top: 0px solid #dee2e6;
         vertical-align: middle;
     }
+    .overlay-container {
+    width: 100%;
+    position: relative;
+    z-index: 1;
+}
+
+.appointment-wrapper {
+    width: 100%;
+    max-width: 100%;
+    display: flex;
+    justify-content: center;
+    
+    position: absolute;
+    top: 20%;
+    left: 0;
+    height:80%;
+}
+
+.appointment-table {
+    width: 100%;
+    margin:0px !important;
+    padding: 20px 5px;
+    border-radius: 40px;
+    z-index: 2;
+    background: white;
+    max-width:100%;
+    display: flex;
+    flex-direction: column;
+    align-items:start;
+    }
+
+    .AppointmentData{
+        width:100%;
+        padding-left: 10%;
+        padding-top: 15px;
+        padding-bottom: 0%;
+        display: flex;
+        justify-content: flex-start;
+        color: #000000;
+    }
+
+    
+    .appointmentsTableBody{
+        font-size: 14px;
+        white-space: nowrap;
+        vertical-align: middle;
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .appointmentDate{
+        margin-left:10%;
+    
+    }
+
+    .Appointment_01{
+        margin:3px;
+        padding:1px;
+
+    }
+
+    .appointmentItems{
+        height: 55px; /* 設置固定高度 */
+        overflow-y: scroll;
+    }
+
+    .appointmentItem {
+        background-color: #3B9382;
+        padding:2px;
+        border-radius:30px;
+        color: #D7F4EE;
+        width:80%;
+        margin:5px;
+        font-size:12px;
+
+    }
+
+    .appointmentDoctorName{
+        margin: 3px;
+        padding: 1px;
+        margin-left:5%;
+    }
+
+    .appointmentTimeBox{
+        display: flex;
+        justify-content:center;
+        align-items:center;
+    }
+
+    .appointmentItems::-webkit-scrollbar {
+        width: 0px; 
+        background: transparent; 
+    }
+
+    body{
+        background-color:white;
+    }
+
+    .appointmentDoctorImg{
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
+    }
+
+    .appointmentDoctorImgDIV{
+        background-color:#0E4F43;
+        border-radius:15px;
+        height:80px;
+        width:80px;
+        overflow: hidden;
+
+    }
+
+
+/* 畫面大於 530px 時，改變 top 為 25% */
+  /*media (min-width: 530px) {
+            .appointment-wrapper {
+                top: 25%;
+            }
+            }*/
 </style>
 
-<div class="overlay-container" style="position: relative;display: inline-block;width: 100%;">
+
+<div class="overlay-container" style="width: 100%; position: relative; z-index: 1; ">
     <img id="desktopImage" src="~/images/EKMainBanner.jpg" alt="Desktop Image" class="appointment-image desktop-image" style="width: 100%;  height: auto;  max-height: 18rem;object-fit: cover;">
-    <img id="mobileImage" src="~/images/EKMainBanner.jpg" alt="Mobile Image" class="appointment-image mobile-image" style="height:25rem; width:auto; object-fit: cover;">
-
-    <div class="overlay"
-         style="position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(to top, rgba(0, 0, 0, 0.5), rgba(255, 255, 255, 0));
-            z-index: 1;
-            display: flex;
-            justify-content: center;
-            align-items: flex-end;
-            color: #DCDCDC;
-            font-weight:normal;
-            font-size:16px;
-            line-height: 1.8;
-            margin-bottom:10px;
-            letter-spacing: 2px;">
-
-
-
-        <div class="container content mb-3">
-            <span id="AppointmentIntroductionText"></span>
-        </div>
-
-    </div>
+    <img id="mobileImage" src="~/images/EKMainBanner.jpg" alt="Mobile Image" class="appointment-image mobile-image" style=" width:auto; object-fit: cover;">
 </div>
 
-<div class="container content">
-    <span id="AppointmentIntroductionText"></span>
-</div>
 
-<div class="appointment-table" style="width:95%;padding:20px 5px;     border-radius: 20px;">
-    <span style="font-weight:200;background-color:#528452;color:#ffffff;border-radius: 50px; padding-left:15px;padding-right:15px;padding-top:5px;padding-bottom:5px; margin:30px;">已預約時段</span>
+<div class="appointment-wrapper" >
+    <div class="appointment-table" >
+        <span style="font-weight:800;color:#0E4F43; padding-left:10%;padding-top:4%;padding-bottom:1%;">已預約時段</span>
 
     <table class="table table-bordered" style="border:none;font-size: 14px; margin: 15px 0px;">
         @if (ViewBag.Count > 0)
         {
-            <thead style="border:none;border-radius:50%;">
+           /* <thead style="border:none;border-radius:50%;">
                 <tr style="font-size: 14px; white-space: nowrap;vertical-align: middle; ">
                     <th>日期</th>
                     <th>時間</th>
@@ -63,9 +157,9 @@
                     <th>療程項目</th>
                     <th>修改/取消</th>
                 </tr>
-            </thead>
+            </thead>*/
 
-            <tbody id="appointmentsTableBody" style="font-size: 14px; white-space: nowrap;vertical-align: middle; ">
+                <div id="appointmentsTableBody" class="appointmentsTableBody">
                 @*  @foreach (var item in Model.AppointmentData)
             {
             <tr>
@@ -84,7 +178,7 @@
             </td>
             </tr>
             } *@
-            </tbody>
+            </div>
         }
         else
         {
@@ -95,9 +189,10 @@
     </table>
 
 
-    <button class="btn btn-primary" onclick="location.href='@Url.Action("Fillin", "Appointment")' " style="font-size: 14px; background-color:transparent; border:none;">
-        <img src="/images/add_circle_16dp_049FBF_FILL0_wght400_GRAD0_opsz20.png" style="width:40px;height:40px ;" \>
+        <button class="btn btn-primary" onclick="location.href='@Url.Action("Fillin", "Appointment")' " style="font-size: 14px; background-color:transparent; border:none;margin-left: auto;margin-right: auto;">
+            <img src="/images/add_circle_24dp_0E4F43_FILL0_wght400_GRAD0_opsz24.png" style="width:40px;height:40px ;" \>
     </button>
+</div>
 </div>
 
 <!-- 療程項目簡介模態框 -->
@@ -136,18 +231,33 @@
                     var treatmentDetails = JSON.stringify({ items: appointment.treatmentData });
 
                     var rowHtml = `
-                        <tr>
-                            <td>${appointment.date}</td>
-                                <td>${appointment.bookingBeginTime}</td>
-                                <td>${appointment.doctorName}</td>
-                            <td>
-                                <button type="button" class="btn btn-primary details-btn" data-toggle="modal" data-target="#detailsModal" data-details='${treatmentDetails}' style="font-size: 14px; background-color:transparent; border:none;">  <img id="desktopImage" src="/images/dataset_19dp_666666_FILL0_wght400_GRAD0_opsz20.png" style="width:25px;height:25px ;" \ ></button>
-                            </td>
-                            <td>
-                                <button class="btn btn-secondary" onclick="editAppointment('`+ appointment.appointmentId + `' ) "  style="font-size: 14px; background-color:transparent; border:none;"><img id="desktopImage" src="/images/edit_square_16dp_666666_FILL0_wght400_GRAD0_opsz20.png" style="width:25px;height:25px ;" \ ></button>
-                                <button class="btn btn-danger" onclick="cancelAppointment('`+ appointment.appointmentId + `')"  style="font-size: 14px; background-color:transparent; border:none;"><img id="desktopImage" src="/images/event_busy_16dp_666666_FILL0_wght400_GRAD0_opsz20.png" style="width:25px;height:25px ;" \ ></button>
-                            </td>
-                        </tr>
+                            
+                            <div class="AppointmentData">
+                                                <div class="appointmentDoctorImgDIV" > <img class="appointmentDoctorImg" src=""/></div>
+                                            <div class="Appointment_01">
+                                                <div class="appointmentDate">${appointment.date}</div>
+                                                    <div class="appointmentItems">
+                                                       
+                                                             <div class="appointmentItem">療程1</div>
+                                                             <div class="appointmentItem">療程2</div>
+                                                             <div class="appointmentItem">療程3</div>
+                                                    
+                                                    </div>
+                                            </div>
+                                             <div class="appointmentDoctorName">${appointment.doctorName}</div>
+                                             <div class="appointmentTimeBox">
+                                                 <div >${appointment.bookingBeginTime}</div>
+                                             </div>
+                                          
+                                <div>
+                                    <button type="button" class="btn btn-primary details-btn" data-toggle="modal" data-target="#detailsModal" data-details='${treatmentDetails}' style="display:none;font-size: 14px; background-color:transparent; border:none;">  <img id="desktopImage" src="/images/dataset_19dp_666666_FILL0_wght400_GRAD0_opsz20.png" style="width:25px;height:25px ;" \ ></button>
+                                </div>
+                                <div>
+                                <button class="btn btn-secondary" onclick="editAppointment('`+ appointment.appointmentId + `' ) "  style="display:none;font-size: 14px; background-color:transparent; border:none;"><img id="desktopImage" src="/images/edit_square_16dp_666666_FILL0_wght400_GRAD0_opsz20.png" style="width:25px;height:25px ;" \ ></button>
+                                    <button class="btn btn-danger" onclick="cancelAppointment('`+ appointment.appointmentId + `')"  style="display:none;font-size: 14px; background-color:transparent; border:none;"><img id="desktopImage" src="/images/event_busy_16dp_666666_FILL0_wght400_GRAD0_opsz20.png" style="width:25px;height:25px ;" \ ></button>
+                                </div>
+                            </div>
+                            
                     `;
                     tableBody.append(rowHtml);
                 });

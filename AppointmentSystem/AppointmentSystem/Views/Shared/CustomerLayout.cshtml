@@ -29,7 +29,7 @@
     </style>
 </head>
 <body class="index">
-    <header class="header fixed-top" style="background: linear-gradient(to bottom, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0)) ;width:100%; padding-right:0px;">
+    <header class="header fixed-top" style="background: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0)) ;width:100%; padding-right:0px;">
         <!--style="background: linear-gradient(to bottom, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0));width:100%; padding-right:0px; "-->
         <div class="container d-flex justify-content-between align-items-center" style="padding-left:0px">
             <!--style="padding-left:0px"-->
@@ -40,9 +40,9 @@
 
             <a id="logout" asp-area="" asp-controller="Appointment" asp-action="Logout" style="width:15%; display:flex ; justify-content: flex-end; margin-right:10px;">
                 <!--style="width:15%; display:flex ; justify-content: flex-end; margin-right:10px;"-->
-                <button class="header-toolbar d-flex align-items-center" style="border:none; font-size:14px  ;padding:5pt; height: 28px;">
+                <button class="header-toolbar d-flex align-items-center" style="border:none; background-color:#D7F4EE ;padding:5pt; width:30px;height: 30px; border-radius:50% ">
                     <!--style="border:none; font-size:14px  ;padding:5pt; height: 28px;-->
-                    登出
+                    <img src="~/images/pill_off_24dp_0E4F43_FILL0_wght400_GRAD0_opsz24.png" />
                 </button>
             </a>
         </div>
@@ -56,7 +56,7 @@
 
 
 
-    <footer class="footer bg-light fixed-bottom">
+    <footer class="footer  fixed-bottom" style="background: #ffffff;">
         <div class="container text-center">
             @* <span>鯨明科技有限公司 Copyright © 2024 All Rights Reserved</span> *@
         </div>

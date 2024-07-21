@@ -209,28 +209,58 @@
 </style> *@
 
 <style>
-    .treatment-section, .doctor-section, .dateTime-section, .baseInfomation-section {
+    .treatment-section, .doctor-section,  .baseInfomation-section {
         text-align: left;
-        margin: 20px auto;
-        width: 85%;
-        max-width: 800px;
+        margin: auto;
+        width: 98%;
+        
         background: linear-gradient(to top,#ffffff, #ffffff);
         padding: 20px;
         border-radius: 13px;
         border: 0px solid #5F5F5F;
-        box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
+        overflow-y: scroll;
+        height:500px;
+       /* box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);*/
+    }
+
+        .treatment-section::-webkit-scrollbar, .doctor-section::-webkit-scrollbar, .baseInfomation-section::-webkit-scrollbar {
+        width: 0px;
+        background: transparent;
+    }
+
+    .dateTime-section{
+        text-align: left;
+        margin: auto;
+        width: 98%;
+        background: linear-gradient(to top,#ffffff, #ffffff);
+        padding: 20px;
+        border-radius: 13px;
+        border: 0px solid #5F5F5F;
+        /* height: 500px;*/
+    
+    }
+    .timeList{
+        overflow-y: scroll;
+        height:200px;
+        padding-top:20px;
+
+    }
+
+        .timeList::-webkit-scrollbar {
+        width: 0px;
+        background: transparent;
     }
 
     .treatment-selected, .doctor-selected, .dateTime-selected {
         text-align: left;
         margin: 20px auto;
-        width: 85%;
-        max-width: 800px;
+        width: 95%;
+       
         background-color: transparent;
         padding: 20px;
         border-radius: 13px;
         border: 0px solid #5F5F5F;
-        box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
+        
         display: none;
     }
 
@@ -238,11 +268,12 @@
         text-align: left;
         margin: 20px auto;
         width: 85%;
-        max-width: 800px;
+      
         background-color: transparent;
         border-radius: 13px;
         border: 0px solid #5F5F5F;
         display: none;
+        padding: 20px;
     }
 
 
@@ -250,6 +281,12 @@
         position: relative;
         display: inline-block;
         margin-top: 5px;
+        background: #0E4F43;
+        color: #D7F4EE; 
+        border-radius: 15px; 
+        overflow: hidden; 
+        margin: 10px; 
+        box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.2);
     }
 
         .selectable img {
@@ -309,11 +346,13 @@
     }
 
         .time-slot.selected {
-            background-color: #a9a9a9;
+            background-color: #0E4F43;
+            color: #D7F4EE;
         }
 
         .time-slot:hover {
-            background-color: #bcbcbc;
+            background-color: #0E4F43;
+            color: #D7F4EE;
         }
 
         .time-slot.disabled {
@@ -421,87 +460,108 @@
         border-radius: 20px;
         margin: 5%
     }
+
+    .appointment-wrapper {
+        width: 100%;
+        max-width: 100%;
+        display: flex;
+        justify-content: center;
+        position: absolute;
+        top: 20%;
+        left: 0;
+        height: auto;
+    }
+
+    .appointment-table {
+        width: 100%;
+        margin: 0px !important;
+        padding: 20px 5px;
+        border-radius: 40px;
+        z-index: 2;
+        background: white;
+        max-width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+    }
+
+    .treatmentTittle, .doctorTittle , .dateTittle{
+        display: flex;
+        align-items: center;
+        font-size: 18px;
+        color: #0E4F43;
+        font-weight: 800;
+        margin-top:15px;
+        margin-left: 30px;
+    }
+
+
 </style>
 
-<div class="overlay-container" style=" position: relative;display: inline-block;">
+<div class="overlay-container" style=" position: relative;">
     @*     <img id="desktopImage" src="~/images/CustomerIndexImage1.jpg" alt="Desktop Image" class="appointment-image desktop-image">
     <img id="mobileImage" src="~/images/CustomerIndexImage2.jpg" alt="Mobile Image" class="appointment-image mobile-image" style="height:25rem; width:auto; object-fit: cover;"> *@
+    <img id="desktopImage" src="~/images/banner (2).png" alt="Desktop Image" class="appointment-image desktop-image" style="width: 100%;  height: auto;  max-height: 18rem;object-fit: cover;">
+    <img id="mobileImage" src="~/images/banner (2).png" alt="Mobile Image" class="appointment-image mobile-image" style=" width:auto; object-fit: cover;">
 
-    <div class="overlay"
-         style="position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(to top, rgba(0, 0, 0, 0.5), rgba(255, 255, 255, 0));
-            z-index: 1;
-            display: flex;
-            justify-content: center;
-            align-items: flex-end;
-            color: #DCDCDC;
-            font-weight:normal;
-            font-size:16px;
-            line-height: 1.8;
-            margin-bottom:10px;
-            letter-spacing: 2px;">
 
-        @*         <div class="container content mb-3">
-        <span id="AppointmentIntroductionText"></span>
-        </div> *@
-
-    </div>
 
 </div>
 
 @* <div class="container content">
     <span id="AppointmentIntroductionText"></span>
 </div> *@
+<div class="appointment-wrapper">
+<div class="appointment-table">
 
-<p></p>
-
-<div class="mt-4 mb-4 ">
-    <p style="font-size:20px ;font-weight:600;">線上預約</p>
-    <!-- <h>線上預約</h>-->
-</div>
 
 <!-- 療程部分 -->
-<div class="treatment-section" style="min-height:380px ; background-color:white;">
-    <div style="display:flex ; align-items:center;">
-        <p style="font-size:18px ; color:#049FBF;font-weight:600;">選擇療程項目(多選)</p>
-    </div>
-    <div id="treatmentData" class="row" style="display: flex; justify-content: center;">
+ <div class="treatmentTittle" >
+      <span >選擇療程項目(多選)</span>
+  </div>
+<div class="treatment-section" style="height:295px ; background-color:white;">
+
+            <div id="treatmentData" class="row" style="display: flex; justify-content:  left;">
     </div>
 </div>
 
 <!-- 已選擇的療程 -->
-<div class="treatment-selected" style="background-color:white; width: 85%;box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);">
-    <div style="display:flex; align-items:center;">
-        <p style="font-size:20px; color:#049FBF ;font-weight: normal;">療程項目</p>
-    </div>
+        <div class="treatmentTittle">
+            <span>療程項目</span>
+        </div>
+<div class="treatment-selected" style="background-color:white;">
+
     <div id="selectedTreatment" class="row" style="display: flex; justify-content: left;">
         =
     </div>
 </div>
-
+        
 <!-- 醫師部分 -->
-<div class="doctor-section" style=" min-height:200px;background-color:white;width: 85%;">
-    <p style="font-size:18px ; color:#049FBF;font-weight:600;">選擇醫師(單選)</p>
+      <div  class="doctorTittle">
+            <span >選擇醫師(單選)</span>
+      </div>
+<div class="doctor-section" style=" height:200px;background-color:white;">
+    
 
     <div id="doctorData" class="row" style="display: flex; justify-content: left;">
     </div>
 </div>
 
 <!-- 已選擇的醫師 -->
-<div class="doctor-selected" style="background-color:white;width: 85%; box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);">
-    <p style="font-size:20px; color:#049FBF ;font-weight: normal;">醫師</p>
-
+        <div class="doctorTittle">
+            <span>醫師</span>
+        </div>
+<div class="doctor-selected" >
+           
     <div id="selectedDoctor" class="row" style="display: flex; justify-content: left;">
     </div>
 </div>
 
 <!-- 日期時間部分 -->
+        <div class="dateTittle">
+            <span >選擇預約時間</span>
+        </div>
 <div class="dateTime-section hidden" style="background-color:white;width: 85%;">
-    <p style="font-size:20px; color:#049FBF ;font-weight: normal;">選擇預約時間</p>
 
     <div id="dateTimeData" class="row">
         <div id="dateList" class="col-md-8" style="padding:0px; font-weight: normal;">
@@ -517,7 +577,7 @@
             <p id="dateDisplay" class="selected-date ml-3">預約日期：無</p>
             <p id="timeDisplay" class="selected-time ml-3">預約時間：無</p>
         </div>
-        <div class="col-md-4" id="timeList">
+                <div class="col-md-4 timeList" id="timeList">
             <div class="time-picker" id="timePicker">
             </div>
 
@@ -595,7 +655,8 @@
         <img src="~/images/arrow_right_alt_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.png" alt="Alternate Text" style="width:35px;height:35px; " />
     </button>
 </div>
-
+</div>
+</div>
 <!-- 療程項目簡介模態框 -->
 <div class="modal fade " id="treatmentModal" tabindex="-1" aria-labelledby="treatmentModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -791,7 +852,7 @@
                 data.forEach(function (x) {
                     i++;
 
-                    inner += `<div class="selectable treatmentDiv" style="background: linear-gradient(to top, rgba(255, 255, 255, 1), rgba(255, 255, 255, 1));border-radius: 15px;  overflow: hidden;  margin: 3px;  box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.2);"  id="treatmentDiv-` + i + `" data-title="` + x.treatmentName + `" data-description="` + x.introduction + `" data-image="` + x.image + `" data-type="treatment">`;
+                    inner += `<div class="selectable treatmentDiv"   id="treatmentDiv-` + i + `" data-title="` + x.treatmentName + `" data-description="` + x.introduction + `" data-image="` + x.image + `" data-type="treatment">`;
                     inner += `<img  src="` + x.image + `" style="border-radius: 15px; padding:3px;" class="img-fluid" onclick="treatmentOnClick('` + i + `');">`;
                     // inner += `<img  src="/images/info.png" style="margin:5px; width:30px ; height:30px;"  class="img-fluid treatment-info" data-toggle="modal" data-target="#treatmentModal" />`; <img src="/images/info_24dp_049FBF_FILL0_wght400_GRAD0_opsz24.png" style="width:20px ; height:20px; margin-left:5px;" class="img-fluid"  />
                     inner += `<div style="line-height: 2;display: flex; align-items: center; justify-content: center; cursor:pointer;" data-toggle="modal" data-target="#treatmentModal"><span style="font-size:14px;">` + x.treatmentName + `</span></div>`;
@@ -825,7 +886,7 @@
                     data.forEach(function (x) {
                         i++;
 
-                        inner += `<div class="selectable doctorDiv " style="border-radius: 15px;  overflow: hidden; margin: 3px; box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);" id="doctorDiv-` + i + `" data-title="` + x.doctorName + `" data-department="` + x.departmentTitle + `" data-image="` + x.image + `" data-description="` + x.introduction + `" data-type="doctor">`;
+                        inner += `<div class="selectable doctorDiv " id="doctorDiv-` + i + `" data-title="` + x.doctorName + `" data-department="` + x.departmentTitle + `" data-image="` + x.image + `" data-description="` + x.introduction + `" data-type="doctor">`;
                         inner += `<img src="` + x.image + `"style="border-radius: 15px; padding:3px;" class="img-fluid" onclick="doctorOnClick('` + i + `')">`;
                         // inner += `<img src="/images/info.png" class="img-fluid doctor-info" data-toggle="modal" data-target="#doctorModal" />`;<img src="/images/info.png" style="width:20px ; height:20px;" class="img-fluid"  />
                         inner += `<div style=" line-height: 2;display: flex; align-items: center; justify-content: center; cursor:pointer;" data-toggle="modal" data-target="#doctorModal"><span style="font-size:14px;">` + x.doctorName + `</span></div>`;
@@ -1085,7 +1146,7 @@
         selectedTreatments.forEach(function (x) {
             let item = treatmentList.filter(e => e.treatmentId == x)[0];
 
-            inner += `<div class="selectable " style="border-radius: 15px;  overflow: hidden; margin: 3px; box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);" data-title="` + item.treatmentName + `" data-image="` + item.image + `" data-description="` + item.introduction + `" data-type="selectedTreatment">`;
+            inner += `<div class="selectable " data-title="` + item.treatmentName + `" data-image="` + item.image + `" data-description="` + item.introduction + `" data-type="selectedTreatment">`;
             inner += `<img src="` + item.image + `"style="border-radius: 15px; padding:3px;" class="img-fluid" data-toggle="modal" data-target="#treatmentModal">`;
             inner += `<div style="line-height: 2;display: flex; align-items: center; justify-content: center; cursor:pointer;" data-toggle="modal" data-target="#treatmentModal" ><span style="font-size:14px;">` + item.treatmentName + `</span></div>`;
             inner += `</div>`;
@@ -1097,7 +1158,7 @@
 
         let item = doctorList.filter(e => e.doctorId == selectedDoctor)[0];
 
-        inner += `<div class="selectable " style="border-radius: 15px;  overflow: hidden; margin: 3px; box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);" data-title="` + item.doctorName + `" data-image="` + item.image + `" data-department="` + item.departmentTitle + `" data-description="` + item.introduction + `" data-type="selectedDoctor" >`;
+        inner += `<div class="selectable "" data-title="` + item.doctorName + `" data-image="` + item.image + `" data-department="` + item.departmentTitle + `" data-description="` + item.introduction + `" data-type="selectedDoctor" >`;
         inner += `<img src="` + item.image + `"style="border-radius: 15px; padding:3px;" class="img-fluid" data-toggle="modal" data-target="#doctorModal" >`;
         inner += `<div style="line-height: 2;display: flex; align-items: center; justify-content: center; cursor:pointer;" data-toggle="modal" data-target="#doctorModal" ><span style="font-size:14px;">` + item.doctorName + `</span></div>`;
         inner += `</div>`;
