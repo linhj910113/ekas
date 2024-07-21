@@ -175,7 +175,6 @@ namespace AppointmentSystem.Controllers
                 Introduction = value.Introduction,
                 DepartmentTitle = value.DepartmentTitle,
                 ColorHex = value.ColorHEX,
-                Sort = value.Sort,
                 Memo = value.Memo,
                 ImageFileId = FileId
             };
@@ -225,6 +224,22 @@ namespace AppointmentSystem.Controllers
 
             return new JsonResult(doctor);
         }
+
+        [HttpPost]
+        [Authorize]
+        public IActionResult saveDoctorSort(string[] items)
+        {
+            int i = 1;
+            foreach(var item in items)
+            {
+                _baseinfoService.saveDoctorSort(item, i);
+                i++;
+            }
+
+            return new JsonResult("OK");
+        }
+
+        
 
         #endregion
 
@@ -378,7 +393,6 @@ namespace AppointmentSystem.Controllers
                 Introduction = value.Introduction,
                 AlertMessage = value.AlertMessage,
                 Time = value.Time,
-                Sort = value.Sort,
                 Memo = value.Memo,
                 ImageFileId = FileId
             };
@@ -526,9 +540,21 @@ namespace AppointmentSystem.Controllers
             return new JsonResult(createVM);
         }
 
+        [HttpPost]
+        [Authorize]
+        public IActionResult saveTreatmentSort(string[] items)
+        {
+            int i = 1;
+            foreach (var item in items)
+            {
+                _baseinfoService.saveTreatmentSort(item, i);
+                i++;
+            }
+
+            return new JsonResult("OK");
+        }
 
 
-        
 
         #endregion
 

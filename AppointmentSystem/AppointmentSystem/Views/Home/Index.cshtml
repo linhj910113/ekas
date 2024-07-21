@@ -5,11 +5,11 @@
     ViewData["Title"] = "後臺首頁";
 }
 <style>
-    .appointmentTable {
+    /* .appointmentTable {
         border-collapse: separate;
         border-spacing: 0px;
         width: 100%;
-        /* max-width: 800px; */
+        // max-width: 800px; 
         margin: 0 auto;
         display: block;
         overflow-x: auto;
@@ -19,6 +19,24 @@
         padding: 10px;
         border: none;
         min-height: 350px;
+        box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+    } */
+
+    .appointmentTable {
+        border-collapse: separate;
+        border-spacing: 0px;
+        width: 100%;
+        /* max-width: 800px; */
+        margin: 0 auto;
+        display: block;
+        overflow-x: auto;
+        overflow-y: auto; /* 允許垂直滾動 */
+        white-space: nowrap;
+        background-color: white;
+        border-radius: 13px;
+        padding: 10px;
+        border: none;
+        height: 550px; /* 固定高度 */
         box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
     }
 
@@ -33,7 +51,7 @@
         font-weight: normal;
         color: #ffffff;
         text-align: left;
-        width: 120px;
+        width: 200px;
         display: inline-block;
         font-size: 16px;
     }
@@ -45,7 +63,7 @@
         padding: 10px;
         text-align: center;
         vertical-align: middle !important;
-        width: 120px;
+        width: 200px;
         height: 120px;
         position: relative;
         display: inline-block;
@@ -64,7 +82,8 @@
         font-size: 0.9em;
         box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
         left: 5px;
-        right: -101%; /* 延伸到下一個單元格 */
+        /* right: 0%; */ 
+        height: 96%; /* 延伸到下一個單元格 */
         z-index: 1;
         white-space: nowrap;
         overflow: hidden;
@@ -72,7 +91,7 @@
         cursor: pointer;
     }
 
-    .doctor-td {
+    .outpatient-td {
         align-content: center !important;
         text-align: center !important;
         font-size: 16px;
@@ -215,39 +234,39 @@
 
 
     /*.treatmentSelectMenu button {
-                        background-color: #385460 !important;
-                        color: #F7F6EE !important;
-                        border-radius: 10px !important;
-                    }
+                                                                background-color: #385460 !important;
+                                                                color: #F7F6EE !important;
+                                                                border-radius: 10px !important;
+                                                            }
 
 
-                .appointmentDetail label {
-                    background-color: #385466 !important;
-                    color: #F7F6EE !important;
-                    border-radius: 10px !important;
-                }
-                   .treatmentSelectMenu  label {
-                    background-color: #385466 !important;
-                    color: #F7F6EE !important;
-                    border-radius: 10px !important;
-                }
+                                                        .appointmentDetail label {
+                                                            background-color: #385466 !important;
+                                                            color: #F7F6EE !important;
+                                                            border-radius: 10px !important;
+                                                        }
+                                                           .treatmentSelectMenu  label {
+                                                            background-color: #385466 !important;
+                                                            color: #F7F6EE !important;
+                                                            border-radius: 10px !important;
+                                                        }
 
-                .treatmentSelectMenu label:focus,
-                .treatmentSelectMenu label:hover,
-                .treatmentSelectMenu label:active {
-                    background-color: #2A3A4A !important;
-                    color: #FFFFFF !important;
-                }
+                                                        .treatmentSelectMenu label:focus,
+                                                        .treatmentSelectMenu label:hover,
+                                                        .treatmentSelectMenu label:active {
+                                                            background-color: #2A3A4A !important;
+                                                            color: #FFFFFF !important;
+                                                        }
 
-                .treatmentSelectMenu label.selected {
-                    background-color: #2A3A4A !important;
-                    color: #FFFFFF !important;
-                }
-            .label-item, .treatment-item, actualTreatment-item {
-                margin-bottom: 10px !important;
-            }
+                                                        .treatmentSelectMenu label.selected {
+                                                            background-color: #2A3A4A !important;
+                                                            color: #FFFFFF !important;
+                                                        }
+                                                    .label-item, .treatment-item, actualTreatment-item {
+                                                        margin-bottom: 10px !important;
+                                                    }
 
-            */
+                                                    */
 
     .date-input {
         width: 200px;
@@ -265,8 +284,8 @@
     }
 
         /* .date-input#currentMonth, .date-input#currentDay {
-            width: 50px;
-        } */
+                                                    width: 50px;
+                                                } */
 
         .date-input::-webkit-inner-spin-button,
         .date-input::-webkit-outer-spin-button {
@@ -546,19 +565,21 @@
         init();
 
         function init() {
-            $('#currentYear').val(currentYear);
-            $('#currentMonth').val(currentMonth + 1);
-            $('#currentDay').val(currentDay);
+            // $('#currentYear').val(currentYear);
+            // $('#currentMonth').val(currentMonth + 1);
+            // $('#currentDay').val(currentDay);
+
+            $('#currentDate').val(currentYear + "-" + (currentMonth + 1) + "-" + currentDay);
 
             setAppointmentTable(currentYear, currentMonth, currentDay);
         }
 
-        $('.appointmentTable').on('mousewheel', function (event) {
-            if (event.originalEvent.deltaY) {
-                this.scrollLeft += (event.originalEvent.deltaY > 0 ? 1 : -1) * 100;
-                event.preventDefault();
-            }
-        });
+        // $('.appointmentTable').on('mousewheel', function (event) {
+        //     if (event.originalEvent.deltaY) {
+        //         this.scrollLeft += (event.originalEvent.deltaY > 0 ? 1 : -1) * 100;
+        //         event.preventDefault();
+        //     }
+        // });
 
         $("label.label-item").click(function () {
             $(this).toggleClass("active");
@@ -741,37 +762,39 @@
                 let innerHTML = ``;
                 let outpatientCount = data.outpatientTimeDatas.length;
 
-                //設定table header
+                // 設定每位醫師的表頭
                 innerHTML += `<tr>`;
                 innerHTML += `<th class="tableHeader"></th>`;
-                if (data.outpatientTimeDatas.length > 0) {
-                    data.outpatientTimeDatas.forEach(function (item) {
-                        innerHTML += `<th class="tableHeader">` + item.beginTime + `</th>`;
-                    });
-                } else
-                    innerHTML += `<th class="tableHeader"></th>`;
+                data.doctorDatas.forEach(function (item) {
+                    innerHTML += `<th class="tableHeader">` + item.doctorName + `</th>`;
+                });
                 innerHTML += `</tr>`;
 
-                //設定醫師門診資料
-                data.doctorDatas.forEach(function (item) {
-                    innerHTML += `<tr>`;
-                    innerHTML += `<td class="doctor-td">` + item.doctorName + `</td>`;
+                //設定門診時段資料
 
-                    //醫師各個時段的格子
-                    if (data.outpatientTimeDatas.length > 0) {
-                        data.outpatientTimeDatas.forEach(function (x) {
-                            innerHTML += `<td id="` + item.doctorId + `-` + x.beginTime.toString().replace(':', '') + `"></td>`;
+                if (data.outpatientTimeDatas.length > 0) {
+                    data.outpatientTimeDatas.forEach(function (item) {
+                        innerHTML += `<tr>`;
+                        innerHTML += `<td class="outpatient-td">` + item.beginTime + `</td>`;
+
+                        data.doctorDatas.forEach(function (x) {
+                            innerHTML += `<td id="` + x.doctorId + `-` + item.beginTime.toString().replace(':', '') + `"></td>`;
                         });
-                    }
-                    else
-                        innerHTML += `<td style="">本日無門診</td>`;
+                        innerHTML += `</tr>`;
+                    });
+                } else {
+                    innerHTML += `<tr>`;
+                    innerHTML += `<td class="outpatient-td"></td>`;
 
+                    data.doctorDatas.forEach(function (item) {
+                        innerHTML += `<td style="">本日無門診</td>`;
+                    });
                     innerHTML += `</tr>`;
-                });
+                }
 
                 appointmentTable.html(innerHTML);
 
-                //取得預約資料並設定
+                // 取得預約資料並設定
                 $.ajax({
                     type: 'POST',
                     url: '/Home/SetAppointmentData',
@@ -783,8 +806,8 @@
                         data.forEach(function (item) {
                             let tdName = $('#' + item.doctorId + '-' + item.bookingBeginTime.toString().replace(':', '') + '')
                             let divHTML = ``;
-                            
-                            divHTML += `<div class="event" onclick="appointmentOnClick('` + item.appointmentId + `');" style="right:` + (-101) * (item.timeUnitCount - 1) + `%">`;
+
+                            divHTML += `<div class="event" onclick="appointmentOnClick('` + item.appointmentId + `');" style="height:` + (96) * (item.timeUnitCount) + `%">`;
 
                             divHTML += `<div class="appointmentTime">` + item.bookingBeginTime + `-` + item.bookingEndTime + `<br />病歷號:` + item.customerData.medicalRecordNumber + `<br /><p> 姓名:` + item.customerData.name + `-` + item.customerData.gender + `</p></div>`;
                             item.treatmentData.forEach(function (x) {
@@ -799,6 +822,77 @@
             }
         });
     }
+
+    // function setAppointmentTable(currentYear, currentMonth, currentDay) {
+    //     $.ajax({
+    //         type: 'POST',
+    //         url: '/Home/SetAppointmentTable',
+    //         datatype: "json",
+    //         data: { "currentYear": currentYear, "currentMonth": currentMonth + 1, "currentDay": currentDay },
+    //         success: function (data) {
+    //             console.log(data)
+    //             let appointmentTable = $('.appointmentTable');
+    //             let innerHTML = ``;
+    //             let outpatientCount = data.outpatientTimeDatas.length;
+
+    //             設定table header
+    //             innerHTML += `<tr>`;
+    //             innerHTML += `<th class="tableHeader"></th>`;
+    //             if (data.outpatientTimeDatas.length > 0) {
+    //                 data.outpatientTimeDatas.forEach(function (item) {
+    //                     innerHTML += `<th class="tableHeader">` + item.beginTime + `</th>`;
+    //                 });
+    //             } else
+    //                 innerHTML += `<th class="tableHeader"></th>`;
+    //             innerHTML += `</tr>`;
+
+    //             設定醫師門診資料
+    //             data.doctorDatas.forEach(function (item) {
+    //                 innerHTML += `<tr>`;
+    //                 innerHTML += `<td class="doctor-td">` + item.doctorName + `</td>`;
+
+    //                 醫師各個時段的格子
+    //                 if (data.outpatientTimeDatas.length > 0) {
+    //                     data.outpatientTimeDatas.forEach(function (x) {
+    //                         innerHTML += `<td id="` + item.doctorId + `-` + x.beginTime.toString().replace(':', '') + `"></td>`;
+    //                     });
+    //                 }
+    //                 else
+    //                     innerHTML += `<td style="">本日無門診</td>`;
+
+    //                 innerHTML += `</tr>`;
+    //             });
+
+    //             appointmentTable.html(innerHTML);
+
+    //             取得預約資料並設定
+    //             $.ajax({
+    //                 type: 'POST',
+    //                 url: '/Home/SetAppointmentData',
+    //                 datatype: "json",
+    //                 data: { "currentYear": currentYear, "currentMonth": currentMonth + 1, "currentDay": currentDay },
+    //                 success: function (data) {
+    //                     console.log(data);
+
+    //                     data.forEach(function (item) {
+    //                         let tdName = $('#' + item.doctorId + '-' + item.bookingBeginTime.toString().replace(':', '') + '')
+    //                         let divHTML = ``;
+
+    //                         divHTML += `<div class="event" onclick="appointmentOnClick('` + item.appointmentId + `');" style="right:` + (-101) * (item.timeUnitCount - 1) + `%">`;
+
+    //                         divHTML += `<div class="appointmentTime">` + item.bookingBeginTime + `-` + item.bookingEndTime + `<br />病歷號:` + item.customerData.medicalRecordNumber + `<br /><p> 姓名:` + item.customerData.name + `-` + item.customerData.gender + `</p></div>`;
+    //                         item.treatmentData.forEach(function (x) {
+    //                             divHTML += `<div class="treatmentItem">` + x.treatmentName + `</div>`;
+    //                         });
+    //                         divHTML += `</div>`;
+
+    //                         tdName.html(divHTML);
+    //                     });
+    //                 }
+    //             });
+    //         }
+    //     });
+    // }
 
     function appointmentCheckIn() {
         let Id = $('#selectedAppointment').val();
@@ -895,12 +989,14 @@
         let [year, month, day] = $('#currentDate').val().split('-');
 
         currentYear = parseInt(year);
-        currentMonth = parseInt(month-1);
+        currentMonth = parseInt(month - 1);
         currentDay = parseInt(day);
 
         console.log(currentYear);
         console.log(currentMonth);
         console.log(currentDay);
+
+        document.getElementById
 
         setAppointmentTable(currentYear, currentMonth, currentDay);
     }

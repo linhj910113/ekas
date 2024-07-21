@@ -66,7 +66,7 @@ namespace AppointmentSystem.Services
             doctor.Status = item.Status;
             doctor.Image = "data:image/" + filedata.FileExtension.Replace(".", "") + "; base64," + _functions.ConvertJpgToBase64(filedata.Path);
 
-           if (filedata != null)
+            if (filedata != null)
             {
                 doctor.DoctorImage.FileID = filedata.Id;
                 doctor.DoctorImage.FileName = filedata.FileName;
@@ -99,16 +99,6 @@ namespace AppointmentSystem.Services
             _db.SaveChanges();
         }
 
-        public void UpdateDoctorName(string id, string account, Doctor value)
-        {
-            _db.Doctors.FirstOrDefault(x => x.Id == id).Modifier = account;
-            _db.Doctors.FirstOrDefault(x => x.Id == id).ModifyDate = DateTime.Now;
-
-            _db.Doctors.FirstOrDefault(x => x.Id == id).DoctorName = value.DoctorName;
-
-            _db.SaveChanges();
-        }
-
         public void UpdateDoctor(string id, string account, Doctor value)
         {
             _db.Doctors.FirstOrDefault(x => x.Id == id).Modifier = account;
@@ -119,7 +109,6 @@ namespace AppointmentSystem.Services
             _db.Doctors.FirstOrDefault(x => x.Id == id).Introduction = value.Introduction;
             _db.Doctors.FirstOrDefault(x => x.Id == id).DepartmentTitle = value.DepartmentTitle;
             _db.Doctors.FirstOrDefault(x => x.Id == id).ColorHex = value.ColorHex;
-            _db.Doctors.FirstOrDefault(x => x.Id == id).Sort = value.Sort;
             _db.Doctors.FirstOrDefault(x => x.Id == id).Memo = value.Memo;
             _db.Doctors.FirstOrDefault(x => x.Id == id).ImageFileId = value.ImageFileId;
 
@@ -136,6 +125,12 @@ namespace AppointmentSystem.Services
         public void CreateDoctorTreatment(Doctortreatment value)
         {
             _db.Doctortreatments.Add(value);
+            _db.SaveChanges();
+        }
+
+        public void saveDoctorSort(string id, int sort)
+        {
+            _db.Doctors.FirstOrDefault(x => x.Id == id).Sort = sort;
             _db.SaveChanges();
         }
 
@@ -285,7 +280,6 @@ namespace AppointmentSystem.Services
             _db.Treatments.FirstOrDefault(x => x.Id == id).Introduction = value.Introduction;
             _db.Treatments.FirstOrDefault(x => x.Id == id).AlertMessage = value.AlertMessage;
             _db.Treatments.FirstOrDefault(x => x.Id == id).Time = value.Time;
-            _db.Treatments.FirstOrDefault(x => x.Id == id).Sort = value.Sort;
             _db.Treatments.FirstOrDefault(x => x.Id == id).Memo = value.Memo;
             _db.Treatments.FirstOrDefault(x => x.Id == id).ImageFileId = value.ImageFileId;
 
@@ -372,6 +366,14 @@ namespace AppointmentSystem.Services
 
             return Labels;
         }
+
+        public void saveTreatmentSort(string id, int sort)
+        {
+            _db.Treatments.FirstOrDefault(x => x.Id == id).Sort = sort;
+            _db.SaveChanges();
+        }
+
+
 
         #endregion
 

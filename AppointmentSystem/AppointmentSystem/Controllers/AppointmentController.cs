@@ -1,4 +1,4 @@
-using AppointmentSystem.Models.DBModels;
+﻿using AppointmentSystem.Models.DBModels;
 using AppointmentSystem.Models.ViewModels.AppointmentModels;
 using AppointmentSystem.Models.ViewModels.BaseInfoModels;
 using AppointmentSystem.Services;
@@ -128,7 +128,7 @@ namespace AppointmentSystem.Controllers
 
         public IActionResult Login()
         {
-            //���n�J�N����쭺��
+            //有登入就跳轉到首頁
             var user = HttpContext.User.Claims.ToList();
 
             if (user.Count == 0)
@@ -144,13 +144,13 @@ namespace AppointmentSystem.Controllers
 
         public async Task<IActionResult> CellphoneLogin(string cellphone, string hashCode, string otp)
         {
-            //驗證登入資料
+            //驗證手機及驗證碼
             string result = "";
 
             if (cellphone == "")
-                result = "手機號碼資料空白，請確認!!";
+                result = "手機號碼資料異常，請聯絡系統管理者!";
             else if (hashCode == "" || otp == "")
-                result = "驗證碼資料空白，請確認!!";
+                result = "驗證碼資料異常，請聯絡系統管理者!";
             else
                 result = _appointmentService.VerifyLoginInfo(cellphone, hashCode, otp);
 
@@ -276,7 +276,7 @@ namespace AppointmentSystem.Controllers
 
                 if (!tokenResponse.IsSuccessStatusCode)
                 {
-                    return BadRequest("�n�J����");
+                    return BadRequest("登入失敗");
                 }
 
                 var tokenContent = await tokenResponse.Content.ReadAsStringAsync();
@@ -349,7 +349,7 @@ namespace AppointmentSystem.Controllers
                 }
                 else
                 {
-                    //�s�U��
+                    //新顧客
                     string CustomerId = _functions.GetGuid();
 
                     while (_appointmentService.CheckCustomerId(CustomerId))
@@ -464,10 +464,10 @@ namespace AppointmentSystem.Controllers
                     Description = "Set appointment to outpatient Success, id='" + AppointmentId + "'."
                 });
 
-                //�ǰeLINE�T��
+                //傳送LINE訊息
                 //string message = _functions.GetSystemParameter("AppointmentVerifySuccess");
                 string Url = "http://" + _functions.GetSystemParameter("SystemDomainName") + "/Appointment/SuccessPage/" + AppointmentId;
-                string message = "�w�����Ҧ��\�A�ԲӸ�Ʀp�U���}\n" + Url;
+                string message = "預約驗證成功，詳細資料如下網址\n" + Url;
 
                 if (vc.LoginBy == "Line")
                     await _functions.SendLineMessageAsync(user.LineId, message);
@@ -593,7 +593,7 @@ namespace AppointmentSystem.Controllers
             };
             _appointmentService.CreateAppointment(item);
 
-            //�s�W�w�������{
+            //新增預約的療程
             foreach (var treatment in treatments)
             {
                 Appointmenttreatment at = new Appointmenttreatment()
@@ -611,7 +611,7 @@ namespace AppointmentSystem.Controllers
                 _appointmentService.CreateAppointmenttreatment(at);
             }
 
-            //�إ����Ҹ��
+            //建立驗證資料
             string code = _functions.GetVerificationCode();
 
             Verificationcode vcode = new Verificationcode()
@@ -631,9 +631,9 @@ namespace AppointmentSystem.Controllers
             };
             _appointmentService.CreateVerificationcode(vcode);
 
-            //�ǰeline���ҽX
+            //傳送line驗證碼
             string VerifyUrl = "http://" + _functions.GetSystemParameter("SystemDomainName") + "/Appointment/Verify?code=" + code;
-            string message = "�w�����Һ��}�p�U�A�Щ�5�������i������\n" + VerifyUrl;
+            string message = "預約驗證網址如下，請於5分鐘內進行驗證\n" + VerifyUrl;
 
             if (user.FirstOrDefault(u => u.Type == "LoginBy").Value == "Line")
                 await _functions.SendLineMessageAsync(user.FirstOrDefault(u => u.Type == "LineId").Value, message);
@@ -672,7 +672,7 @@ namespace AppointmentSystem.Controllers
             };
             _appointmentService.UpdateAppointment(item, AppointmentId);
 
-            //�R���쥻�����{��s�W
+            //刪除原本的療程後新增
             _appointmentService.RemoveAppointmenttreatment(AppointmentId);
 
             foreach (var treatment in treatments)
@@ -692,7 +692,7 @@ namespace AppointmentSystem.Controllers
                 _appointmentService.CreateAppointmenttreatment(at);
             }
 
-            //��s���E�ɨ��
+            //更新門診時刻表
             _appointmentService.UpdateAppointmentToOutpatient(AppointmentId, user.FirstOrDefault(u => u.Type == "UserId").Value, item);
 
             _functions.SaveSystemLog(new Systemlog
@@ -711,7 +711,7 @@ namespace AppointmentSystem.Controllers
         {
             var user = HttpContext.User.Claims.ToList();
 
-            //�]�wappointment���A��C(cancel)
+            //設定appointment狀態為C(cancel)
             Appointment item = new Appointment()
             {
                 Modifier = user.FirstOrDefault(u => u.Type == "UserId").Value,
@@ -759,16 +759,16 @@ namespace AppointmentSystem.Controllers
         {
             await HttpContext.SignOutAsync();
 
-            return RedirectToAction("Login", "Appointment");//�ɦܵn�J��
+            return RedirectToAction("Login", "Appointment");//導至登入頁
         }
 
         [HttpPost]
         public async Task<IActionResult> sendVerificationCode(string cellphone, string hashCode)
         {
-            //確認該是否有生效中的驗證碼，如果有就註銷(手機查一次，hashCode查一次)
+            //確認是否有生效中的驗證碼，如果有就註銷(手機查一次，hashCode查一次)
             _appointmentService.CheckActiveVerificationCode(cellphone, hashCode);
 
-            //建立驗證資料
+            //產生驗證碼並發送手機簡訊
             Random random = new Random();
 
             string code = _functions.GetVerificationCode();
@@ -789,8 +789,8 @@ namespace AppointmentSystem.Controllers
             };
             _appointmentService.CreateVerificationcode(vcode);
 
-            //TODO:發送手機簡訊
-            string message = "EK美學診所手機登入驗證碼如下，請於5分鐘內進行驗證\n" + randomNumber;
+            
+            string message = "EK美學診所手機登入驗證碼如下，請於5分鐘內進行驗證：" + randomNumber;
             await _functions.SendSmsAsync(cellphone, message);
 
             return new JsonResult(code);
@@ -816,18 +816,18 @@ namespace AppointmentSystem.Controllers
 
 
 
-        //�o�e�T������
+        //發送訊息測試
         //[HttpGet]
         //[Authorize]
         //public async Task<IActionResult> SendTestMessage(string id)
         //{
-        //    var result = await _appointmentService.SendLineMessageAsync(id, "�ǰe�T���\�����~~~");
+        //    var result = await _appointmentService.SendLineMessageAsync(id, "傳送訊息功能測試~~~");
         //    if (!result)
         //    {
-        //        return BadRequest("�T���ǰe����");
+        //        return BadRequest("訊息傳送失敗");
         //    }
 
-        //    return Ok("�T���w�ǰe");
+        //    return Ok("訊息已傳送");
 
         //}
 

@@ -39,31 +39,36 @@
     }
 </style>
 
+<script src="~/js/jquery-ui.js"></script>
+<link rel="stylesheet" href="~/css/jquery-ui.css">
+
 <h3 class="container " style="text-align:start; margin:10px;">@ViewData["Title"]</h3>
 
 <div class="container content-div">
     <div class="row">
-        <div class="col-md-3 sidebar" style="background-color:#F7F6EE;box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);" id="sidebar">
+        <div class="col-md-3 sidebar " style="background-color:#F7F6EE;box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);" id="sidebar">
             @{
                 int i = 0;
             }
 
-            @foreach (var item in Model)
-            {
-                <div class="input-group">
-                    <button class="form-control" id="db-@i" onclick="showDoctorDetail('@i');">@item.DoctorName</button>
-                    <input type="text" id="doctor-@i" class="form-control" placeholder="請輸入醫師姓名..." value="@item.DoctorName" style="text-align:center;display:none;" />
-                    @* <button class="icon-button" onclick="editDoctor('@i');">
-                <img src="/images/edit.png" id="img-@i" style="height:2em;width:auto;" />
-                </button> *@
-                    <input type="hidden" id="dv-@i" value="@item.DoctorId" />
-                </div>
+            <div class="sortable">
+                @foreach (var item in Model)
+                {
+                    <ul class="input-group" style="padding-inline-start: 0px;">
+                        <li class="form-control" id="db-@i" onclick="showDoctorDetail('@i');" style="cursor:pointer;">
+                            @item.DoctorName
+                            <input type="hidden" id="dv-@i" value="@item.DoctorId" />
+                        </li>
+                    </ul>
 
-                i++;
-            }
+                    i++;
+                }
+            </div>
 
             <button class="btn add-sidebaritem" style="margin:auto" onclick="addDoctor();"> <img src="/images/add_circle_16dp_049FBF_FILL0_wght400_GRAD0_opsz20.png" style="width:40px;height:40px ;" \></button>
         </div>
+
+
 
         <div class="col-md-8 right-panel" style="text-align:left; box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);" id="doctorData">
         </div>
@@ -72,6 +77,32 @@
 
 
 <script type="text/javascript">
+    $(function () {
+        $(".sortable").sortable({
+            // handle: 'button',
+            placeholder: "ui-state-highlight", // 可選，為拖動時的占位符樣式
+            update: function (event, ui) {
+                var items = [];
+                $('[id^="dv-"]').each(function () {
+                    items.push(this.value);
+                });
+
+                $.ajax({
+                    type: "POST",
+                    url: "/BaseInfo/saveDoctorSort",
+                    datatype: "json",
+                    data: { items: items },
+                    success: function (data) {
+                        console.log(data);
+                    }
+                });
+
+                // 你可以在這裡添加 AJAX 調用以保存新順序
+            }
+        });
+        $(".sortable").disableSelection(); // 防止在拖動時選中文字
+    });
+
 
     // function editDoctor(i) {
     //     let text = document.getElementById("doctor-" + i);
@@ -144,7 +175,7 @@
                 inner += '<div class="form-group"><label for="departmentTitle">科別/職稱*</label><input type="text" class="form-control" id="departmentTitle" placeholder="輸入科別/職稱" value="' + data.departmentTitle + '" required="" /></div>';
                 inner += '<div class="form-group"><label for="colorHEX">醫師代表顏色*</label><input type="color" class="form-control" id="colorHEX" placeholder="選擇顏色" value="' + data.colorHEX + '" required="" /></div>';
 
-                inner += '<div class="form-group"><label for="sort">排序*</label><input type="number" class="form-control" id="sort" value="' + data.sort + '" placeholder="輸入排序" required=""></div>';
+                // inner += '<div class="form-group"><label for="sort">排序*</label><input type="number" class="form-control" id="sort" value="' + data.sort + '" placeholder="輸入排序" required=""></div>';
                 inner += '<div class="form-group"><label for="memo">備註</label><textarea class="form-control" id="memo" rows="3" placeholder="輸入備註">' + data.memo + '</textarea></div>';
 
                 //圖片
@@ -333,8 +364,6 @@
             alertMsg = "請輸入科別/職稱!!";
         else if ($('#colorHEX').val() == "")
             alertMsg = "請輸入醫師代表顏色!!";
-        else if ($('#Sort').val() == "")
-            alertMsg = "請輸入排序!!";
         else if ($('#imageName').html() == "")
             alertMsg = "請上傳圖片!!";
         else if (selectedTreatments.length == 0)
@@ -352,7 +381,6 @@
         formData.append('Introduction', $('#introduction').val());
         formData.append('DepartmentTitle', $('#departmentTitle').val());
         formData.append('ColorHEX', $('#colorHEX').val());
-        formData.append('Sort', $('#sort').val());
         formData.append('Memo', $('#memo').val());
         // formData.append('Status', $('#status').val());
         formData.append('DoctorImage.File', $('#imagefile')[0].files[0]);
