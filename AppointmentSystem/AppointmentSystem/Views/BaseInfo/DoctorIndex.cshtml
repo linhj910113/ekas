@@ -5,6 +5,31 @@
 }
 
 <style>
+    .colorPicker{
+        border: none;
+        background-color: #ffffff;
+        width: 40px;
+        height: 40px;
+        display: block;
+        border-radius: 90px !important;
+        margin-left: 10px;
+        
+    }
+
+        .colorPicker::-webkit-color-swatch-wrapper {
+            padding: 0;
+            border-radius: 50%; /* 設置圓角 */
+        }
+
+        .colorPicker::-webkit-color-swatch {
+            border: none;
+            border-radius: 50%; /* 設置圓角 */
+        }
+    .sidebar, .right-panel {
+        margin: 15px;
+        padding: 30px;
+        border-radius: 15px;
+    }
     #imageName {
         margin-left: 10px;
     }
@@ -19,7 +44,7 @@
     }
 
     .add-sidebaritem {
-        background-color: #ffffff;
+        
         color: #5e1a1a;
         border: none;
         border-radius: 50%;
@@ -65,7 +90,7 @@
                 }
             </div>
 
-            <button class="btn add-sidebaritem" style="margin:auto" onclick="addDoctor();"> <img src="/images/add_circle_16dp_049FBF_FILL0_wght400_GRAD0_opsz20.png" style="width:40px;height:40px ;" \></button>
+            <button class="btn add-sidebaritem" style="margin:auto" onclick="addDoctor();"> <img src="/images/person_add_24dp_0E4F43_FILL0_wght400_GRAD0_opsz24.png" style="width:30px;height:30px ;" \></button>
         </div>
 
 
@@ -173,7 +198,7 @@
                 inner += '<div class="form-group"><label for="doctorNameEnglish">英文姓名</label><input type="text" class="form-control" id="doctorNameEnglish" placeholder="輸入醫師英文姓名" value="' + data.doctorNameEnglish + '" /></input></div>';
                 inner += '<div class="form-group"><label for="introduction">醫師介紹*</label><textarea class="form-control" id="introduction" rows="3" placeholder="輸入醫師介紹" required="">' + data.introduction + '</textarea></div>';
                 inner += '<div class="form-group"><label for="departmentTitle">科別/職稱*</label><input type="text" class="form-control" id="departmentTitle" placeholder="輸入科別/職稱" value="' + data.departmentTitle + '" required="" /></div>';
-                inner += '<div class="form-group"><label for="colorHEX">醫師代表顏色*</label><input type="color" class="form-control" id="colorHEX" placeholder="選擇顏色" value="' + data.colorHEX + '" required="" /></div>';
+                inner += '<div class="form-group "><label for="colorHEX">醫師代表顏色*</label><input type="color" class=" colorPicker" id="colorHEX" placeholder="選擇顏色" value="' + data.colorHEX + '" required="" /></div>';
 
                 // inner += '<div class="form-group"><label for="sort">排序*</label><input type="number" class="form-control" id="sort" value="' + data.sort + '" placeholder="輸入排序" required=""></div>';
                 inner += '<div class="form-group"><label for="memo">備註</label><textarea class="form-control" id="memo" rows="3" placeholder="輸入備註">' + data.memo + '</textarea></div>';

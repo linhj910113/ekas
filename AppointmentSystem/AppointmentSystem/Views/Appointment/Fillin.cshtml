@@ -254,13 +254,11 @@
     .treatment-selected, .doctor-selected, .dateTime-selected {
         text-align: left;
         margin: 20px auto;
-        width: 95%;
-       
+        width: 98%;
         background-color: transparent;
         padding: 20px;
         border-radius: 13px;
         border: 0px solid #5F5F5F;
-        
         display: none;
     }
 
@@ -516,9 +514,9 @@
 
 
 <!-- 療程部分 -->
- <div class="treatmentTittle" >
-      <span >選擇療程項目(多選)</span>
-  </div>
+        <div class="treatmentTittle">
+            <span>療程項目</span>
+        </div>
 <div class="treatment-section" style="height:295px ; background-color:white;">
 
             <div id="treatmentData" class="row" style="display: flex; justify-content:  left;">
@@ -538,7 +536,7 @@
         
 <!-- 醫師部分 -->
       <div  class="doctorTittle">
-            <span >選擇醫師(單選)</span>
+            <span >選擇醫師</span>
       </div>
 <div class="doctor-section" style=" height:200px;background-color:white;">
     
@@ -587,7 +585,9 @@
 
 <!-- 已選擇的日期時間 -->
 <div class="dateTime-selected" style="background-color:white;">
-    <h5>預約時間</h5>
+            <div class="dateTittle">
+                <span>時間及日期</span>
+            </div>
     <p id="selectedDateDisplay" class="selected-date ml-3">預約日期：無</p>
     <p id="selectedTimeDisplay" class="selected-time ml-3">預約時間：無</p>
 </div>

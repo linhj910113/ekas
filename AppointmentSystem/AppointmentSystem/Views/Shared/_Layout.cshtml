@@ -8,6 +8,27 @@
         height:70px !important;
     }
 
+    .cus-content{
+    width:90%;
+    margin:auto;
+    padding:80px;
+    }
+
+    .header-toolbar{
+    border-radius:50px !important;
+        background-color: #ffffff !important;
+        color: #0E4F43 !important;
+    }
+
+    .menuBtn{
+        border-radius: 50px;
+        background-color: #0E4F43;
+    }
+
+    .iconBtn{
+    width:25px;
+    height:25px;
+    }
 </style>
 
 <head>
@@ -42,8 +63,8 @@
                         <span id="header-rolename"></span>
                     </div>
                     
-
-                    <img src="~/images/menu.png" class="settings-icon ml-3" />
+                    <div class="menuBtn"><img src="~/images/arrow_drop_down_24dp_D7F4EE_FILL0_wght400_GRAD0_opsz24.png" class="iconBtn" /></div>
+                    
                     <div class="dropdown-function bg-white shadow p-3">
                         @await Component.InvokeAsync("Navigation")
                     </div>
@@ -52,7 +73,7 @@
         </div>
     </header>
 
-    <div class="content main-content text-center">
+    <div class="cus-content ">
         @RenderBody()
     </div>
 

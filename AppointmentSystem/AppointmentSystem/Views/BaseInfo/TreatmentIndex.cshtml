@@ -10,7 +10,7 @@
     }
 
     .add-sidebaritem {
-        background-color: #ffffff;
+        
         color: #5e1a1a;
         border: none;
         border-radius: 50%;
@@ -63,6 +63,12 @@
             text-decoration: none;
             cursor: pointer;
         }
+
+    .sidebar, .right-panel {
+        margin: 15px;
+        padding: 30px;
+        border-radius: 15px;
+    }
 </style>
 
 <script src="~/js/jquery-ui.js"></script>
@@ -91,7 +97,7 @@
                 }
             </div>
 
-            <button class="add-sidebaritem" style="margin:auto" onclick="addTreatment();"> <img src="/images/add_circle_16dp_049FBF_FILL0_wght400_GRAD0_opsz20.png" style="width:40px;height:40px ;" \></button>
+            <button class="add-sidebaritem" style="margin:auto" onclick="addTreatment();"> <img src="/images/add_circle_24dp_0E4F43_FILL0_wght400_GRAD0_opsz24.png" style="width:40px;height:40px ;" \></button>
         </div>
 
         <div class="col-md-8 right-panel" style="text-align:left; box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);" id="treatmentData">

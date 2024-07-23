@@ -14,14 +14,75 @@
         .loginbtn:active {
             content: url("/images/btn_login_press.png");
         }
+
+    .login-wrapper {
+        width: 100%;
+        max-width: 100%;
+        display: flex;
+        justify-content: center;
+        position: absolute;
+        top: 20%;
+        left: 0;
+        height: 80%;
+    }
+
+    .login-table{
+        width: 100%;
+        margin: 0px !important;
+        padding: 20px 5px;
+        border-radius: 40px;
+        z-index: 2;
+        background: white;
+        max-width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+    }
+
+    .inputcell{
+        border-radius: 8px;
+       
+        border: 2px solid #0E4F43;
+        margin:3%;
+    }
+
+    .lineinCELLandLINE{
+        margin:2%;
+    }
+
+    .cellphoneTitle{
+        margin:2%;
+    }
+
+    .cellbtn{
+        background-color: #0E4F43;
+        color: #D7F4EE;
+        border-radius: 12px;
+        margin:2%;
+        font-size:12px;
+        padding:8px;
+        border:none;
+    }
+
+   .cellphoneInput{
+        display:flex;
+        width:95%;
+   }
+
+    .cellphoneDIV{
+        display: flex;
+        flex-direction: column;
+        justify-content:center;
+        align-items:center;
+    }   
 </style>
 
 <!--新增區域開始-->
-<div class="overlay-container" style=" position: relative;display: inline-block;width: 100%;">
+<div class="overlay-container" style=" width: 100%; position: relative; z-index: 1; ">
     <img id="desktopImage" src="~/images/EKMainBanner.jpg" alt="Desktop Image" class="appointment-image desktop-image" style="width: 100%;  height: auto;  max-height: 18rem;object-fit: cover;">
-    <img id="mobileImage" src="~/images/EKMainBanner.jpg" alt="Mobile Image" class="appointment-image mobile-image" style="height:25rem; width:auto; object-fit: cover;">
+    <img id="mobileImage" src="~/images/EKMainBanner.jpg" alt="Mobile Image" class="appointment-image mobile-image" style=" width:auto; object-fit: cover;">
 
-    <div class="overlay"
+    <!-- <div class="overlay"
          style="position: absolute;
             top: 0;
             left: 0;
@@ -39,60 +100,75 @@
             margin-bottom:10px;
             letter-spacing: 2px;">
 
-        <div class="container content mb-3">
-            <span id="AppointmentIntroductionText"></span>
-        </div>
+       
 
-    </div>
+    </div>-->
 
 </div>
 <!--新增區域結束-->
 <!--07061040修改區域-->
-<div class="row justify-content-center mb-1 mt-2 pr-0   " style="margin:0px;padding:0px">
-    <div class="mx-2 col-12 col-sm-6 col-md-6 m-3">
-        <div class="mt-1 mb-4 ">
-            <p style="font-size:20px; color:#202020 ;font-weight: normal;">線上預約</p>
+<div class="login-wrapper">
+    <div class="login-table">
+        <div class="container content  p-4">
+            <span id="AppointmentIntroductionText"></span>
+        </div>
+<div class="row justify-content-center mb-1 mt-2 pr-0   " style="margin:auto;padding:0px">
+            <div class="mx-2 col-12 col-sm-6 col-md-6 " style="display:flex;flex-direction: column; align-items:center; vertical-align: middle;">
+        <div class="">
+                    <p style="font-size:20px; color:#0E4F43 ;font-weight: 800;">線上預約</p>
             <!-- <h>線上預約</h>-->
         </div>
-        <div style="display:flex; justify-content:center; align-items:center; ">
-            <button class="mr-4" onclick="showPhoneLoginBlock();" style="background-color:#7B7B7B ;color:#ffffff ;border-radius:8px; height:44px ; width:151px; padding:0px; border:0px; margin:0px;margin-top:0.1px;font-family: initial; font-size:16px; ">
-                手機號碼預約
-            </button>
-            <button id="line-login-btn" class="btn  btn-radius " onclick="showLineLoginBlock();" style="background-color:#7B7B7B ;color:#ffffff ;border-radius:8px; height:44px ; width:151px; padding:0px; border:0px; margin:0px;margin-top:0.1px;font-family: initial; font-size:16px; ">
-                Line登入
-            </button>
+                <div style="display:flex;flex-direction: column; align-items:center; vertical-align: middle;padding:10px ">
+                    <button id="line-login-btn" class="btn  btn-radius " onclick="showLineLoginBlock();" style="background-color:#0E4F43 ;color:#D7F4EE ;border-radius:15px; height:44px ; width:250px; padding:0px; border:0px; margin:0px;margin-top:0.1px;font-family: initial; font-size:16px; ">
+                        Line登入預約
+                    </button>
+                    <div class="lineinCELLandLINE">
+                        <span >或一般登入預約</span> 
+                    </div>
+
+
+                    <button class="" onclick="showPhoneLoginBlock();" style="background-color:#0E4F43 ;color:#D7F4EE ;border-radius:15px; height:44px ; width:250px; padding:0px; border:0px; margin:0px;margin-top:0.1px;font-family: initial; font-size:16px; ">
+                        手機號碼預約
+                    </button>
+                   
             @* <button id="line-login-btn" class="btn  btn-radius " onclick="showLineLoginBlock();" style="padding:0px; border:0px; margin:0px ; font-family: initial;">
             @<img src="~/images/btn_login_base.png" alt="LoginBtn" />
             </button> *@
         </div>
-
-        <div class="col-11 col-sm-8 mt-4" id="LineLoginBlock" style="display:none ; justify-content:center; align-items:center; background: linear-gradient(to top, rgba(176, 176, 176, 1), rgba(176, 176, 176, 0.7)); height:150px; margin:auto; border-radius:12px;">
+                <div style="border-top: 2px solid #3B9382; width:100%; margin:3%;"> </div>
+        <div class="col-11 col-sm-11 mt-4" id="LineLoginBlock" style="display:none ; justify-content:center; align-items:center;  height:150px; margin:auto; border-radius:12px;">
             <button id="line-login-btn" class="btn  btn-radius " onclick="LineLogin();" style="padding:0px; border:0px; margin:0px ; font-family: initial;">
                 <img src="~/images/btn_login_base.png" alt="LoginBtn" />
             </button>
         </div>
 
-        <div class="col-11 col-sm-8 mt-4" id="PhoneLoginBlock" style="display:none ; justify-content:center; align-items:center; background: linear-gradient(to top, rgba(176, 176, 176, 1), rgba(176, 176, 176, 0.7)); height:150px; margin:auto; border-radius:12px;">
+         <div class="cellphoneDIV " id="PhoneLoginBlock" style="display:none ; ">
             <div>
-                <label for="cellphone">手機號碼</label>
-                <input type="text" id="cellphone" />
-                <input type="button" class="btn btn-primary" id="sendVerificationCodebtn" onclick="sendVerificationCode(this);" value="發送驗證碼" />
+                <div class="cellphoneTitle">
+                <span >手機號碼</span>
+                </div>
+                <div class="cellphoneInput">
+                <input type="text" id="cellphone" class="inputcell" />
+                <input type="button" class="cellbtn" id="sendVerificationCodebtn" onclick="sendVerificationCode(this);" value="發送驗證碼" />
+                </div>
             </div>
-            <div id="otpDiv" style="display:none;">
-                <input type="hidden" id="hashCode" />
-                <label for="otp">請輸入驗證碼</label>
-                <input type="text" id="otp" />
+                    <div id="otpDiv" style="display:none;width:95%;margin-bottom:3%;">
+                <input class="inputcell" type="hidden" id="hashCode" />
+                <div class="cellphoneTitle">
+                <span>驗證碼</span>
+                </div>
+                <input class="inputcell" inputcell type="text" id="otp" style="" />
             </div>
-            <p></p>
-            <button class="btn btn-primary" id="phoneLoginbtn" style="display:none;" onclick="cellphoneLogin();">登入</button>
+
+            <button class="cellbtn" id="phoneLoginbtn" style="display:none;background-color:#0E4F43 ;color:#D7F4EE ;border-radius:15px; height:44px ; width:250px; padding:0px; border:0px; margin:0px;margin-top:0.1px;font-family: initial; font-size:16px; " onclick="cellphoneLogin();">登入</button>
 
         </div>
 
     </div>
     <!--07061040修改區域結束-->
 </div>
-
-
+</div>
+</div>
 
 <script>
     $(document).ready(function () {

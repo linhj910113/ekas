@@ -18,6 +18,17 @@
         box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
     }
 
+    .timeList {
+        overflow-y: scroll;
+        height: 300px;
+        padding-top: 30px;
+    }
+
+        .timeList::-webkit-scrollbar {
+            width: 0px;
+            background: transparent;
+        }
+
     .treatment-selected, .doctor-selected, .dateTime-selected {
         text-align: left;
         margin: 20px auto;
@@ -219,6 +230,18 @@
         margin: 5%
     }
 
+    .selectable {
+        position: relative;
+        display: inline-block;
+        margin-top: 5px;
+        background: #0E4F43;
+        color: #D7F4EE;
+        border-radius: 15px;
+        overflow: hidden;
+        margin: 10px;
+        box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.2);
+    }
+
 </style>
 
 <div class="overlay-container" style=" position: relative;display: inline-block;">
@@ -253,7 +276,7 @@
 <p></p>
 
 <div class="mt-1 mb-4 ">
-    <p style="font-size:20px ;font-weight:600;">修改預約</p>
+    <p style="font-size:20px ;font-weight:600;text-align:center">修改預約</p>
     <!-- <h>線上預約</h>-->
 </div>
 
@@ -274,7 +297,7 @@
 
             @if (Model.SelectedTreatment.Where(x => x.Contains(treatment.TreatmentId)).Count() > 0)
             {
-                <div class="selectable treatmentDiv" id="treatmentDiv-@i" data-title="@treatment.TreatmentName" data-description="@treatment.Introduction" data-image="@treatment.Image" data-type="treatment" style="border-radius: 15px;  overflow: hidden;  margin: 3px;  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.2);outline:4px solid #049FBF;">
+                <div class="selectable treatmentDiv" id="treatmentDiv-@i" data-title="@treatment.TreatmentName" data-description="@treatment.Introduction" data-image="@treatment.Image" data-type="treatment" style="outline:4px solid #049FBF;">
                     <img src="@treatment.Image" style="border-radius: 15px; padding:3px;" class="img-fluid" onclick="treatmentOnClick('@i');">
                     @* <img src="~/images/info.png" class="img-fluid treatment-info" data-toggle="modal" data-target="#treatmentModal" /> *@
                     <input type="checkbox" id="treatment-@i" name="treatments" value="@treatment.TreatmentId" style="display:none;" checked />
@@ -283,7 +306,7 @@
             }
             else
             {
-                <div class="selectable treatmentDiv" id="treatmentDiv-@i" data-title="@treatment.TreatmentName" data-description="@treatment.Introduction" data-image="@treatment.Image" data-type="treatment" style="border-radius: 15px;  overflow: hidden;  margin: 3px;  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.2);">
+                <div class="selectable treatmentDiv" id="treatmentDiv-@i" data-title="@treatment.TreatmentName" data-description="@treatment.Introduction" data-image="@treatment.Image" data-type="treatment" >
                     <img src="@treatment.Image" style="border-radius: 15px; padding:3px;" class="img-fluid" onclick="treatmentOnClick('@i');">
                     @* <img src="~/images/info.png" class="img-fluid treatment-info" data-toggle="modal" data-target="#treatmentModal" /> *@
                     <input type="checkbox" id="treatment-@i" name="treatments" value="@treatment.TreatmentId" style="display:none;" />
@@ -318,18 +341,18 @@
             i++;
             @if (doctor.DoctorId == Model.DoctorId)
             {
-                <div class=" selectable doctorDiv" id="doctorDiv-@i" data-title="@doctor.DoctorName" data-department="@doctor.DepartmentTitle" data-description="@doctor.Introduction" data-image="@doctor.Image" data-type="doctor" style="border-radius: 15px;  overflow: hidden; margin: 10px; box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3); outline:4px solid #049FBF;">
-                    <img src="@doctor.Image" class="img-fluid" onclick="doctorOnClick('@i')">
+                <div class=" selectable doctorDiv" id="doctorDiv-@i" data-title="@doctor.DoctorName" data-department="@doctor.DepartmentTitle" data-description="@doctor.Introduction" data-image="@doctor.Image" data-type="doctor" style=" outline:4px solid #049FBF;">
+                    <img src="@doctor.Image" style="border-radius: 15px; padding:3px;" class="img-fluid" onclick="doctorOnClick('@i')">
                     @* <img src="~/images/info.png" class="img-fluid doctor-info" data-toggle="modal" data-target="#doctorModal" /> *@
-                    <div style="display: flex; align-items: center; justify-content: center; cursor:pointer;" data-toggle="modal" data-target="#doctorModal">@doctor.DoctorName<img src="/images/info.png" style="width:20px ; height:20px;" class="img-fluid" /></div>
+                    <div style="display: flex; align-items: center; justify-content: center; cursor:pointer;" data-toggle="modal" data-target="#doctorModal"><span style="font-size:14px;">@doctor.DoctorName</span></div>
                     <input type="radio" id="doctor-@i" name="doctor" value="@doctor.DoctorId" class="doctor-info" style="display:none;" checked />
                 </div>
             }
             else
             {
-                <div class=" selectable doctorDiv" id="doctorDiv-@i" data-title="@doctor.DoctorName" data-department="@doctor.DepartmentTitle" data-description="@doctor.Introduction" data-image="@doctor.Image" data-type="doctor" style="border-radius: 15px;  overflow: hidden; margin: 10px; box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);">
-                    <img src="@doctor.Image" class="img-fluid" onclick="doctorOnClick('@i')">
-                    <div style="display: flex; align-items: center; justify-content: center; cursor:pointer;" data-toggle="modal" data-target="#doctorModal">@doctor.DoctorName<img src="/images/info.png" style="width:20px ; height:20px;" class="img-fluid" /></div>
+                <div class=" selectable doctorDiv" id="doctorDiv-@i" data-title="@doctor.DoctorName" data-department="@doctor.DepartmentTitle" data-description="@doctor.Introduction" data-image="@doctor.Image" data-type="doctor" style="">
+                    <img src="@doctor.Image" style="border-radius: 15px; padding:3px;" class="img-fluid" onclick="doctorOnClick('@i')">
+                    <div style="display: flex; align-items: center; justify-content: center; cursor:pointer;" data-toggle="modal" data-target="#doctorModal"><span style="font-size:14px;">@doctor.DoctorName</span></div>
                     <input type="radio" id="doctor-@i" name="doctor" value="@doctor.DoctorId" class="doctor-info" style="display:none;" />
                 </div>
             }
@@ -362,7 +385,7 @@
             <p id="dateDisplay" class="selected-date ml-5">預約日期：@Model.Date</p>
             <p id="timeDisplay" class="selected-time ml-5">預約時間：@Model.BookingBeginTime</p>
         </div>
-        <div class="col-md-4" id="timeList">
+        <div class="col-md-4 timeList" id="timeList">
             <div class="time-picker" id="timePicker">
                 @foreach (var time in Model.Outpatients)
                 {
@@ -688,7 +711,7 @@
                     data.forEach(function (x) {
                         i++;
 
-                        inner += `<div class="selectable doctorDiv "  style="border-radius: 15px;  overflow: hidden; margin: 3px; box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);" id="doctorDiv-` + i + `" data-title="` + x.doctorName + `" data-department="` + x.departmentTitle + `" data-image="` + x.image + `" data-description="` + x.introduction + `" data-type="doctor">`;
+                        inner += `<div class="selectable doctorDiv "  style="border-radius: 15px;  overflow: hidden;  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);" id="doctorDiv-` + i + `" data-title="` + x.doctorName + `" data-department="` + x.departmentTitle + `" data-image="` + x.image + `" data-description="` + x.introduction + `" data-type="doctor">`;
                         inner += `<img src="` + x.image + `" style="border-radius: 15px; padding:3px;" class="img-fluid" onclick="doctorOnClick('` + i + `')">`;
                         // inner += `<img src="/images/info.png" class="img-fluid doctor-info" data-toggle="modal" data-target="#doctorModal" />`;
                         inner += `<div style=" line-height: 2;display: flex; align-items: center; justify-content: center; cursor:pointer;" data-toggle="modal" data-target="#doctorModal"><span style="font-size:14px;">` + x.doctorName + `</span></div>`;
@@ -925,7 +948,7 @@
         selectedTreatments.forEach(function (x) {
             let item = treatmentList.filter(e => e.treatmentId == x)[0];
 
-            inner += `<div class="selectable "  style="border-radius: 15px;  overflow: hidden; margin: 3px; box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);" data-title="` + item.treatmentName + `" data-image="` + item.image + `" data-description="` + item.introduction + `" data-type="selectedTreatment">`;
+            inner += `<div class="selectable "  style="border-radius: 15px;  overflow: hidden;  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);" data-title="` + item.treatmentName + `" data-image="` + item.image + `" data-description="` + item.introduction + `" data-type="selectedTreatment">`;
             inner += `<img src="` + item.image + `" style="border-radius: 15px; padding:3px;" class="img-fluid" data-toggle="modal" data-target="#treatmentModal">`;
             inner += `<div style="line-height: 2;display: flex; align-items: center; justify-content: center; cursor:pointer;" data-toggle="modal" data-target="#treatmentModal" ><span style="font-size:14px;">` + item.treatmentName + `</span></div>`;
             inner += `</div>`;
@@ -937,7 +960,7 @@
 
         let item = doctorList.filter(e => e.doctorId == selectedDoctor)[0];
 
-        inner += `<div class="selectable"  style="border-radius: 15px;  overflow: hidden; margin: 3px; box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);"  data-title="` + item.doctorName + `" data-image="` + item.image + `" data-department="` + item.departmentTitle + `" data-description="` + item.introduction + `" data-type="selectedDoctor" >`;
+        inner += `<div class="selectable"  style="border-radius: 15px;  overflow: hidden;  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);"  data-title="` + item.doctorName + `" data-image="` + item.image + `" data-department="` + item.departmentTitle + `" data-description="` + item.introduction + `" data-type="selectedDoctor" >`;
         inner += `<img src="` + item.image + `"  style="border-radius: 15px; padding:3px;"  class="img-fluid" data-toggle="modal" data-target="#doctorModal" >`;
         inner += `<div  style="line-height: 2;display: flex; align-items: center; justify-content: center; cursor:pointer;" data-toggle="modal" data-target="#doctorModal" ><span style="font-size:14px;">` + item.doctorName + `</span></div>`;
         inner += `</div>`;
