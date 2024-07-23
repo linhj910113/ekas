@@ -162,10 +162,10 @@
         
         box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
         position: fixed;
-        top: 20%; /* 頂部對齊 */
-        right: -300px; /* 初始狀態在視窗外部 */
-        width: 300px; /* 設定你的寬度 */
-        height: 65%; /* 高度佔滿 */
+        top: 20%;
+        right: -300px;
+        width: 300px; 
+        height: 75%; 
         background-color: white;
         transition: right 0.3s ease-in-out;
     }
@@ -475,6 +475,22 @@
     .btn-secondary{
         background-color: #0E4F43 ;
         color: #D7F4EE;
+       
+      
+        font-size: 12px;
+
+        border-radius: 18px !important;
+        margin: 2px;
+        
+        padding-bottom: 3px;
+        padding-left: 7px;
+        padding-right: 7px;
+        font-size: 12px;
+
+    }
+
+    .btn-secondary {
+   
     }
 
     .infoDIV{
@@ -529,6 +545,34 @@
         flex-direction: column;
         align-items:start;
     }
+
+
+
+    -Inside
+    .searchInput{
+        border-radius: 5px;
+        border: 1px solid #E7DCD9;
+       
+    }
+
+    #customerList{
+        display:none;
+        border-bottom:1px solid #cccccc;
+        height:150px;
+        overflow-y: scroll;
+    
+    }
+
+    #customerList::-webkit-scrollbar {
+        width: 0px;
+        background: transparent;
+    }
+
+    .TheModal {
+       border-radius:15px;
+       padding:10px
+    
+    }
    </style>
 
 <h3 class="container " style="text-align:start; margin:10px;">@ViewData["Title"]</h3>
@@ -538,7 +582,7 @@
         <div style="width:100%;align-items:center;text-align:center;font-size:16px;margin-bottom:10px;">
             <input type="text" id="currentDate" class="date-input" style="cursor:pointer;" data-toggle="modal" data-target="#calendarModal" />
 
-            <button class="btn btn-primary" data-toggle="modal" data-target="#searchModal">搜尋預約資料</button>
+            <button class="btn btn-primary" style="background-color:transparent;border:none" data-toggle="modal" data-target="#searchModal"><img src="~/images/search_24dp_0E4F43 _FILL0_wght400_GRAD0_opsz24.png" style="width:30px;height:30px"/></button>
             @* <input type="number" id="currentYear" class="date-input" min="1900" max="2100" />
             <label class="date-label" for="currentYear">年</label>
             <input type="number" id="currentMonth" class="date-input" min="1" max="12" />
@@ -614,9 +658,12 @@
                 <img src="/images/add_circle_24dp_0E4F43_FILL0_wght400_GRAD0_opsz24.png" style="width:40px;height:40px ;" \>
             </button>
 
-            <div class="treatmentSelectMenu" id="treatmentSelectMenu">
-                <h6>標籤列表</h6>
-                <div id="labelList" class="btn-group-toggle" data-toggle="buttons">
+            <div class="treatmentSelectMenu"  id="treatmentSelectMenu">
+                <div style="display:flex">
+                    <span style="font-weight: 800;font-size: large; margin:15px">標籤列表</span>
+                </div>
+                <div id="labelList" class="btn-group-toggle" style="display: inline-block; justify-content:start;" data-toggle="buttons">
+                    
                     @{
                         int i = 0;
                     }
@@ -630,9 +677,12 @@
                             <input type="hidden" id="tl-@i" value="@label.TreatmentIdList" />
                         </label>
                     }
+                   
                 </div>
-                <h6 style="margin-top:30px">療程列表</h6>
-                <div id="treatmentList" class="btn-group-toggle" data-toggle="buttons">
+                <div style="display:flex">
+                <span style="font-weight: 800;font-size: large;margin:15px">療程列表</span>
+                </div>
+                <div id="treatmentList" class="btn-group-toggle" style="display: inline-block;" data-toggle="buttons">
                     @foreach (var treatment in Model.TreatmentList)
                     {
                         <label class="btn btn-secondary btn-checkbox treatment-item" style="cursor:pointer;margin:3px; border-radius:13px;">
@@ -641,7 +691,7 @@
                     }
                 </div>
                 <p></p>
-                <button class="btn btn-primary" style="cursor:pointer;margin:3px; border-radius:13px;" onclick="saveSelectedTreatment();">確定</button>
+                <button class="btn btn-primary" style="cursor:pointer;margin:3px; border:none; background-color:transparent" onclick="saveSelectedTreatment();">  <img src="/images/select_check_box_24dp_0E4F43 _FILL0_wght400_GRAD0_opsz24.png" style="width:25px;height:25px ;" \></button>
             </div>
 
         </div>
@@ -650,7 +700,7 @@
 
 <div class="modal fade" id="editCustomerInfoModal" tabindex="-1" aria-labelledby="ModalInfo" aria-hidden="true">
     <div class="modal-dialog">
-        <div class="modal-content">
+        <div class="modal-content TheModal">
             <div class="modal-header">
                 <h5 class="modal-title" id="ModalTitle">編輯客戶資料</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -681,7 +731,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
-                <button type="button" class="btn btn-primary" id="submitBtn" onclick="editCustomerInfo();">送出</button>
+                <button type="button" class="btn btn-secondary" id="submitBtn" onclick="editCustomerInfo();">儲存</button>
             </div>
         </div>
     </div>
@@ -698,7 +748,7 @@
             </div>
             <div class="modal-body datepicker-body" id="calendar"></div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">關閉</button>
+                <button type="button" style="background-color:#ffffff ; border:none;" class="btn btn-secondary" data-dismiss="modal"> <img src="~/images/close_fullscreen_24dp_0E4F43 _FILL0_wght400_GRAD0_opsz24.png" style="width:30px;height:30px" /></button>
             </div>
         </div>
     </div>
@@ -706,12 +756,12 @@
 
 <div id="searchModal" class="modal fade" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered">
-        <div class="modal-content">
+        <div class="modal-content TheModal">
             <div class="modal-header">
                 <h5 class="modal-title">搜尋預約資料</h5>
             </div>
             <div class="modal-body">
-                <h5 class="modal-title">搜尋條件</h5>
+                <h5 class="modal-title"></h5>
                 <div id="filters" style="display:flex;justify-content:center;">
                     <table>
                         <tr>
@@ -721,20 +771,20 @@
                             <th></th>
                         </tr>
                         <tr>
-                            <td><input type="text" id="searchCustomerName" placeholder="請輸入姓名" style="width:120px;" /></td>
-                            <td><input type="text" id="searchCustomerPhone" placeholder="請輸入手機" style="width:120px;" /></td>
-                            <td><input type="date" id="searchCustomerBirth" placeholder="請輸入生日" style="width:120px;" /></td>
-                            <td><button class="btn btn-primary" onclick="searchCustomer();">搜尋</button></td>
+                            <td><input class="searchInput" type="text" id="searchCustomerName" placeholder="請輸入姓名" style="width:120px;" /></td>
+                            <td><input class="searchInput" type="text" id="searchCustomerPhone" placeholder="請輸入手機" style="width:120px;" /></td>
+                            <td><input class="searchInput" type="date" id="searchCustomerBirth" placeholder="請輸入生日" style="width:120px;" /></td>
+                            <td><button class="btn btn-primary" style="background-color:#ffffff ; border:none;" onclick="searchCustomer();"><img src="~/images/search_24dp_0E4F43 _FILL0_wght400_GRAD0_opsz24.png" style="width:30px;height:30px" /></button></td>
                         </tr>
                     </table>
                 </div>
                 <p></p>
-                <div id="customerList" style="display:none;"></div>
+                <div id="customerList"></div>
                 <p></p>
                 <div id="appointmentList" style="display:none;"></div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">關閉</button>
+                <button type="button" style="background-color:#ffffff ; border:none;" class="btn btn-secondary" data-dismiss="modal"><img src="~/images/close_fullscreen_24dp_0E4F43 _FILL0_wght400_GRAD0_opsz24.png" style="width:25px;height:25px" /></button>
             </div>
         </div>
     </div>
@@ -1099,7 +1149,7 @@
                 success: function (data) {
                     console.log("Check in success.");
 
-                    $('#checkIn').html('<button class="btn sidebarbtn" disabled>已報到</button>');
+                    $('#checkIn').html('<button class="btn sidebarbtn" disabled><img src="/images/check_box_24dp_434343_FILL0_wght400_GRAD0_opsz24.png" style="width:30px;height:30px;"/></button> <span class="btnWord">已報到</span></button>');
                 }
             });
         }
@@ -1211,7 +1261,7 @@
 
                 let inner = ``;
 
-                inner += `<h5 class="modal-title">符合條件的客戶</h5>`;
+                inner += `<h5 class="modal-title"></h5>`;
                 if (data.length > 0) {
                     inner += `<table style="width:100%">`;
                     inner += `<tr>`;
@@ -1228,7 +1278,7 @@
                         inner += `<td>` + item.nationalIdNumber + `</td>`;
                         inner += `<td>` + item.cellPhone + `</td>`;
                         inner += `<td>` + item.email + `</td>`;
-                        inner += `<td><button class="btn btn-primary" onclick="getCustomerAppointment('` + item.id + `');">選擇</button</td>`;
+                        inner += `<td><button class="btn btn-primary" style="background-color: #ffffff;border: none;" onclick="getCustomerAppointment('` + item.id + `');"><img src="/images/more_24dp_0E4F43 _FILL0_wght400_GRAD0_opsz24.png" style="width:30px;height:30px"></button</td>`;
                         inner += `</tr>`;
                     });
 
@@ -1255,7 +1305,7 @@
 
                 let inner = ``;
 
-                inner += `<h5 class="modal-title">所有預約資料</h5>`;
+                inner += `<h5 class="modal-title"></h5>`;
 
                 if (data.length > 0) {
                     // inner += `<div class="row">`;
@@ -1274,7 +1324,7 @@
                         inner += `<td>` + item.date + `</td>`;
                         inner += `<td>` + item.bookingBeginTime + `</td>`;
                         inner += `<td>` + item.doctorData.doctorName + `</td>`;
-                        inner += `<td><button class="btn btn-primary" onclick="showAppointmentDetail('` + item.appointmentId + `');">選擇</button</td>`;
+                        inner += `<td><button class="btn btn-primary" style="background-color: #ffffff;border: none;" onclick="showAppointmentDetail('` + item.appointmentId + `');"><img src="/images/event_upcoming_24dp_0E4F43 _FILL0_wght400_GRAD0_opsz24.png" style="width:25px;height:25px"></button</td>`;
                         inner += `</tr>`;
                     });
 
