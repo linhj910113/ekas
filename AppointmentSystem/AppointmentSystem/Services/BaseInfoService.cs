@@ -192,6 +192,8 @@ namespace AppointmentSystem.Services
                 treatment.TreatmentImage.FileSize = filedata.FileSize;
             }
 
+            treatment.Image = "data:image/" + filedata.FileExtension.Replace(".", "") + "; base64," + _functions.ConvertJpgToBase64(filedata.Path);
+
             return treatment;
         }
 

@@ -9,6 +9,47 @@
         margin-left: 10px;
     }
 
+    .selectable {
+        position: relative;
+        display: inline-block;
+        margin-top: 5px;
+        background: #0E4F43;
+        color: #D7F4EE;
+        border-radius: 15px;
+        overflow: hidden;
+        margin: 10px;
+        box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.2);
+    }
+
+        .selectable img {
+            width: 100px; /* 設置圖片寬度 */
+            height: 100px; /* 設置圖片高度 */
+            cursor: pointer;
+        }
+
+        .selectable .treatment-info {
+            position: absolute;
+            top: 0px;
+            right: 0px;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            cursor: pointer;
+        }
+
+
+        .selectable .doctor-info {
+            position: absolute;
+            top: 0px;
+            right: 0px;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
     .add-sidebaritem {
         
         color: #5e1a1a;
@@ -329,7 +370,18 @@
 
                 // inner += '<div class="form-group"><label for="sort">排序*</label><input type="number" class="form-control" id="sort" value="' + data.sort + '" placeholder="輸入排序" required=""></div>';
                 inner += '<div class="form-group"><label for="memo">備註</label><textarea class="form-control" id="memo" rows="3" placeholder="輸入備註">' + data.memo + '</textarea></div>';
-                inner += '<div class="form-group d-flex align-items-center"><label class="mr-2">圖片上傳*</label><input type="file" class="form-control-file" id="imagefile" onchange="setImageName();" style="display:none;" /> <label class="col-form-label btn btn-primary mb-0" onclick="uploadImageClick();" style="cursor:pointer;border:none;border-radius:100px;  background-color:transparent;border: 2px solid #4A707A;padding:2px;"><img src="/images/cloud_upload_24dp_4A707A_FILL0_wght400_GRAD0_opsz24.png" alt="Alternate Text" style="width:25px;height:25px; " /></label><div><label id="imageName" class="ml-2">' + data.treatmentImage.fileName + data.treatmentImage.fileExtension + '</label></div></div>';
+
+                //圖片
+                inner += `<div class="form-group d-flex align-items-center">`;
+                inner += `<label class="mr-2">圖片上傳*</label>`;
+                inner += `<input type="file" class="form-control-file" id="imagefile" onchange="setImagePreview();"  style="display:none;" />`;
+                inner += `<div class="selectable treatmentDiv">`;
+                inner += `<img src="` + data.image + `" id="treatmentImage" style="border-radius: 15px; padding:3px;" class="img-fluid" onclick="uploadImageClick();">`;
+                inner += `<div style="line-height: 2;display: flex; align-items: center; justify-content: center;"><span style="font-size:14px;">` + data.treatmentName + `</span></div>`;
+                inner += `</div>`;
+                inner += `</div>`;
+
+                // inner += '<div class="form-group d-flex align-items-center"><label class="mr-2">圖片上傳*</label><input type="file" class="form-control-file" id="imagefile" onchange="setImageName();" style="display:none;" /> <label class="col-form-label btn btn-primary mb-0" onclick="uploadImageClick();" style="cursor:pointer;border:none;border-radius:100px;  background-color:transparent;border: 2px solid #4A707A;padding:2px;"><img src="/images/cloud_upload_24dp_4A707A_FILL0_wght400_GRAD0_opsz24.png" alt="Alternate Text" style="width:25px;height:25px; " /></label><div><label id="imageName" class="ml-2">' + data.treatmentImage.fileName + data.treatmentImage.fileExtension + '</label></div></div>';
 
                 //產生標籤清單
                 inner += '<div class="form-group d-flex align-items-center"><label class="mr-2">選擇標籤</label><label class="col-form-label btn btn-primary mb-0" onclick="showLabelAddModal();" style="cursor:pointer;border:none;background-color: #385466 ;color: #F7F6EE;border-radius: 10px;">新增標籤</label></div>';
@@ -367,13 +419,26 @@
         $("#treatmentData").html("");
     }
 
-    function setImageName() {
-        if ($('#imagefile').val == "")
-            $('#imageName').text("");
+    function setImagePreview(e) {
+        var file = $('#imagefile')[0].files[0];
+        if (!file) {
+            return;
+        }
 
-
-        $('#imageName').text($('#imagefile').val().split('\\').pop());
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            $('#treatmentImage').attr('src', e.target.result).show();
+        };
+        reader.readAsDataURL(file);
     }
+
+    // function setImageName() {
+    //     if ($('#imagefile').val == "")
+    //         $('#imageName').text("");
+
+
+    //     $('#imageName').text($('#imagefile').val().split('\\').pop());
+    // }
 
     function addTreatment() {
         $.ajax({
@@ -402,7 +467,17 @@
 
                 // inner += '<div class="form-group"><label for="sort">排序*</label><input type="number" class="form-control" id="sort" value="" placeholder="輸入排序" required=""></div>';
                 inner += '<div class="form-group"><label for="memo">備註</label><textarea class="form-control" id="memo" rows="3" placeholder="輸入備註"></textarea></div>';
-                inner += '<div class="form-group d-flex align-items-center"><label class="mr-2">圖片上傳*</label><input type="file" class="form-control-file" id="imagefile" onchange="setImageName();" style="display:none;" /> <label class="col-form-label btn btn-primary mb-0" onclick="uploadImageClick();" style="cursor:pointer;border:none;border-radius:100px;  background-color:transparent;border: 2px solid #4A707A;padding:2px;"><img src="/images/cloud_upload_24dp_4A707A_FILL0_wght400_GRAD0_opsz24.png" alt="Alternate Text" style="width:25px;height:25px; " /></label><div><label id="imageName" class="ml-2"></label></div></div>';
+
+                //圖片
+                inner += `<div class="form-group d-flex align-items-center">`;
+                inner += `<label class="mr-2">圖片上傳*</label>`;
+                inner += `<input type="file" class="form-control-file" id="imagefile" onchange="setImagePreview();"  style="display:none;" />`;
+                inner += `<div class="selectable treatmentDiv">`;
+                inner += `<img src="/images/cloud_upload_24dp_4A707A_FILL0_wght400_GRAD0_opsz24.png" id="treatmentImage" style="border-radius: 15px; padding:3px;" class="img-fluid" onclick="uploadImageClick();">`;
+                inner += `<div style="line-height: 2;display: flex; align-items: center; justify-content: center;"><span style="font-size:14px;"></span></div>`;
+                inner += `</div>`;
+                inner += `</div>`;
+                // inner += '<div class="form-group d-flex align-items-center"><label class="mr-2">圖片上傳*</label><input type="file" class="form-control-file" id="imagefile" onchange="setImageName();" style="display:none;" /> <label class="col-form-label btn btn-primary mb-0" onclick="uploadImageClick();" style="cursor:pointer;border:none;border-radius:100px;  background-color:transparent;border: 2px solid #4A707A;padding:2px;"><img src="/images/cloud_upload_24dp_4A707A_FILL0_wght400_GRAD0_opsz24.png" alt="Alternate Text" style="width:25px;height:25px; " /></label><div><label id="imageName" class="ml-2"></label></div></div>';
 
                 //產生標籤清單
                 inner += '<div class="form-group d-flex align-items-center"><label class="mr-2">選擇標籤</label><label class="col-form-label btn btn-primary mb-0" onclick="showLabelAddModal();" style="cursor:pointer;border:none;background-color: #385466 ;color: #F7F6EE;border-radius: 10px;">新增標籤</label></div>';

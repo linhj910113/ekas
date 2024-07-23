@@ -107,10 +107,20 @@ namespace AppointmentSystem.Services
             foreach (var appointment in appointments)
             {
                 AppointmentData appointmentData = new AppointmentData();
+                var doctor = _db.Doctors.FirstOrDefault(x => x.Id == appointment.DoctorId);
+                var doctorimagefile = _db.Systemfiles.FirstOrDefault(x => x.Id == doctor.ImageFileId);
 
                 appointmentData.AppointmentId = appointment.Id;
                 appointmentData.Date = appointment.Date;
-                appointmentData.DoctorName = _db.Doctors.FirstOrDefault(x => x.Id == appointment.DoctorId).DoctorName!;
+                appointmentData.DoctorData = new DoctorDataVM()
+                {
+                    DoctorId=doctor.Id,
+                    DoctorName=doctor.DoctorName,
+                    DepartmentTitle=doctor.DepartmentTitle,
+                    ColorHEX=doctor.ColorHex,
+                    Introduction=doctor.Introduction,
+                    Image= "data:image/" + doctorimagefile.FileExtension.Replace(".", "") + "; base64," + _functions.ConvertJpgToBase64(doctorimagefile.Path)
+                };
                 appointmentData.BookingBeginTime = appointment.BookingBeginTime;
 
                 var ats = _db.Appointmenttreatments.Where(x => x.AppointmentId == appointment.Id && x.Type == "A").ToList();

@@ -41,6 +41,8 @@ namespace AppointmentSystem.Models.ViewModels.BaseInfoModels
         [Display(Name = "療程圖片")]
         public FileData? TreatmentImage { get; set; }
 
+        public string? Image { get; set; }
+
         [Display(Name = "療程用時")]
         public int Time { get; set; }
 

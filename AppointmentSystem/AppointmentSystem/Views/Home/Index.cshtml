@@ -198,11 +198,11 @@
     #actualList label {
         border-radius: 18px !important;
         margin: 2px;
-        padding-top:2px;
+        padding-top: 2px;
         padding-bottom: 2px;
-        padding-left:7px;
+        padding-left: 7px;
         padding-right: 7px;
-        font-size:12px;
+        font-size: 12px;
     }
 
     .userinfo-item button {
@@ -486,9 +486,9 @@
     .AppointmentTitle{
         background-color: #0E4F43;
         color: #D7F4EE;
-        padding:4px;
-        padding-left:13px;
-        padding-right:13px;
+        padding: 4px;
+        padding-left: 13px;
+        padding-right: 13px;
         border-radius:15px;
         margin-right:5px;
         width:90px;
@@ -525,7 +525,7 @@
 
     .btn-group-toggle{
         width: 100%;
-        display:flex;
+        display: flex;
         flex-direction: column;
         align-items:start;
     }
@@ -537,6 +537,8 @@
     <div class="col-10 TableContener ">
         <div style="width:100%;align-items:center;text-align:center;font-size:16px;margin-bottom:10px;">
             <input type="text" id="currentDate" class="date-input" style="cursor:pointer;" data-toggle="modal" data-target="#calendarModal" />
+
+            <button class="btn btn-primary" data-toggle="modal" data-target="#searchModal">搜尋預約資料</button>
             @* <input type="number" id="currentYear" class="date-input" min="1900" max="2100" />
             <label class="date-label" for="currentYear">年</label>
             <input type="number" id="currentMonth" class="date-input" min="1" max="12" />
@@ -695,6 +697,42 @@
                 <div id="nextMonth">&gt;</div>
             </div>
             <div class="modal-body datepicker-body" id="calendar"></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">關閉</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="searchModal" class="modal fade" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">搜尋預約資料</h5>
+            </div>
+            <div class="modal-body">
+                <h5 class="modal-title">搜尋條件</h5>
+                <div id="filters" style="display:flex;justify-content:center;">
+                    <table>
+                        <tr>
+                            <th>姓名</th>
+                            <th>手機</th>
+                            <th>生日</th>
+                            <th></th>
+                        </tr>
+                        <tr>
+                            <td><input type="text" id="searchCustomerName" placeholder="請輸入姓名" style="width:120px;" /></td>
+                            <td><input type="text" id="searchCustomerPhone" placeholder="請輸入手機" style="width:120px;" /></td>
+                            <td><input type="date" id="searchCustomerBirth" placeholder="請輸入生日" style="width:120px;" /></td>
+                            <td><button class="btn btn-primary" onclick="searchCustomer();">搜尋</button></td>
+                        </tr>
+                    </table>
+                </div>
+                <p></p>
+                <div id="customerList" style="display:none;"></div>
+                <p></p>
+                <div id="appointmentList" style="display:none;"></div>
+            </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">關閉</button>
             </div>
@@ -957,7 +995,7 @@
                         console.log(data);
 
                         data.forEach(function (item) {
-                            let tdName = $('#' + item.doctorId + '-' + item.bookingBeginTime.toString().replace(':', '') + '')
+                            let tdName = $('#' + item.doctorData.doctorId + '-' + item.bookingBeginTime.toString().replace(':', '') + '')
                             let divHTML = ``;
 
                             divHTML += `<div class="event" onclick="appointmentOnClick('` + item.appointmentId + `');" style="height:` + (96) * (item.timeUnitCount) + `%">`;
@@ -1052,17 +1090,19 @@
     function appointmentCheckIn() {
         let Id = $('#selectedAppointment').val();
 
-        $.ajax({
-            type: 'POST',
-            url: '/Home/appointmentCheckIn',
-            datatype: "json",
-            data: { "appointmentId": Id },
-            success: function (data) {
-                console.log("Check in success.");
+        if (confirm("確定要設定此筆預約資料為已報到?")) {
+            $.ajax({
+                type: 'POST',
+                url: '/Home/appointmentCheckIn',
+                datatype: "json",
+                data: { "appointmentId": Id },
+                success: function (data) {
+                    console.log("Check in success.");
 
-                $('#checkIn').html('<button class="btn sidebarbtn" disabled>已報到</button>');
-            }
-        });
+                    $('#checkIn').html('<button class="btn sidebarbtn" disabled>已報到</button>');
+                }
+            });
+        }
     }
 
     function editAppointment() {
@@ -1135,7 +1175,7 @@
                 if ($('#treatmentSelectMenu'))
                     $('#treatmentSelectMenu').toggle();
 
-                appointmentOnClick(Id)
+                appointmentOnClick(Id);
             }
         });
     }
@@ -1147,13 +1187,111 @@
         currentMonth = parseInt(month - 1);
         currentDay = parseInt(day);
 
-        console.log(currentYear);
-        console.log(currentMonth);
-        console.log(currentDay);
-
-        document.getElementById
-
         setAppointmentTable(currentYear, currentMonth, currentDay);
+    }
+
+    function searchCustomer() {
+        let searchCustomerName = $('#searchCustomerName').val();
+        let searchCustomerPhone = $('#searchCustomerPhone').val();
+        let searchCustomerBirth = $('#searchCustomerBirth').val();
+
+        //都沒有輸入資料
+        if (searchCustomerName == "" & searchCustomerPhone == "" && searchCustomerBirth == "") {
+            alert("請至少輸入一項條件!");
+            return false;
+        }
+
+        $.ajax({
+            type: 'POST',
+            url: '/Home/getCustomerForIndexSearch',
+            datatype: "json",
+            data: { "searchCustomerName": searchCustomerName, "searchCustomerPhone": searchCustomerPhone, "searchCustomerBirth": searchCustomerBirth },
+            success: function (data) {
+                console.log(data);
+
+                let inner = ``;
+
+                inner += `<h5 class="modal-title">符合條件的客戶</h5>`;
+                if (data.length > 0) {
+                    inner += `<table style="width:100%">`;
+                    inner += `<tr>`;
+                    inner += `<th>姓名</th>`;
+                    inner += `<th>身分證字號</th>`;
+                    inner += `<th>手機號碼</th>`;
+                    inner += `<th>email</th>`;
+                    inner += `<th></th>`;
+                    inner += `</tr>`;
+
+                    data.forEach(function (item) {
+                        inner += `<tr>`;
+                        inner += `<td>` + item.name + `</td>`;
+                        inner += `<td>` + item.nationalIdNumber + `</td>`;
+                        inner += `<td>` + item.cellPhone + `</td>`;
+                        inner += `<td>` + item.email + `</td>`;
+                        inner += `<td><button class="btn btn-primary" onclick="getCustomerAppointment('` + item.id + `');">選擇</button</td>`;
+                        inner += `</tr>`;
+                    });
+
+                    inner += `</table>`;
+                } else {
+                    inner += `查無符合條件之顧客`;
+                }
+
+                $('#customerList').html(inner);
+                $('#customerList').show();
+            }
+        });
+
+    }
+
+    function getCustomerAppointment(id) {
+        $.ajax({
+            type: 'POST',
+            url: '/Home/getCustomerAppointment',
+            datatype: "json",
+            data: { "id": id },
+            success: function (data) {
+                console.log(data);
+
+                let inner = ``;
+
+                inner += `<h5 class="modal-title">所有預約資料</h5>`;
+
+                if (data.length > 0) {
+                    // inner += `<div class="row">`;
+
+                    // inner += `<div class="col-9">`;
+                    inner += `<table style="width:100%">`;
+                    inner += `<tr>`;
+                    inner += `<th>日期</th>`;
+                    inner += `<th>預約時間</th>`;
+                    inner += `<th>醫師名稱</th>`;
+                    inner += `<th></th>`;
+                    inner += `</tr>`;
+
+                    data.forEach(function (item) {
+                        inner += `<tr>`;
+                        inner += `<td>` + item.date + `</td>`;
+                        inner += `<td>` + item.bookingBeginTime + `</td>`;
+                        inner += `<td>` + item.doctorData.doctorName + `</td>`;
+                        inner += `<td><button class="btn btn-primary" onclick="showAppointmentDetail('` + item.appointmentId + `');">選擇</button</td>`;
+                        inner += `</tr>`;
+                    });
+
+                    inner += `</table>`;
+                } else {
+                    inner += `目前該顧客無預約資料`;
+                }
+
+                $('#appointmentList').html(inner);
+                $('#appointmentList').show();
+            }
+        });
+    }
+
+    function showAppointmentDetail(id) {
+        appointmentOnClick(id);
+        $('#searchModal').modal('hide');
     }
 
     

@@ -4,6 +4,8 @@ using AppointmentSystem.Models.ViewModels.AppointmentModels;
 using AppointmentSystem.Models.ViewModels.BaseInfoModels;
 using AppointmentSystem.Models.ViewModels.HomeModels;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.Identity.Client;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Linq;
 using static AppointmentSystem.Models.ViewModels.SelectListModels;
@@ -120,6 +122,7 @@ namespace AppointmentSystem.Services
 
                 var customer = _db.Customers.FirstOrDefault(x => x.Id == item.CustomerId);
                 var ats = _db.Appointmenttreatments.Where(x => x.AppointmentId == item.Id && x.Type == "A").ToList();
+                var doctor = _db.Doctors.FirstOrDefault(x => x.Id == item.DoctorId);
 
                 foreach (var at in ats)
                 {
@@ -152,12 +155,19 @@ namespace AppointmentSystem.Services
                 result.Add(new AppointmentData()
                 {
                     AppointmentId = item.Id,
-                    DoctorId = item.DoctorId,
                     Date = date,
                     BookingBeginTime = item.BookingBeginTime,
                     BookingEndTime = item.BookingEndTime,
                     TimeUnitCount = (TimeSpan.Parse(item.BookingEndTime) - TimeSpan.Parse(item.BookingBeginTime)).TotalMinutes / double.Parse(_functions.GetSystemParameter("MinutesPerUnit")),
                     TreatmentData = treatmentDataVMs,
+                    DoctorData = new DoctorDataVM()
+                    {
+                        DoctorId = doctor.Id,
+                        DoctorName = doctor.DoctorName,
+                        DepartmentTitle = doctor.DepartmentTitle,
+                        ColorHEX = doctor.ColorHex,
+                        Introduction = doctor.Introduction
+                    },
                     customerData = new CustomerData()
                     {
                         Id = customer.Id,
@@ -210,9 +220,9 @@ namespace AppointmentSystem.Services
             List<TreatmentDataVM> treatmentDataVMs = new List<TreatmentDataVM>();
 
             var customer = _db.Customers.FirstOrDefault(x => x.Id == item.CustomerId);
-            var ats = _db.Appointmenttreatments.Where(x => x.AppointmentId == item.Id && x.Type == "R").ToList();//實際施作項目
+            //var ats = _db.Appointmenttreatments.Where(x => x.AppointmentId == item.Id && x.Type == "T").ToList();//實際施作項目
 
-            foreach (var at in ats)
+            foreach (var at in TreatmentList)
             {
                 var treatment = _db.Treatments.FirstOrDefault(x => x.Id == at.TreatmentId);
                 TreatmentDataVM td = new TreatmentDataVM();
@@ -237,7 +247,6 @@ namespace AppointmentSystem.Services
 
                     treatmentDataVMs.Add(td);
                 }
-
             }
 
             DateTime currentDate = DateTime.Now;
@@ -245,14 +254,15 @@ namespace AppointmentSystem.Services
 
             if (currentDate < DateTime.Parse(customer.Birthday).AddYears(age))
                 age--;
-            DateTime today = DateTime.Now.AddDays(-1);
 
+            DateTime today = DateTime.Now.AddDays(-1);
             int missed = _db.Appointments.AsEnumerable().Where(x => x.CustomerId == customer.Id && x.Status == "Y" && x.CheckIn == "N" && DateTime.Parse(x.Date) < today).Count();
+
+            var doctor = _db.Doctors.FirstOrDefault(x => x.Id == item.DoctorId);
 
             return new AppointmentData()
             {
                 AppointmentId = item.Id,
-                DoctorId = item.DoctorId,
                 BookingBeginTime = item.BookingBeginTime,
                 BookingEndTime = item.BookingEndTime,
                 TimeUnitCount = (TimeSpan.Parse(item.BookingEndTime) - TimeSpan.Parse(item.BookingBeginTime)).TotalMinutes / double.Parse(_functions.GetSystemParameter("MinutesPerUnit")),
@@ -260,6 +270,14 @@ namespace AppointmentSystem.Services
                 ActualTreatmentData = ActualTreatmentData,
                 CheckIn = item.CheckIn,
                 CheckInTime = item.CheckInTime,
+                DoctorData = new DoctorDataVM()
+                {
+                    DoctorId = doctor.Id,
+                    DoctorName = doctor.DoctorName,
+                    DepartmentTitle = doctor.DepartmentTitle,
+                    ColorHEX = doctor.ColorHex,
+                    Introduction = doctor.Introduction
+                },
                 customerData = new CustomerData()
                 {
                     Id = customer.Id,
@@ -634,6 +652,116 @@ namespace AppointmentSystem.Services
             var user = _db.Users.Where(x => x.Id == userid).FirstOrDefault();
 
             return user;
+        }
+
+        public List<CustomerData> getCustomerForIndexSearch(string searchCustomerName, string searchCustomerPhone, string searchCustomerBirth)
+        {
+            var items = _db.Customers.Where(x => x.Status == "Y").ToList();
+
+            if (!string.IsNullOrEmpty(searchCustomerName))
+                items = items.Where(x => x.Name == searchCustomerName || x.DisplayName == searchCustomerName).ToList();
+            if (!string.IsNullOrEmpty(searchCustomerPhone))
+                items = items.Where(x => x.CellPhone == searchCustomerPhone).ToList();
+            if (!string.IsNullOrEmpty(searchCustomerBirth))
+                items = items.Where(x => x.Birthday == searchCustomerBirth).ToList();
+
+            List<CustomerData> result = new List<CustomerData>();
+
+            foreach (var item in items)
+            {
+                DateTime currentDate = DateTime.Now;
+                int age = currentDate.Year - DateTime.Parse(item.Birthday).Year;
+
+                if (currentDate < DateTime.Parse(item.Birthday).AddYears(age))
+                    age--;
+                DateTime today = DateTime.Now.AddDays(-1);
+
+                int missed = _db.Appointments.AsEnumerable().Where(x => x.CustomerId == item.Id && x.Status == "Y" && x.CheckIn == "N" && DateTime.Parse(x.Date) < today).Count();
+
+                result.Add(new CustomerData()
+                {
+                    Id = item.Id,
+                    LineId = item.LineId,
+                    DisplayName = item.DisplayName,
+                    LinePictureUrl = item.LinePictureUrl,
+                    MedicalRecordNumber = item.MedicalRecordNumber,
+                    Name = item.Name,
+                    CellPhone = item.CellPhone,
+                    Email = item.Email,
+                    Birthday = item.Birthday,
+                    Age = age,
+                    missed = missed,
+                    Gender = item.Gender,
+                    NationalIdNumber = item.NationalIdNumber
+                });
+            }
+
+            return result;
+        }
+
+        public List<AppointmentData> getCustomerAppointment(string id)
+        {
+            string date = DateTime.Now.ToString("yyyy-MM-dd");
+            var appointments = _db.Appointments.AsEnumerable().Where(x => x.Status == "Y" && x.CustomerId == id && DateTime.Parse(x.Date) >= DateTime.Parse(date) && x.CheckIn == "N").OrderBy(x => x.Date).ThenBy(x => x.BookingBeginTime).ToList();
+
+            List<AppointmentData> result = new List<AppointmentData>();
+
+            foreach (var appointment in appointments)
+            {
+                AppointmentData appointmentData = new AppointmentData();
+                var doctor = _db.Doctors.FirstOrDefault(x => x.Id == appointment.DoctorId);
+                var doctorimagefile = _db.Systemfiles.FirstOrDefault(x => x.Id == doctor.ImageFileId);
+
+                appointmentData.AppointmentId = appointment.Id;
+                appointmentData.Date = appointment.Date;
+                appointmentData.DoctorData = new DoctorDataVM()
+                {
+                    DoctorId = doctor.Id,
+                    DoctorName = doctor.DoctorName,
+                    DepartmentTitle = doctor.DepartmentTitle,
+                    ColorHEX = doctor.ColorHex,
+                    Introduction = doctor.Introduction,
+                    Image= "data:image/" + doctorimagefile.FileExtension.Replace(".", "") + "; base64," + _functions.ConvertJpgToBase64(doctorimagefile.Path)
+                };
+                appointmentData.BookingBeginTime = appointment.BookingBeginTime;
+                appointmentData.BookingEndTime = appointment.BookingEndTime;
+                appointmentData.CheckIn = appointment.CheckIn;
+                appointmentData.CheckInTime = appointment.CheckInTime;
+
+                var ats = _db.Appointmenttreatments.Where(x => x.AppointmentId == appointment.Id && x.Type == "A").ToList();
+
+                foreach (var at in ats)
+                {
+                    var treatment = _db.Treatments.FirstOrDefault(x => x.Id == at.TreatmentId);
+                    TreatmentDataVM td = new TreatmentDataVM();
+
+                    if (treatment != null)
+                    {
+                        var file = _db.Systemfiles.FirstOrDefault(x => x.Id == treatment.ImageFileId);
+
+                        td.TreatmentId = treatment.Id;
+                        td.TreatmentName = treatment.TreatmentName;
+                        td.Introduction = treatment.Introduction;
+                        td.Time = treatment.Time;
+                        td.Image = "data:image/" + file.FileExtension.Replace(".", "") + "; base64," + _functions.ConvertJpgToBase64(file.Path);
+                        td.ImageFile = new FileData()
+                        {
+                            FileID = file.Id,
+                            FileName = file.FileName,
+                            FileExtension = file.FileExtension,
+                            FileSize = file.FileSize,
+                            Path = file.Path,
+                        };
+
+                        appointmentData.TreatmentData.Add(td);
+                    }
+
+                }
+
+                result.Add(appointmentData);
+            }
+
+            return result;
         }
 
         public string GetUserRoleName(string userId)

@@ -209,26 +209,25 @@
 </style> *@
 
 <style>
-    .treatment-section, .doctor-section,  .baseInfomation-section {
+    .treatment-section, .doctor-section, .baseInfomation-section {
         text-align: left;
         margin: auto;
         width: 98%;
-        
         background: linear-gradient(to top,#ffffff, #ffffff);
         padding: 20px;
         border-radius: 13px;
         border: 0px solid #5F5F5F;
         overflow-y: scroll;
-        height:500px;
-       /* box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);*/
+        height: 500px;
+        /* box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);*/
     }
 
         .treatment-section::-webkit-scrollbar, .doctor-section::-webkit-scrollbar, .baseInfomation-section::-webkit-scrollbar {
-        width: 0px;
-        background: transparent;
-    }
+            width: 0px;
+            background: transparent;
+        }
 
-    .dateTime-section{
+    .dateTime-section {
         text-align: left;
         margin: auto;
         width: 98%;
@@ -237,19 +236,18 @@
         border-radius: 13px;
         border: 0px solid #5F5F5F;
         /* height: 500px;*/
-    
     }
-    .timeList{
-        overflow-y: scroll;
-        height:200px;
-        padding-top:20px;
 
+    .timeList {
+        overflow-y: scroll;
+        height: 200px;
+        padding-top: 20px;
     }
 
         .timeList::-webkit-scrollbar {
-        width: 0px;
-        background: transparent;
-    }
+            width: 0px;
+            background: transparent;
+        }
 
     .treatment-selected, .doctor-selected, .dateTime-selected {
         text-align: left;
@@ -266,7 +264,6 @@
         text-align: left;
         margin: 20px auto;
         width: 85%;
-      
         background-color: transparent;
         border-radius: 13px;
         border: 0px solid #5F5F5F;
@@ -280,10 +277,10 @@
         display: inline-block;
         margin-top: 5px;
         background: #0E4F43;
-        color: #D7F4EE; 
-        border-radius: 15px; 
-        overflow: hidden; 
-        margin: 10px; 
+        color: #D7F4EE;
+        border-radius: 15px;
+        overflow: hidden;
+        margin: 10px;
         box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.2);
     }
 
@@ -317,8 +314,8 @@
         }
 
     /*  .selectable .select-circle.selected {
-                                                                                                                                                                            background-color: green;
-                                                                                                                                                                        } */
+                                                                                                                                                                                background-color: green;
+                                                                                                                                                                            } */
 
     .doctor-section.hidden, .dateTime-section.hidden, .baseInfomation-section.hidden {
         display: none;
@@ -483,16 +480,15 @@
         align-items: start;
     }
 
-    .treatmentTittle, .doctorTittle , .dateTittle{
+    .treatmentTitle, .doctorTitle, .dateTitle {
         display: flex;
         align-items: center;
         font-size: 18px;
         color: #0E4F43;
         font-weight: 800;
-        margin-top:15px;
+        margin-top: 15px;
         margin-left: 30px;
     }
-
 
 </style>
 
@@ -510,152 +506,151 @@
     <span id="AppointmentIntroductionText"></span>
 </div> *@
 <div class="appointment-wrapper">
-<div class="appointment-table">
+    <div class="appointment-table">
 
 
-<!-- 療程部分 -->
-        <div class="treatmentTittle">
+        <!-- 療程部分 -->
+        <div class="treatmentTitle">
             <span>療程項目</span>
         </div>
-<div class="treatment-section" style="height:295px ; background-color:white;">
+        <div class="treatment-section" style="height:295px ; background-color:white;">
 
             <div id="treatmentData" class="row" style="display: flex; justify-content:  left;">
-    </div>
-</div>
-
-<!-- 已選擇的療程 -->
-        <div class="treatmentTittle">
-            <span>療程項目</span>
+            </div>
         </div>
-<div class="treatment-selected" style="background-color:white;">
 
-    <div id="selectedTreatment" class="row" style="display: flex; justify-content: left;">
-        =
-    </div>
-</div>
-        
-<!-- 醫師部分 -->
-      <div  class="doctorTittle">
-            <span >選擇醫師</span>
-      </div>
-<div class="doctor-section" style=" height:200px;background-color:white;">
-    
-
-    <div id="doctorData" class="row" style="display: flex; justify-content: left;">
-    </div>
-</div>
-
-<!-- 已選擇的醫師 -->
-        <div class="doctorTittle">
-            <span>醫師</span>
-        </div>
-<div class="doctor-selected" >
-           
-    <div id="selectedDoctor" class="row" style="display: flex; justify-content: left;">
-    </div>
-</div>
-
-<!-- 日期時間部分 -->
-        <div class="dateTittle">
-            <span >選擇預約時間</span>
-        </div>
-<div class="dateTime-section hidden" style="background-color:white;width: 85%;">
-
-    <div id="dateTimeData" class="row">
-        <div id="dateList" class="col-md-8" style="padding:0px; font-weight: normal;">
-            <div class="datepicker" id="datepicker">
-                <div class="datepicker-header">
-                    <div id="prev">&lt;</div>
-                    <span id="monthYear"></span>
-                    <div id="next">&gt;</div>
+        <!-- 已選擇的療程 -->
+        <div class="treatment-selected">
+            <div class="treatmentTitle">
+                <span>療程項目</span>
+            </div>
+            <div style="background-color:white;">
+                <div id="selectedTreatment" class="row" style="display: flex; justify-content: left;">
+                    =
                 </div>
-                <div class="datepicker-body" id="calendar"></div>
             </div>
-
-            <p id="dateDisplay" class="selected-date ml-3">預約日期：無</p>
-            <p id="timeDisplay" class="selected-time ml-3">預約時間：無</p>
         </div>
-                <div class="col-md-4 timeList" id="timeList">
-            <div class="time-picker" id="timePicker">
+
+        <!-- 醫師部分 -->
+        <div class="doctor-section">
+            <div class="doctorTitle">
+                <span>選擇醫師(單選)</span>
             </div>
-
-        </div>
-    </div>
-</div>
-
-<!-- 已選擇的日期時間 -->
-<div class="dateTime-selected" style="background-color:white;">
-            <div class="dateTittle">
-                <span>時間及日期</span>
+            <div style="height:200px;background-color:white;">
+                <div id="doctorData" class="row" style="display: flex; justify-content: left;">
+                </div>
             </div>
-    <p id="selectedDateDisplay" class="selected-date ml-3">預約日期：無</p>
-    <p id="selectedTimeDisplay" class="selected-time ml-3">預約時間：無</p>
-</div>
-
-<!-- 初診填寫基本資料部分 -->
-<div class="baseInfomation-section hidden" style="background-color:white;">
-    <h5>初診基本資料填寫</h5>
-    <div class="form-group">
-        <label for="name">姓名</label>
-        <input type="text" class="form-control" id="name">
-    </div>
-    <div class="form-group">
-        <label for="NationalIdNumber">身分證</label>
-        <input type="text" class="form-control" id="NationalIdNumber" onchange="checkCellphoneAndNationalIdNumber();">
-    </div>
-    <div class="form-group">
-        <label for="cellphone">手機號碼</label>
-        <input type="text" class="form-control" id="cellphone" onchange="checkCellphoneAndNationalIdNumber();">
-    </div>
-    <div class="form-group">
-        <label>性別</label><br>
-        <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="gender" id="male" value="男">
-            <label class="form-check-label" for="male">男</label>
         </div>
-        <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="gender" id="female" value="女">
-            <label class="form-check-label" for="female">女</label>
+
+        <!-- 已選擇的醫師 -->
+        <div class="doctor-selected">
+            <div class="doctorTitle">
+                <span>醫師</span>
+            </div>
+            <div id="selectedDoctor" class="row" style="display: flex; justify-content: left;">
+            </div>
+        </div>
+
+        <!-- 日期時間部分 -->
+        <div class="dateTime-section hidden">
+            <div class="dateTitle">
+                <span>選擇預約時間</span>
+            </div>
+            <div style="background-color:white;width: 85%;">
+                <div id="dateTimeData" class="row">
+                    <div id="dateList" class="col-md-8" style="padding:0px; font-weight: normal;">
+                        <div class="datepicker" id="datepicker">
+                            <div class="datepicker-header">
+                                <div id="prev">&lt;</div>
+                                <span id="monthYear"></span>
+                                <div id="next">&gt;</div>
+                            </div>
+                            <div class="datepicker-body" id="calendar"></div>
+                        </div>
+
+                        <p id="dateDisplay" class="selected-date ml-3">預約日期：無</p>
+                        <p id="timeDisplay" class="selected-time ml-3">預約時間：無</p>
+                    </div>
+                    <div class="col-md-4 timeList" id="timeList">
+                        <div class="time-picker" id="timePicker">
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 已選擇的日期時間 -->
+        <div class="dateTime-selected" style="background-color:white;">
+            <h5>預約時間</h5>
+            <p id="selectedDateDisplay" class="selected-date ml-3">預約日期：無</p>
+            <p id="selectedTimeDisplay" class="selected-time ml-3">預約時間：無</p>
+        </div>
+
+        <!-- 初診填寫基本資料部分 -->
+       <div class="baseInfomation-section hidden" style="background-color:white;">
+            <h5>初診基本資料填寫</h5>
+            <div class="form-group">
+                <label for="name">姓名</label>
+                <input type="text" class="form-control" id="name">
+            </div>
+            <div class="form-group">
+                <label for="NationalIdNumber">身分證</label>
+                <input type="text" class="form-control" id="NationalIdNumber" onchange="checkCellphoneAndNationalIdNumber();">
+            </div>
+            <div class="form-group">
+                <label for="cellphone">手機號碼</label>
+                <input type="text" class="form-control" id="cellphone" onchange="checkCellphoneAndNationalIdNumber();">
+            </div>
+            <div class="form-group">
+                <label>性別</label><br>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="gender" id="male" value="男">
+                    <label class="form-check-label" for="male">男</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="gender" id="female" value="女">
+                    <label class="form-check-label" for="female">女</label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="birthday">生日</label>
+                <input type="date" class="form-control" id="birthday">
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" class="form-control" id="email">
+            </div>
+            <div class="form-group">
+                <label id="alert" style="color:red;"></label>
+            </div>
+        </div>
+
+        <div class="buttonDIV" style="display:flex ; align-content:center ; justify-content:end; width:85%;margin:auto; padding-right:15px; border-radius:30px;">
+            <button class="btn btn-secondary" id="backToIndex" onclick="backToIndex();" style="border:none;border:none;border-radius:100px; background-color:#4A707A;padding:2px;margin-right:10px  ; width:40px;height:40px">
+                <img src="~/images/close_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.png" alt="Alternate Text" style="width:30px;height:30px; " />
+            </button>
+            <button class="btn btn-primary" id="selectDateTimebtn" onclick="selectDateTime();" style="border:none;border-radius:100px; background-color:#4A707A;padding:2px;">
+                <img src="~/images/arrow_right_alt_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.png" alt="Alternate Text" style="width:35px;height:35px; " />
+            </button>
+
+            <button class="btn btn-primary" id="backToSelectDoctorbtn" onclick="backToSelectDoctor();" style="display:none;border:none; background-color:transparent;border: 2px solid #4A707A; border-radius:100px;padding:2px;margin-right:10px  ; width:40px;height:40px">
+                <img src="~/images/arrow_left_alt_24dp_4A707A_FILL0_wght400_GRAD0_opsz24.png" alt="Alternate Text" style="width:35px;height:35px;" />
+            </button>
+
+            <button class="btn btn-primary" id="backToSelectDataTimebtn" onclick="backToSelectDataTime();" style="display:none;border:none; background-color:transparent;border: 2px solid #4A707A;border-radius:100px;padding:2px;margin-right:10px  ; width:40px;height:40px ">
+                <img src="~/images/arrow_left_alt_24dp_4A707A_FILL0_wght400_GRAD0_opsz24.png" alt="Alternate Text" style="width:35px;height:35px;" />
+            </button>
+
+            <button class="btn btn-primary" id="fillinBaseInformationbtn" onclick="fillinBaseInformation();" style="display:none;border:none;border-radius:100px; background-color:#4A707A;padding:2px; width:40px;height:40px">
+                <img src="~/images/arrow_right_alt_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.png" alt="Alternate Text" style="width:35px;height:35px; " />
+            </button>
+
+            <button class="btn btn-primary" id="fillinCompletebtn" onclick="fillinComplete();" style="display:none;border:none;border-radius:100px; background-color:#4A707A;padding:2px; width:40px;height:40px">
+                <img src="~/images/arrow_right_alt_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.png" alt="Alternate Text" style="width:35px;height:35px; " />
+            </button>
         </div>
     </div>
-    <div class="form-group">
-        <label for="birthday">生日</label>
-        <input type="date" class="form-control" id="birthday">
-    </div>
-    <div class="form-group">
-        <label for="email">Email</label>
-        <input type="email" class="form-control" id="email">
-    </div>
-    <div class="form-group">
-        <label id="alert" style="color:red;"></label>
-    </div>
-</div>
-
-<div class="buttonDIV" style="display:flex ; align-content:center ; justify-content:end; width:85%;margin:auto; padding-right:15px; border-radius:30px;">
-    <button class="btn btn-secondary" id="backToIndex" onclick="backToIndex();" style="border:none;border:none;border-radius:100px; background-color:#4A707A;padding:2px;margin-right:10px  ; width:40px;height:40px">
-        <img src="~/images/close_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.png" alt="Alternate Text" style="width:30px;height:30px; " />
-    </button>
-    <button class="btn btn-primary" id="selectDateTimebtn" onclick="selectDateTime();" style="border:none;border-radius:100px; background-color:#4A707A;padding:2px;">
-        <img src="~/images/arrow_right_alt_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.png" alt="Alternate Text" style="width:35px;height:35px; " />
-    </button>
-
-    <button class="btn btn-primary" id="backToSelectDoctorbtn" onclick="backToSelectDoctor();" style="display:none;border:none; background-color:transparent;border: 2px solid #4A707A; border-radius:100px;padding:2px;margin-right:10px  ; width:40px;height:40px">
-        <img src="~/images/arrow_left_alt_24dp_4A707A_FILL0_wght400_GRAD0_opsz24.png" alt="Alternate Text" style="width:35px;height:35px;" />
-    </button>
-
-    <button class="btn btn-primary" id="backToSelectDataTimebtn" onclick="backToSelectDataTime();" style="display:none;border:none; background-color:transparent;border: 2px solid #4A707A;border-radius:100px;padding:2px;margin-right:10px  ; width:40px;height:40px ">
-        <img src="~/images/arrow_left_alt_24dp_4A707A_FILL0_wght400_GRAD0_opsz24.png" alt="Alternate Text" style="width:35px;height:35px;" />
-    </button>
-
-    <button class="btn btn-primary" id="fillinBaseInformationbtn" onclick="fillinBaseInformation();" style="display:none;border:none;border-radius:100px; background-color:#4A707A;padding:2px; width:40px;height:40px">
-        <img src="~/images/arrow_right_alt_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.png" alt="Alternate Text" style="width:35px;height:35px; " />
-    </button>
-
-    <button class="btn btn-primary" id="fillinCompletebtn" onclick="fillinComplete();" style="display:none;border:none;border-radius:100px; background-color:#4A707A;padding:2px; width:40px;height:40px">
-        <img src="~/images/arrow_right_alt_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.png" alt="Alternate Text" style="width:35px;height:35px; " />
-    </button>
-</div>
-</div>
 </div>
 <!-- 療程項目簡介模態框 -->
 <div class="modal fade " id="treatmentModal" tabindex="-1" aria-labelledby="treatmentModalLabel" aria-hidden="true">

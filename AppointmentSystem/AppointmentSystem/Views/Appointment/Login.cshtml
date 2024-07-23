@@ -261,7 +261,7 @@
                 }
             });
 
-            let countdown = 5;
+            let countdown = 60;
             settime(obj, countdown);
         } else {
             alert('請輸入手機號碼');
@@ -272,7 +272,6 @@
         if (countdown == 0) {
             obj.removeAttribute("disabled");
             obj.value = "重新發送";
-            countdown = 60;
             return;
         } else {
             obj.setAttribute("disabled", true);

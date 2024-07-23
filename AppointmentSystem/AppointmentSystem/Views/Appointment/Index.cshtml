@@ -12,39 +12,39 @@
         border-top: 0px solid #dee2e6;
         vertical-align: middle;
     }
+
     .overlay-container {
-    width: 100%;
-    position: relative;
-    z-index: 1;
-}
-
-.appointment-wrapper {
-    width: 100%;
-    max-width: 100%;
-    display: flex;
-    justify-content: center;
-    
-    position: absolute;
-    top: 20%;
-    left: 0;
-    height:80%;
-}
-
-.appointment-table {
-    width: 100%;
-    margin:0px !important;
-    padding: 20px 5px;
-    border-radius: 40px;
-    z-index: 2;
-    background: white;
-    max-width:100%;
-    display: flex;
-    flex-direction: column;
-    align-items:start;
+        width: 100%;
+        position: relative;
+        z-index: 1;
     }
 
-    .AppointmentData{
-        width:100%;
+    .appointment-wrapper {
+        width: 100%;
+        max-width: 100%;
+        display: flex;
+        justify-content: center;
+        position: absolute;
+        top: 20%;
+        left: 0;
+        height: 80%;
+    }
+
+    .appointment-table {
+        width: 100%;
+        margin: 0px !important;
+        padding: 20px 5px;
+        border-radius: 40px;
+        z-index: 2;
+        background: white;
+        max-width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+    }
+
+    .AppointmentData {
+        width: 100%;
         padding-left: 10%;
         padding-top: 15px;
         padding-bottom: 0%;
@@ -53,8 +53,8 @@
         color: #000000;
     }
 
-    
-    .appointmentsTableBody{
+
+    .appointmentsTableBody {
         font-size: 14px;
         white-space: nowrap;
         vertical-align: middle;
@@ -63,76 +63,72 @@
         width: 100%;
     }
 
-    .appointmentDate{
-        margin-left:10%;
-    
+    .appointmentDate {
+        margin-left: 10%;
     }
 
-    .Appointment_01{
-        margin:3px;
-        padding:1px;
-
+    .Appointment_01 {
+        margin: 3px;
+        padding: 1px;
     }
 
-    .appointmentItems{
+    .appointmentItems {
         height: 55px; /* 設置固定高度 */
         overflow-y: scroll;
     }
 
     .appointmentItem {
         background-color: #3B9382;
-        padding:2px;
-        border-radius:30px;
+        padding: 2px;
+        border-radius: 30px;
         color: #D7F4EE;
-        width:80%;
-        margin:5px;
-        font-size:12px;
-
+        width: 80%;
+        margin: 5px;
+        font-size: 12px;
     }
 
-    .appointmentDoctorName{
+    .appointmentDoctorName {
         margin: 3px;
         padding: 1px;
-        margin-left:5%;
+        margin-left: 5%;
     }
 
-    .appointmentTimeBox{
+    .appointmentTimeBox {
         display: flex;
-        justify-content:center;
-        align-items:center;
+        justify-content: center;
+        align-items: center;
     }
 
     .appointmentItems::-webkit-scrollbar {
-        width: 0px; 
-        background: transparent; 
+        width: 0px;
+        background: transparent;
     }
 
-    body{
-        background-color:white;
+    body {
+        background-color: white;
     }
 
-    .appointmentDoctorImg{
+    .appointmentDoctorImg {
         height: 100%;
         width: 100%;
         object-fit: cover;
     }
 
-    .appointmentDoctorImgDIV{
-        background-color:#0E4F43;
-        border-radius:15px;
-        height:80px;
-        width:80px;
+    .appointmentDoctorImgDIV {
+        background-color: #0E4F43;
+        border-radius: 15px;
+        height: 80px;
+        width: 80px;
         overflow: hidden;
-
     }
 
 
-/* 畫面大於 530px 時，改變 top 為 25% */
-  /*media (min-width: 530px) {
-            .appointment-wrapper {
-                top: 25%;
-            }
-            }*/
+    /* 畫面大於 530px 時，改變 top 為 25% */
+    /*media (min-width: 530px) {
+                .appointment-wrapper {
+                    top: 25%;
+                }
+                }*/
 </style>
 
 
@@ -142,62 +138,82 @@
 </div>
 
 
-<div class="appointment-wrapper" >
-    <div class="appointment-table" >
+<div class="appointment-wrapper">
+    <div class="appointment-table">
         <span style="font-weight:800;color:#0E4F43; padding-left:10%;padding-top:4%;padding-bottom:1%;">已預約時段</span>
 
-    <table class="table table-bordered" style="border:none;font-size: 14px; margin: 15px 0px;">
-        @if (ViewBag.Count > 0)
-        {
-           /* <thead style="border:none;border-radius:50%;">
+        <table class="table table-bordered" style="border:none;font-size: 14px; margin: 15px 0px;">
+            @if (ViewBag.Count > 0)
+            {
+                /* <thead style="border:none;border-radius:50%;">
                 <tr style="font-size: 14px; white-space: nowrap;vertical-align: middle; ">
-                    <th>日期</th>
-                    <th>時間</th>
-                    <th>醫師</th>
-                    <th>療程項目</th>
-                    <th>修改/取消</th>
+                <th>日期</th>
+                <th>時間</th>
+                <th>醫師</th>
+                <th>療程項目</th>
+                <th>修改/取消</th>
                 </tr>
-            </thead>*/
+                </thead>*/
 
                 <div id="appointmentsTableBody" class="appointmentsTableBody">
-                @*  @foreach (var item in Model.AppointmentData)
-            {
-            <tr>
-            <td>@item.Date</td>
-            <th>@item.BookingBeginTime</th>
-            <td>@item.DoctorName</td>
-            <td>
-            <button type="button" class="btn btn-primary btn-sm details-btn" data-toggle="modal"
-            data-target="#detailsModal" data-details='{"items": [{"name": "療程1", "description": "療程1介紹", "image": "path/to/image1.jpg"}, {"name": "療程2", "description": "療程2介紹", "image": "path/to/image2.jpg"}]}'>詳細</button>
-            </td>
+                    @*  @foreach (var item in Model.AppointmentData)
+                {
+                <tr>
+                <td>@item.Date</td>
+                <th>@item.BookingBeginTime</th>
+                <td>@item.DoctorName</td>
+                <td>
+                <button type="button" class="btn btn-primary btn-sm details-btn" data-toggle="modal"
+                data-target="#detailsModal" data-details='{"items": [{"name": "療程1", "description": "療程1介紹", "image": "path/to/image1.jpg"}, {"name": "療程2", "description": "療程2介紹", "image": "path/to/image2.jpg"}]}'>詳細</button>
+                </td>
 
-            <td><button class="btn btn-primary btn-sm">詳細</button></td>
-            <td>
-            <button class="btn btn-secondary btn-sm">修改</button>
-            <button class="btn btn-danger btn-sm">取消</button>
-            </td>
-            </tr>
-            } *@
-            </div>
-        }
-        else
-        {
-            <tr>
-                <th>開始預約</th>
-            </tr>
-        }
-    </table>
+                <td><button class="btn btn-primary btn-sm">詳細</button></td>
+                <td>
+                <button class="btn btn-secondary btn-sm">修改</button>
+                <button class="btn btn-danger btn-sm">取消</button>
+                </td>
+                </tr>
+                } *@
+                </div>
+            }
+            else
+            {
+                <tr>
+                    <th>開始預約</th>
+                </tr>
+            }
+        </table>
 
 
         <button class="btn btn-primary" onclick="location.href='@Url.Action("Fillin", "Appointment")' " style="font-size: 14px; background-color:transparent; border:none;margin-left: auto;margin-right: auto;">
             <img src="/images/add_circle_24dp_0E4F43_FILL0_wght400_GRAD0_opsz24.png" style="width:40px;height:40px ;" \>
-    </button>
+        </button>
+    </div>
 </div>
+
+<div class="modal fade" id="doctorModal" tabindex="-1" aria-labelledby="doctorModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content" style="border-radius:15px;">
+            <div class="modal-header">
+                <h5 class="modal-title" id="doctorModalLabel">醫師簡介</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="doctorImage"></div>
+                <p id="doctorModalDescription"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">關閉</button>
+            </div>
+        </div>
+    </div>
 </div>
 
 <!-- 療程項目簡介模態框 -->
-<div class="modal fade" id="detailsModal" tabindex="-1" role="dialog" aria-labelledby="detailsModalLabel" aria-hidden="true" >
-    <div class="modal-dialog" role="document" >
+@* <div class="modal fade" id="detailsModal" tabindex="-1" role="dialog" aria-labelledby="detailsModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
         <div class="modal-content" style="border-radius:15px;">
             <div class="modal-header">
                 <h5 class="modal-title" id="detailsModalLabel">療程項目詳細</h5>
@@ -213,7 +229,7 @@
             </div>
         </div>
     </div>
-</div>
+</div> *@
 
 <script>
     $(document).ready(function () {
@@ -228,37 +244,49 @@
                 var tableBody = $('#appointmentsTableBody');
 
                 data.forEach(function (appointment) {
-                    var treatmentDetails = JSON.stringify({ items: appointment.treatmentData });
+                    // var treatmentDetails = JSON.stringify({ items: appointment.treatmentData });
 
-                    var rowHtml = `
-                            
-                            <div class="AppointmentData">
-                                                <div class="appointmentDoctorImgDIV" > <img class="appointmentDoctorImg" src=""/></div>
-                                            <div class="Appointment_01">
-                                                <div class="appointmentDate">${appointment.date}</div>
-                                                    <div class="appointmentItems">
-                                                       
-                                                             <div class="appointmentItem">療程1</div>
-                                                             <div class="appointmentItem">療程2</div>
-                                                             <div class="appointmentItem">療程3</div>
-                                                    
-                                                    </div>
-                                            </div>
-                                             <div class="appointmentDoctorName">${appointment.doctorName}</div>
-                                             <div class="appointmentTimeBox">
-                                                 <div >${appointment.bookingBeginTime}</div>
-                                             </div>
-                                          
-                                <div>
-                                    <button type="button" class="btn btn-primary details-btn" data-toggle="modal" data-target="#detailsModal" data-details='${treatmentDetails}' style="display:none;font-size: 14px; background-color:transparent; border:none;">  <img id="desktopImage" src="/images/dataset_19dp_666666_FILL0_wght400_GRAD0_opsz20.png" style="width:25px;height:25px ;" \ ></button>
-                                </div>
-                                <div>
-                                <button class="btn btn-secondary" onclick="editAppointment('`+ appointment.appointmentId + `' ) "  style="display:none;font-size: 14px; background-color:transparent; border:none;"><img id="desktopImage" src="/images/edit_square_16dp_666666_FILL0_wght400_GRAD0_opsz20.png" style="width:25px;height:25px ;" \ ></button>
-                                    <button class="btn btn-danger" onclick="cancelAppointment('`+ appointment.appointmentId + `')"  style="display:none;font-size: 14px; background-color:transparent; border:none;"><img id="desktopImage" src="/images/event_busy_16dp_666666_FILL0_wght400_GRAD0_opsz20.png" style="width:25px;height:25px ;" \ ></button>
-                                </div>
-                            </div>
-                            
-                    `;
+                    var rowHtml = ``;
+
+                    rowHtml += `<div class="AppointmentData">`;
+
+                    rowHtml += `<div class="selectable appointmentDoctorImgDIV" data-title="` + appointment.doctorData.doctorName + `" data-department="` + appointment.doctorData.departmentTitle + `" data-image="` + appointment.doctorData.image + `" data-description="` + appointment.doctorData.introduction + `">`;
+                    rowHtml += `<img class="appointmentDoctorImg" src="` + appointment.doctorData.image + `" style="cursor:pointer;" data-toggle="modal" data-target="#doctorModal" />`;
+                    rowHtml += `</div>`;
+
+                    rowHtml += `<div style="display:flex; ;cursor:pointer;" onclick="editAppointment('` + appointment.appointmentId + `' )" >`;
+                    rowHtml += `<div class="Appointment_01">`;
+                    rowHtml += `<div class="appointmentDate">${appointment.date}</div>`;
+                    rowHtml += `<div class="appointmentItems">`;
+
+                    appointment.treatmentData.forEach(function (item) {
+                        rowHtml += `<div class="appointmentItem">` + item.treatmentName + `</div>`;
+                    });
+
+                    rowHtml += `</div>`;
+                    rowHtml += `</div>`;
+                    rowHtml += `<div class="appointmentDoctorName">${appointment.doctorData.doctorName}</div>`;
+                    rowHtml += `<div class="appointmentTimeBox">`;
+                    rowHtml += `<div>${appointment.bookingBeginTime}</div>`;
+                    rowHtml += `</div>`;
+
+                    rowHtml += `</div>`;
+
+                    rowHtml += `</div>`;
+                    rowHtml += ``;
+
+
+
+
+                    // < div >
+                    // <button type="button" class="btn btn-primary details-btn" data - toggle="modal" data - target="#detailsModal" data - details='${treatmentDetails}' style = "display:none;font-size: 14px; background-color:transparent; border:none;" > <img id="desktopImage" src = "/images/dataset_19dp_666666_FILL0_wght400_GRAD0_opsz20.png" style = "width:25px;height:25px ;" \ > </button>
+                    //     < /div>
+                    //     < div >
+                    //     <button class="btn btn-secondary" onclick = "editAppointment('`+ appointment.appointmentId + `' ) "  style = "display:none;font-size: 14px; background-color:transparent; border:none;" > <img id="desktopImage" src = "/images/edit_square_16dp_666666_FILL0_wght400_GRAD0_opsz20.png" style = "width:25px;height:25px ;" \ > </button>
+                    //         < button class="btn btn-danger" onclick = "cancelAppointment('`+ appointment.appointmentId + `')"  style = "display:none;font-size: 14px; background-color:transparent; border:none;" > <img id="desktopImage" src = "/images/event_busy_16dp_666666_FILL0_wght400_GRAD0_opsz20.png" style = "width:25px;height:25px ;" \ > </button>
+                    //             < /div>
+
+
                     tableBody.append(rowHtml);
                 });
 
@@ -269,12 +297,12 @@
 
                     details.items.forEach(function (item) {
                         var itemHtml = `
-                            <div class="mb-3">
-                                     <span style="font-weight:200;background-color:#528452;color:#ffffff;border-radius: 50px; padding-left:15px;padding-right:15px;padding-top:5px;padding-bottom:5px; margin:30%;">${item.treatmentName}</span>
-                                        <img src="${item.image}" alt="${item.treatmentName}" class="img-fluid" style="width:50%;height:50%;border-radius:20px;margin:5%">
-                                <p>${item.introduction}</p>
-                            </div>
-                        `;
+                                                        <div class="mb-3">
+                                                                 <span style="font-weight:200;background-color:#528452;color:#ffffff;border-radius: 50px; padding-left:15px;padding-right:15px;padding-top:5px;padding-bottom:5px; margin:30%;">${item.treatmentName}</span>
+                                                                    <img src="${item.image}" alt="${item.treatmentName}" class="img-fluid" style="width:50%;height:50%;border-radius:20px;margin:5%">
+                                                            <p>${item.introduction}</p>
+                                                        </div>
+                                                    `;
                         modalBody.append(itemHtml);
                     });
                 });
@@ -284,6 +312,20 @@
             }
         });
 
+        $('#doctorModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);
+            var title = button.closest('.selectable').data('title');
+            var department = button.closest('.selectable').data('department');
+            var description = button.closest('.selectable').data('description');
+            var image = button.closest('.selectable').data('image');
+            var modal = $(this);
+
+            modal.find('.modal-title').text(title + '  ' + department);
+            // modal.find('.modal-body #doctorModalTitle').text(title);
+            modal.find('.modal-body #doctorModalDepartment').text(description);
+            modal.find('.modal-body #doctorModalDescription').text(description);
+            modal.find('.modal-body #doctorImage').html("<img src='" + image + "' alt='doctor' class='img-fluid'>");
+        });
 
         function initData() {
             setAppointmentIntroductionText();
