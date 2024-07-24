@@ -692,7 +692,8 @@ namespace AppointmentSystem.Services
                     Age = age,
                     missed = missed,
                     Gender = item.Gender,
-                    NationalIdNumber = item.NationalIdNumber
+                    NationalIdNumber = item.NationalIdNumber,
+                    appointmentData= getCustomerAppointment(item.Id)
                 });
             }
 

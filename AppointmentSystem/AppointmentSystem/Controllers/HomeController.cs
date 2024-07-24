@@ -334,14 +334,14 @@ namespace AppointmentSystem.Controllers
             return new JsonResult(customerData);
         }
 
-        [HttpPost]
-        [Authorize]
-        public IActionResult getCustomerAppointment(string id)
-        {
-            List<AppointmentData> appointmentData = _homeService.getCustomerAppointment(id);
+        //[HttpPost]
+        //[Authorize]
+        //public IActionResult getCustomerAppointment(string id)
+        //{
+        //    List<AppointmentData> appointmentData = _homeService.getCustomerAppointment(id);
 
-            return new JsonResult(appointmentData);
-        }
+        //    return new JsonResult(appointmentData);
+        //}
 
         
     }

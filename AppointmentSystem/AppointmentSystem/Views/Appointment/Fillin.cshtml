@@ -510,71 +510,67 @@
 
 
         <!-- 療程部分 -->
-        <div class="treatmentTitle">
+        <div class="treatmentTittle">
             <span>療程項目</span>
         </div>
         <div class="treatment-section" style="height:295px ; background-color:white;">
-
             <div id="treatmentData" class="row" style="display: flex; justify-content:  left;">
             </div>
         </div>
 
         <!-- 已選擇的療程 -->
-        <div class="treatment-selected">
-            <div class="treatmentTitle">
-                <span>療程項目</span>
-            </div>
-            <div style="background-color:white;">
-                <div id="selectedTreatment" class="row" style="display: flex; justify-content: left;">
-                    =
-                </div>
+        <div class="treatmentTittle">
+            <span>療程項目</span>
+        </div>
+        <div class="treatment-selected" style="background-color:white;">
+            <div id="selectedTreatment" class="row" style="display: flex; justify-content: left;">
+                =
             </div>
         </div>
 
         <!-- 醫師部分 -->
-        <div class="doctor-section" style="height: 300px;">
-            <div class="doctorTitle">
-                <span>選擇醫師(單選)</span>
-            </div>
-            <div style="height:200px;background-color:white;">
-                <div id="doctorData" class="row" style="display: flex; justify-content: left;">
-                </div>
+        <div class="doctorTittle">
+            <span>選擇醫師</span>
+        </div>
+        <div class="doctor-section" style=" height:200px;background-color:white;">
+
+
+            <div id="doctorData" class="row" style="display: flex; justify-content: left;">
             </div>
         </div>
 
         <!-- 已選擇的醫師 -->
+        <div class="doctorTittle">
+            <span>醫師</span>
+        </div>
         <div class="doctor-selected">
-            <div class="doctorTitle">
-                <span>醫師</span>
-            </div>
+
             <div id="selectedDoctor" class="row" style="display: flex; justify-content: left;">
             </div>
         </div>
 
         <!-- 日期時間部分 -->
-        <div class="dateTime-section hidden">
-            <div class="dateTitle">
-                <span>選擇預約時間</span>
-            </div>
-            <div style="background-color:white;width: 85%;">
-                <div id="dateTimeData" class="row">
-                    <div id="dateList" class="col-md-8" style="padding:0px; font-weight: normal;">
-                        <div class="datepicker" id="datepicker">
-                            <div class="datepicker-header">
-                                <div id="prev">&lt;</div>
-                                <span id="monthYear"></span>
-                                <div id="next">&gt;</div>
-                            </div>
-                            <div class="datepicker-body" id="calendar"></div>
-                        </div>
+        <div class="dateTittle">
+            <span>選擇預約時間</span>
+        </div>
+        <div class="dateTime-section hidden" style="background-color:white;width: 85%;">
 
-                        <p id="dateDisplay" class="selected-date ml-3">預約日期：無</p>
-                        <p id="timeDisplay" class="selected-time ml-3">預約時間：無</p>
+            <div id="dateTimeData" class="row">
+                <div id="dateList" class="col-md-8" style="padding:0px; font-weight: normal;">
+                    <div class="datepicker" id="datepicker">
+                        <div class="datepicker-header">
+                            <div id="prev">&lt;</div>
+                            <span id="monthYear"></span>
+                            <div id="next">&gt;</div>
+                        </div>
+                        <div class="datepicker-body" id="calendar"></div>
                     </div>
-                    <div class="col-md-4 timeList" id="timeList">
-                        <div class="time-picker" id="timePicker">
-                        </div>
 
+                    <p id="dateDisplay" class="selected-date ml-3">預約日期：無</p>
+                    <p id="timeDisplay" class="selected-time ml-3">預約時間：無</p>
+                </div>
+                <div class="col-md-4 timeList" id="timeList">
+                    <div class="time-picker" id="timePicker">
                     </div>
                 </div>
             </div>
@@ -582,13 +578,15 @@
 
         <!-- 已選擇的日期時間 -->
         <div class="dateTime-selected" style="background-color:white;">
-            <h5>預約時間</h5>
+            <div class="dateTittle">
+                <span>時間及日期</span>
+            </div>
             <p id="selectedDateDisplay" class="selected-date ml-3">預約日期：無</p>
             <p id="selectedTimeDisplay" class="selected-time ml-3">預約時間：無</p>
         </div>
 
         <!-- 初診填寫基本資料部分 -->
-       <div class="baseInfomation-section hidden" style="background-color:white;">
+        <div class="baseInfomation-section hidden" style="background-color:white;">
             <h5>初診基本資料填寫</h5>
             <div class="form-group">
                 <label for="name">姓名</label>
@@ -928,6 +926,7 @@
         if (selected.length > 0 && selectedTreatments.length > 0) {
             //將療程及醫師隱藏，顯示日期時間
             $('.treatment-section').hide();
+            $('.treatmentTitle').hide();
             $('.doctor-section').hide();
             $('.dateTime-section').show();
 
@@ -1097,9 +1096,11 @@
         $('#selectedTimeDisplay').text("預約時間：無");
 
         $('.treatment-section').show();
+        $('.treatmentTitle').show();
         $('.doctor-section').show();
         $('.dateTime-section').hide();
         $('.treatment-selected').hide();
+        $('.treatmentTittle').hide();
         $('.doctor-selected').hide();
         $('.dateTime-selected').hide();
 
@@ -1161,6 +1162,7 @@
         $('#selectedDoctor').html(inner);
 
         $('.treatment-selected').show();
+        $('.treatmentTittle').show();
         $('.doctor-selected').show();
     }
 

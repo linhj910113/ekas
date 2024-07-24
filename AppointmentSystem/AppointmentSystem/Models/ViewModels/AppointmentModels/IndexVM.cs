@@ -46,7 +46,7 @@ namespace AppointmentSystem.Models.ViewModels.AppointmentModels
         }
     }
 
-    public partial class CustomerData()
+    public partial class CustomerData
     {
         public string? Id { get; set; }
 
@@ -74,7 +74,12 @@ namespace AppointmentSystem.Models.ViewModels.AppointmentModels
 
         public string? Email { get; set; }
 
+        public List<AppointmentData>? appointmentData { get; set; }
 
+        public CustomerData()
+        {
+            appointmentData = new List<AppointmentData>();
+        }
     }
 
 }
