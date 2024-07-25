@@ -1055,7 +1055,7 @@
                 innerHTML += `<tr>`;
                 innerHTML += `<th class="tableHeader"></th>`;
                 data.doctorDatas.forEach(function (item) {
-                    innerHTML += `<th class="tableHeader"><div class="Doctor-Header">` + item.doctorName + `</div></th>`;
+                    innerHTML += `<th class="tableHeader"><div class="Doctor-Header" style="background-color:` + item.colorHEX + ` !important;">` + item.doctorName + `</div></th>`;
                 });
                 innerHTML += `</tr>`;
 
@@ -1202,6 +1202,7 @@
                     console.log("Check in success.");
 
                     $('#checkIn').html('<button class="btn sidebarbtn" disabled><img src="/images/check_box_24dp_434343_FILL0_wght400_GRAD0_opsz24.png" style="width:30px;height:30px;"/></button> <span class="btnWord">已報到</span></button>');
+                    setAppointmentTable(currentYear, currentMonth, currentDay);
                 }
             });
         }

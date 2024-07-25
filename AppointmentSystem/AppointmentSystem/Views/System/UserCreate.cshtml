@@ -1,6 +1,6 @@
 ﻿@model AppointmentSystem.Models.ViewModels.SystemModels.UserCreateVM
 @{
-    ViewData["Title"] = "用戶新增";
+    ViewData["Title"] = "人員新增";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -97,7 +97,7 @@
                                     </tr>
                                     <tr>
                                         <td></td>
-                                        <td>角色</td>
+                                        <td>權限名稱</td>
                                         <td>
                                             @Html.DropDownListFor(m=>m.RoleId, Model.RoleList , new { @class = "form-control", @required=""})
                                         </td>

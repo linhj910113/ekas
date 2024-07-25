@@ -58,9 +58,9 @@ html {
       cursor: pointer;
   }
 
-  .dropdown-function .function-div:hover {
+/*  .dropdown-function .function-div:hover {
       background-color: #ddd;
-  }
+  }*/
 
 .main-content {
     flex: 1;

@@ -91,7 +91,8 @@ namespace AppointmentSystem.Services
                 {
                     DoctorId = item.Id,
                     DoctorName = item.DoctorName,
-                    DepartmentTitle = item.DepartmentTitle
+                    DepartmentTitle = item.DepartmentTitle,
+                    ColorHEX=item.ColorHex
                 });
             }
 

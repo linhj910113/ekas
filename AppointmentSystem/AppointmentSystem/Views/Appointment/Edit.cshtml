@@ -521,6 +521,9 @@
 
 <div class="buttonDIV" style="display:flex ; align-content:center ; justify-content:end; width:85%;margin:auto; padding-right:15px; border-radius:30px;">
 
+    <button class="btn btn-secondary" id="cancelAppointment" onclick="cancelAppointment('@Model.AppointmentId');" style="border:none;border:none;border-radius:100px; background-color:#4A707A;padding:2px;margin-right:10px  ; width:40px;height:40px">
+        取消預約
+    </button>
 
     <button class="btn btn-secondary" id="backToIndex" onclick="backToIndex();" style="border:none;border:none;border-radius:100px; background-color:#4A707A;padding:2px;margin-right:10px  ; width:40px;height:40px">
         <img src="~/images/close_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.png" alt="Alternate Text" style="width:30px;height:30px; " />
@@ -686,6 +689,20 @@
             $('.doctor-section').removeClass('hidden');
         } else {
             $('.doctor-section').addClass('hidden');
+        }
+    }
+
+    function cancelAppointment(appointmentId) {
+        if (confirm("你確定要取消此次預約?")) {
+            $.ajax({
+                type: 'POST',
+                url: '/Appointment/CancelAppointment',
+                datatype: "json",
+                data: { "AppointmentId": appointmentId },
+                success: function (data) {
+                    window.location.href = "@Url.Action("Index", "Appointment")";
+                }
+            });
         }
     }
 
