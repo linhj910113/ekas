@@ -355,7 +355,11 @@ namespace AppointmentSystem.Controllers
 
                 //傳送LINE訊息
                 //string message = _functions.GetSystemParameter("AppointmentVerifySuccess");
+<<<<<<< Updated upstream
                 string Url = "https://" + _functions.GetSystemParameter("SystemDomainName") + ":7146/Appointment/SuccessPage/" + AppointmentId;
+=======
+                string Url = _functions.GetSystemParameter("SystemDomainName") + "/Appointment/SuccessPage/" + AppointmentId;
+>>>>>>> Stashed changes
                 string message = "預約驗證成功，詳細資料如下網址\n" + Url;
 
                 if (vc.LoginBy == "Line")
@@ -521,7 +525,11 @@ namespace AppointmentSystem.Controllers
             _appointmentService.CreateVerificationcode(vcode);
 
             //傳送line驗證碼
+<<<<<<< Updated upstream
             string VerifyUrl = "https://" + _functions.GetSystemParameter("SystemDomainName") + ":7146/Appointment/Verify?code=" + code;
+=======
+            string VerifyUrl = _functions.GetSystemParameter("SystemDomainName") + "/Appointment/Verify?code=" + code;
+>>>>>>> Stashed changes
             string message = "預約驗證網址如下，請於5分鐘內進行驗證\n" + VerifyUrl;
 
             if (user.FirstOrDefault(u => u.Type == "LoginBy").Value == "Line")
