@@ -598,7 +598,7 @@
       } else {
         evt = new CustomEvent(event, {
           bubbles,
-          cancelable: true
+          cancelabel: true
         });
       } // merge custom information in our event
 

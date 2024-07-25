@@ -1,12 +1,28 @@
 ﻿@model List<AppointmentSystem.Models.ViewModels.ModuleVM>
 
+
+    <style>
+    .ModuleTittle{
+        background-color: #0E4F43;
+        color: #D7F4EE;
+        cursor: default;
+        width:100%;
+        border-radius: 13px;
+        padding-left:15%;
+        padding-right: 15%;
+        padding-top: 3%;
+        padding-bottom: 3%;
+    }
+
+
+    </style>
 @foreach (var module in Model)
 {
     if (module.IsActive == true)
     {
         if (module.Functions.Count > 0)
         {
-            <p style="color: #474141;cursor:default;">@module.ModuleName</p>
+            <span  class="ModuleTittle">@module.ModuleName</span>
 
             foreach (var function in module.Functions)
             {

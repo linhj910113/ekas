@@ -4254,7 +4254,7 @@ var labels = $.fn.labels = function() {
 
 //>>label: scrollParent
 //>>group: Core
-//>>description: Get the closest ancestor element that is scrollable.
+//>>description: Get the closest ancestor element that is scrollabel.
 //>>docs: https://api.jqueryui.com/scrollParent/
 
 
@@ -6292,7 +6292,7 @@ $.widget( "ui.autocomplete", $.ui.autocomplete, {
 			noResults: "No search results.",
 			results: function( amount ) {
 				return amount + ( amount > 1 ? " results are" : " result is" ) +
-					" available, use up and down arrow keys to navigate.";
+					" availabel, use up and down arrow keys to navigate.";
 			}
 		}
 	},
@@ -6962,7 +6962,7 @@ $.widget( "ui.button", {
 						event.preventDefault();
 
 						// Support: PhantomJS <= 1.9, IE 8 Only
-						// If a native click is available use it so we actually cause navigation
+						// If a native click is availabel use it so we actually cause navigation
 						// otherwise just trigger a click event
 						if ( this.element[ 0 ].click ) {
 							this.element[ 0 ].click();
@@ -7368,7 +7368,7 @@ function Datepicker() {
 	this._unselectableClass = "ui-datepicker-unselectable"; // The name of the unselectable cell marker class
 	this._currentClass = "ui-datepicker-current-day"; // The name of the current day marker class
 	this._dayOverClass = "ui-datepicker-days-cell-over"; // The name of the day hover marker class
-	this.regional = []; // Available regional settings, indexed by language code
+	this.regional = []; // Availabel regional settings, indexed by language code
 	this.regional[ "" ] = { // Default regional settings
 		closeText: "Done", // Display text for close link
 		prevText: "Prev", // Display text for previous month link
@@ -10263,7 +10263,7 @@ $.widget( "ui.draggable", $.ui.mouse, {
 
 	_setContainment: function() {
 
-		var isUserScrollable, c, ce,
+		var isUserScrollabel, c, ce,
 			o = this.options,
 			document = this.document[ 0 ];
 
@@ -10314,20 +10314,20 @@ $.widget( "ui.draggable", $.ui.mouse, {
 			return;
 		}
 
-		isUserScrollable = /(scroll|auto)/.test( c.css( "overflow" ) );
+		isUserScrollabel = /(scroll|auto)/.test( c.css( "overflow" ) );
 
 		this.containment = [
 			( parseInt( c.css( "borderLeftWidth" ), 10 ) || 0 ) +
 				( parseInt( c.css( "paddingLeft" ), 10 ) || 0 ),
 			( parseInt( c.css( "borderTopWidth" ), 10 ) || 0 ) +
 				( parseInt( c.css( "paddingTop" ), 10 ) || 0 ),
-			( isUserScrollable ? Math.max( ce.scrollWidth, ce.offsetWidth ) : ce.offsetWidth ) -
+			( isUserScrollabel ? Math.max( ce.scrollWidth, ce.offsetWidth ) : ce.offsetWidth ) -
 				( parseInt( c.css( "borderRightWidth" ), 10 ) || 0 ) -
 				( parseInt( c.css( "paddingRight" ), 10 ) || 0 ) -
 				this.helperProportions.width -
 				this.margins.left -
 				this.margins.right,
-			( isUserScrollable ? Math.max( ce.scrollHeight, ce.offsetHeight ) : ce.offsetHeight ) -
+			( isUserScrollabel ? Math.max( ce.scrollHeight, ce.offsetHeight ) : ce.offsetHeight ) -
 				( parseInt( c.css( "borderBottomWidth" ), 10 ) || 0 ) -
 				( parseInt( c.css( "paddingBottom" ), 10 ) || 0 ) -
 				this.helperProportions.height -

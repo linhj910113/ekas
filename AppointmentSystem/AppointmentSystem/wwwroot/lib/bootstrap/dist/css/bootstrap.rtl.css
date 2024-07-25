@@ -5440,14 +5440,14 @@ textarea.form-control-lg {
   transform: scale(1.02);
 }
 
-.modal-dialog-scrollable {
+.modal-dialog-scrollabel {
   height: calc(100% - 1rem);
 }
-.modal-dialog-scrollable .modal-content {
+.modal-dialog-scrollabel .modal-content {
   max-height: 100%;
   overflow: hidden;
 }
-.modal-dialog-scrollable .modal-body {
+.modal-dialog-scrollabel .modal-body {
   overflow-y: auto;
 }
 
@@ -5533,7 +5533,7 @@ textarea.form-control-lg {
     margin: 1.75rem auto;
   }
 
-  .modal-dialog-scrollable {
+  .modal-dialog-scrollabel {
     height: calc(100% - 3.5rem);
   }
 

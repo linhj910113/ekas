@@ -2,84 +2,139 @@
 
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "後臺首頁";
 }
 <style>
+    /* .appointmentTable {
+                        border-collapse: separate;
+                        border-spacing: 0px;
+                        width: 100%;
+                        // max-width: 800px;
+                        margin: 0 auto;
+                        display: block;
+                        overflow-x: auto;
+                        white-space: nowrap;
+                        background-color: white;
+                        border-radius: 13px;
+                        padding: 10px;
+                        border: none;
+                        min-height: 350px;
+                        box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+                    } */
+
     .appointmentTable {
-        border-collapse: separate;
-        border-spacing: 0px;
         width: 100%;
-        /* max-width: 800px; */
-        margin: 0 auto;
-        display: block;
-        overflow-x: auto;
-        white-space: nowrap;
-        background-color: white;
-        border-radius: 13px;
         padding: 10px;
-        border: none;
-        min-height: 350px;
-        box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+        /*
+                        border-collapse: separate;
+                        border-spacing: 0px;
+                        width: 100%;
+
+                        margin: 0 auto;
+                        display: block;
+                        overflow-x: auto;
+                        overflow-y: auto;
+                        white-space: nowrap;
+                        background-color: white;
+                        border-radius: 13px;
+                        padding: 10px;
+                        border: none;
+
+                            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);*/
     }
 
     .tableHeader {
-        border-right: 1px solid #E7DCD9;
         padding: 3px;
-        text-align: left;
-        vertical-align: middle;
-        height: 30px;
-        position: relative;
-        background-color: #385466;
-        font-weight: normal;
         color: #ffffff;
-        text-align: left;
-        width: 120px;
-        display: inline-block;
-        font-size: 16px;
+        padding-bottom: 25px;
+        font-weight: normal;
+        text-align: center;
+        border-left: 0px solid #E7DCD9;
+        /* border-right: 1px solid #E7DCD9;
+                        padding: 3px;
+                        text-align: left;
+                        vertical-align: middle;
+                        height: 30px;
+                        position: relative;
+                        background-color: #385466;
+                        font-weight: normal;
+                        color: #ffffff;
+                        text-align: left;
+                        width: 200px;
+                        display: inline-block;
+                        font-size: 16px;
+                        */
     }
 
     .appointmentTable td {
-        border-right: 1px solid #E7DCD9;
-        border-bottom: 1px solid #E7DCD9;
-        border-top: 1px solid #dbc8b6;
         padding: 10px;
+        height: 40px;
         text-align: center;
         vertical-align: middle !important;
-        width: 120px;
-        height: 120px;
         position: relative;
-        display: inline-block;
-        background-color: #F7F6EE;
+        padding-left: 15px;
+        padding-right: 15px;
+        border-left: 1px solid #E7DCD9;
+        /*
+                        border-right: 1px solid #E7DCD9;
+                        border-bottom: 1px solid #E7DCD9;
+                        border-top: 1px solid #dbc8b6;
+                        padding: 10px;
+
+                        width: 200px;
+                        height: 120px;
+
+                        display: inline-block;
+                            background-color: #F7F6EE;*/
     }
+
+    .data-row {
+        content: ''; /* 生成內容 */
+        /* position: absolute;   */
+        top: 50%; /* 垂直置中 */
+        left: 0; /* 從左邊開始 */
+        width: 85%; /* 寬度填滿整行 */
+        height: 1.8px; /* 線條高度 */
+        background-color: #E7DCD9 !important;
+        margin: auto;
+    }
+
 
     .event {
         position: absolute;
-        background-color: #FFFFFF;
-        color: #385466;
+        background-color: #0E4F43;
+        color: #D7F4EE;
         padding-left: 10px;
         padding-right: 10px;
         padding-top: 5px;
         padding-bottom: 10px;
-        border-radius: 5px;
+        border-radius: 10px;
         font-size: 0.9em;
-        box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
-        left: 5px;
-        right: -101%; /* 延伸到下一個單元格 */
+        box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.3);
+        width: 90%;
+        right: 0;
+        left: 0;
+        height: 96%; /* 延伸到下一個單元格 */
         z-index: 1;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
         cursor: pointer;
+        margin: auto;
+        display: flex;
     }
 
-    .doctor-td {
+    .outpatient-td {
         align-content: center !important;
-        text-align: center !important;
+        text-align: right !important;
         font-size: 16px;
+        width: 10%;
+        border: none !important;
     }
 
     .appointmentTime {
         margin-bottom: 5px;
+        text-align: left;
     }
 
     .treatmentItem {
@@ -91,17 +146,30 @@
         color: #385466;
         padding-left: 5px;
         padding-right: 5px;
+        height: auto;
+        margin: 2px;
     }
 
     .appointmentDetail {
         background-color: #F7F6EE;
         transition: .4s;
-        border-radius: 20px;
-        padding-top: 10px;
+        border-top-left-radius: 20px;
+        border-bottom-left-radius: 20px;
+        padding: 15px;
         margin: auto;
-        min-height: 300px;
         box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+        position: fixed;
+        top: 20%;
+        right: -300px;
+        width: 300px;
+        height: 75%;
+        background-color: white;
+        transition: right 0.3s ease-in-out;
     }
+
+        .appointmentDetail.show {
+            right: 0; /* 目標狀態，滑出到視窗內部 */
+        }
 
     .userinfo-sidebar {
         text-align: center;
@@ -126,28 +194,27 @@
     }
 
     #actualList label {
-        border-radius: 10px !important;
-        margin: 3px;
+        border-radius: 18px !important;
+        margin: 2px;
+        padding-top: 2px;
+        padding-bottom: 2px;
+        padding-left: 7px;
+        padding-right: 7px;
+        font-size: 12px;
     }
 
     .userinfo-item button {
-        background-color: #385466 !important;
-        color: #F7F6EE !important;
-        border-radius: 10px !important;
+        color: #D7F4EE !important;
+        border-radius: 15px !important;
     }
 
     .userinfo-item .gender, .userinfo-item .age {
-        background-color: #7B7373;
-        color: white;
-        border-radius: 10px;
-        margin-left: 10px;
-        margin-right: 10px;
-        padding-left: 20px;
-        padding-right: 20px;
+        line-height: 1;
+        padding-left: 10px;
+        padding-right: 10px;
     }
 
     .sidebarbtn {
-        background-color: #a9a9a9;
         border: none;
         margin: 2px;
         border-radius: 5px;
@@ -204,9 +271,9 @@
         position: absolute;
         top: 50%;
         left: -110%;
-        background-color: #d3d3d3;
+        background-color: #ffffff;
         padding: 20px;
-        border-radius: 10px;
+        border-radius: 18px;
         box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         width: 300px;
         transform: translateX(20px);
@@ -215,58 +282,59 @@
 
 
     /*.treatmentSelectMenu button {
-                    background-color: #385460 !important;
-                    color: #F7F6EE !important;
-                    border-radius: 10px !important;
-                }
+                                                                                background-color: #385460 !important;
+                                                                                color: #F7F6EE !important;
+                                                                                border-radius: 10px !important;
+                                                                            }
 
 
-            .appointmentDetail label {
-                background-color: #385466 !important;
-                color: #F7F6EE !important;
-                border-radius: 10px !important;
-            }
-               .treatmentSelectMenu  label {
-                background-color: #385466 !important;
-                color: #F7F6EE !important;
-                border-radius: 10px !important;
-            }
+                                                                        .appointmentDetail label {
+                                                                            background-color: #385466 !important;
+                                                                            color: #F7F6EE !important;
+                                                                            border-radius: 10px !important;
+                                                                        }
+                                                                           .treatmentSelectMenu  label {
+                                                                            background-color: #385466 !important;
+                                                                            color: #F7F6EE !important;
+                                                                            border-radius: 10px !important;
+                                                                        }
 
-            .treatmentSelectMenu label:focus,
-            .treatmentSelectMenu label:hover,
-            .treatmentSelectMenu label:active {
-                background-color: #2A3A4A !important;
-                color: #FFFFFF !important;
-            }
+                                                                        .treatmentSelectMenu label:focus,
+                                                                        .treatmentSelectMenu label:hover,
+                                                                        .treatmentSelectMenu label:active {
+                                                                            background-color: #2A3A4A !important;
+                                                                            color: #FFFFFF !important;
+                                                                        }
 
-            .treatmentSelectMenu label.selected {
-                background-color: #2A3A4A !important;
-                color: #FFFFFF !important;
-            }
-        .label-item, .treatment-item, actualTreatment-item {
-            margin-bottom: 10px !important;
-        }
+                                                                        .treatmentSelectMenu label.selected {
+                                                                            background-color: #2A3A4A !important;
+                                                                            color: #FFFFFF !important;
+                                                                        }
+                                                                    .label-item, .treatment-item, actualTreatment-item {
+                                                                        margin-bottom: 10px !important;
+                                                                    }
 
-        */
+                                                                    */
 
     .date-input {
-        width: 80px;
+        width: 200px;
         border: 1px solid #ccc;
-        border-radius: 13px;
-        padding-top: 3px;
-        padding-bottom: 3px;
-        padding-left: 3px;
+        border-radius: 18px;
+        padding-top: 8px;
+        padding-bottom: 8px;
+        padding-left: 8px;
         padding-right: 8px;
         margin-right: 5px;
         text-align: center;
-        font-size: 14px;
+        font-size: 16px;
         box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
         -moz-appearance: textfield; /* For Firefox */
+        margin: 2%;
     }
 
-        .date-input#currentMonth, .date-input#currentDay {
-            width: 50px;
-        }
+        /* .date-input#currentMonth, .date-input#currentDay {
+                                                                    width: 50px;
+                                                                } */
 
         .date-input::-webkit-inner-spin-button,
         .date-input::-webkit-outer-spin-button {
@@ -299,95 +367,371 @@
         background-color: #5BC2E7 !important;
         border: none;
     }
+
+    .datepicker {
+        border-radius: 10px;
+        padding: 20px;
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+
+    .datepicker-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+        .datepicker-header div {
+            cursor: pointer;
+            padding: 1px;
+        }
+
+            .datepicker-header div:hover {
+                background-color: #eee;
+            }
+
+        .datepicker-header span {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+    .datepicker-body {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 10px;
+    }
+
+        .datepicker-body div {
+            text-align: center;
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 100px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .datepicker-body .header {
+            font-weight: bold;
+            color: #666666;
+        }
+
+        .datepicker-body div:hover {
+            background-color: #eee;
+        }
+
+        .datepicker-body .disabled {
+            color: #ccc;
+            cursor: not-allowed;
+        }
+
+        .datepicker-body .availabel {
+            color: black;
+            cursor: pointer;
+        }
+
+            .datepicker-body .availabel:hover {
+                background-color: #bcbcbc;
+            }
+
+        .datepicker-body .selected {
+            background-color: #d9534f;
+            color: white;
+        }
+
+    .Doctor-Header {
+        padding: 10px;
+        background-color: #0E4F43 !important;
+        color: #D7F4EE;
+        width: 80%;
+        margin: auto;
+        border-radius: 10px;
+    }
+
+    .TableContener {
+        border-radius: 30px;
+    }
+
+    .appointmentTime {
+        padding: 3px;
+    }
+
+    .appointmentTimeDIV {
+        padding: 3px;
+        display: flex;
+        flex-direction: column;
+        overflow-y: scroll;
+    }
+
+        .appointmentTimeDIV::-webkit-scrollbar {
+            width: 0px;
+            background: transparent;
+        }
+
+    .btn-secondary {
+        background-color: #0E4F43;
+        color: #D7F4EE;
+        font-size: 12px;
+        border-radius: 18px !important;
+        margin: 2px;
+        padding-bottom: 3px;
+        padding-left: 7px;
+        padding-right: 7px;
+        font-size: 12px;
+    }
+
+    .btn-secondary {
+    }
+
+    .infoDIV {
+        display: flex;
+        margin-top: 5px;
+        text-align: center;
+    }
+
+    .AppointmentTitle {
+        background-color: #0E4F43;
+        color: #D7F4EE;
+        padding: 4px;
+        padding-left: 13px;
+        padding-right: 13px;
+        border-radius: 15px;
+        margin-right: 5px;
+        width: 90px;
+        text-align-last: justify;
+        font-size: 12px;
+    }
+
+    .AppointmentInf {
+        font-size: 15px;
+        text-align: center;
+        padding: 3px;
+    }
+
+    .NameDiv {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start
+    }
+
+    .btnWord {
+        font-size: 12px;
+        color: #0E4F43;
+        font-weight: 800;
+    }
+
+    .btnDIV {
+        display: flex;
+        flex-direction: column;
+        margin-left: 15px;
+        margin-right: 15px;
+    }
+
+    .btn-group-toggle {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+    }
+
+
+
+    -Inside
+    .searchInput {
+        border-radius: 5px;
+        border: 1px solid #E7DCD9;
+    }
+
+    #customerList {
+        display: none;
+        
+        height: 150px;
+        overflow-y: scroll;
+    }
+
+        #customerList::-webkit-scrollbar {
+            width: 0px;
+            background: transparent;
+        }
+
+    .TheModal {
+        border-radius: 15px;
+        background: #e9f7f7
+    }
+
+    #filters input{
+     
+       padding:3px;
+        border: none;
+    }
+
+    #filters td, filters tr{
+    padding:5px;
+    }
+
+    .Filters-Input{
+        border: 1px solid #0E4F43;
+        border-radius:25px;
+        padding: 1px;
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+    .rowTittle{
+        color: #0E4F43;
+        margin-bottom:10px;
+        padding-top: 30px;
+        font-weight:800;
+        padding-left:20px;
+        padding-right:20px;
+        padding-bottom:20px;
+    }
+
+    .row-custormer{
+    background-color:white;
+    text-align:justify;
+        display: flex;
+        align-items: center;
+        border-top-left-radius:5px;
+        border-top-right-radius: 5px;
+        box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+        padding:20px;
+    }
+
+    #customerList{
+        padding-left:75px;
+        padding-right:75px;
+    }
+
+    .customerAppointmentData{
+        box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+        background-color: #e9f7f2;
+        padding: 20px;
+        border-left: 1px solid #0E4F43;
+        margin-bottom:30px;
+        border-bottom-left-radius:5px;
+        border-bottom-right-radius: 5px;
+    }
+
+    .custormer-Info{
+    }
+
+        .custormer-Info:hover {
+        background-color: #f0f0f0; /* 鼠标悬停时的背景颜色 */
+    }
+
+    .custormer-Tittle{
+        margin-bottom:20px;
+        margin-left:0px;
+        margin-right: 0px;
+    }
 </style>
 
+<h3 class="container " style="text-align:start; margin:10px;">@ViewData["Title"]</h3>
+
 <div class="row">
-    <div class="col-9">
+    <div class="col-10 TableContener ">
         <div style="width:100%;align-items:center;text-align:center;font-size:16px;margin-bottom:10px;">
-            <input type="number" id="currentYear" class="date-input" min="1900" max="2100" />
+            <input type="text" id="currentDate" class="date-input" style="cursor:pointer;" data-toggle="modal" data-target="#calendarModal" />
+
+            <button class="btn btn-primary" style="background-color:transparent;border:none" data-toggle="modal" data-target="#searchModal"><img src="~/images/search_24dp_0E4F43 _FILL0_wght400_GRAD0_opsz24.png" style="width:30px;height:30px" /></button>
+            @* <input type="number" id="currentYear" class="date-input" min="1900" max="2100" />
             <label class="date-label" for="currentYear">年</label>
             <input type="number" id="currentMonth" class="date-input" min="1" max="12" />
             <label class="date-label" for="currentMonth">月</label>
             <input type="number" id="currentDay" class="date-input" min="1" max="31" />
             <label class="date-label" for="currentDay">日</label>
-            <button class="btn btn-primary" style="border:none; background-color:transparent; padding:0px;" onclick="refreshTable();"> <img src="~/images/refresh_24dp_4A707A_FILL0_wght400_GRAD0_opsz24.png" alt="Refresh" style="width:25px;height:25px; " /></button>
+            <button class="btn btn-primary" style="border:none; background-color:transparent; padding:0px;" onclick="refreshTable();"> <img src="~/images/refresh_24dp_4A707A_FILL0_wght400_GRAD0_opsz24.png" alt="Refresh" style="width:25px;height:25px; " /></button> *@
         </div>
         <table class="appointmentTable">
         </table>
     </div>
-    <div class="col-2 appointmentDetail" id="appointmentDetail">
+    <div class="col-3 appointmentDetail" id="appointmentDetail">
         <div class="userinfo-sidebar">
-            <h5 id="name">VIC</h5>
-            <div class="userinfo-item">
-                <div class="gender" id="gender">男</div>
-                <div class="age" id="age">29</div>
+            <div class="NameDiv">
+                <div style="display:flex ; justify-content:center;align-items:center;">
+                    <h5 style="font-weight:800" id="name"></h5>
+                    <button class="btn sidebarbtn" style="background-color:#ffffff" onclick="showEditCustomerInfoModal();"><img src="~/images/edit_square_16dp_666666_FILL0_wght400_GRAD0_opsz20.png" style="width:25px ; height:25px;" /></button>
+                </div>
+                <div class="userinfo-item">
+                    <div class="gender" style="border-right:1px solid #000000 ;padding-left: 0px;" id="gender"></div>
+                    <div class="age" id="age"></div>
+                </div>
             </div>
-
-            <div id="phone">電話號碼：0912345678</div>
-            <div id="birth">生日：1993/10/11</div>
-            <div id="email">電子郵件：asdfasf@asdfazxc.asdf</div>
-
+            <div class="infoDIV" id="medicalRecordNumber">病歷號：</div>
+            <div class="infoDIV" id="phone">電話號碼：</div>
+            <div class="infoDIV" id="birth">生日：</div>
+            <div class="infoDIV" id="email">電子郵件：</div>
+            <div class="infoDIV">
+                <div class="AppointmentTitle">未報到次數</div>
+                <div class="AppointmentInf">0</div>
+            </div>
             <div class="userinfo-item" style="margin-bottom:30px;">
-                <button class="btn sidebarbtn" style="background-color:#385466;color:#F7F6EE; border-radius:10px;" onclick="showEditCustomerInfoModal();">編輯</button>
             </div>
 
             <div class="userinfo-item">
 
-                <div id="editAppointment">
-                    <button class="btn sidebarbtn">修改預約</button>
+                <div class="btnDIV" id="editAppointment">
+                    <button class="btn sidebarbtn"></button>
+                    <span>修改預約</span>
                 </div>
 
-                <div id="cancelAppointment">
-                    <button class="btn sidebarbtn" style="background-color:#385466;color:#F7F6EE; border-radius:10px;" onclick="appointmentCancel();">取消預約</button>
+                <div class="btnDIV" id="cancelAppointment">
+                    <button class="btn sidebarbtn" onclick="appointmentCancel();"><img src="/images/event_busy_24dp_0E4F43_FILL0_wght400_GRAD0_opsz24.png" style="width:30px;height:30px" /></button>
+                    <span class="btnWord">取消預約</span>
                 </div>
-            </div>
 
-            <div class="userinfo-item">
-                <div id="checkIn">
+                <div class="btnDIV" id="checkIn">
                 </div>
+
             </div>
 
-            <div class="userinfo-item">
 
-                <span class="missed">未報到次數:0</span>
-            </div>
 
-            <div class="userinfo-item" style="margin-top:30px;">
-                <span>實際施作項目</span>
+
+
+            <div class="userinfo-item" style="margin-top:30px;justify-content: left;">
+                <span style="font-weight:800;font-size:large;">實際施作項目</span>
             </div>
 
             <div class="userinfo-item">
                 <div id="actualList" class="btn-group-toggle" data-toggle="buttons">
                     <label class="btn btn-secondary btn-checkbox label-item" style="cursor:pointer; border-radius:13px;">
-                        <input type="checkbox" name="lables" id="dfg" value="sdfg" autocomplete="off">xcvbsdg
+                        <input type="checkbox" name="labels" id="dfg" value="sdfg" autocomplete="off">xcvbsdg
                         <input type="hidden" id="xcvb" value="sdfgxcb" />
                     </label>
                 </div>
             </div>
 
             <button class="btn btn-primary" onclick="showTreatmentSelectMenu();" style="font-size: 14px; background-color:transparent; border:none;">
-                <img src="/images/add_circle_16dp_049FBF_FILL0_wght400_GRAD0_opsz20.png" style="width:40px;height:40px ;" \>
+                <img src="/images/add_circle_24dp_0E4F43_FILL0_wght400_GRAD0_opsz24.png" style="width:40px;height:40px ;" \>
             </button>
 
             <div class="treatmentSelectMenu" id="treatmentSelectMenu">
-                <h6>標籤列表</h6>
-                <div id="lableList" class="btn-group-toggle" data-toggle="buttons">
+                <div style="display:flex">
+                    <span style="font-weight: 800;font-size: large; margin:15px">標籤列表</span>
+                </div>
+                <div id="labelList" class="btn-group-toggle" style="display: inline-block; justify-content:start;" data-toggle="buttons">
+
                     @{
                         int i = 0;
                     }
 
-                    @foreach (var lable in Model.LableList)
+                    @foreach (var label in Model.LabelList)
                     {
                         i++;
 
                         <label class="btn btn-secondary btn-checkbox label-item" style="cursor:pointer;margin:3px; border-radius:13px;">
-                            <input type="checkbox" name="lables" id="@lable.LableId" value="@lable.LableId" autocomplete="off">@lable.LableName
-                            <input type="hidden" id="tl-@i" value="@lable.TreatmentIdList" />
+                            <input type="checkbox" name="labels" id="@label.LabelId" value="@label.LabelId" autocomplete="off">@label.LabelName
+                            <input type="hidden" id="tl-@i" value="@label.TreatmentIdList" />
                         </label>
                     }
+
                 </div>
-                <h6 style="margin-top:30px">療程列表</h6>
-                <div id="treatmentList" class="btn-group-toggle" data-toggle="buttons">
+                <div style="display:flex">
+                    <span style="font-weight: 800;font-size: large;margin:15px">療程列表</span>
+                </div>
+                <div id="treatmentList" class="btn-group-toggle" style="display: inline-block;" data-toggle="buttons">
                     @foreach (var treatment in Model.TreatmentList)
                     {
                         <label class="btn btn-secondary btn-checkbox treatment-item" style="cursor:pointer;margin:3px; border-radius:13px;">
@@ -396,7 +740,7 @@
                     }
                 </div>
                 <p></p>
-                <button class="btn btn-primary" style="cursor:pointer;margin:3px; border-radius:13px;" onclick="saveSelectedTreatment();">確定</button>
+                <button class="btn btn-primary" style="cursor:pointer;margin:3px; border:none; background-color:transparent" onclick="saveSelectedTreatment();">  <img src="/images/select_check_box_24dp_0E4F43 _FILL0_wght400_GRAD0_opsz24.png" style="width:25px;height:25px ;" \></button>
             </div>
 
         </div>
@@ -405,14 +749,18 @@
 
 <div class="modal fade" id="editCustomerInfoModal" tabindex="-1" aria-labelledby="ModalInfo" aria-hidden="true">
     <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
+        <div class="modal-content TheModal">
+            <div class="modal-header" >
                 <h5 class="modal-title" id="ModalTitle">編輯客戶資料</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
+                <div class="form-group">
+                    <label for="customerMedicalRecordNumber">病歷號：</label>
+                    <input type="text" class="form-control" id="customerMedicalRecordNumber" required>
+                </div>
                 <div class="form-group">
                     <label for="customerName">客戶名稱：</label>
                     <input type="text" class="form-control" id="customerName" required>
@@ -426,13 +774,67 @@
                     <input type="date" class="form-control" id="customerBirth" required>
                 </div>
                 <div class="form-group">
-                    <label for="customerEmail">電子郵件：</label>
+                    <label for="customerEmail">電子郵件</label>
                     <input type="text" class="form-control" id="customerEmail" required>
                 </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
-                <button type="button" class="btn btn-primary" id="submitBtn" onclick="editCustomerInfo();">送出</button>
+                <button type="button" class="btn btn-secondary" id="submitBtn" onclick="editCustomerInfo();">儲存</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 日期選擇的Modal -->
+<div id="calendarModal" class="modal fade" tabindex="-1" aria-labelledby="calendarModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content datepicker">
+            <div class="modal-header datepicker-header">
+                <div id="prevMonth">&lt;</div>
+                <span id="monthYear"></span>
+                <div id="nextMonth">&gt;</div>
+            </div>
+            <div class="modal-body datepicker-body" id="calendar"></div>
+            <div class="modal-footer">
+                <button type="button" style="background-color:#ffffff ; border:none;" class="btn btn-secondary" data-dismiss="modal"> <img src="~/images/close_fullscreen_24dp_0E4F43 _FILL0_wght400_GRAD0_opsz24.png" style="width:30px;height:30px" /></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="searchModal" class="modal fade" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+        <div class="modal-content TheModal">
+            <div class="modal-header" style="display:block !important;padding-top:30px;padding-left:30px;border-radius:15px;box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);background-color:white">
+                <h5 class="modal-title"style="font-weight:800">搜尋預約資料</h5>
+                <p></p>
+                <div id="filters" style="display:flex;justify-content:left;padding-left:30px; ">
+                    <table>
+
+                        <tr>
+                            <td><div class="Filters-Input"><img src="~/images/search_24dp_0E4F43 _FILL0_wght400_GRAD0_opsz24.png" style="width:20px;height:20px" /><input class="searchInput" type="text" id="searchCustomerName" placeholder="請輸入姓名" style="width:120px;" /></div></td>
+                            <td><div class="Filters-Input"><img src="~/images/search_24dp_0E4F43 _FILL0_wght400_GRAD0_opsz24.png" style="width:20px;height:20px" /><input class="searchInput" type="text" id="searchCustomerPhone" placeholder="請輸入手機" style="width:120px;" /></div></td>
+                            <td><div class="Filters-Input"><img src="~/images/search_24dp_0E4F43 _FILL0_wght400_GRAD0_opsz24.png" style="width:20px;height:20px" /><input class="searchInput" type="date" id="searchCustomerBirth" placeholder="請輸入生日" style="width:120px;" /></div></td>
+                            <td>
+                                <button class="btn btn-primary" style=" background-color: #0E4F43 !important; color: #D7F4EE; border-radius:25px ; border:none;" onclick="searchCustomer();">
+                                    搜尋
+                                </button>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-body">
+                @* <h5 class="modal-title"></h5> *@
+
+                @* <p></p> *@
+                <div id="customerList" style="height:100%"></div>
+                @* <p></p>
+                <div id="appointmentList" style="display:none;"></div> *@
+            </div>
+            <div class="modal-footer" style="margin-top:30px;">
+                <button type="button" style="background-color:#ffffff ; border:none;" class="btn btn-secondary" data-dismiss="modal"><img src="~/images/close_fullscreen_24dp_0E4F43 _FILL0_wght400_GRAD0_opsz24.png" style="width:25px;height:25px" /></button>
             </div>
         </div>
     </div>
@@ -445,29 +847,112 @@
     let currentYear = today.getFullYear();
     let currentMonth = today.getMonth();
     let currentDay = today.getDate();
+    let selectedDate = null;
 
     $(document).ready(function () {
         init();
 
         function init() {
-            $('#currentYear').val(currentYear);
-            $('#currentMonth').val(currentMonth + 1);
-            $('#currentDay').val(currentDay);
+            // $('#currentYear').val(currentYear);
+            // $('#currentMonth').val(currentMonth + 1);
+            // $('#currentDay').val(currentDay);
+
+            $('#currentDate').val(currentYear + "-" + (currentMonth + 1) + "-" + currentDay);
 
             setAppointmentTable(currentYear, currentMonth, currentDay);
         }
 
-        $('.appointmentTable').on('mousewheel', function (event) {
-            if (event.originalEvent.deltaY) {
-                this.scrollLeft += (event.originalEvent.deltaY > 0 ? 1 : -1) * 100;
-                event.preventDefault();
-            }
-        });
+        // $('.appointmentTable').on('mousewheel', function (event) {
+        //     if (event.originalEvent.deltaY) {
+        //         this.scrollLeft += (event.originalEvent.deltaY > 0 ? 1 : -1) * 100;
+        //         event.preventDefault();
+        //     }
+        // });
 
         $("label.label-item").click(function () {
             $(this).toggleClass("active");
             setTimeout(setTreatmentList, 0);
         });
+    });
+
+    const monthNames = ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"];
+    const daysOfWeek = ["日", "一", "二", "三", "四", "五", "六"];
+
+    function generateCalendar(year, month) {
+        const monthYear = $('#monthYear');
+        const calendar = $('#calendar');
+        calendar.empty();
+
+        let firstDay = new Date(year, month).getDay();
+        let daysInMonth = 32 - new Date(year, month, 32).getDate();
+
+        monthYear.text(`${monthNames[month]} ${year}`);
+
+        for (let day of daysOfWeek) {
+            let dayElement = $('<div>').text(day).addClass('header');
+            calendar.append(dayElement);
+        }
+
+        for (let i = 0; i < firstDay; i++) {
+            let emptyCell = $('<div>');
+            calendar.append(emptyCell);
+        }
+
+        for (let date = 1; date <= daysInMonth; date++) {
+            let dateElement = $('<div>').text(date);
+
+            let dateToCheck = new Date(year, month, date);
+            let dateString = `${year}-${String(month + 1).padStart(2, '0')}-${String(date).padStart(2, '0')}`;
+
+            dateElement.data('date', dateString);
+            dateElement.addClass('availabel');
+
+            // 添加點擊事件
+            dateElement.on('click', function () {
+                if (selectedDate) {
+                    selectedDate.removeClass('selected');
+                }
+                dateElement.addClass('selected');
+                selectedDate = dateElement;
+
+                // 更新 input 的值
+                $('#currentDate').val(dateString);
+                // 隱藏 modal
+                $('#calendarModal').modal('hide');
+
+                refreshTable();
+            });
+
+            calendar.append(dateElement);
+        }
+    }
+
+    function updateCalendar() {
+        generateCalendar(currentYear, currentMonth);
+    }
+
+    $('#prevMonth').on('click', function () {
+        if (currentMonth === 0) {
+            currentMonth = 11;
+            currentYear--;
+        } else {
+            currentMonth--;
+        }
+        updateCalendar();
+    });
+
+    $('#nextMonth').on('click', function () {
+        if (currentMonth === 11) {
+            currentMonth = 0;
+            currentYear++;
+        } else {
+            currentMonth++;
+        }
+        updateCalendar();
+    });
+
+    $('#calendarModal').on('shown.bs.modal', function () {
+        updateCalendar();
     });
 
     function appointmentOnClick(appointmentId) {
@@ -486,33 +971,39 @@
                 $('#name').html(data.customerData.name);
                 $('#customerName').val(data.customerData.name);
 
-                $('#phone').html("電話號碼：" + data.customerData.cellPhone);
+                $('#medicalRecordNumber').html("<div class=\"AppointmentTitle\">" + "病歷號" + "</div>" + "<div class=\"AppointmentInf\">" + data.customerData.medicalRecordNumber + "</div>");
+                $('#customerMedicalRecordNumber').val(data.customerData.medicalRecordNumber);
+
+                $('#phone').html("<div class=\"AppointmentTitle\">" + "電話號碼" + "</div>" + "<div class=\"AppointmentInf\">" + data.customerData.cellPhone + "</div>");
                 $('#customerCellPhone').val(data.customerData.cellPhone);
 
-                $('#birth').html("生日：" + data.customerData.birthday);
+                $('#birth').html("<div class=\"AppointmentTitle\">" + "生日" + "</div>" + "<div class=\"AppointmentInf\">" + data.customerData.birthday + "</div>");
                 $('#customerBirth').val(data.customerData.birthday);
 
-                $('#email').html("電子郵件：" + data.customerData.email);
+                $('#email').html("<div class=\"AppointmentTitle\">" + "電子郵件" + "</div>" + "<div class=\"AppointmentInf\">" + data.customerData.email + "</div>");
                 $('#customerEmail').val(data.customerData.email);
 
 
                 if (data.checkIn == "Y") {
-                    $('#checkIn').html('<button class="btn sidebarbtn" disabled>已報到</button>');
+                    $('#checkIn').html('<button class="btn sidebarbtn" disabled><img src="/images/check_box_24dp_434343_FILL0_wght400_GRAD0_opsz24.png" style="width:30px;height:30px;"/></button> <span class="btnWord">已報到</span>');
                 } else {
-                    $('#checkIn').html('<button class="btn sidebarbtn" onclick="appointmentCheckIn();">預約報到</button>');
+                    $('#checkIn').html('<button class="btn sidebarbtn" onclick="appointmentCheckIn();"><img src="/images/check_box_24dp_0E4F43_FILL0_wght400_GRAD0_opsz24.png" style="width:30px;height:30px;"/></button> <span class="btnWord">現場報到</span>');
                 }
 
-                $('#editAppointment').html('<button class="btn sidebarbtn" onclick="editAppointment();">修改預約</button>');
+                $('#editAppointment').html('<button class="btn sidebarbtn" onclick="editAppointment();"><img src="/images/event_repeat_24dp_0E4F43_FILL0_wght400_GRAD0_opsz24.png" style="width:30px;height:30px;"/></button > <span class="btnWord">修改時段</span>');
 
                 let inner = ``;
                 data.actualTreatmentData.forEach(function (x) {
                     inner += `<label class="btn btn-secondary btn-checkbox actualTreatment-item" style="cursor:pointer;">`;
-                    inner += `<input type="checkbox" name="lables" autocomplete="off">` + x.treatmentName;
+                    inner += `<input type="checkbox" name="labels" autocomplete="off">` + x.treatmentName;
                     inner += `</label>`;
                 });
                 $('#actualList').html(inner);
 
                 $('.userinfo-sidebar').show();
+
+                             /*新增*/   document.getElementById('appointmentDetail').classList.add('show');
+
             }
         });
     }
@@ -529,6 +1020,7 @@
 
     function editCustomerInfo() {
         let id = $('#selectedAppointment').val();
+        let customerMedicalRecordNumber = $('#customerMedicalRecordNumber').val();
         let customerName = $('#customerName').val();
         let customerCellPhone = $('#customerCellPhone').val();
         let customerBirth = $('#customerBirth').val();
@@ -538,9 +1030,9 @@
             type: "POST",
             url: "/Home/editCustomerInfo",
             datatype: "json",
-            data: { "appointmentId": id, "customerName": customerName, "customerCellPhone": customerCellPhone, "customerBirth": customerBirth, "customerEmail": customerEmail },
+            data: { "appointmentId": id, "customerMedicalRecordNumber": customerMedicalRecordNumber, "customerName": customerName, "customerCellPhone": customerCellPhone, "customerBirth": customerBirth, "customerEmail": customerEmail },
             success: function (data) {
-                console.log("Create lable successful.");
+                console.log("Create label successful.");
 
                 $('#editCustomerInfoModal').modal('hide');
                 appointmentOnClick(id);
@@ -561,37 +1053,39 @@
                 let innerHTML = ``;
                 let outpatientCount = data.outpatientTimeDatas.length;
 
-                //設定table header
+                // 設定每位醫師的表頭
                 innerHTML += `<tr>`;
                 innerHTML += `<th class="tableHeader"></th>`;
-                if (data.outpatientTimeDatas.length > 0) {
-                    data.outpatientTimeDatas.forEach(function (item) {
-                        innerHTML += `<th class="tableHeader">` + item.beginTime + `</th>`;
-                    });
-                } else
-                    innerHTML += `<th class="tableHeader"></th>`;
+                data.doctorDatas.forEach(function (item) {
+                    innerHTML += `<th class="tableHeader"><div class="Doctor-Header">` + item.doctorName + `</div></th>`;
+                });
                 innerHTML += `</tr>`;
 
-                //設定醫師門診資料
-                data.doctorDatas.forEach(function (item) {
-                    innerHTML += `<tr>`;
-                    innerHTML += `<td class="doctor-td">` + item.doctorName + `</td>`;
+                //設定門診時段資料
 
-                    //醫師各個時段的格子
-                    if (data.outpatientTimeDatas.length > 0) {
-                        data.outpatientTimeDatas.forEach(function (x) {
-                            innerHTML += `<td id="` + item.doctorId + `-` + x.beginTime.toString().replace(':', '') + `"></td>`;
+                if (data.outpatientTimeDatas.length > 0) {
+                    data.outpatientTimeDatas.forEach(function (item) {
+                        innerHTML += `<tr>`;
+                        innerHTML += `<td class="outpatient-td ">` + item.beginTime + `</td>`;
+
+                        data.doctorDatas.forEach(function (x) {
+                            innerHTML += `<td  id="` + x.doctorId + `-` + item.beginTime.toString().replace(':', '') + `"><div class="data-row"></div></td>`;
                         });
-                    }
-                    else
-                        innerHTML += `<td style="">本日無門診</td>`;
+                        innerHTML += `</tr>`;
+                    });
+                } else {
+                    innerHTML += `<tr>`;
+                    innerHTML += `<td class="outpatient-td "></td>`;
 
+                    data.doctorDatas.forEach(function (item) {
+                        innerHTML += `<td style="">本日無門診</td>`;
+                    });
                     innerHTML += `</tr>`;
-                });
+                }
 
                 appointmentTable.html(innerHTML);
 
-                //取得預約資料並設定
+                // 取得預約資料並設定
                 $.ajax({
                     type: 'POST',
                     url: '/Home/SetAppointmentData',
@@ -601,15 +1095,17 @@
                         console.log(data);
 
                         data.forEach(function (item) {
-                            let tdName = $('#' + item.doctorId + '-' + item.bookingBeginTime.toString().replace(':', '') + '')
+                            let tdName = $('#' + item.doctorData.doctorId + '-' + item.bookingBeginTime.toString().replace(':', '') + '')
                             let divHTML = ``;
 
-                            divHTML += `<div class="event" onclick="appointmentOnClick('` + item.appointmentId + `');" style="right:` + (-101) * (item.timeUnitCount - 1) + `%">`;
+                            divHTML += `<div class="event" onclick="appointmentOnClick('` + item.appointmentId + `');" style="height:` + (96) * (item.timeUnitCount) + `%">`;
 
-                            divHTML += `<div class="appointmentTime"><p>` + item.bookingBeginTime + `-` + item.bookingEndTime + `</p><p> 姓名:` + item.customerData.name + `-` + item.customerData.gender + `</p></div>`;
+                            divHTML += `<div class="appointmentTime">` + item.bookingBeginTime + `-` + item.bookingEndTime + `<br />病歷號:` + item.customerData.medicalRecordNumber + `<br /><p> 姓名:` + item.customerData.name + `-` + item.customerData.gender + `</p></div>`;
+                            divHTML += `<div class="appointmentTimeDIV">`;
                             item.treatmentData.forEach(function (x) {
                                 divHTML += `<div class="treatmentItem">` + x.treatmentName + `</div>`;
                             });
+                            divHTML += `</div>`;
                             divHTML += `</div>`;
 
                             tdName.html(divHTML);
@@ -620,20 +1116,93 @@
         });
     }
 
+    // function setAppointmentTable(currentYear, currentMonth, currentDay) {
+    //     $.ajax({
+    //         type: 'POST',
+    //         url: '/Home/SetAppointmentTable',
+    //         datatype: "json",
+    //         data: { "currentYear": currentYear, "currentMonth": currentMonth + 1, "currentDay": currentDay },
+    //         success: function (data) {
+    //             console.log(data)
+    //             let appointmentTable = $('.appointmentTable');
+    //             let innerHTML = ``;
+    //             let outpatientCount = data.outpatientTimeDatas.length;
+
+    //             設定table header
+    //             innerHTML += `<tr>`;
+    //             innerHTML += `<th class="tableHeader"></th>`;
+    //             if (data.outpatientTimeDatas.length > 0) {
+    //                 data.outpatientTimeDatas.forEach(function (item) {
+    //                     innerHTML += `<th class="tableHeader">` + item.beginTime + `</th>`;
+    //                 });
+    //             } else
+    //                 innerHTML += `<th class="tableHeader"></th>`;
+    //             innerHTML += `</tr>`;
+
+    //             設定醫師門診資料
+    //             data.doctorDatas.forEach(function (item) {
+    //                 innerHTML += `<tr>`;
+    //                 innerHTML += `<td class="doctor-td">` + item.doctorName + `</td>`;
+
+    //                 醫師各個時段的格子
+    //                 if (data.outpatientTimeDatas.length > 0) {
+    //                     data.outpatientTimeDatas.forEach(function (x) {
+    //                         innerHTML += `<td id="` + item.doctorId + `-` + x.beginTime.toString().replace(':', '') + `"></td>`;
+    //                     });
+    //                 }
+    //                 else
+    //                     innerHTML += `<td style="">本日無門診</td>`;
+
+    //                 innerHTML += `</tr>`;
+    //             });
+
+    //             appointmentTable.html(innerHTML);
+
+    //             取得預約資料並設定
+    //             $.ajax({
+    //                 type: 'POST',
+    //                 url: '/Home/SetAppointmentData',
+    //                 datatype: "json",
+    //                 data: { "currentYear": currentYear, "currentMonth": currentMonth + 1, "currentDay": currentDay },
+    //                 success: function (data) {
+    //                     console.log(data);
+
+    //                     data.forEach(function (item) {
+    //                         let tdName = $('#' + item.doctorId + '-' + item.bookingBeginTime.toString().replace(':', '') + '')
+    //                         let divHTML = ``;
+
+    //                         divHTML += `<div class="event" onclick="appointmentOnClick('` + item.appointmentId + `');" style="right:` + (-101) * (item.timeUnitCount - 1) + `%">`;
+
+    //                         divHTML += `<div class="appointmentTime">` + item.bookingBeginTime + `-` + item.bookingEndTime + `<br />病歷號:` + item.customerData.medicalRecordNumber + `<br /><p> 姓名:` + item.customerData.name + `-` + item.customerData.gender + `</p></div>`;
+    //                         item.treatmentData.forEach(function (x) {
+    //                             divHTML += `<div class="treatmentItem">` + x.treatmentName + `</div>`;
+    //                         });
+    //                         divHTML += `</div>`;
+
+    //                         tdName.html(divHTML);
+    //                     });
+    //                 }
+    //             });
+    //         }
+    //     });
+    // }
+
     function appointmentCheckIn() {
         let Id = $('#selectedAppointment').val();
 
-        $.ajax({
-            type: 'POST',
-            url: '/Home/appointmentCheckIn',
-            datatype: "json",
-            data: { "appointmentId": Id },
-            success: function (data) {
-                console.log("Check in success.");
+        if (confirm("確定要設定此筆預約資料為已報到?")) {
+            $.ajax({
+                type: 'POST',
+                url: '/Home/appointmentCheckIn',
+                datatype: "json",
+                data: { "appointmentId": Id },
+                success: function (data) {
+                    console.log("Check in success.");
 
-                $('#checkIn').html('<button class="btn sidebarbtn" disabled>已報到</button>');
-            }
-        });
+                    $('#checkIn').html('<button class="btn sidebarbtn" disabled><img src="/images/check_box_24dp_434343_FILL0_wght400_GRAD0_opsz24.png" style="width:30px;height:30px;"/></button> <span class="btnWord">已報到</span></button>');
+                }
+            });
+        }
     }
 
     function editAppointment() {
@@ -706,21 +1275,208 @@
                 if ($('#treatmentSelectMenu'))
                     $('#treatmentSelectMenu').toggle();
 
-                appointmentOnClick(Id)
+                appointmentOnClick(Id);
             }
         });
     }
 
     function refreshTable() {
-        currentYear = $('#currentYear').val();
-        currentMonth = parseInt($('#currentMonth').val() - 1);
-        currentDay = $('#currentDay').val();
+        let [year, month, day] = $('#currentDate').val().split('-');
 
-        console.log(currentYear);
-        console.log(currentMonth);
-        console.log(currentDay);
+        currentYear = parseInt(year);
+        currentMonth = parseInt(month - 1);
+        currentDay = parseInt(day);
 
         setAppointmentTable(currentYear, currentMonth, currentDay);
+    }
+
+    function searchCustomer() {
+        let searchCustomerName = $('#searchCustomerName').val();
+        let searchCustomerPhone = $('#searchCustomerPhone').val();
+        let searchCustomerBirth = $('#searchCustomerBirth').val();
+
+        //都沒有輸入資料
+        if (searchCustomerName == "" & searchCustomerPhone == "" && searchCustomerBirth == "") {
+            alert("請至少輸入一項條件!");
+            return false;
+        }
+
+        $.ajax({
+            type: 'POST',
+            url: '/Home/getCustomerForIndexSearch',
+            datatype: "json",
+            data: { "searchCustomerName": searchCustomerName, "searchCustomerPhone": searchCustomerPhone, "searchCustomerBirth": searchCustomerBirth },
+            success: function (data) {
+                console.log(data);
+
+                let inner = ``;
+
+                inner += `<h5 class="modal-title"></h5>`;
+
+                if (data.length > 0) {
+                    inner += `<div class="row rowTittle" style="margin:0px;">`;
+                    inner += `<div class="col-2" style="padding:0px;">姓名</div>`;
+                    inner += `<div class="col-2" style="padding:0px;">身分證字號</div>`;
+                    inner += `<div class="col-2" style="padding:0px;">手機號碼</div>`;
+                    inner += `<div class="col-2" style="padding:0px;">病歷號</div>`;
+                    inner += `<div class="col-2" style="padding:0px;">生日</div>`;
+                    inner += `<div class="col-2" style="padding:0px;">email</div>`;
+                   
+                    inner += `</div>`;
+
+                    //顧客資料
+                    let i = 0;
+                    data.forEach(function (item) {
+                        i++;
+
+                        inner += `<div class="row row-custormer " onclick="showCustomerAppointment('` + i + `');" style="cursor:pointer;margin:0px;">`;
+                        inner += `<div class="col-2" style="padding:0px;">` + item.name + `</div>`;
+                        inner += `<div class="col-2" style="padding:0px;">` + item.nationalIdNumber + `</div>`;
+                        inner += `<div class="col-2" style="padding:0px;">` + item.cellPhone + `</div>`;
+                        inner += `<div class="col-2" style="padding:0px;">` + item.medicalRecordNumber + `</div>`;
+                        inner += `<div class="col-2" style="padding:0px;">` + item.birthday + `</div>`;
+                        inner += `<div class="col-2" style="padding:0px;">` + item.email + `</div>`;
+                        inner += `</div>`;
+
+                        //預約資料
+                        inner += `<div class="customerAppointmentData" id="Detail-` + i + `" style="display:none;height:100%;">`;
+
+                        //標頭
+                        inner += `<div class="row custormer-Tittle "  style="color:#858585">`;
+                        inner += `<div class="col-2">預約日期</div>`;
+                        inner += `<div class="col-2">預約時間</div>`;
+                        inner += `<div class="col-2">預約醫師</div>`;
+                        inner += `<div class="col-1"></div>`;
+                        inner += `</div>`;
+
+                        //資料
+                        if (item.appointmentData.length > 0) {
+                            item.appointmentData.forEach(function (x) {
+                                inner += `<div class="row custormer-Info" style="margin:0px;padding-top:10px;padding-bottom:10px;cursor:pointer;" onclick="showAppointmentDetail('` + x.appointmentId + `','` + x.date + `');">`;
+                                inner += `<div class="col-2">` + x.date + `</div>`;
+                                inner += `<div class="col-2">` + x.bookingBeginTime + `</div>`;
+                                inner += `<div class="col-2">` + x.doctorData.doctorName + `</div>`;
+                                inner += `<div class="col-6"></div>`;
+                                inner += `</div>`;
+                            })
+                        } else {
+                            inner += `<div class="row">`;
+                            inner += `目前無預約資料`;
+                            inner += `</div>`;
+                        }
+
+                    });
+
+
+
+
+                    // inner += `<table style="width:100%">`;
+                    // inner += `<tr>`;
+                    // inner += `<th>姓名</th>`;
+                    // inner += `<th>身分證字號</th>`;
+                    // inner += `<th>手機號碼</th>`;
+                    // inner += `<th>病歷號</th>`;
+                    // inner += `<th>生日</th>`;
+                    // inner += `<th>email</th>`;
+                    // inner += `<th></th>`;
+                    // inner += `</tr>`;
+
+                    // let i = 0;
+                    // data.forEach(function (item) {
+                    //     i++;
+
+                    //     inner += `<tr>`;
+                    //     inner += `<td>` + item.name + `</td>`;
+                    //     inner += `<td>` + item.nationalIdNumber + `</td>`;
+                    //     inner += `<td>` + item.cellPhone + `</td>`;
+                    //     inner += `<td>` + item.medicalRecordNumber + `</td>`;
+                    //     inner += `<td>` + item.birthday + `</td>`;
+                    //     inner += `<td>` + item.email + `</td>`;
+                    //     inner += `<td><button class="btn btn-primary" style="background-color: #ffffff;border: none;" onclick="showCustomerAppointment('` + i + `');"><img src="/images/more_24dp_0E4F43 _FILL0_wght400_GRAD0_opsz24.png" style="width:30px;height:30px"></button</td>`;
+                    //     inner += `</tr>`;
+
+                    //     //預約資料
+
+                    // });
+
+                    // inner += `</table>`;
+                } else {
+                    inner += `查無符合條件之顧客`;
+                }
+
+                $('#customerList').html(inner);
+                $('#customerList').show();
+            }
+        });
+    }
+
+    function showCustomerAppointment(i) {
+        $('#Detail-' + i).toggle();
+    }
+
+    // function getCustomerAppointment(id) {
+    //     $.ajax({
+    //         type: 'POST',
+    //         url: '/Home/getCustomerAppointment',
+    //         datatype: "json",
+    //         data: { "id": id },
+    //         success: function (data) {
+    //             console.log(data);
+
+    //             let inner = ``;
+
+    //             inner += `<h5 class="modal-title"></h5>`;
+
+    //             if (data.length > 0) {
+    //                 // inner += `<div class="row">`;
+
+    //                 // inner += `<div class="col-9">`;
+    //                 inner += `<table style="width:100%">`;
+    //                 inner += `<tr>`;
+    //                 inner += `<th>日期</th>`;
+    //                 inner += `<th>預約時間</th>`;
+    //                 inner += `<th>醫師名稱</th>`;
+    //                 inner += `<th></th>`;
+    //                 inner += `</tr>`;
+
+    //                 data.forEach(function (item) {
+    //                     inner += `<tr>`;
+    //                     inner += `<td>` + item.date + `</td>`;
+    //                     inner += `<td>` + item.bookingBeginTime + `</td>`;
+    //                     inner += `<td>` + item.doctorData.doctorName + `</td>`;
+    //                     inner += `<td><button class="btn btn-primary" style="background-color: #ffffff;border: none;" onclick="showAppointmentDetail('` + item.appointmentId + `','` + item.date + `');"><img src="/images/event_upcoming_24dp_0E4F43 _FILL0_wght400_GRAD0_opsz24.png" style="width:25px;height:25px"></button</td>`;
+    //                     inner += `</tr>`;
+    //                 });
+
+    //                 inner += `</table>`;
+    //             } else {
+    //                 inner += `目前該顧客無預約資料`;
+    //             }
+
+    //             $('#appointmentList').html(inner);
+    //             $('#appointmentList').show();
+    //         }
+    //     });
+    // }
+
+    function showAppointmentDetail(id, date) {
+        appointmentOnClick(id);
+        $('#searchModal').modal('hide');
+
+        //設定該天日期
+        $('#currentDate').val(date);
+        refreshTable();
+
+        //清空資料
+        $('#searchCustomerName').val("");
+        $('#searchCustomerPhone').val("");
+        $('#searchCustomerBirth').val("");
+
+        $('#customerList').html("");
+        $('#customerList').hide();
+
+        $('#appointmentList').html("");
+        $('#appointmentList').hide();
     }
 
 

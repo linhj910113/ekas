@@ -5,6 +5,31 @@
 }
 
 <style>
+    .colorPicker{
+        border: none;
+        background-color: #ffffff;
+        width: 40px;
+        height: 40px;
+        display: block;
+        border-radius: 90px !important;
+        margin-left: 10px;
+        
+    }
+
+        .colorPicker::-webkit-color-swatch-wrapper {
+            padding: 0;
+            border-radius: 50%; /* 設置圓角 */
+        }
+
+        .colorPicker::-webkit-color-swatch {
+            border: none;
+            border-radius: 50%; /* 設置圓角 */
+        }
+    .sidebar, .right-panel {
+        margin: 15px;
+        padding: 30px;
+        border-radius: 15px;
+    }
     #imageName {
         margin-left: 10px;
     }
@@ -13,12 +38,13 @@
         margin: 5px;
     }
 
-    .active{
-    background-color:#5BC2E7!important;
-    border:none;
+    .active {
+        background-color: #5BC2E7 !important;
+        border: none;
     }
+
     .add-sidebaritem {
-        background-color: #ffffff;
+        
         color: #5e1a1a;
         border: none;
         border-radius: 50%;
@@ -36,33 +62,79 @@
         width: 50% !important;
         margin-left: 15px !important;
     }
+
+    .selectable {
+        position: relative;
+        display: inline-block;
+        margin-top: 5px;
+        background: #0E4F43;
+        color: #D7F4EE;
+        border-radius: 15px;
+        overflow: hidden;
+        margin: 10px;
+        box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.2);
+    }
+
+        .selectable img {
+            width: 100px; /* 設置圖片寬度 */
+            height: 100px; /* 設置圖片高度 */
+            cursor: pointer;
+        }
+
+        .selectable .treatment-info {
+            position: absolute;
+            top: 0px;
+            right: 0px;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            cursor: pointer;
+        }
+
+
+        .selectable .doctor-info {
+            position: absolute;
+            top: 0px;
+            right: 0px;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
 </style>
+
+<script src="~/js/jquery-ui.js"></script>
+<link rel="stylesheet" href="~/css/jquery-ui.css">
 
 <h3 class="container " style="text-align:start; margin:10px;">@ViewData["Title"]</h3>
 
 <div class="container content-div">
     <div class="row">
-        <div class="col-md-3 sidebar" style="background-color:#F7F6EE;box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);" id="sidebar">
+        <div class="col-md-3 sidebar " style="background-color:#F7F6EE;box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);" id="sidebar">
             @{
                 int i = 0;
             }
 
-            @foreach (var item in Model)
-            {
-                <div class="input-group">
-                    <button class="form-control" id="db-@i" onclick="showDoctorDetail('@i');">@item.DoctorName</button>
-                    <input type="text" id="doctor-@i" class="form-control" placeholder="請輸入醫師姓名..." value="@item.DoctorName" style="text-align:center;display:none;" />
-                    <button class="icon-button" onclick="editDoctor('@i');">
-                        <img src="/images/edit.png" id="img-@i" style="height:2em;width:auto;" />
-                    </button>
-                    <input type="hidden" id="dv-@i" value="@item.DoctorId" />
-                </div>
+            <div class="sortable">
+                @foreach (var item in Model)
+                {
+                    <ul class="input-group" style="padding-inline-start: 0px;">
+                        <li class="form-control" id="db-@i" onclick="showDoctorDetail('@i');" style="cursor:pointer;">
+                            @item.DoctorName
+                            <input type="hidden" id="dv-@i" value="@item.DoctorId" />
+                        </li>
+                    </ul>
 
-                i++;
-            }
+                    i++;
+                }
+            </div>
 
-            <button class="btn add-sidebaritem" style="margin:auto" onclick="addDoctor();"> <img src="/images/add_circle_16dp_049FBF_FILL0_wght400_GRAD0_opsz20.png" style="width:40px;height:40px ;" \></button>
+            <button class="btn add-sidebaritem" style="margin:auto" onclick="addDoctor();"> <img src="/images/person_add_24dp_0E4F43_FILL0_wght400_GRAD0_opsz24.png" style="width:30px;height:30px ;" \></button>
         </div>
+
+
 
         <div class="col-md-8 right-panel" style="text-align:left; box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);" id="doctorData">
         </div>
@@ -71,56 +143,82 @@
 
 
 <script type="text/javascript">
+    $(function () {
+        $(".sortable").sortable({
+            // handle: 'button',
+            placeholder: "ui-state-highlight", // 可選，為拖動時的占位符樣式
+            update: function (event, ui) {
+                var items = [];
+                $('[id^="dv-"]').each(function () {
+                    items.push(this.value);
+                });
 
-    function editDoctor(i) {
-        let text = document.getElementById("doctor-" + i);
-        let btn = document.getElementById("db-" + i);
-        let dv = document.getElementById("dv-" + i);
-        let img = document.getElementById("img-" + i);
+                $.ajax({
+                    type: "POST",
+                    url: "/BaseInfo/saveDoctorSort",
+                    datatype: "json",
+                    data: { items: items },
+                    success: function (data) {
+                        console.log(data);
+                    }
+                });
 
-        if (text.value == "") {
-            alert("請輸入醫師姓名!!");
-        } else {
-            if (text.style.display == "") {
-                //新增醫師(僅名稱)
-                if (dv.value == "") {
-                    $.ajax({
-                        type: "GET",
-                        url: "/BaseInfo/DoctorNameCreate",
-                        datatype: "json",
-                        data: { "name": text.value },
-                        success: function (data) {
-                            console.log("Create doctor success.");
-                            dv.value = data;
-                            showDoctorDetail(i)
-                        }
-                    });
-                } else {
-                    $.ajax({
-                        type: "GET",
-                        url: "/BaseInfo/DoctorNameUpdate",
-                        datatype: "json",
-                        data: { "name": text.value, "id": dv.value },
-                        success: function (data) {
-                            console.log("Update doctor success.");
-                            dv.value = data;
-                            showDoctorDetail(i)
-                        }
-                    });
-                }
-
-                btn.innerHTML = text.value;
-                text.style.display = "none";
-                btn.style.display = "";
-                img.src = "/images/edit.png";
+                // 你可以在這裡添加 AJAX 調用以保存新順序
             }
-            else {
-                text.style.display = "";
-                btn.style.display = "none";
-                img.src = "/images/check.png";
-            }
-        }
-    }
+        });
+        $(".sortable").disableSelection(); // 防止在拖動時選中文字
+    });
+
+
+    // function editDoctor(i) {
+    //     let text = document.getElementById("doctor-" + i);
+    //     let btn = document.getElementById("db-" + i);
+    //     let dv = document.getElementById("dv-" + i);
+    //     let img = document.getElementById("img-" + i);
+
+    //     if (text.value == "") {
+    //         alert("請輸入醫師姓名!!");
+    //     } else {
+    //         if (text.style.display == "") {
+    //             //新增醫師(僅名稱)
+    //             if (dv.value == "") {
+    //                 $.ajax({
+    //                     type: "GET",
+    //                     url: "/BaseInfo/DoctorNameCreate",
+    //                     datatype: "json",
+    //                     data: { "name": text.value },
+    //                     success: function (data) {
+    //                         console.log("Create doctor success.");
+    //                         dv.value = data;
+    //                         showDoctorDetail(i)
+    //                     }
+    //                 });
+    //             } else {
+    //                 $.ajax({
+    //                     type: "GET",
+    //                     url: "/BaseInfo/DoctorNameUpdate",
+    //                     datatype: "json",
+    //                     data: { "name": text.value, "id": dv.value },
+    //                     success: function (data) {
+    //                         console.log("Update doctor success.");
+    //                         dv.value = data;
+    //                         showDoctorDetail(i)
+    //                     }
+    //                 });
+    //             }
+
+    //             btn.innerHTML = text.value;
+    //             text.style.display = "none";
+    //             btn.style.display = "";
+    //             img.src = "/images/edit.png";
+    //         }
+    //         else {
+    //             text.style.display = "";
+    //             btn.style.display = "none";
+    //             img.src = "/images/check.png";
+    //         }
+    //     }
+    // }
 
     function showDoctorDetail(i) {
         let $dv = $("#dv-" + i);
@@ -134,16 +232,34 @@
                 console.log(data);
                 let inner = "";
 
-                inner += '<h3><label id="doctorName">醫師姓名：' + data.doctorName + '</label></h3>';
+                inner += '<h3><label>醫師姓名：' + data.doctorName + '</label></h3>';
 
                 inner += '<input type="hidden" id="doctorId" value="' + data.doctorId + '" />';
+                inner += '<div class="form-group"><label for="doctorName">醫師姓名*</label><input type="text" class="form-control" id="doctorName" placeholder="輸入醫師姓名" value="' + data.doctorName + '" /></input></div>';
                 inner += '<div class="form-group"><label for="doctorNameEnglish">英文姓名</label><input type="text" class="form-control" id="doctorNameEnglish" placeholder="輸入醫師英文姓名" value="' + data.doctorNameEnglish + '" /></input></div>';
                 inner += '<div class="form-group"><label for="introduction">醫師介紹*</label><textarea class="form-control" id="introduction" rows="3" placeholder="輸入醫師介紹" required="">' + data.introduction + '</textarea></div>';
                 inner += '<div class="form-group"><label for="departmentTitle">科別/職稱*</label><input type="text" class="form-control" id="departmentTitle" placeholder="輸入科別/職稱" value="' + data.departmentTitle + '" required="" /></div>';
+                inner += '<div class="form-group "><label for="colorHEX">醫師代表顏色*</label><input type="color" class=" colorPicker" id="colorHEX" placeholder="選擇顏色" value="' + data.colorHEX + '" required="" /></div>';
 
-                inner += '<div class="form-group"><label for="sort">排序*</label><input type="number" class="form-control" id="sort" value="' + data.sort + '" placeholder="輸入排序" required=""></div>';
+                // inner += '<div class="form-group"><label for="sort">排序*</label><input type="number" class="form-control" id="sort" value="' + data.sort + '" placeholder="輸入排序" required=""></div>';
                 inner += '<div class="form-group"><label for="memo">備註</label><textarea class="form-control" id="memo" rows="3" placeholder="輸入備註">' + data.memo + '</textarea></div>';
-                inner += '<div class="form-group d-flex align-items-center"><label class="mr-2">圖片上傳*</label><input type="file" class="form-control-file" id="imagefile" onchange="setImageName();" style="display:none;" /> <label class="col-form-label btn btn-primary mb-0" onclick="uploadImageClick();"style="cursor:pointer;border:none;border-radius:100px;  background-color:transparent;border: 2px solid #4A707A;padding:2px;"><img src="/images/cloud_upload_24dp_4A707A_FILL0_wght400_GRAD0_opsz24.png" alt="Alternate Text" style="width:25px;height:25px; " /></label><div><label id="imageName" class="ml-2">' + data.doctorImage.fileName + data.doctorImage.fileExtension + '</label></div></div>';
+
+                //圖片
+                inner += `<div class="form-group d-flex align-items-center">`;
+                inner += `<label class="mr-2">圖片上傳*</label>`;
+                inner += `<input type="file" class="form-control-file" id="imagefile" onchange="setImagePreview();"  style="display:none;" />`;
+                inner += `<div class="selectable doctorDiv">`;
+                inner += `<img src="` + data.image + `" id="doctorImage" style="border-radius: 15px; padding:3px;" class="img-fluid" onclick="uploadImageClick();">`;
+                inner += `<div style="line-height: 2;display: flex; align-items: center; justify-content: center;"><span style="font-size:14px;">` + data.doctorName + `</span></div>`;
+                inner += `</div>`;
+                inner += `</div>`;
+                // inner += '<div class="form-group d-flex align-items-center"><label class="mr-2">圖片上傳*</label>';
+                // inner += '<input type="file" class="form-control-file" id="imagefile" onchange="setImageName();" style="display:none;" />';
+                // inner += '<label class="col-form-label btn btn-primary mb-0" onclick="uploadImageClick();"style="cursor:pointer;border:none;border-radius:100px;  background-color:transparent;border: 2px solid #4A707A;padding:2px;">';
+                // inner += '  <img src="/images/cloud_upload_24dp_4A707A_FILL0_wght400_GRAD0_opsz24.png" alt="Alternate Text" style="width:25px;height:25px; " />';
+                // inner += '</label>';
+                // inner += '<div><label id="imageName" class="ml-2">' + data.doctorImage.fileName + data.doctorImage.fileExtension + '</label></div>';
+                // inner += '</div>';
 
                 //產生療程清單
                 inner += '<div class="form-group"><label>負責療程</label><br><div class="btn-group-toggle" data-toggle="buttons">';
@@ -156,7 +272,7 @@
                         inner += '<label class="btn btn-secondary btn-checkbox" style="cursor:pointer;border-radius: 10px;">';
                         inner += '<input type="checkbox" name="treatments" value="' + item.treatmentId + '" autocomplete="off"> ' + item.treatmentName;
                         inner += '</label>';
-                    }                    
+                    }
                 });
                 inner += '</div></div>';
 
@@ -175,33 +291,102 @@
         $("#doctorData").html("");
     }
 
-    function setImageName() {
-        if ($('#imagefile').val == "")
-            $('#imageName').text("");
+    function setImagePreview(e) {
+        var file = $('#imagefile')[0].files[0];
+        if (!file) {
+            return;
+        }
 
-
-        $('#imageName').text($('#imagefile').val().split('\\').pop());
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            $('#doctorImage').attr('src', e.target.result).show();
+        };
+        reader.readAsDataURL(file);
     }
+
+    // function setImageName() {
+    //     if ($('#imagefile').val == "")
+    //         $('#imageName').text("");
+
+
+    //     $('#imageName').text($('#imagefile').val().split('\\').pop());
+    // }
 
     function addDoctor() {
-        let $sidebar = $('.sidebar');
-        let itemNo = $sidebar.find('.input-group').length + 1;
+        $.ajax({
+            type: "GET",
+            url: "/BaseInfo/GetTreatmentCheckboxList",
+            datatype: "json",
+            success: function (data) {
+                let inner = "";
 
-        let $newItem = $(`
-            <div class="input-group">
-                <button class="form-control" id="db-${itemNo}" onclick="showDoctorDetail('${itemNo}');" style="display:none;"></button>
-                    <input type="text" id="doctor-${itemNo}" class="form-control" placeholder="請輸入醫師姓名..." value="" style="text-align:center;" />
-                    <button class="icon-button" onclick="editDoctor('${itemNo}');">
-                    <img src="/images/check.png" id="img-${itemNo}" style="height:2em;width:auto;" />
-                </button>
-                <input type="hidden" id="dv-${itemNo}" value="" />
-            </div>
-        `);
+                inner += '<input type="hidden" id="doctorId" value="" />';
+                inner += '<div class="form-group"><label for="doctorName">醫師姓名*</label><input type="text" class="form-control" id="doctorName" placeholder="輸入醫師姓名" value="" /></input></div>';
+                inner += '<div class="form-group"><label for="doctorNameEnglish">英文姓名</label><input type="text" class="form-control" id="doctorNameEnglish" placeholder="輸入醫師英文姓名" value="" /></input></div>';
+                inner += '<div class="form-group"><label for="introduction">醫師介紹*</label><textarea class="form-control" id="introduction" rows="3" placeholder="輸入醫師介紹" required=""></textarea></div>';
+                inner += '<div class="form-group"><label for="departmentTitle">科別/職稱*</label><input type="text" class="form-control" id="departmentTitle" placeholder="輸入科別/職稱" value="" required="" /></div>';
+                inner += '<div class="form-group"><label for="colorHEX">醫師代表顏色*</label><input type="color" class="form-control" id="colorHEX" placeholder="選擇顏色" value="#000000" required="" /></div>';
 
-        $sidebar.find('.add-sidebaritem').before($newItem);
+                // inner += '<div class="form-group"><label for="sort">排序*</label><input type="number" class="form-control" id="sort" value="" placeholder="輸入排序" required=""></div>';
+                inner += '<div class="form-group"><label for="memo">備註</label><textarea class="form-control" id="memo" rows="3" placeholder="輸入備註"></textarea></div>';
+
+                //圖片
+                inner += `<div class="form-group d-flex align-items-center">`;
+                inner += `<label class="mr-2">圖片上傳*</label>`;
+                inner += `<input type="file" class="form-control-file" id="imagefile" onchange="setImagePreview();"  style="display:none;" />`;
+                inner += `<div class="selectable doctorDiv">`;
+                inner += `<img src="/images/cloud_upload_24dp_4A707A_FILL0_wght400_GRAD0_opsz24.png" id="doctorImage" style="border-radius: 15px; padding:3px;" class="img-fluid" onclick="uploadImageClick();">`;
+                inner += `<div style="line-height: 2;display: flex; align-items: center; justify-content: center;"><span style="font-size:14px;"></span></div>`;
+                inner += `</div>`;
+                inner += `</div>`;
+                // inner += '<div class="form-group d-flex align-items-center"><label class="mr-2">圖片上傳*</label>';
+                // inner += '<input type="file" class="form-control-file" id="imagefile" onchange="setImageName();" style="display:none;" />';
+                // inner += '<label class="col-form-label btn btn-primary mb-0" onclick="uploadImageClick();"style="cursor:pointer;border:none;border-radius:100px;  background-color:transparent;border: 2px solid #4A707A;padding:2px;">';
+                // inner += '  <img src="/images/cloud_upload_24dp_4A707A_FILL0_wght400_GRAD0_opsz24.png" alt="Alternate Text" style="width:25px;height:25px; " />';
+                // inner += '</label>';
+                // inner += '<div><label id="imageName" class="ml-2"></label></div>';
+                // inner += '</div>';
+
+                //產生療程清單
+                inner += '<div class="form-group"><label>負責療程</label><br><div class="btn-group-toggle" data-toggle="buttons">';
+                data.forEach((item) => {
+                    if (item.isChecked == "Y") {
+                        inner += '<label class="btn btn-secondary btn-checkbox active"style="cursor:pointer;border-radius: 10px;">';
+                        inner += '<input type="checkbox" name="treatments" value="' + item.treatmentId + '" autocomplete="off" checked> ' + item.treatmentName;
+                        inner += '</label>';
+                    } else {
+                        inner += '<label class="btn btn-secondary btn-checkbox" style="cursor:pointer;border-radius: 10px;">';
+                        inner += '<input type="checkbox" name="treatments" value="' + item.treatmentId + '" autocomplete="off"> ' + item.treatmentName;
+                        inner += '</label>';
+                    }
+                });
+                inner += '</div></div>';
+
+                inner += '<button class="btn btn-primary"  style="cursor:pointer;border:none;background-color: #385466 ;color: #F7F6EE;border-radius: 10px;" onclick="createDoctor();">儲存</button> <button class="btn btn-primary" style="cursor:pointer;border:none;background-color: #385466 ;color: #F7F6EE;border-radius: 10px;" onclick="cleanDoctorData();">取消</button>';
+
+                $("#doctorData").html(inner);
+            }
+        });
+
+
+        // let $sidebar = $('.sidebar');
+        // let itemNo = $sidebar.find('.input-group').length + 1;
+
+        // let $newItem = $(`
+        //         <div class="input-group">
+        //             <button class="form-control" id="db-${itemNo}" onclick="showDoctorDetail('${itemNo}');" style="display:none;"></button>
+        //                 <input type="text" id="doctor-${itemNo}" class="form-control" placeholder="請輸入醫師姓名..." value="" style="text-align:center;" />
+        //                 <button class="icon-button" onclick="editDoctor('${itemNo}');">
+        //                 <img src="/images/check.png" id="img-${itemNo}" style="height:2em;width:auto;" />
+        //             </button>
+        //             <input type="hidden" id="dv-${itemNo}" value="" />
+        //         </div>
+        //     `);
+
+        // $sidebar.find('.add-sidebaritem').before($newItem);
     }
 
-    function updateDoctor() {
+    function createDoctor() {
         let alertMsg = "";
 
         var selectedTreatments = [];
@@ -209,10 +394,14 @@
             selectedTreatments.push(checkbox.value);
         });
 
-        if ($('#introduction').val() == "")
+        if ($('#doctorName').val() == "")
+            alertMsg = "請輸入醫師姓名!!";
+        else if ($('#introduction').val() == "")
             alertMsg = "請輸入醫師介紹!!";
         else if ($('#departmentTitle').val() == "")
             alertMsg = "請輸入科別/職稱!!";
+        else if ($('#colorHEX').val() == "")
+            alertMsg = "請輸入醫師代表顏色!!";
         else if ($('#Sort').val() == "")
             alertMsg = "請輸入排序!!";
         else if ($('#imageName').html() == "")
@@ -227,10 +416,66 @@
 
         var formData = new FormData();
         formData.append('DoctorId', $('#doctorId').val());
+        formData.append('DoctorName', $('#doctorName').val());
         formData.append('DoctorNameEnglish', $('#doctorNameEnglish').val());
         formData.append('Introduction', $('#introduction').val());
         formData.append('DepartmentTitle', $('#departmentTitle').val());
+        formData.append('ColorHEX', $('#colorHEX').val());
         formData.append('Sort', $('#sort').val());
+        formData.append('Memo', $('#memo').val());
+        formData.append('DoctorImage.File', $('#imagefile')[0].files[0]);
+        formData.append('SelectedTreatment', selectedTreatments);
+
+        $.ajax({
+            url: '/BaseInfo/DoctorCreate',
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (response) {
+                alert('儲存成功');
+                // $("#doctorData").html("");
+                location.reload()
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert('儲存失敗，請聯絡系統管理員');
+            }
+        });
+    }
+
+    function updateDoctor() {
+        let alertMsg = "";
+
+        var selectedTreatments = [];
+        document.querySelectorAll('input[name="treatments"]:checked').forEach(function (checkbox) {
+            selectedTreatments.push(checkbox.value);
+        });
+
+        if ($('#doctorName').val() == "")
+            alertMsg = "請輸入醫師姓名!!";
+        else if ($('#introduction').val() == "")
+            alertMsg = "請輸入醫師介紹!!";
+        else if ($('#departmentTitle').val() == "")
+            alertMsg = "請輸入科別/職稱!!";
+        else if ($('#colorHEX').val() == "")
+            alertMsg = "請輸入醫師代表顏色!!";
+        else if ($('#imageName').html() == "")
+            alertMsg = "請上傳圖片!!";
+        else if (selectedTreatments.length == 0)
+            alertMsg = "請至少選取一項療程!!";
+
+        if (alertMsg != "") {
+            alert(alertMsg);
+            return false;
+        }
+
+        var formData = new FormData();
+        formData.append('DoctorId', $('#doctorId').val());
+        formData.append('DoctorName', $('#doctorName').val());
+        formData.append('DoctorNameEnglish', $('#doctorNameEnglish').val());
+        formData.append('Introduction', $('#introduction').val());
+        formData.append('DepartmentTitle', $('#departmentTitle').val());
+        formData.append('ColorHEX', $('#colorHEX').val());
         formData.append('Memo', $('#memo').val());
         // formData.append('Status', $('#status').val());
         formData.append('DoctorImage.File', $('#imagefile')[0].files[0]);

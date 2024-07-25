@@ -46,11 +46,11 @@
             public string? IsChecked { get; set; }
         }
 
-        public class LableCheckboxList
+        public class LabelCheckboxList
         {
-            public string? LableId { get; set; }
+            public string? LabelId { get; set; }
 
-            public string? LableName { get; set; }
+            public string? LabelName { get; set; }
 
             public string? IsChecked { get; set; }
         }

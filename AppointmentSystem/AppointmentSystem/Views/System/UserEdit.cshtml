@@ -4,6 +4,56 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<style>
+    .switch {
+        position: relative;
+        display: inline-block;
+        width: 60px;
+        height: 34px;
+    }
+
+        /* 隱藏 checkbox */
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+    /* 滑動器的樣式 */
+    .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        transition: .4s;
+        border-radius: 34px;
+    }
+
+        /* 滑動器在 input 被檢查時的樣式 */
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+    input:checked + .slider {
+        background-color: #2196F3;
+    }
+
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+</style>
+
 <div class="card whiteBG mb-4 pattern-F colorset_B">
     <div class="card-header">
         <h3 class="card-title font-weight-bold">@ViewData["Title"]</h3>
@@ -103,6 +153,18 @@
                                         </td>
                                         <td></td>
                                     </tr>
+                                    @* <tr>
+                                        <td></td>
+                                        <td>是否啟用</td>
+                                        <td>
+                                            <label class="switch">
+                                                <input type="checkbox" asp-for="Status" checked='@(Model.Status == "Y" ? "checked" : "")'>
+                                                <span class="slider"></span>
+                                            </label>
+                                        </td>
+                                        <td></td>
+                                    </tr> *@
+                                    
                                     <tr>
                                         <td></td>
                                         <td>是否啟用</td>
@@ -161,6 +223,18 @@
     </form>
 
 </div>
+
+<script>
+    $(document).ready(function () {
+        $('input[asp-for="Status"]').change(function () {
+            if (this.checked) {
+                $(this).val('Y');
+            } else {
+                $(this).val('N');
+            }
+        }).trigger('change'); // 確保加載時同步狀態
+    });
+</script>
 
 @section scripts {
     <script src="~/assets/js/date.format.js"></script>

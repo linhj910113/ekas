@@ -10,25 +10,25 @@ public partial class Verificationcode
 {
     public DateTime CreateDate { get; set; }
 
-    public string Creator { get; set; } = null!;
+    public string Creator { get; set; }
 
     public DateTime ModifyDate { get; set; }
 
-    public string Modifier { get; set; } = null!;
+    public string Modifier { get; set; }
 
-    public string Status { get; set; } = null!;
+    public string Status { get; set; }
 
     public long Index { get; set; }
 
-    public string SouceTable { get; set; } = null!;
+    public string SouceTable { get; set; }
 
-    public string ForeignKey { get; set; } = null!;
+    public string ForeignKey { get; set; }
 
-    public string LoginBy { get; set; } = null!;
+    public string LoginBy { get; set; }
 
-    public string HashCode { get; set; } = null!;
+    public string HashCode { get; set; }
 
-    public string Otp { get; set; } = null!;
+    public string Otp { get; set; }
 
     public DateTime ExpireTime { get; set; }
 }

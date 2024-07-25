@@ -788,6 +788,153 @@ namespace AppointmentSystem.Controllers
 
         #endregion
 
+        #region -- 標籤管理 -- (Label)
+
+        [Authorize]
+        public IActionResult LabelIndex()
+        {
+            //判斷cookie是員工還是顧客
+            var user = HttpContext.User.Claims.ToList();
+
+            if (user.FirstOrDefault(u => u.Type == "LoginType").Value == "EkUser")
+            {
+                List<LabelIndexVM> modules = _systemService.GetLabelListForIndex();
+                ViewBag.Count = modules.Count;
+
+                return View(modules);
+            }
+            else
+            {
+                return RedirectToAction("Login", "Appointment");
+            }
+        }
+
+        [Authorize]
+        public IActionResult LabelCreate()
+        {
+            //判斷cookie是員工還是顧客
+            var user = HttpContext.User.Claims.ToList();
+
+            if (user.FirstOrDefault(u => u.Type == "LoginType").Value == "EkUser")
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Login", "Appointment");
+            }
+        }
+
+        [HttpPost]
+        [Authorize]
+        public IActionResult LabelCreate(LabelCreateVM value)
+        {
+            string LabelId = _functions.GetGuid();
+
+            while (_systemService.CheckLabelId(LabelId))
+                LabelId = _functions.GetGuid();
+
+            var user = HttpContext.User.Claims.ToList();
+
+            Label item = new Label()
+            {
+                Creator = user.FirstOrDefault(u => u.Type == "Account").Value,
+                Modifier = user.FirstOrDefault(u => u.Type == "Account").Value,
+                CreateDate = DateTime.Now,
+                ModifyDate = DateTime.Now,
+                Status = "Y",
+
+                Id = LabelId,
+                Type = "Treatment",
+                LabelName = value.LabelName,
+                Sort = _systemService.GetLabelCount() + 1,
+            };
+            _systemService.CreateLabel(item);
+
+            _functions.SaveSystemLog(new Systemlog
+            {
+                CreateDate = DateTime.Now,
+                Creator = user.FirstOrDefault(u => u.Type == "Account").Value,
+                UserAccount = user.FirstOrDefault(u => u.Type == "Account").Value,
+                Description = "Add Label id='" + LabelId + "'."
+            });
+
+            return RedirectToAction("LabelIndex");
+        }
+
+        [HttpGet]
+        [Authorize]
+        public IActionResult LabelEdit(string id)
+        {
+            //判斷cookie是員工還是顧客
+            var user = HttpContext.User.Claims.ToList();
+
+            if (user.FirstOrDefault(u => u.Type == "LoginType").Value == "EkUser")
+            {
+                List<SelectListItem> StatusList = _functions.CreateSelectList("StatusList", false);
+                LabelEditVM item = _systemService.GetLabelById(id);
+
+                LabelEditVM model = new LabelEditVM() //上面的 Model
+                {
+                    StatusList = StatusList,
+                    Status = item.Status,
+                    Type = item.Type,
+                    LabelName = item.LabelName,
+                    Sort = item.Sort,
+                };
+
+                return View(model);
+            }
+            else
+            {
+                return RedirectToAction("Login", "Appointment");
+            }
+        }
+
+        [HttpPost]
+        [Authorize]
+        public IActionResult LabelEdit(string id, LabelEditVM value)
+        {
+            string LabelId = id;
+
+            var user = HttpContext.User.Claims.ToList();
+
+            Label item = new Label()
+            {
+                ModifyDate = DateTime.Now,
+                Modifier = user.FirstOrDefault(u => u.Type == "Account").Value,
+
+                Id = LabelId,
+                Type = "Treatment",
+                LabelName = value.LabelName,
+                Status = value.Status!,
+                Sort = value.Sort
+            };
+
+            _systemService.UpdateLabel(id, user.FirstOrDefault(u => u.Type == "Account").Value, item);
+
+            _functions.SaveSystemLog(new Systemlog
+            {
+                CreateDate = DateTime.Now,
+                Creator = user.FirstOrDefault(u => u.Type == "Account").Value,
+                UserAccount = user.FirstOrDefault(u => u.Type == "Account").Value,
+                Description = "Update label id='" + LabelId + "'."
+            });
+
+            return RedirectToAction("LabelIndex");
+        }
+
+        [HttpPost]
+        [Authorize]
+        public IActionResult DeleteLabel(string Id)
+        {
+            string result = _systemService.DeleteLabel(Id);
+
+            return new JsonResult(result);
+        }
+
+        #endregion
+
         #region -- 系統參數 -- (SystemParameter)
 
         [Authorize]
@@ -830,7 +977,7 @@ namespace AppointmentSystem.Controllers
 
         [HttpPost]
         [Authorize]
-        public IActionResult ParameterEdit(long id,[FromForm] ParameterEditVM data)
+        public IActionResult ParameterEdit(long id, [FromForm] ParameterEditVM data)
         {
             var user = HttpContext.User.Claims.ToList();
             Systemparameter item;

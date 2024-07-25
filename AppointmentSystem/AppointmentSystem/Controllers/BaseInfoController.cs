@@ -44,16 +44,27 @@ namespace AppointmentSystem.Controllers
             }
         }
 
-        [HttpGet]
+        [HttpPost]
         [Authorize]
-        public IActionResult DoctorNameCreate(string name)
+        public IActionResult DoctorCreate([FromForm] DoctorEditVM value)
         {
+            var user = HttpContext.User.Claims.ToList();
             string DoctorId = _functions.GetGuid();
 
             while (_baseinfoService.CheckDoctorId(DoctorId))
                 DoctorId = _functions.GetGuid();
 
-            var user = HttpContext.User.Claims.ToList();
+            string FileId = "";
+
+            if (value.DoctorImage.File != null)
+                FileId = _functions.SaveFile(value.DoctorImage.File, user.FirstOrDefault(u => u.Type == "Account").Value);
+            else
+                FileId = _baseinfoService.GetDoctorImageIdByDoctorId(value.DoctorId);
+
+            if (String.IsNullOrEmpty(value.DoctorNameEnglish))
+                value.DoctorNameEnglish = "";
+            if (String.IsNullOrEmpty(value.Memo))
+                value.Memo = "";
 
             Doctor item = new Doctor()
             {
@@ -64,14 +75,38 @@ namespace AppointmentSystem.Controllers
                 Status = "Y",
 
                 Id = DoctorId,
-                DoctorName = name,
-                DoctorNameEnglish = "",
-                DepartmentTitle = "",
-                ImageFileId = null,
+                DoctorName = value.DoctorName,
+                DoctorNameEnglish = value.DoctorNameEnglish,
+                Introduction = value.Introduction,
+                DepartmentTitle = value.DepartmentTitle,
+                ColorHex = value.ColorHEX,
                 Sort = _baseinfoService.GetDoctorCount() + 1,
-                Memo = ""
+                Memo = value.Memo,
+                ImageFileId = FileId
             };
             _baseinfoService.CreateDoctor(item);
+
+            //儲存醫師負責的療程
+            //先刪除相關資料再新增
+            string[] treatments = value.SelectedTreatment.Split(',');
+            _baseinfoService.RemoveDoctorTreatment(value.DoctorId);
+
+            foreach (var treatmentId in treatments)
+            {
+                Doctortreatment dt = new Doctortreatment()
+                {
+                    Creator = user.FirstOrDefault(u => u.Type == "Account").Value,
+                    Modifier = user.FirstOrDefault(u => u.Type == "Account").Value,
+                    CreateDate = DateTime.Now,
+                    ModifyDate = DateTime.Now,
+                    Status = "Y",
+
+                    DoctorId = DoctorId,
+                    TreatmentId = treatmentId
+                };
+
+                _baseinfoService.CreateDoctorTreatment(dt);
+            }
 
             _functions.SaveSystemLog(new Systemlog
             {
@@ -84,34 +119,34 @@ namespace AppointmentSystem.Controllers
             return new JsonResult(DoctorId);
         }
 
-        [HttpGet]
-        [Authorize]
-        public IActionResult DoctorNameUpdate(string name, string id)
-        {
-            string DoctorId = id;
+        //[HttpGet]
+        //[Authorize]
+        //public IActionResult DoctorNameUpdate(string name, string id)
+        //{
+        //    string DoctorId = id;
 
-            var user = HttpContext.User.Claims.ToList();
+        //    var user = HttpContext.User.Claims.ToList();
 
-            Doctor item = new Doctor()
-            {
-                Modifier = user.FirstOrDefault(u => u.Type == "Account").Value,
-                ModifyDate = DateTime.Now,
+        //    Doctor item = new Doctor()
+        //    {
+        //        Modifier = user.FirstOrDefault(u => u.Type == "Account").Value,
+        //        ModifyDate = DateTime.Now,
 
-                DoctorName = name
-            };
+        //        DoctorName = name
+        //    };
 
-            _baseinfoService.UpdateDoctorName(id, user.FirstOrDefault(u => u.Type == "Account").Value, item);
+        //    _baseinfoService.UpdateDoctorName(id, user.FirstOrDefault(u => u.Type == "Account").Value, item);
 
-            _functions.SaveSystemLog(new Systemlog
-            {
-                CreateDate = DateTime.Now,
-                Creator = user.FirstOrDefault(u => u.Type == "Account").Value,
-                UserAccount = user.FirstOrDefault(u => u.Type == "Account").Value,
-                Description = "Update doctor id='" + DoctorId + "'."
-            });
+        //    _functions.SaveSystemLog(new Systemlog
+        //    {
+        //        CreateDate = DateTime.Now,
+        //        Creator = user.FirstOrDefault(u => u.Type == "Account").Value,
+        //        UserAccount = user.FirstOrDefault(u => u.Type == "Account").Value,
+        //        Description = "Update doctor id='" + DoctorId + "'."
+        //    });
 
-            return new JsonResult(DoctorId);
-        }
+        //    return new JsonResult(DoctorId);
+        //}
 
         [HttpPost]
         [Authorize]
@@ -135,10 +170,11 @@ namespace AppointmentSystem.Controllers
                 Modifier = user.FirstOrDefault(u => u.Type == "Account").Value,
                 ModifyDate = DateTime.Now,
 
+                DoctorName = value.DoctorName,
                 DoctorNameEnglish = value.DoctorNameEnglish,
                 Introduction = value.Introduction,
                 DepartmentTitle = value.DepartmentTitle,
-                Sort = value.Sort,
+                ColorHex = value.ColorHEX,
                 Memo = value.Memo,
                 ImageFileId = FileId
             };
@@ -182,12 +218,28 @@ namespace AppointmentSystem.Controllers
         public IActionResult GetDoctorDetailData(string id)
         {
             DoctorEditVM doctor = _baseinfoService.GetDoctorById(id);
-            List<TreatmentCheckboxList> TreatmentCheckboxList = CreateTreatmentList(id);
+            List<TreatmentCheckboxList> TreatmentCheckboxList = _baseinfoService.GetDoctorTreatmentListForCheckbox(id);
 
             doctor.TreatmentList = TreatmentCheckboxList;
 
             return new JsonResult(doctor);
         }
+
+        [HttpPost]
+        [Authorize]
+        public IActionResult saveDoctorSort(string[] items)
+        {
+            int i = 1;
+            foreach(var item in items)
+            {
+                _baseinfoService.saveDoctorSort(item, i);
+                i++;
+            }
+
+            return new JsonResult("OK");
+        }
+
+        
 
         #endregion
 
@@ -212,16 +264,25 @@ namespace AppointmentSystem.Controllers
             }
         }
 
-        [HttpGet]
+        [HttpPost]
         [Authorize]
-        public IActionResult TreatmentNameCreate(string name)
+        public IActionResult TreatmentCreate([FromForm] TreatmentEditVM value)
         {
+            var user = HttpContext.User.Claims.ToList();
             string TreatmentId = _functions.GetGuid();
 
             while (_baseinfoService.CheckTreatmentId(TreatmentId))
                 TreatmentId = _functions.GetGuid();
 
-            var user = HttpContext.User.Claims.ToList();
+            string FileId = "";
+
+            if (value.TreatmentImage.File != null)
+                FileId = _functions.SaveFile(value.TreatmentImage.File, user.FirstOrDefault(u => u.Type == "Account").Value);
+            else
+                FileId = _baseinfoService.GetTreatmentImageIdByTreatmentId(value.TreatmentId);
+
+            if (String.IsNullOrEmpty(value.Memo))
+                value.Memo = "";
 
             Treatment item = new Treatment()
             {
@@ -232,16 +293,41 @@ namespace AppointmentSystem.Controllers
                 Status = "Y",
 
                 Id = TreatmentId,
-                TreatmentName = name,
-                Introduction = "",
-                ImageFileId = null,
-                Time = 0,
-                AlertMessage = "",
+                TreatmentName = value.TreatmentName,
+                Introduction = value.Introduction,
+                ImageFileId = FileId,
+                Time = value.Time,
+                AlertMessage = value.AlertMessage,
                 Hide = "Y",
                 Sort = _baseinfoService.GetTreatmentCount() + 1,
                 Memo = ""
             };
             _baseinfoService.CreateTreatment(item);
+
+            //儲存療程的標籤
+            //先刪除相關資料再新增
+            if (value.SelectedLabel != null)
+            {
+                string[] labels = value.SelectedLabel.Split(',');
+                _baseinfoService.RemoveTreatmentLabel(value.TreatmentId);
+
+                foreach (var LabelId in labels)
+                {
+                    Treatmentlabel tl = new Treatmentlabel()
+                    {
+                        Creator = user.FirstOrDefault(u => u.Type == "Account").Value,
+                        Modifier = user.FirstOrDefault(u => u.Type == "Account").Value,
+                        CreateDate = DateTime.Now,
+                        ModifyDate = DateTime.Now,
+                        Status = "Y",
+
+                        TreatmentId = TreatmentId,
+                        LabelId = LabelId,
+                    };
+
+                    _baseinfoService.CreateTreatmentLabel(tl);
+                }
+            }
 
             _functions.SaveSystemLog(new Systemlog
             {
@@ -254,34 +340,34 @@ namespace AppointmentSystem.Controllers
             return new JsonResult(TreatmentId);
         }
 
-        [HttpGet]
-        [Authorize]
-        public IActionResult TreatmentNameUpdate(string name, string id)
-        {
-            string TreatmentId = id;
+        //[HttpGet]
+        //[Authorize]
+        //public IActionResult TreatmentNameUpdate(string name, string id)
+        //{
+        //    string TreatmentId = id;
 
-            var user = HttpContext.User.Claims.ToList();
+        //    var user = HttpContext.User.Claims.ToList();
 
-            Treatment item = new Treatment()
-            {
-                Modifier = user.FirstOrDefault(u => u.Type == "Account").Value,
-                ModifyDate = DateTime.Now,
+        //    Treatment item = new Treatment()
+        //    {
+        //        Modifier = user.FirstOrDefault(u => u.Type == "Account").Value,
+        //        ModifyDate = DateTime.Now,
 
-                TreatmentName = name
-            };
+        //        TreatmentName = name
+        //    };
 
-            _baseinfoService.UpdateTreatmentName(id, user.FirstOrDefault(u => u.Type == "Account").Value, item);
+        //    _baseinfoService.UpdateTreatmentName(id, user.FirstOrDefault(u => u.Type == "Account").Value, item);
 
-            _functions.SaveSystemLog(new Systemlog
-            {
-                CreateDate = DateTime.Now,
-                Creator = user.FirstOrDefault(u => u.Type == "Account").Value,
-                UserAccount = user.FirstOrDefault(u => u.Type == "Account").Value,
-                Description = "Update treatment id='" + TreatmentId + "'."
-            });
+        //    _functions.SaveSystemLog(new Systemlog
+        //    {
+        //        CreateDate = DateTime.Now,
+        //        Creator = user.FirstOrDefault(u => u.Type == "Account").Value,
+        //        UserAccount = user.FirstOrDefault(u => u.Type == "Account").Value,
+        //        Description = "Update treatment id='" + TreatmentId + "'."
+        //    });
 
-            return new JsonResult(TreatmentId);
-        }
+        //    return new JsonResult(TreatmentId);
+        //}
 
         [HttpPost]
         [Authorize]
@@ -303,10 +389,10 @@ namespace AppointmentSystem.Controllers
                 Modifier = user.FirstOrDefault(u => u.Type == "Account").Value,
                 ModifyDate = DateTime.Now,
 
+                TreatmentName = value.TreatmentName,
                 Introduction = value.Introduction,
                 AlertMessage = value.AlertMessage,
                 Time = value.Time,
-                Sort = value.Sort,
                 Memo = value.Memo,
                 ImageFileId = FileId
             };
@@ -315,14 +401,14 @@ namespace AppointmentSystem.Controllers
 
             //儲存療程的標籤
             //先刪除相關資料再新增
-            if (value.SelectedLable != null)
+            if (value.SelectedLabel != null)
             {
-                string[] lables = value.SelectedLable.Split(',');
-                _baseinfoService.RemoveTreatmentLable(value.TreatmentId);
+                string[] labels = value.SelectedLabel.Split(',');
+                _baseinfoService.RemoveTreatmentLabel(value.TreatmentId);
 
-                foreach (var LableId in lables)
+                foreach (var LabelId in labels)
                 {
-                    Treatmentlable tl = new Treatmentlable()
+                    Treatmentlabel tl = new Treatmentlabel()
                     {
                         Creator = user.FirstOrDefault(u => u.Type == "Account").Value,
                         Modifier = user.FirstOrDefault(u => u.Type == "Account").Value,
@@ -331,10 +417,10 @@ namespace AppointmentSystem.Controllers
                         Status = "Y",
 
                         TreatmentId = value.TreatmentId,
-                        LabelId = LableId,
+                        LabelId = LabelId,
                     };
 
-                    _baseinfoService.CreateTreatmentLable(tl);
+                    _baseinfoService.CreateTreatmentLabel(tl);
                 }
             }
 
@@ -354,10 +440,10 @@ namespace AppointmentSystem.Controllers
         public IActionResult GetTreatmentDetailData(string id)
         {
             TreatmentEditVM treatment = _baseinfoService.GetTreatmentById(id);
-            List<LableCheckboxList> LableCheckboxList = CreateLableList(id);
+            List<LabelCheckboxList> LabelCheckboxList = _baseinfoService.GetTreatmentLabelListForCheckbox(id);
             List<SelectListItem> TimeSelectList = _functions.CreateTimeUnitSelectList(true);
 
-            treatment.LableList = LableCheckboxList;
+            treatment.LabelList = LabelCheckboxList;
             treatment.TimeSelectList = TimeSelectList;
 
             return new JsonResult(treatment);
@@ -365,16 +451,16 @@ namespace AppointmentSystem.Controllers
 
         [HttpGet]
         [Authorize]
-        public IActionResult TreatmentLableNameCreate(string name)
+        public IActionResult TreatmentLabelNameCreate(string name)
         {
-            string LableId = _functions.GetGuid();
+            string LabelId = _functions.GetGuid();
 
-            while (_baseinfoService.CheckLableId(LableId))
-                LableId = _functions.GetGuid();
+            while (_baseinfoService.CheckLabelId(LabelId))
+                LabelId = _functions.GetGuid();
 
             var user = HttpContext.User.Claims.ToList();
 
-            Lable item = new Lable()
+            Label item = new Label()
             {
                 Creator = user.FirstOrDefault(u => u.Type == "Account").Value,
                 Modifier = user.FirstOrDefault(u => u.Type == "Account").Value,
@@ -382,30 +468,30 @@ namespace AppointmentSystem.Controllers
                 ModifyDate = DateTime.Now,
                 Status = "Y",
 
-                Id = LableId,
+                Id = LabelId,
                 Type = "Treatment",
-                LableName = name
+                LabelName = name
             };
-            _baseinfoService.CreateLable(item);
+            _baseinfoService.CreateLabel(item);
 
             _functions.SaveSystemLog(new Systemlog
             {
                 CreateDate = DateTime.Now,
                 Creator = user.FirstOrDefault(u => u.Type == "Account").Value,
                 UserAccount = user.FirstOrDefault(u => u.Type == "Account").Value,
-                Description = "Add lable id='" + LableId + "'."
+                Description = "Add label id='" + LabelId + "'."
             });
 
-            return new JsonResult(LableId);
+            return new JsonResult(LabelId);
         }
 
         [HttpGet]
         [Authorize]
-        public IActionResult GetTreatmentLableList(string id)
+        public IActionResult GetTreatmentLabelList(string id)
         {
-            List<LableCheckboxList> LableCheckboxList = CreateLableList(id);
+            List<LabelCheckboxList> LabelCheckboxList = _baseinfoService.GetTreatmentLabelListForCheckbox(id);
 
-            return new JsonResult(LableCheckboxList);
+            return new JsonResult(LabelCheckboxList);
         }
 
         [HttpPost]
@@ -434,7 +520,39 @@ namespace AppointmentSystem.Controllers
             return new JsonResult(treatmentId);
         }
 
+        [HttpGet]
+        [Authorize]
+        public IActionResult GetTreatmentCheckboxList()
+        {
+            List<TreatmentCheckboxList> TreatmentCheckboxList = _baseinfoService.GetTreatmentListForCheckbox();
 
+            return new JsonResult(TreatmentCheckboxList);
+        }
+
+        [HttpGet]
+        [Authorize]
+        public IActionResult GetTreatmentCreateVM()
+        {
+            TreatmentCreateVM createVM = new TreatmentCreateVM();
+            createVM.LabelList = _baseinfoService.GetLabelListForCheckbox();
+            createVM.TimeSelectList = _functions.CreateTimeUnitSelectList(true);
+
+            return new JsonResult(createVM);
+        }
+
+        [HttpPost]
+        [Authorize]
+        public IActionResult saveTreatmentSort(string[] items)
+        {
+            int i = 1;
+            foreach (var item in items)
+            {
+                _baseinfoService.saveTreatmentSort(item, i);
+                i++;
+            }
+
+            return new JsonResult("OK");
+        }
 
 
 
@@ -786,25 +904,6 @@ namespace AppointmentSystem.Controllers
 
 
         #endregion
-
-
-
-
-        [Authorize]
-        private List<TreatmentCheckboxList> CreateTreatmentList(string DoctorId)
-        {
-            List<TreatmentCheckboxList> TreatmentList = _baseinfoService.GetTreatmentListForCheckbox(DoctorId);
-
-            return TreatmentList;
-        }
-
-        [Authorize]
-        private List<LableCheckboxList> CreateLableList(string TreatmentId)
-        {
-            List<LableCheckboxList> LableList = _baseinfoService.GetLableListForCheckbox(TreatmentId);
-
-            return LableList;
-        }
 
         [Authorize]
         private List<SelectListItem> CreateTimeSelectList()

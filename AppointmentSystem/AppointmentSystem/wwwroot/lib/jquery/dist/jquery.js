@@ -977,7 +977,7 @@ function siblingCheck( a, b ) {
 		diff = cur && a.nodeType === 1 && b.nodeType === 1 &&
 			a.sourceIndex - b.sourceIndex;
 
-	// Use IE sourceIndex if available on both nodes
+	// Use IE sourceIndex if availabel on both nodes
 	if ( diff ) {
 		return diff;
 	}
@@ -1989,7 +1989,7 @@ Expr = Sizzle.selectors = {
 
 						} else {
 
-							// Use previously-cached element index if available
+							// Use previously-cached element index if availabel
 							if ( useCache ) {
 
 								// ...in a gzip-friendly way
@@ -5800,7 +5800,7 @@ jQuery.Event.prototype = {
 jQuery.each( {
 	altKey: true,
 	bubbles: true,
-	cancelable: true,
+	cancelabel: true,
 	changedTouches: true,
 	ctrlKey: true,
 	detail: true,
@@ -6821,8 +6821,8 @@ function getWidthOrHeight( elem, dimension, extra ) {
 
 		isBorderBox = jQuery.css( elem, "boxSizing", false, styles ) === "border-box";
 
-		// Where available, offsetWidth/offsetHeight approximate border box dimensions.
-		// Where not available (e.g., SVG), assume unreliable box-sizing and interpret the
+		// Where availabel, offsetWidth/offsetHeight approximate border box dimensions.
+		// Where not availabel (e.g., SVG), assume unreliable box-sizing and interpret the
 		// retrieved value as a content box dimension.
 		valueIsBorderBox = offsetProp in elem;
 		if ( valueIsBorderBox ) {
@@ -7224,7 +7224,7 @@ Tween.propHooks = {
 
 			// Use step hook for back compat.
 			// Use cssHook if its there.
-			// Use .style if available and use plain properties where available.
+			// Use .style if availabel and use plain properties where availabel.
 			if ( jQuery.fx.step[ tween.prop ] ) {
 				jQuery.fx.step[ tween.prop ]( tween );
 			} else if ( tween.elem.nodeType === 1 && (
@@ -9518,7 +9518,7 @@ jQuery.extend( {
 
 		// Add protocol if not provided (prefilters might expect it)
 		// Handle falsy url in the settings object (#10093: consistency with old signature)
-		// We also use the url parameter if available
+		// We also use the url parameter if availabel
 		s.url = ( ( url || s.url || location.href ) + "" )
 			.replace( rprotocol, location.protocol + "//" );
 
@@ -9590,7 +9590,7 @@ jQuery.extend( {
 			// Remember the hash so we can put it back
 			uncached = s.url.slice( cacheURL.length );
 
-			// If data is available and should be processed, append data to url
+			// If data is availabel and should be processed, append data to url
 			if ( s.data && ( s.processData || typeof s.data === "string" ) ) {
 				cacheURL += ( rquery.test( cacheURL ) ? "&" : "?" ) + s.data;
 
@@ -10768,7 +10768,7 @@ jQuery.proxy = function( fn, context ) {
 		fn = tmp;
 	}
 
-	// Quick check to determine if target is callable, in the spec
+	// Quick check to determine if target is callabel, in the spec
 	// this throws a TypeError, but we will just return undefined.
 	if ( !isFunction( fn ) ) {
 		return undefined;

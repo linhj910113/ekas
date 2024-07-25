@@ -23,9 +23,7 @@ namespace AppointmentSystem.Models.ViewModels.AppointmentModels
 
         public string? BookingEndTime { get; set; }
 
-        public string? DoctorId { get; set; }
-
-        public string? DoctorName { get; set; }
+        public DoctorDataVM DoctorData { get; set; }
 
         public string? CheckIn { get; set; }
 
@@ -37,25 +35,28 @@ namespace AppointmentSystem.Models.ViewModels.AppointmentModels
 
         public List<TreatmentDataVM>? TreatmentData { get; set; }
 
-        public List<TreatmentCheckboxList>? ActualTreatmentData { get; set; }       
+        public List<TreatmentCheckboxList>? ActualTreatmentData { get; set; }
 
         public AppointmentData()
         {
+            DoctorData = new DoctorDataVM();
             customerData = new CustomerData();
             TreatmentData = new List<TreatmentDataVM>();
-            ActualTreatmentData= new List<TreatmentCheckboxList>();
+            ActualTreatmentData = new List<TreatmentCheckboxList>();
         }
     }
 
-    public partial class CustomerData()
+    public partial class CustomerData
     {
         public string? Id { get; set; }
 
         public string? LineId { get; set; }
 
-        public string? LineDiaplayName { get; set; }
+        public string? DisplayName { get; set; }
 
         public string? LinePictureUrl { get; set; }
+
+        public string? MedicalRecordNumber { get; set; }
 
         public string? Name { get; set; }
 
@@ -73,7 +74,12 @@ namespace AppointmentSystem.Models.ViewModels.AppointmentModels
 
         public string? Email { get; set; }
 
+        public List<AppointmentData>? appointmentData { get; set; }
 
+        public CustomerData()
+        {
+            appointmentData = new List<AppointmentData>();
+        }
     }
 
 }

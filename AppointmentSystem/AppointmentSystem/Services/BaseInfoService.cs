@@ -51,6 +51,7 @@ namespace AppointmentSystem.Services
         public DoctorEditVM GetDoctorById(string id)
         {
             var item = _db.Doctors.Where(x => x.Id == id).FirstOrDefault();
+            var filedata = _db.Systemfiles.Where(x => x.Id == item.ImageFileId).FirstOrDefault();
             DoctorEditVM doctor = new DoctorEditVM();
 
             doctor.DoctorId = id;
@@ -58,12 +59,12 @@ namespace AppointmentSystem.Services
             doctor.DoctorNameEnglish = item.DoctorNameEnglish;
             doctor.Introduction = item.Introduction;
             doctor.DepartmentTitle = item.DepartmentTitle;
+            doctor.ColorHEX = item.ColorHex;
             doctor.DoctorImage.FileID = item.ImageFileId;
             doctor.Memo = item.Memo;
             doctor.Sort = item.Sort;
             doctor.Status = item.Status;
-
-            var filedata = _db.Systemfiles.Where(x => x.Id == item.ImageFileId).FirstOrDefault();
+            doctor.Image = "data:image/" + filedata.FileExtension.Replace(".", "") + "; base64," + _functions.ConvertJpgToBase64(filedata.Path);
 
             if (filedata != null)
             {
@@ -98,25 +99,16 @@ namespace AppointmentSystem.Services
             _db.SaveChanges();
         }
 
-        public void UpdateDoctorName(string id, string account, Doctor value)
-        {
-            _db.Doctors.FirstOrDefault(x => x.Id == id).Modifier = account;
-            _db.Doctors.FirstOrDefault(x => x.Id == id).ModifyDate = DateTime.Now;
-
-            _db.Doctors.FirstOrDefault(x => x.Id == id).DoctorName = value.DoctorName;
-
-            _db.SaveChanges();
-        }
-
         public void UpdateDoctor(string id, string account, Doctor value)
         {
             _db.Doctors.FirstOrDefault(x => x.Id == id).Modifier = account;
             _db.Doctors.FirstOrDefault(x => x.Id == id).ModifyDate = DateTime.Now;
 
+            _db.Doctors.FirstOrDefault(x => x.Id == id).DoctorName = value.DoctorName;
             _db.Doctors.FirstOrDefault(x => x.Id == id).DoctorNameEnglish = value.DoctorNameEnglish;
             _db.Doctors.FirstOrDefault(x => x.Id == id).Introduction = value.Introduction;
             _db.Doctors.FirstOrDefault(x => x.Id == id).DepartmentTitle = value.DepartmentTitle;
-            _db.Doctors.FirstOrDefault(x => x.Id == id).Sort = value.Sort;
+            _db.Doctors.FirstOrDefault(x => x.Id == id).ColorHex = value.ColorHex;
             _db.Doctors.FirstOrDefault(x => x.Id == id).Memo = value.Memo;
             _db.Doctors.FirstOrDefault(x => x.Id == id).ImageFileId = value.ImageFileId;
 
@@ -136,29 +128,10 @@ namespace AppointmentSystem.Services
             _db.SaveChanges();
         }
 
-        public List<LableCheckboxList> GetLableListForCheckbox(string TreatmentId)
+        public void saveDoctorSort(string id, int sort)
         {
-            var items = _db.Lables.Where(x => x.Status == "Y" && x.Type == "Treatment").OrderBy(x => x.CreateDate).ToList();
-
-            List<LableCheckboxList> lables = new List<LableCheckboxList>();
-
-            foreach (var item in items)
-            {
-                LableCheckboxList lableCheckboxList = new LableCheckboxList();
-                var dt = _db.Treatmentlables.FirstOrDefault(x => x.TreatmentId == TreatmentId && x.LabelId == item.Id);
-
-                lableCheckboxList.LableId = item.Id;
-                lableCheckboxList.LableName = item.LableName;
-
-                if (dt != null)
-                    lableCheckboxList.IsChecked = "Y";
-                else
-                    lableCheckboxList.IsChecked = "N";
-
-                lables.Add(lableCheckboxList);
-            }
-
-            return lables;
+            _db.Doctors.FirstOrDefault(x => x.Id == id).Sort = sort;
+            _db.SaveChanges();
         }
 
         #endregion
@@ -203,6 +176,7 @@ namespace AppointmentSystem.Services
             treatment.TreatmentImage.FileID = item.ImageFileId;
             treatment.Time = item.Time;
             treatment.AlertMessage = item.AlertMessage;
+            treatment.Hide = item.Hide;
             treatment.Memo = item.Memo;
             treatment.Sort = item.Sort;
             treatment.Status = item.Status;
@@ -218,6 +192,8 @@ namespace AppointmentSystem.Services
                 treatment.TreatmentImage.FileSize = filedata.FileSize;
             }
 
+            treatment.Image = "data:image/" + filedata.FileExtension.Replace(".", "") + "; base64," + _functions.ConvertJpgToBase64(filedata.Path);
+
             return treatment;
         }
 
@@ -231,7 +207,7 @@ namespace AppointmentSystem.Services
                 return "";
         }
 
-        public List<TreatmentCheckboxList> GetTreatmentListForCheckbox(string DoctorId)
+        public List<TreatmentCheckboxList> GetDoctorTreatmentListForCheckbox(string DoctorId)
         {
             var items = _db.Treatments.Where(x => x.Status == "Y").OrderBy(x => x.Sort).ToList();
 
@@ -249,6 +225,26 @@ namespace AppointmentSystem.Services
                     treatmentCheckboxList.IsChecked = "Y";
                 else
                     treatmentCheckboxList.IsChecked = "N";
+
+                treatments.Add(treatmentCheckboxList);
+            }
+
+            return treatments;
+        }
+
+        public List<TreatmentCheckboxList> GetTreatmentListForCheckbox()
+        {
+            var items = _db.Treatments.Where(x => x.Status == "Y").OrderBy(x => x.Sort).ToList();
+
+            List<TreatmentCheckboxList> treatments = new List<TreatmentCheckboxList>();
+
+            foreach (var item in items)
+            {
+                TreatmentCheckboxList treatmentCheckboxList = new TreatmentCheckboxList();
+
+                treatmentCheckboxList.TreatmentId = item.Id;
+                treatmentCheckboxList.TreatmentName = item.TreatmentName;
+                treatmentCheckboxList.IsChecked = "Y";
 
                 treatments.Add(treatmentCheckboxList);
             }
@@ -282,40 +278,40 @@ namespace AppointmentSystem.Services
             _db.Treatments.FirstOrDefault(x => x.Id == id).Modifier = account;
             _db.Treatments.FirstOrDefault(x => x.Id == id).ModifyDate = DateTime.Now;
 
+            _db.Treatments.FirstOrDefault(x => x.Id == id).TreatmentName = value.TreatmentName;
             _db.Treatments.FirstOrDefault(x => x.Id == id).Introduction = value.Introduction;
             _db.Treatments.FirstOrDefault(x => x.Id == id).AlertMessage = value.AlertMessage;
             _db.Treatments.FirstOrDefault(x => x.Id == id).Time = value.Time;
-            _db.Treatments.FirstOrDefault(x => x.Id == id).Sort = value.Sort;
             _db.Treatments.FirstOrDefault(x => x.Id == id).Memo = value.Memo;
             _db.Treatments.FirstOrDefault(x => x.Id == id).ImageFileId = value.ImageFileId;
 
             _db.SaveChanges();
         }
 
-        public bool CheckLableId(string LableId)
+        public bool CheckLabelId(string LabelId)
         {
-            if (_db.Lables.Where(x => x.Id == LableId).Count() == 0)
+            if (_db.Labels.Where(x => x.Id == LabelId).Count() == 0)
                 return false;
             else
                 return true;
         }
 
-        public void CreateLable(Lable value)
+        public void CreateLabel(Label value)
         {
-            _db.Lables.Add(value);
+            _db.Labels.Add(value);
             _db.SaveChanges();
         }
 
-        public void RemoveTreatmentLable(string? TreatmentId)
+        public void RemoveTreatmentLabel(string? TreatmentId)
         {
-            _db.Treatmentlables.RemoveRange(_db.Treatmentlables.Where(x => x.TreatmentId == TreatmentId));
+            _db.Treatmentlabels.RemoveRange(_db.Treatmentlabels.Where(x => x.TreatmentId == TreatmentId));
 
             _db.SaveChanges();
         }
 
-        public void CreateTreatmentLable(Treatmentlable value)
+        public void CreateTreatmentLabel(Treatmentlabel value)
         {
-            _db.Treatmentlables.Add(value);
+            _db.Treatmentlabels.Add(value);
             _db.SaveChanges();
         }
 
@@ -327,6 +323,59 @@ namespace AppointmentSystem.Services
 
             _db.SaveChanges();
         }
+
+        public List<LabelCheckboxList> GetTreatmentLabelListForCheckbox(string TreatmentId)
+        {
+            var items = _db.Labels.Where(x => x.Status == "Y" && x.Type == "Treatment").OrderBy(x => x.CreateDate).ToList();
+
+            List<LabelCheckboxList> Labels = new List<LabelCheckboxList>();
+
+            foreach (var item in items)
+            {
+                LabelCheckboxList LabelCheckboxList = new LabelCheckboxList();
+                var dt = _db.Treatmentlabels.FirstOrDefault(x => x.TreatmentId == TreatmentId && x.LabelId == item.Id);
+
+                LabelCheckboxList.LabelId = item.Id;
+                LabelCheckboxList.LabelName = item.LabelName;
+
+                if (dt != null)
+                    LabelCheckboxList.IsChecked = "Y";
+                else
+                    LabelCheckboxList.IsChecked = "N";
+
+                Labels.Add(LabelCheckboxList);
+            }
+
+            return Labels;
+        }
+
+        public List<LabelCheckboxList> GetLabelListForCheckbox()
+        {
+            var items = _db.Labels.Where(x => x.Status == "Y" && x.Type == "Treatment").OrderBy(x => x.CreateDate).ToList();
+
+            List<LabelCheckboxList> Labels = new List<LabelCheckboxList>();
+
+            foreach (var item in items)
+            {
+                LabelCheckboxList LabelCheckboxList = new LabelCheckboxList();
+
+                LabelCheckboxList.LabelId = item.Id;
+                LabelCheckboxList.LabelName = item.LabelName;
+                LabelCheckboxList.IsChecked = "N";
+
+                Labels.Add(LabelCheckboxList);
+            }
+
+            return Labels;
+        }
+
+        public void saveTreatmentSort(string id, int sort)
+        {
+            _db.Treatments.FirstOrDefault(x => x.Id == id).Sort = sort;
+            _db.SaveChanges();
+        }
+
+
 
         #endregion
 

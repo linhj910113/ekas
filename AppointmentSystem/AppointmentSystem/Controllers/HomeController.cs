@@ -1,4 +1,4 @@
-using AppointmentSystem.Models;
+ï»¿using AppointmentSystem.Models;
 using AppointmentSystem.Models.DBModels;
 using AppointmentSystem.Models.ViewModels.AppointmentModels;
 using AppointmentSystem.Models.ViewModels.BaseInfoModels;
@@ -28,7 +28,7 @@ namespace AppointmentSystem.Controllers
 
         public IActionResult Login()
         {
-            //¦³µn¤J´N¸õÂà¨ì­º­¶
+            //æœ‰ç™»å…¥å°±è·³è½‰åˆ°é¦–é 
             var user = HttpContext.User.Claims.ToList();
 
             if (user.Count == 0)
@@ -80,7 +80,7 @@ namespace AppointmentSystem.Controllers
                         Description = "User '" + value.Account + "' login failed."
                     });
 
-                    ViewBag.errMsg = "¨Ï¥ÎªÌ¦WºÙ©Î±K½X¿ù»~¡I";
+                    ViewBag.errMsg = "ä½¿ç”¨è€…åç¨±æˆ–å¯†ç¢¼éŒ¯èª¤ï¼";
                     return View();
                 }
             }
@@ -91,7 +91,7 @@ namespace AppointmentSystem.Controllers
         [Authorize]
         public IActionResult Index()
         {
-            //§PÂ_cookie¬O­û¤uÁÙ¬OÅU«È
+            //åˆ¤æ–·cookieæ˜¯å“¡å·¥é‚„æ˜¯é¡§å®¢
             var user = HttpContext.User.Claims.ToList();
 
             if (user.FirstOrDefault(u => u.Type == "LoginType").Value == "EkUser")
@@ -121,7 +121,7 @@ namespace AppointmentSystem.Controllers
         {
             await HttpContext.SignOutAsync();
 
-            return RedirectToAction("Login", "Home");//¾É¦Üµn¤J­¶
+            return RedirectToAction("Login", "Home");//å°Žè‡³ç™»å…¥é 
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
@@ -135,7 +135,7 @@ namespace AppointmentSystem.Controllers
         [HttpPost]
         public IActionResult setHeaderUserName()
         {
-            //§PÂ_cookie¬O­û¤uÁÙ¬OÅU«È
+            //åˆ¤æ–·cookieæ˜¯å“¡å·¥é‚„æ˜¯é¡§å®¢
             var user = HttpContext.User.Claims.ToList();
             UsernameAndRoleNameVM result = new UsernameAndRoleNameVM();
 
@@ -231,7 +231,7 @@ namespace AppointmentSystem.Controllers
         {
             var user = HttpContext.User.Claims.ToList();
 
-            //¥ý§R°£¦A·s¼W
+            //å…ˆåˆªé™¤å†æ–°å¢ž
             _homeService.RemoveActualAppointmentTreatment(appointmentId);
             foreach (var treatment in treatments)
             {
@@ -282,7 +282,7 @@ namespace AppointmentSystem.Controllers
             };
             _homeService.UpdateAppointment(item, AppointmentId);
 
-            //§R°£­ì¥»ªºÀøµ{«á·s¼W
+            //åˆªé™¤åŽŸæœ¬çš„ç™‚ç¨‹å¾Œæ–°å¢ž
             _homeService.RemoveAppointmenttreatment(AppointmentId);
 
             foreach (var treatment in treatments)
@@ -302,7 +302,7 @@ namespace AppointmentSystem.Controllers
                 _homeService.CreateAppointmenttreatment(at);
             }
 
-            //§ó·sªù¶E®É¨èªí
+            //æ›´æ–°é–€è¨ºæ™‚åˆ»è¡¨
             _homeService.UpdateAppointmentToOutpatient(AppointmentId, user.FirstOrDefault(u => u.Type == "Account").Value, item);
 
             _functions.SaveSystemLog(new Systemlog
@@ -318,12 +318,31 @@ namespace AppointmentSystem.Controllers
 
         [HttpPost]
         [Authorize]
-        public IActionResult editCustomerInfo(string AppointmentId, string customerName, string customerCellPhone, string customerBirth, string customerEmail)
+        public IActionResult editCustomerInfo(string AppointmentId, string customerMedicalRecordNumber, string customerName, string customerCellPhone, string customerBirth, string customerEmail)
         {
-            string result = _homeService.EditCustomerInfo(AppointmentId, customerName, customerCellPhone, customerBirth, customerEmail);
+            string result = _homeService.EditCustomerInfo(AppointmentId, customerMedicalRecordNumber, customerName, customerCellPhone, customerBirth, customerEmail);
 
             return new JsonResult(result);
         }
 
+        [HttpPost]
+        [Authorize]
+        public IActionResult getCustomerForIndexSearch(string searchCustomerName, string searchCustomerPhone, string searchCustomerBirth)
+        {
+            List<CustomerData> customerData = _homeService.getCustomerForIndexSearch(searchCustomerName, searchCustomerPhone, searchCustomerBirth);
+
+            return new JsonResult(customerData);
+        }
+
+        //[HttpPost]
+        //[Authorize]
+        //public IActionResult getCustomerAppointment(string id)
+        //{
+        //    List<AppointmentData> appointmentData = _homeService.getCustomerAppointment(id);
+
+        //    return new JsonResult(appointmentData);
+        //}
+
+        
     }
 }
