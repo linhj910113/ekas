@@ -5,13 +5,14 @@ using Newtonsoft.Json;
 using System.Net;
 using System.Security.Cryptography;
 using System.Text;
+using System.Runtime.InteropServices;
 
 namespace AppointmentSystem.Services
 {
     public class WebFunctions
     {
         private readonly EkasContext _db;
-        private string FilePath = @"Attachment\";
+        private string FilePath = GetRuntimeDirectory("Attachment/");
 
         public WebFunctions(EkasContext context)
         {
@@ -209,6 +210,37 @@ namespace AppointmentSystem.Services
             {
                 return $"Exception: {ex.Message}";
             }
+        }
+
+        public static string GetRuntimeDirectory(string path)
+        {
+            if (IsLinuxRunTime())
+                return GetLinuxDirectory(path);
+            if (IsWindowRunTime())
+                return GetWindowDirectory(path);
+
+            return path;
+        }
+
+        public static bool IsWindowRunTime()
+        {
+            return System.Runtime.InteropServices.RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
+        }
+
+        public static bool IsLinuxRunTime()
+        {
+            return System.Runtime.InteropServices.RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
+        }
+
+        public static string GetLinuxDirectory(string path)
+        {
+            string pathTemp = Path.Combine(path);
+            return pathTemp.Replace("\\", "/");
+        }
+        public static string GetWindowDirectory(string path)
+        {
+            string pathTemp = Path.Combine(path);
+            return pathTemp.Replace("/", "\\");
         }
 
 
