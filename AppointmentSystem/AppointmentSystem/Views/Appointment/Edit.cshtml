@@ -14,10 +14,18 @@
         padding: 20px;
         border-radius: 13px;
         border: 0px solid #5F5F5F;
-        overflow-y: scroll;
-        height: 500px;
+        
     }
 
+        .scroll{
+        overflow-y: scroll;
+       
+    }
+
+        .scroll::-webkit-scrollbar {
+        width: 0px;
+        background: transparent;
+    }
         .treatment-section::-webkit-scrollbar, .doctor-section::-webkit-scrollbar, .baseInfomation-section::-webkit-scrollbar {
             width: 0px;
             background: transparent;
@@ -54,6 +62,7 @@
         overflow: hidden;
         margin: 10px;
         box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.2);
+        max-height: 121px;
     }
 
         .selectable img {
@@ -258,7 +267,7 @@
         color: #0E4F43;
         font-weight: 800;
         margin-top: 15px;
-        margin-left: 30px;
+        margin-left: 5px;
     }
 
     .timeList {
@@ -318,13 +327,13 @@
 </div>
 
 <!-- 療程部分 -->
-        <div class="treatmentTittle">
-            <span>選擇療程項目</span>
-        </div>
-        <div class="treatment-section" style="height:295px  ; background-color:white;">
 
+        <div class="treatment-section" style="height:330px  ; background-color:white;">
+            <div class="treatmentTittle">
+                <span>療程項目</span>
+            </div>
 
-    <div id="treatmentData" class="row" style="display: flex; justify-content: left;">
+            <div id="treatmentData" class="row scroll" style="display: flex; justify-content: left;height: 290px;">
         @{
             int i = 0;
         }
@@ -356,22 +365,23 @@
 </div>
 
 <!-- 已選擇的療程 -->
-        <div class="treatmentTittle">
-            <span>療程項目</span>
-        </div>
+       
 <div class="treatment-selected" >
-
+            <div class="treatmentTittle">
+                <span>療程項目</span>
+            </div>
 
     <div id="selectedTreatment" class="row" style="display: flex; justify-content: left;">
     </div>
 </div>
 
 <!-- 醫師部分 -->
-        <div class="doctorTittle">
-            <span>選擇醫師(單選)</span>
-        </div>
-        <div class="doctor-section" style=" height:200px;background-color:white;width: 95%;">
-   
+       
+        <div class="doctor-section" style=" height:200px;background-color:white;">
+            <div class="doctorTittle">
+                <span>選擇醫師(單選)</span>
+            </div>
+
     <div id="doctorData" class="row" style="display: flex; justify-content: left;">
         @{
             i = 0;
@@ -400,22 +410,23 @@
         }
     </div>
 </div>
- <div class="doctorTittle">
-            <span>醫師</span>
-        </div>
+
 <!-- 已選擇的醫師 -->
 <div class="doctor-selected">
+            <div class="doctorTittle">
+                <span>醫師</span>
+            </div>
      <div id="selectedDoctor" class="row" style="display: flex; justify-content: left;">
     </div>
 </div>
 
 
 <!-- 日期時間部分 -->
-        <div class="dateTittle">
-            <span>選擇預約時間</span>
-        </div>
+
 <div class="dateTime-section hidden" style="background-color:white;width: 85%;">
-  
+            <div class="dateTittle">
+                <span>選擇預約時間</span>
+            </div>
     <div id="dateTimeData" class="row">
         <div id="dateList" class="col-md-8" style="padding:0px; font-weight: normal;">
             <div class="datepicker" id="datepicker">
@@ -459,11 +470,11 @@
 </div>
 
 <!-- 已選擇的日期時間 -->
-        <div class="dateTittle">
-            <span>日期及時間</span>
-        </div>
+
 <div class="dateTime-selected" style="background-color:white;">
-   
+            <div class="dateTittle">
+                <span>日期及時間</span>
+            </div>
     <p id="selectedDateDisplay" class="selected-date ml-3">預約日期：@Model.Date</p>
     <p id="selectedTimeDisplay" class="selected-time ml-3">預約時間：@Model.BookingBeginTime</p>
 </div>
@@ -764,7 +775,7 @@
                         inner += `<div class="selectable doctorDiv "   id="doctorDiv-` + i + `" data-title="` + x.doctorName + `" data-department="` + x.departmentTitle + `" data-image="` + x.image + `" data-description="` + x.introduction + `" data-type="doctor">`;
                         inner += `<img src="` + x.image + `" style="border-radius: 15px; padding:3px;" class="img-fluid" onclick="doctorOnClick('` + i + `')">`;
                         // inner += `<img src="/images/info.png" class="img-fluid doctor-info" data-toggle="modal" data-target="#doctorModal" />`;
-                        inner += `<div style=" line-height: 2;display: flex; align-items: center; justify-content: center; cursor:pointer;" data-toggle="modal" data-target="#doctorModal"><span style="font-size:14px;">` + x.doctorName + `</span></div>`;
+                        inner += `<div style=";display: flex; align-items: center; justify-content: center; cursor:pointer;" data-toggle="modal" data-target="#doctorModal"><span style="font-size:14px;">` + x.doctorName + `</span></div>`;
                         inner += `<input type="radio" id="doctor-` + i + `" name="doctor" value="` + x.doctorId + `" class="doctor-info" style="display:none;" />`;
                         inner += `</div>`;
                     });
@@ -1000,7 +1011,7 @@
 
             inner += `<div class="selectable "   data-title="` + item.treatmentName + `" data-image="` + item.image + `" data-description="` + item.introduction + `" data-type="selectedTreatment">`;
             inner += `<img src="` + item.image + `" style="border-radius: 15px; padding:3px;" class="img-fluid" data-toggle="modal" data-target="#treatmentModal">`;
-            inner += `<div style="line-height: 2;display: flex; align-items: center; justify-content: center; cursor:pointer;" data-toggle="modal" data-target="#treatmentModal" ><span style="font-size:14px;">` + item.treatmentName + `</span></div>`;
+            inner += `<div style="display: flex; align-items: center; justify-content: center; cursor:pointer;" data-toggle="modal" data-target="#treatmentModal" ><span style="font-size:14px;">` + item.treatmentName + `</span></div>`;
             inner += `</div>`;
         });
         $('#selectedTreatment').html(inner);
@@ -1012,7 +1023,7 @@
 
         inner += `<div class="selectable treatmentDiv"    data-title="` + item.doctorName + `" data-image="` + item.image + `" data-department="` + item.departmentTitle + `" data-description="` + item.introduction + `" data-type="selectedDoctor" >`;
         inner += `<img src="` + item.image + `"  style="border-radius: 15px; padding:3px;"  class="img-fluid" data-toggle="modal" data-target="#doctorModal" >`;
-        inner += `<div  style="line-height: 2;display: flex; align-items: center; justify-content: center; cursor:pointer;" data-toggle="modal" data-target="#doctorModal" ><span style="font-size:14px;">` + item.doctorName + `</span></div>`;
+        inner += `<div  style="display: flex; align-items: center; justify-content: center; cursor:pointer;" data-toggle="modal" data-target="#doctorModal" ><span style="font-size:14px;">` + item.doctorName + `</span></div>`;
         inner += `</div>`;
 
         $('#selectedDoctor').html(inner);

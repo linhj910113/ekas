@@ -544,7 +544,7 @@
 
     #customerList {
         display: none;
-        border-bottom: 1px solid #cccccc;
+        
         height: 150px;
         overflow-y: scroll;
     }
@@ -556,7 +556,74 @@
 
     .TheModal {
         border-radius: 15px;
-        padding: 10px
+        background: #e9f7f7
+    }
+
+    #filters input{
+     
+       padding:3px;
+        border: none;
+    }
+
+    #filters td, filters tr{
+    padding:5px;
+    }
+
+    .Filters-Input{
+        border: 1px solid #0E4F43;
+        border-radius:25px;
+        padding: 1px;
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+    .rowTittle{
+        color: #0E4F43;
+        margin-bottom:10px;
+        padding-top: 30px;
+        font-weight:800;
+        padding-left:20px;
+        padding-right:20px;
+        padding-bottom:20px;
+    }
+
+    .row-custormer{
+    background-color:white;
+    text-align:justify;
+        display: flex;
+        align-items: center;
+        border-top-left-radius:5px;
+        border-top-right-radius: 5px;
+        box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+        padding:20px;
+    }
+
+    #customerList{
+        padding-left:75px;
+        padding-right:75px;
+    }
+
+    .customerAppointmentData{
+        box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+        background-color: #e9f7f2;
+        padding: 20px;
+        border-left: 1px solid #0E4F43;
+        margin-bottom:30px;
+        border-bottom-left-radius:5px;
+        border-bottom-right-radius: 5px;
+    }
+
+    .custormer-Info{
+    }
+
+        .custormer-Info:hover {
+        background-color: #f0f0f0; /* 鼠标悬停时的背景颜色 */
+    }
+
+    .custormer-Tittle{
+        margin-bottom:20px;
+        margin-left:0px;
+        margin-right: 0px;
     }
 </style>
 
@@ -683,7 +750,7 @@
 <div class="modal fade" id="editCustomerInfoModal" tabindex="-1" aria-labelledby="ModalInfo" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content TheModal">
-            <div class="modal-header">
+            <div class="modal-header" >
                 <h5 class="modal-title" id="ModalTitle">編輯客戶資料</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -739,22 +806,21 @@
 <div id="searchModal" class="modal fade" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl modal-dialog-centered">
         <div class="modal-content TheModal">
-            <div class="modal-header" style="display:block !important;">
-                <h5 class="modal-title">搜尋預約資料</h5>
+            <div class="modal-header" style="display:block !important;padding-top:30px;padding-left:30px;border-radius:15px;box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);background-color:white">
+                <h5 class="modal-title"style="font-weight:800">搜尋預約資料</h5>
                 <p></p>
-                <div id="filters" style="display:flex;justify-content:center;">
+                <div id="filters" style="display:flex;justify-content:left;padding-left:30px; ">
                     <table>
+
                         <tr>
-                            <th>姓名</th>
-                            <th>手機</th>
-                            <th>生日</th>
-                            <th></th>
-                        </tr>
-                        <tr>
-                            <td><input class="searchInput" type="text" id="searchCustomerName" placeholder="請輸入姓名" style="width:120px;" /></td>
-                            <td><input class="searchInput" type="text" id="searchCustomerPhone" placeholder="請輸入手機" style="width:120px;" /></td>
-                            <td><input class="searchInput" type="date" id="searchCustomerBirth" placeholder="請輸入生日" style="width:120px;" /></td>
-                            <td><button class="btn btn-primary" style="background-color:#ffffff ; border:none;" onclick="searchCustomer();"><img src="~/images/search_24dp_0E4F43 _FILL0_wght400_GRAD0_opsz24.png" style="width:30px;height:30px" /></button></td>
+                            <td><div class="Filters-Input"><img src="~/images/search_24dp_0E4F43 _FILL0_wght400_GRAD0_opsz24.png" style="width:20px;height:20px" /><input class="searchInput" type="text" id="searchCustomerName" placeholder="請輸入姓名" style="width:120px;" /></div></td>
+                            <td><div class="Filters-Input"><img src="~/images/search_24dp_0E4F43 _FILL0_wght400_GRAD0_opsz24.png" style="width:20px;height:20px" /><input class="searchInput" type="text" id="searchCustomerPhone" placeholder="請輸入手機" style="width:120px;" /></div></td>
+                            <td><div class="Filters-Input"><img src="~/images/search_24dp_0E4F43 _FILL0_wght400_GRAD0_opsz24.png" style="width:20px;height:20px" /><input class="searchInput" type="date" id="searchCustomerBirth" placeholder="請輸入生日" style="width:120px;" /></div></td>
+                            <td>
+                                <button class="btn btn-primary" style=" background-color: #0E4F43 !important; color: #D7F4EE; border-radius:25px ; border:none;" onclick="searchCustomer();">
+                                    搜尋
+                                </button>
+                            </td>
                         </tr>
                     </table>
                 </div>
@@ -767,7 +833,7 @@
                 @* <p></p>
                 <div id="appointmentList" style="display:none;"></div> *@
             </div>
-            <div class="modal-footer">
+            <div class="modal-footer" style="margin-top:30px;">
                 <button type="button" style="background-color:#ffffff ; border:none;" class="btn btn-secondary" data-dismiss="modal"><img src="~/images/close_fullscreen_24dp_0E4F43 _FILL0_wght400_GRAD0_opsz24.png" style="width:25px;height:25px" /></button>
             </div>
         </div>
@@ -1248,14 +1314,14 @@
                 inner += `<h5 class="modal-title"></h5>`;
 
                 if (data.length > 0) {
-                    inner += `<div class="row">`;
-                    inner += `<div class="col-1">姓名</div>`;
-                    inner += `<div class="col-2">身分證字號</div>`;
-                    inner += `<div class="col-2">手機號碼</div>`;
-                    inner += `<div class="col-2">病歷號</div>`;
-                    inner += `<div class="col-2">生日</div>`;
-                    inner += `<div class="col-2">email</div>`;
-                    inner += `<div class="col-1"></div>`;
+                    inner += `<div class="row rowTittle" style="margin:0px;">`;
+                    inner += `<div class="col-2" style="padding:0px;">姓名</div>`;
+                    inner += `<div class="col-2" style="padding:0px;">身分證字號</div>`;
+                    inner += `<div class="col-2" style="padding:0px;">手機號碼</div>`;
+                    inner += `<div class="col-2" style="padding:0px;">病歷號</div>`;
+                    inner += `<div class="col-2" style="padding:0px;">生日</div>`;
+                    inner += `<div class="col-2" style="padding:0px;">email</div>`;
+                   
                     inner += `</div>`;
 
                     //顧客資料
@@ -1263,21 +1329,20 @@
                     data.forEach(function (item) {
                         i++;
 
-                        inner += `<div class="row">`;
-                        inner += `<div class="col-1">` + item.name + `</div>`;
-                        inner += `<div class="col-2">` + item.nationalIdNumber + `</div>`;
-                        inner += `<div class="col-2">` + item.cellPhone + `</div>`;
-                        inner += `<div class="col-2">` + item.medicalRecordNumber + `</div>`;
-                        inner += `<div class="col-2">` + item.birthday + `</div>`;
-                        inner += `<div class="col-2">` + item.email + `</div>`;
-                        inner += `<div class="col-1"><button class="btn btn-primary" style="background-color: #ffffff;border: none;" onclick="showCustomerAppointment('` + i + `');"><img src="/images/more_24dp_0E4F43 _FILL0_wght400_GRAD0_opsz24.png" style="width:30px;height:30px"></button></div>`;
+                        inner += `<div class="row row-custormer " onclick="showCustomerAppointment('` + i + `');" style="cursor:pointer;margin:0px;">`;
+                        inner += `<div class="col-2" style="padding:0px;">` + item.name + `</div>`;
+                        inner += `<div class="col-2" style="padding:0px;">` + item.nationalIdNumber + `</div>`;
+                        inner += `<div class="col-2" style="padding:0px;">` + item.cellPhone + `</div>`;
+                        inner += `<div class="col-2" style="padding:0px;">` + item.medicalRecordNumber + `</div>`;
+                        inner += `<div class="col-2" style="padding:0px;">` + item.birthday + `</div>`;
+                        inner += `<div class="col-2" style="padding:0px;">` + item.email + `</div>`;
                         inner += `</div>`;
 
                         //預約資料
                         inner += `<div class="customerAppointmentData" id="Detail-` + i + `" style="display:none;height:100%;">`;
 
                         //標頭
-                        inner += `<div class="row">`;
+                        inner += `<div class="row custormer-Tittle "  style="color:#858585">`;
                         inner += `<div class="col-2">預約日期</div>`;
                         inner += `<div class="col-2">預約時間</div>`;
                         inner += `<div class="col-2">預約醫師</div>`;
@@ -1287,11 +1352,11 @@
                         //資料
                         if (item.appointmentData.length > 0) {
                             item.appointmentData.forEach(function (x) {
-                                inner += `<div class="row">`;
+                                inner += `<div class="row custormer-Info" style="margin:0px;padding-top:10px;padding-bottom:10px;cursor:pointer;" onclick="showAppointmentDetail('` + x.appointmentId + `','` + x.date + `');">`;
                                 inner += `<div class="col-2">` + x.date + `</div>`;
                                 inner += `<div class="col-2">` + x.bookingBeginTime + `</div>`;
                                 inner += `<div class="col-2">` + x.doctorData.doctorName + `</div>`;
-                                inner += `<div class="col-1"><button class="btn btn-primary" style="background-color: #ffffff;border: none;" onclick="showAppointmentDetail('` + x.appointmentId + `','` + x.date + `');"><img src="/images/event_upcoming_24dp_0E4F43 _FILL0_wght400_GRAD0_opsz24.png" style="width:25px;height:25px"></button></div>`;
+                                inner += `<div class="col-6"></div>`;
                                 inner += `</div>`;
                             })
                         } else {
