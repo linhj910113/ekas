@@ -158,6 +158,8 @@ namespace AppointmentSystem.Services
                     Date = date,
                     BookingBeginTime = item.BookingBeginTime,
                     BookingEndTime = item.BookingEndTime,
+                    CheckIn = item.CheckIn,
+                    CheckInTime = item.CheckInTime,
                     TimeUnitCount = (TimeSpan.Parse(item.BookingEndTime) - TimeSpan.Parse(item.BookingBeginTime)).TotalMinutes / double.Parse(_functions.GetSystemParameter("MinutesPerUnit")),
                     TreatmentData = treatmentDataVMs,
                     DoctorData = new DoctorDataVM()
@@ -659,9 +661,9 @@ namespace AppointmentSystem.Services
             var items = _db.Customers.Where(x => x.Status == "Y").ToList();
 
             if (!string.IsNullOrEmpty(searchCustomerName))
-                items = items.Where(x => x.Name == searchCustomerName || x.DisplayName == searchCustomerName).ToList();
+                items = items.Where(x => x.Name.Contains(searchCustomerName) || x.DisplayName.Contains(searchCustomerName)).ToList();
             if (!string.IsNullOrEmpty(searchCustomerPhone))
-                items = items.Where(x => x.CellPhone == searchCustomerPhone).ToList();
+                items = items.Where(x => x.CellPhone.Contains(searchCustomerPhone)).ToList();
             if (!string.IsNullOrEmpty(searchCustomerBirth))
                 items = items.Where(x => x.Birthday == searchCustomerBirth).ToList();
 
@@ -693,7 +695,7 @@ namespace AppointmentSystem.Services
                     missed = missed,
                     Gender = item.Gender,
                     NationalIdNumber = item.NationalIdNumber,
-                    appointmentData= getCustomerAppointment(item.Id)
+                    appointmentData = getCustomerAppointment(item.Id)
                 });
             }
 
@@ -722,7 +724,7 @@ namespace AppointmentSystem.Services
                     DepartmentTitle = doctor.DepartmentTitle,
                     ColorHEX = doctor.ColorHex,
                     Introduction = doctor.Introduction,
-                    Image= "data:image/" + doctorimagefile.FileExtension.Replace(".", "") + "; base64," + _functions.ConvertJpgToBase64(doctorimagefile.Path)
+                    Image = "data:image/" + doctorimagefile.FileExtension.Replace(".", "") + "; base64," + _functions.ConvertJpgToBase64(doctorimagefile.Path)
                 };
                 appointmentData.BookingBeginTime = appointment.BookingBeginTime;
                 appointmentData.BookingEndTime = appointment.BookingEndTime;

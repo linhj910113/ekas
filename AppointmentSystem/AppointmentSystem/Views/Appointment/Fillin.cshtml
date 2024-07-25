@@ -217,7 +217,6 @@
         padding: 20px;
         border-radius: 13px;
         border: 0px solid #5F5F5F;
-
         /* box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);*/
     }
 
@@ -234,6 +233,7 @@
             width: 0px;
             background: transparent;
         }
+
     .dateTime-section {
         text-align: left;
         margin: auto;
@@ -322,8 +322,8 @@
         }
 
     /*  .selectable .select-circle.selected {
-                                                                                                                                                                                background-color: green;
-                                                                                                                                                                            } */
+                                                                                                                                                                                        background-color: green;
+                                                                                                                                                                                    } */
 
     .doctor-section.hidden, .dateTime-section.hidden, .baseInfomation-section.hidden {
         display: none;
@@ -518,7 +518,7 @@
 
 
         <!-- 療程部分 -->
-        
+
         <div class="treatment-section " style="height:330px  ; background-color:white;">
             <div class="treatmentTittle">
                 <span>療程項目</span>
@@ -560,7 +560,7 @@
         </div>
 
         <!-- 日期時間部分 -->
-       
+
         <div class="dateTime-section hidden" style="background-color:white;width: 85%;">
             <div class="dateTittle">
                 <span>選擇預約時間</span>
@@ -1320,6 +1320,48 @@
     function checkCellphoneAndNationalIdNumber() {
         let nationalIdNumber = $('#NationalIdNumber').val();
         let cellphone = $('#cellphone').val();
+
+        var letters = new Array('A', 'B', 'C', 'D',
+            'E', 'F', 'G', 'H', 'J', 'K', 'L', 'M',
+            'N', 'P', 'Q', 'R', 'S', 'T', 'U', 'V',
+            'X', 'Y', 'W', 'Z', 'I', 'O');
+        var multiply = new Array(1, 9, 8, 7, 6, 5,
+            4, 3, 2, 1);
+        var nums = new Array(2);
+        var firstChar;
+        var firstNum;
+        var lastNum;
+        var total = 0;
+        var regExpID = /^[a-z](1|2)\d{8}$/i;
+
+        if (nationalIdNumber.search(regExpID) == -1) {
+            $('#alert').html("身分證格式錯誤!!");
+            return false;
+        } else {
+            firstChar = nationalIdNumber.charAt(0).toUpperCase();
+            lastNum = nationalIdNumber.charAt(9);
+        }
+
+        for (var i = 0; i < 26; i++) {
+            if (firstChar == letters[i]) {
+                firstNum = i + 10;
+                nums[0] = Math.floor(firstNum / 10);
+                nums[1] = firstNum - (nums[0] * 10);
+                break;
+            }
+        }
+        for (var i = 0; i < multiply.length; i++) {
+            if (i < 2) {
+                total += nums[i] * multiply[i];
+            } else {
+                total += parseInt(nationalIdNumber.charAt(i - 1)) *
+                    multiply[i];
+            }
+        }
+        if ((10 - (total % 10)) != lastNum) {
+            $('#alert').html("身份證號碼錯誤!");
+            return false;
+        }
 
         //先確認身分證有無重複，再確認手機
         if (nationalIdNumber != "") {

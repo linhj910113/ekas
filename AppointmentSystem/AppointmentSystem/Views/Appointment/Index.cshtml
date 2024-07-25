@@ -255,8 +255,8 @@
 
                     rowHtml += `<div class="AppointmentData">`;
 
-                    rowHtml += `<div class="selectable appointmentDoctorImgDIV" data-title="` + appointment.doctorData.doctorName + `" data-department="` + appointment.doctorData.departmentTitle + `" data-image="` + appointment.doctorData.image + `" data-description="` + appointment.doctorData.introduction + `">`;
-                    rowHtml += `<img class="appointmentDoctorImg" src="` + appointment.doctorData.image + `" style="cursor:pointer;" data-toggle="modal" data-target="#doctorModal" />`;
+                    rowHtml += `<div class="selectable appointmentDoctorImgDIV" style="border:none" data-title="` + appointment.doctorData.doctorName + `" data-department="` + appointment.doctorData.departmentTitle + `" data-image="` + appointment.doctorData.image + `" data-description="` + appointment.doctorData.introduction + `">`;
+                    rowHtml += `<img class="appointmentDoctorImg" src="` + appointment.doctorData.image + `" style="cursor:pointer;border:none" data-toggle="modal" data-target="#doctorModal" />`;
                     rowHtml += `</div>`;
 
                     rowHtml += `<div style="display:flex; ;cursor:pointer;" onclick="editAppointment('` + appointment.appointmentId + `' )" >`;
