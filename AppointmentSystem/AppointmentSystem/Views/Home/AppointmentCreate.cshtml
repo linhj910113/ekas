@@ -1,212 +1,9 @@
 ﻿@* @model AppointmentSystem.Models.ViewModels.AppointmentModels.FillinVM *@
 
 @{
-    Layout = "~/Views/Shared/CustomerLayout.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
     ViewData["Title"] = "填寫預約資料";
 }
-
-
-@* <style>
-    .treatment-section, .doctor-section, .dateTime-section, .baseInfomation-section {
-        text-align: left;
-        margin: 20px auto;
-        width: 80%;
-        max-width: 800px;
-        background-color: #f2f2f2;
-        padding: 20px;
-        border-radius: 10px;
-    }
-
-    .treatment-selected, .doctor-selected, .dateTime-selected {
-        text-align: left;
-        margin: 20px auto;
-        width: 80%;
-        max-width: 800px;
-        background-color: #f2f2f2;
-        padding: 20px;
-        border-radius: 10px;
-        display: none;
-    }
-
-    .selectable {
-        position: relative;
-        display: inline-block;
-        margin: 10px;
-    }
-
-        .selectable img {
-            width: 100px; /* 設置圖片寬度 */
-            height: 100px; /* 設置圖片高度 */
-            cursor: pointer;
-        }
-
-        .selectable .treatment-info {
-            position: absolute;
-            top: 0px;
-            right: 0px;
-            width: 20px;
-            height: 20px;
-            display: flex;
-            cursor: pointer;
-        }
-
-
-        .selectable .doctor-info {
-            position: absolute;
-            top: 0px;
-            right: 0px;
-            width: 20px;
-            height: 20px;
-            /*      background-color: white;
-                        border-radius: 50%;
-                        border: 2px solid #007bff; */
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-        }
-
-    /*  .selectable .select-circle.selected {
-                                                                        background-color: green;
-                                                                    } */
-
-    .doctor-section.hidden, .dateTime-section.hidden, .baseInfomation-section.hidden {
-        display: none;
-    }
-
-    .time-picker {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        width: 100%;
-        margin: 0 auto;
-    }
-
-    .time-slot {
-        width: 100%;
-        padding: 15px;
-        margin: 5px 0;
-        background-color: #d3d3d3;
-        text-align: center;
-        border-radius: 15px;
-        cursor: pointer;
-        transition: background-color 0.3s;
-    }
-
-        .time-slot.selected {
-            background-color: #a9a9a9;
-        }
-
-        .time-slot:hover {
-            background-color: #bcbcbc;
-        }
-
-        .time-slot.disabled {
-            background-color: #f0f0f0;
-            color: #aaa;
-            cursor: not-allowed;
-        }
-
-    .selected-time {
-        margin-top: 20px;
-        font-size: 18px;
-    }
-
-
-    .datepicker {
-        background-color: white;
-        border: 1px solid #ccc;
-        border-radius: 10px;
-        padding: 20px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        width: 100%;
-        max-width: 100%;
-        box-sizing: border-box;
-    }
-
-    .datepicker-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 20px;
-    }
-
-        .datepicker-header div {
-            cursor: pointer;
-            padding: 5px;
-        }
-
-            .datepicker-header div:hover {
-                background-color: #eee;
-            }
-
-        .datepicker-header span {
-            font-size: 18px;
-            font-weight: bold;
-        }
-
-    .datepicker-body {
-        display: grid;
-        grid-template-columns: repeat(7, 1fr);
-        gap: 10px;
-    }
-
-        .datepicker-body div {
-            text-align: center;
-            padding: 10px;
-            cursor: pointer;
-            border-radius: 50%;
-            transition: background-color 0.3s, color 0.3s;
-        }
-
-        .datepicker-body .header {
-            font-weight: bold;
-            color: #333;
-        }
-
-        .datepicker-body div:hover {
-            background-color: #eee;
-        }
-
-        .datepicker-body .disabled {
-            color: #ccc;
-            cursor: not-allowed;
-        }
-
-        .datepicker-body .availabel {
-            color: black;
-            cursor: pointer;
-        }
-
-            .datepicker-body .availabel:hover {
-                background-color: #bcbcbc;
-            }
-
-        .datepicker-body .selected {
-            background-color: #d9534f;
-            color: white;
-        }
-
-    .selected-date, .selected-time {
-        margin-top: 20px;
-        font-size: 18px;
-    }
-
-
-
-
-
-    .form-container {
-        background-color: #7f7f7f;
-        padding: 20px;
-        border-radius: 10px;
-        width: 300px;
-        margin: auto;
-        margin-top: 50px;
-        color: white;
-    }
-
-</style> *@
 
 <style>
     .treatment-section, .doctor-section, .baseInfomation-section {
@@ -322,8 +119,8 @@
         }
 
     /*  .selectable .select-circle.selected {
-                                                                                                                                                                                        background-color: green;
-                                                                                                                                                                                    } */
+                                                                                                                                                                                                    background-color: green;
+                                                                                                                                                                                                } */
 
     .doctor-section.hidden, .dateTime-section.hidden, .baseInfomation-section.hidden {
         display: none;
@@ -501,18 +298,10 @@
 </style>
 
 <div class="overlay-container" style=" position: relative;">
-    @*     <img id="desktopImage" src="~/images/CustomerIndexImage1.jpg" alt="Desktop Image" class="appointment-image desktop-image">
-    <img id="mobileImage" src="~/images/CustomerIndexImage2.jpg" alt="Mobile Image" class="appointment-image mobile-image" style="height:25rem; width:auto; object-fit: cover;"> *@
     <img id="desktopImage" src="~/images/banner (2).png" alt="Desktop Image" class="appointment-image desktop-image" style="width: 100%;  height: auto;  max-height: 18rem;object-fit: cover;">
     <img id="mobileImage" src="~/images/banner (2).png" alt="Mobile Image" class="appointment-image mobile-image" style=" width:auto; object-fit: cover;">
-
-
-
 </div>
 
-@* <div class="container content">
-    <span id="AppointmentIntroductionText"></span>
-</div> *@
 <div class="appointment-wrapper">
     <div class="appointment-table">
 
@@ -596,43 +385,43 @@
         </div>
 
         <!-- 初診填寫基本資料部分 -->
-        <div class="baseInfomation-section hidden" style="background-color:white;">
-            <h5>初診基本資料填寫</h5>
-            <div class="form-group">
-                <label for="name">姓名</label>
-                <input type="text" class="form-control" id="name">
-            </div>
-            <div class="form-group">
-                <label for="NationalIdNumber">身分證</label>
-                <input type="text" class="form-control" id="NationalIdNumber" onchange="checkCellphoneAndNationalIdNumber();">
-            </div>
-            <div class="form-group">
-                <label for="cellphone">手機號碼</label>
-                <input type="text" class="form-control" id="cellphone" onchange="checkCellphoneAndNationalIdNumber();">
-            </div>
-            <div class="form-group">
-                <label>性別</label><br>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="gender" id="male" value="男">
-                    <label class="form-check-label" for="male">男</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="gender" id="female" value="女">
-                    <label class="form-check-label" for="female">女</label>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="birthday">生日</label>
-                <input type="date" class="form-control" id="birthday">
-            </div>
-            <div class="form-group">
-                <label for="email">Email</label>
-                <input type="email" class="form-control" id="email">
-            </div>
-            <div class="form-group">
-                <label id="alert" style="color:red;"></label>
-            </div>
+        @* <div class="baseInfomation-section hidden" style="background-color:white;">
+        <h5>初診基本資料填寫</h5>
+        <div class="form-group">
+        <label for="name">姓名</label>
+        <input type="text" class="form-control" id="name">
         </div>
+        <div class="form-group">
+        <label for="NationalIdNumber">身分證</label>
+        <input type="text" class="form-control" id="NationalIdNumber" onchange="checkCellphoneAndNationalIdNumber();">
+        </div>
+        <div class="form-group">
+        <label for="cellphone">手機號碼</label>
+        <input type="text" class="form-control" id="cellphone" onchange="checkCellphoneAndNationalIdNumber();">
+        </div>
+        <div class="form-group">
+        <label>性別</label><br>
+        <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" name="gender" id="male" value="男">
+        <label class="form-check-label" for="male">男</label>
+        </div>
+        <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" name="gender" id="female" value="女">
+        <label class="form-check-label" for="female">女</label>
+        </div>
+        </div>
+        <div class="form-group">
+        <label for="birthday">生日</label>
+        <input type="date" class="form-control" id="birthday">
+        </div>
+        <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" class="form-control" id="email">
+        </div>
+        <div class="form-group">
+        <label id="alert" style="color:red;"></label>
+        </div>
+        </div> *@
 
         <div class="buttonDIV" style="display:flex ; align-content:center ; justify-content:end; width:85%;margin:auto; padding-right:15px; border-radius:30px;">
             <button class="btn btn-secondary" id="backToIndex" onclick="backToIndex();" style="border:none;border:none;border-radius:100px; background-color:#4A707A;padding:2px;margin-right:10px  ; width:40px;height:40px">
@@ -648,10 +437,6 @@
 
             <button class="btn btn-primary" id="backToSelectDataTimebtn" onclick="backToSelectDataTime();" style="display:none;border:none; background-color:transparent;border: 2px solid #4A707A;border-radius:100px;padding:2px;margin-right:10px  ; width:40px;height:40px ">
                 <img src="~/images/arrow_left_alt_24dp_4A707A_FILL0_wght400_GRAD0_opsz24.png" alt="Alternate Text" style="width:35px;height:35px;" />
-            </button>
-
-            <button class="btn btn-primary" id="fillinBaseInformationbtn" onclick="fillinBaseInformation();" style="display:none;border:none;border-radius:100px; background-color:#4A707A;padding:2px; width:40px;height:40px">
-                <img src="~/images/arrow_right_alt_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.png" alt="Alternate Text" style="width:35px;height:35px; " />
             </button>
 
             <button class="btn btn-primary" id="fillinCompletebtn" onclick="fillinComplete();" style="display:none;border:none;border-radius:100px; background-color:#4A707A;padding:2px; width:40px;height:40px">
@@ -702,7 +487,9 @@
     </div>
 </div>
 
-@* <script src="~/js/jquery-3.5.1.min.js"></script> *@
+<input type="hidden" id="customerId" value="@ViewBag.customerId" />
+<input type="hidden" id="type" value="@ViewBag.type" />
+
 <link rel="stylesheet" href="~/css/jquery-ui.css" asp-append-version="true">
 <script src="~/js/jquery-ui.js" asp-append-version="true"></script>
 <script>
@@ -722,19 +509,8 @@
         initData();
 
         function initData() {
-            // console.log("@ViewBag.AppointmentCount");
-
-            // setAppointmentIntroductionText();
-            // setAppointmentImage();
             setTreatmentList();
         }
-
-        // 控制療程多選
-        // $('.selectable[data-type="treatment"] .select-circle').click(function (e) {
-        //     e.stopPropagation();
-        //     $(this).toggleClass('selected');
-        //     toggleDoctorSection();
-        // });
 
         // 控制醫師單選
         $('.selectable[data-type="doctor"] .select-circle').click(function (e) {
@@ -752,7 +528,6 @@
             var modal = $(this);
 
             modal.find('.modal-title').text(title);
-            // modal.find('.modal-body #treatmentModalTitle').text(title);
             modal.find('.modal-body #treatmentModalDescription').text(description);
             modal.find('.modal-body #treatmentImage').html("<img src='" + image + "' alt='treatment'  class='img-fluid'>");
         });
@@ -766,7 +541,6 @@
             var modal = $(this);
 
             modal.find('.modal-title').text(title + '  ' + department);
-            // modal.find('.modal-body #doctorModalTitle').text(title);
             modal.find('.modal-body #doctorModalDepartment').text(description);
             modal.find('.modal-body #doctorModalDescription').text(description);
             modal.find('.modal-body #doctorImage').html("<img src='" + image + "' alt='doctor' class='img-fluid'>");
@@ -791,42 +565,6 @@
         });
     });
 
-    // function setAppointmentIntroductionText() {
-    //     $.ajax({
-    //         type: 'GET',
-    //         url: '/Appointment/setAppointmentIntroductionText',
-    //         datatype: "json",
-    //         success: function (data) {
-    //             $('#AppointmentIntroductionText').html(data);
-    //         }
-    //     });
-    // }
-
-    // function setAppointmentImage() {
-    //     $.ajax({
-    //         type: 'GET',
-    //         url: '/Appointment/setAppointmentDesktopImage',
-    //         datatype: "json",
-    //         success: function (data) {
-    //             if (data != null) {
-    //                 // console.log(data);
-    //                 $('#desktopImage').attr('src', data);
-    //             }
-    //         }
-    //     });
-
-    //     $.ajax({
-    //         type: 'GET',
-    //         url: '/Appointment/setAppointmentMobileImage',
-    //         datatype: "json",
-    //         success: function (data) {
-    //             if (data != null) {
-    //                 $('#mobileImage').attr('src', data);
-    //             }
-    //         }
-    //     });
-    // }
-
     // 切換顯示醫師部分
     function toggleDoctorSection() {
         let selectedTreatments = [];
@@ -845,7 +583,7 @@
     function setTreatmentList() {
         $.ajax({
             type: 'GET',
-            url: '/Appointment/setTreatmentList',
+            url: '/Home/setTreatmentList',
             datatype: "json",
             success: function (data) {
                 treatmentList = data;
@@ -857,7 +595,6 @@
 
                     inner += `<div class="selectable treatmentDiv"   id="treatmentDiv-` + i + `" data-title="` + x.treatmentName + `" data-description="` + x.introduction + `" data-image="` + x.image + `" data-type="treatment">`;
                     inner += `<img  src="` + x.image + `" style="border-radius: 15px; padding:3px;" class="img-fluid" onclick="treatmentOnClick('` + i + `');">`;
-                    // inner += `<img  src="/images/info.png" style="margin:5px; width:30px ; height:30px;"  class="img-fluid treatment-info" data-toggle="modal" data-target="#treatmentModal" />`; <img src="/images/info_24dp_049FBF_FILL0_wght400_GRAD0_opsz24.png" style="width:20px ; height:20px; margin-left:5px;" class="img-fluid"  />
                     inner += `<div style="display: flex; align-items: center; justify-content: center; cursor:pointer;" data-toggle="modal" data-target="#treatmentModal"><span style="font-size:14px;">` + x.treatmentName + `</span></div>`;
                     inner += `<input type="checkbox" id="treatment-` + i + `" name="treatments" value="` + x.treatmentId + `" style="display:none;" />`;
                     inner += `</div>`;
@@ -877,7 +614,7 @@
 
         $.ajax({
             type: 'POST',
-            url: '/Appointment/setDoctorList',
+            url: '/Home/setDoctorList',
             datatype: "json",
             data: { treatments: selectedTreatments },
             success: function (data) {
@@ -891,7 +628,6 @@
 
                         inner += `<div class="selectable doctorDiv " id="doctorDiv-` + i + `" data-title="` + x.doctorName + `" data-department="` + x.departmentTitle + `" data-image="` + x.image + `" data-description="` + x.introduction + `" data-type="doctor">`;
                         inner += `<img src="` + x.image + `"style="border-radius: 15px; padding:3px;" class="img-fluid" onclick="doctorOnClick('` + i + `')">`;
-                        // inner += `<img src="/images/info.png" class="img-fluid doctor-info" data-toggle="modal" data-target="#doctorModal" />`;<img src="/images/info.png" style="width:20px ; height:20px;" class="img-fluid"  />
                         inner += `<div style=" display: flex; align-items: center; justify-content: center; cursor:pointer;" data-toggle="modal" data-target="#doctorModal"><span style="font-size:14px;">` + x.doctorName + `</span></div>`;
                         inner += `<input type="radio" id="doctor-` + i + `" name="doctor" value="` + x.doctorId + `" class="doctor-info" style="display:none;" />`;
                         inner += `</div>`;
@@ -942,20 +678,15 @@
 
             $('#selectDateTimebtn').hide();
             $('#backToSelectDoctorbtn').show();
-
-            if (@ViewBag.AppointmentCount> 0)
-                $('#fillinCompletebtn').show();
-            else
-                $('#fillinBaseInformationbtn').show();
-
+            $('#fillinCompletebtn').show();
 
             showSelectedTreatmentAndDoctor();
 
             $.ajax({
                 type: 'POST',
-                url: '/Appointment/getDateAndTime',
+                url: '/Home/getDateAndTime',
                 datatype: "json",
-                data: { treatments: selectedTreatments, "doctor": selected.val() },
+                data: { treatments: selectedTreatments, "customerId": $('#customerId').val(), "doctor": selected.val() },
                 success: function (data) {
                     outpatientDateTimes = data;
 
@@ -963,45 +694,7 @@
                         availabelDates.push(x.date);
                     });
 
-
                     generateCalendar(currentYear, currentMonth);
-
-                    // $("#datepicker").datepicker({
-                    //     beforeShowDay: function (date) {
-                    //         var dmy = date.getFullYear() + "-" + ("0" + (date.getMonth() + 1)).slice(-2) + "-" + ("0" + date.getDate()).slice(-2);
-
-                    //         if ($.inArray(dmy, availabelDates) != -1) {
-                    //             return [true, "", "Availabel"];
-                    //         } else {
-                    //             return [false, "", "unAvailabel"];
-                    //         }
-                    //     },
-                    //     dateFormat: 'yy-mm-dd',
-                    //     onSelect: function (dateText) {
-                    //         $("#selectedDate").text("選擇的日期：" + dateText);
-                    //         var timePicker = $('#timePicker');
-                    //         timePicker.empty();
-
-                    //         data.filter(e => e.date == dateText)[0].outpatients.forEach(function (slot) {
-                    //             var timeSlot = $('<div class="time-slot" data-time="' + slot.beginTime + '">' + slot.beginTime + '</div>');
-                    //             if (slot.enabled == "N") {
-                    //                 timeSlot.addClass('disabled');
-                    //             }
-                    //             timePicker.append(timeSlot);
-
-                    //             $('.time-slot').on('click', function () {
-                    //                 if (!$(this).hasClass('disabled')) {
-                    //                     $('.time-slot').removeClass('selected');
-                    //                     $(this).addClass('selected');
-                    //                 }
-                    //             });
-
-                    //             console.log(slot);
-                    //         });
-
-
-                    //     }
-                    // });
                 }
             });
 
@@ -1095,7 +788,6 @@
 
         $('#selectDateTimebtn').show();
         $('#backToSelectDoctorbtn').hide();
-        $('#fillinBaseInformationbtn').hide();
         $('#fillinCompletebtn').hide();
 
         $("#datepicker").datepicker("destroy");
@@ -1124,18 +816,13 @@
 
     function backToSelectDataTime() {
         $('.dateTime-selected').hide();
-        $('.baseInfomation-section').hide();
         $('#backToSelectDataTimebtn').hide();
         $('#fillinCompletebtn').hide();
-        $('#fillinBaseInformation').hide();
 
         $('.dateTime-section').show();
         $('#backToSelectDoctorbtn').show();
+        $('#fillinCompletebtn').show();
 
-        if (@ViewBag.AppointmentCount> 0)
-            $('#fillinCompletebtn').show();
-        else
-            $('#fillinBaseInformationbtn').show();
     }
 
     function showSelectedTreatmentAndDoctor() {
@@ -1196,216 +883,25 @@
             alert("請先選擇日期及時間!")
             return false;
         } else {
-            if (@ViewBag.AppointmentCount> 0) {
-                $.ajax({
-                    type: 'POST',
-                    url: '/Appointment/CreateAppointment',
-                    datatype: "json",
-                    data: { treatments: selectedTreatments, "doctor": selectedDoctor, "date": selectedDate.data('date'), "beginTime": selectedTime },
-                    success: function (data) {
-                        console.log("Create appointment success.")
+            let customerId = $('#customerId').val();
+            let type = $('#type').val();
 
-                        window.location.href = "@Url.Action("NoticeVerification", "Appointment")";
-                    }
-                });
-            }
-            else {
-                let customerName = $('#name').val();
-                let nationalIdNumber = $('#NationalIdNumber').val();
-                let cellphone = $('#cellphone').val();
-                let gender = $('input[name="gender"]:checked').val();
-                let birthday = $('#birthday').val();
-                let email = $('#email').val();
-                let alertMsg = "";
+            $.ajax({
+                type: 'POST',
+                url: '/Home/AddAppointment',
+                datatype: "json",
+                data: { treatments: selectedTreatments, "doctor": selectedDoctor, "date": selectedDate.data('date'), "beginTime": selectedTime, "customerId": customerId, "type": type },
+                success: function (data) {
+                    console.log("Create appointment success.")
 
-                if (!customerName)
-                    alertMsg = "請輸入姓名!";
-                else if (!nationalIdNumber)
-                    alertMsg = "請輸入身分證!";
-                else if (!cellphone)
-                    alertMsg = "請輸入手機號碼!";
-                else if (!gender)
-                    alertMsg = "請輸入性別!";
-                else if (!birthday)
-                    alertMsg = "請輸入生日!";
-                else if (!email)
-                    alertMsg = "請輸入E-mail!";
-
-                if (alertMsg != "") {
-                    alert(alertMsg);
-                    return false;
+                    window.location.href = "@Url.Action("Index", "Home")";
                 }
-
-                if ($('#alert').html() != "") {
-                    alert($('#alert').html());
-                    return false;
-                }
-
-                $.ajax({
-                    type: 'POST',
-                    url: '/Appointment/UpdateCustomerInfomation',
-                    datatype: "json",
-                    data: { "customerName": customerName, "nationalIdNumber": nationalIdNumber, "cellphone": cellphone, "gender": gender, "birthday": birthday, "email": email },
-                    success: function (data) {
-                        console.log("Update customer infomation success.")
-                    }
-                });
-
-                $.ajax({
-                    type: 'POST',
-                    url: '/Appointment/CreateAppointment',
-                    datatype: "json",
-                    data: { treatments: selectedTreatments, "doctor": selectedDoctor, "date": selectedDate.data('date'), "beginTime": selectedTime },
-                    success: function (data) {
-                        console.log("Create appointment success.")
-
-                        window.location.href = "@Url.Action("NoticeVerification", "Appointment")";
-                    }
-                });
-
-                // console.log("選擇的療程:" + selectedTreatments);
-                // console.log("選擇的醫師:" + selectedDoctor);
-                // console.log("選擇的日期:" + selectedDate.data('date'));
-                // console.log("選擇的療程:" + selectedTime);
-            }
-
-        }
-    }
-
-    function fillinBaseInformation() {
-        let selectedTime = null;
-        let selectedDoctor = $("input[name='doctor']:checked").val();
-        let selectedTreatments = [];
-
-        document.querySelectorAll('input[name="treatments"]:checked').forEach(function (checkbox) {
-            selectedTreatments.push(checkbox.value);
-        });
-
-        let selectedSlot = $('.time-slot.selected');
-        if (selectedSlot.length > 0) {
-            selectedTime = selectedSlot.data('time');
-        }
-
-        if (selectedDate == null || selectedTime == null) {
-            alert("請先選擇日期及時間!");
-            return false;
-        } else {
-            showSelectedTreatmentAndDoctor();
-
-            $('.dateTime-section').hide();
-            $('#backToSelectDoctorbtn').hide();
-            $('#fillinBaseInformationbtn').hide();
-            $('.dateTime-selected').show();
-            $('.baseInfomation-section').show();
-            $('#backToSelectDataTimebtn').show();
-            $('#fillinCompletebtn').show();
-
-
-            $('#selectedDateDisplay').text("預約日期：" + selectedDate.data('date'));
-            $('#selectedTimeDisplay').text("預約時間：" + selectedTime);
-
-
-
-            // console.log("選擇的療程:" + selectedTreatments);
-            // console.log("選擇的醫師:" + selectedDoctor);
-            // console.log("選擇的日期:" + selectedDate.data('date'));
-            // console.log("選擇的療程:" + selectedTime);
+            });
         }
     }
 
     function backToIndex() {
-        window.location.href = "@Url.Action("Index", "Appointment")";
-    }
-
-    function checkCellphoneAndNationalIdNumber() {
-        let nationalIdNumber = $('#NationalIdNumber').val();
-        let cellphone = $('#cellphone').val();
-
-        var letters = new Array('A', 'B', 'C', 'D',
-            'E', 'F', 'G', 'H', 'J', 'K', 'L', 'M',
-            'N', 'P', 'Q', 'R', 'S', 'T', 'U', 'V',
-            'X', 'Y', 'W', 'Z', 'I', 'O');
-        var multiply = new Array(1, 9, 8, 7, 6, 5,
-            4, 3, 2, 1);
-        var nums = new Array(2);
-        var firstChar;
-        var firstNum;
-        var lastNum;
-        var total = 0;
-        var regExpID = /^[a-z](1|2)\d{8}$/i;
-
-        if (nationalIdNumber.search(regExpID) == -1) {
-            $('#alert').html("身分證格式錯誤!!");
-            return false;
-        } else {
-            firstChar = nationalIdNumber.charAt(0).toUpperCase();
-            lastNum = nationalIdNumber.charAt(9);
-        }
-
-        for (var i = 0; i < 26; i++) {
-            if (firstChar == letters[i]) {
-                firstNum = i + 10;
-                nums[0] = Math.floor(firstNum / 10);
-                nums[1] = firstNum - (nums[0] * 10);
-                break;
-            }
-        }
-        for (var i = 0; i < multiply.length; i++) {
-            if (i < 2) {
-                total += nums[i] * multiply[i];
-            } else {
-                total += parseInt(nationalIdNumber.charAt(i - 1)) *
-                    multiply[i];
-            }
-        }
-        if ((10 - (total % 10)) != lastNum) {
-            $('#alert').html("身份證號碼錯誤!");
-            return false;
-        }
-
-        //先確認身分證有無重複，再確認手機
-        if (nationalIdNumber != "") {
-            $.ajax({
-                type: 'POST',
-                url: '/Appointment/checkNationalIdNumber',
-                datatype: "json",
-                data: { "nationalIdNumber": nationalIdNumber },
-                async: false,
-                success: function (data) {
-                    if (data != "")
-                        $('#alert').html(data);
-                    else
-                        $('#alert').html("");
-                }
-            });
-        } else {
-            $('#alert').html("");
-        }
-
-        if ($('#alert').html() == "") {
-            if (cellphone != "") {
-                $.ajax({
-                    type: 'POST',
-                    url: '/Appointment/checkCellphone',
-                    datatype: "json",
-                    data: { "cellphone": cellphone },
-                    async: false,
-                    success: function (data) {
-                        if (data != "")
-                            $('#alert').html(data);
-                        else {
-                            $('#alert').html("");
-
-                        }
-                    }
-                });
-            } else {
-                $('#alert').html("");
-            }
-        }
-
-
-
+        window.location.href = "@Url.Action("Index", "Home")";
     }
 
 </script>

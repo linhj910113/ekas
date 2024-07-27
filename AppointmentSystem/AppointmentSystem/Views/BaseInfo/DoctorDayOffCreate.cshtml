@@ -53,9 +53,9 @@
                                     </tr>
                                     <tr>
                                         <td></td>
-                                        <td>日期</td>
+                                        <td>開始日期</td>
                                         <td>
-                                            <input type="date" id="date" style="width:100%;" asp-for="Date" required="">
+                                            <input type="date" id="beginDate" style="width:100%;" asp-for="BeginDate" required="">
                                         </td>
                                         <td></td>
                                     </tr>
@@ -63,6 +63,14 @@
                                         <td></td>
                                         <td>開始時間</td>
                                         <td>@Html.DropDownListFor(m => m.BeginTime, Model.BeginTimeList, new { @class = "form-control", @required = "", @id = "beginTime" })</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>結束日期</td>
+                                        <td>
+                                            <input type="date" id="endDate" style="width:100%;" asp-for="EndDate" required="">
+                                        </td>
                                         <td></td>
                                     </tr>
                                     <tr>
@@ -101,18 +109,33 @@
     function verifyData() {
         let doctorId = $('#doctorId').val();
         let type = $('#type').val();
-        let date = $('#date').val();
+
+        let beginDate = $('#beginDate').val();
+        let endDate = $('#endDate').val();
+
         let beginTime = $('#beginTime').val();
         let endTime = $('#endTime').val();
 
-        date = new Date(date);
-        date.setHours(0, 0, 0, 0);
+        beginDate = new Date(beginDate);
+        endDate = new Date(endDate);
 
-        if (date < new Date().setHours(0, 0, 0, 0)) {
-            alert("日期不能是過去的日期。");
+        beginDate.setHours(0, 0, 0, 0);
+        endDate.setHours(0, 0, 0, 0);
+
+        //日期防呆
+        if (beginDate < new Date().setHours(0, 0, 0, 0)) {
+            alert("開始日期不能是過去的日期。");
             return false;
         }
-        if (endTime <= beginTime) {
+        if (endDate < new Date().setHours(0, 0, 0, 0)) {
+            alert("結束日期不能是過去的日期。");
+            return false;
+        }
+        if (endDate < beginDate) {
+            alert("結束日期不能小於開始日期。");
+            return false;
+        }
+        if ($('#beginDate').val() == $('#endDate').val() && endTime <= beginTime) {
             alert("結束時間必須大於開始時間。");
             return false;
         }
@@ -124,7 +147,7 @@
             url: '/BaseInfo/CheckDayOffData',
             async: false,
             datatype: "json",
-            data: { "doctorId": doctorId, "date": formatDate(date), "beginTime": beginTime, "endTime": endTime },
+            data: { "doctorId": doctorId, "beginDate": formatDate(beginDate), "endDate": formatDate(endDate), "beginTime": beginTime, "endTime": endTime },
             success: function (data) {
                 if (data != "") {
                     alert(data);

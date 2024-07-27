@@ -466,7 +466,7 @@ namespace AppointmentSystem.Controllers
 
                 //傳送LINE訊息
                 //string message = _functions.GetSystemParameter("AppointmentVerifySuccess");
-                string Url = "http://" + _functions.GetSystemParameter("SystemDomainName") + "/Appointment/SuccessPage/" + AppointmentId;
+                string Url = _functions.GetSystemParameter("SystemDomainName") + "/Appointment/SuccessPage/" + AppointmentId;
                 string message = "預約驗證成功，詳細資料如下網址\n" + Url;
 
                 if (vc.LoginBy == "Line")
@@ -583,6 +583,7 @@ namespace AppointmentSystem.Controllers
                 Status = "N",
 
                 Id = AppointmentId,
+                Type = "Appointment",
                 CustomerId = user.FirstOrDefault(u => u.Type == "UserId").Value,
                 DoctorId = doctor,
                 Date = date,
@@ -632,7 +633,7 @@ namespace AppointmentSystem.Controllers
             _appointmentService.CreateVerificationcode(vcode);
 
             //傳送line驗證碼
-            string VerifyUrl = "http://" + _functions.GetSystemParameter("SystemDomainName") + "/Appointment/Verify?code=" + code;
+            string VerifyUrl = _functions.GetSystemParameter("SystemDomainName") + "/Appointment/Verify?code=" + code;
             string message = "預約驗證網址如下，請於5分鐘內進行驗證\n" + VerifyUrl;
 
             if (user.FirstOrDefault(u => u.Type == "LoginBy").Value == "Line")
@@ -789,7 +790,7 @@ namespace AppointmentSystem.Controllers
             };
             _appointmentService.CreateVerificationcode(vcode);
 
-            
+
             string message = "EK美學診所手機登入驗證碼如下，請於5分鐘內進行驗證：" + randomNumber;
             await _functions.SendSmsAsync(cellphone, message);
 

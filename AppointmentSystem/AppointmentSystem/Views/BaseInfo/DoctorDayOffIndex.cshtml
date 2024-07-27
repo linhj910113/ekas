@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<AppointmentSystem.Models.ViewModels.BaseInfoModels.DoctorDayOffIndexVM>
 @{
-    ViewData["Title"] = "醫師手術時間";
+    ViewData["Title"] = "醫師請假";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -16,7 +16,7 @@
                     <div class="container">
                         <div class="row justify-content-left">
                             <div class="col-2">
-                                <button role="button" class="btn btn-shadow btn-block btn-color11-o" style="background-color:#97dded" onclick="location.href='@Url.Action("DoctorDayOffCreate", "BaseInfo")'">+ 新增手術時間</button>
+                                <button role="button" class="btn btn-shadow btn-block btn-color11-o" style="background-color:#97dded" onclick="location.href='@Url.Action("DoctorDayOffCreate", "BaseInfo")'">+ 新增請假時間</button>
                             </div>
                         </div>
                     </div>
@@ -32,12 +32,13 @@
                     <div class="table-responsive">
                         <table class="table table-hover" id="addnew" table-layout: fixed;>
                             <colgroup>
-                                <col width="20%">
+                                <col width="15%">
+                                <col width="15%">
+                                <col width="15%">
+                                <col width="15%">
+                                <col width="15%">
                                 <col width="15%">
                                 <col width="10%">
-                                <col width="30%">
-                                <col width="10%">
-                                <col width="15%">
                             </colgroup>
                             <tbody>
 
@@ -46,8 +47,9 @@
                                     <tr>
                                         <th>醫師名稱</th>
                                         <th>類別</th>
-                                        <th>日期</th>
+                                        <th>開始日期</th>
                                         <th>開始時間</th>
+                                        <th>結束日期</th>
                                         <th>結束時間</th>
                                         <th></th>
                                     </tr>
@@ -57,8 +59,9 @@
                                         <tr>
                                             <td>@item.DoctorName</td>
                                             <td>@item.Type</td>
-                                            <td>@item.Date</td>
+                                            <td>@item.BeginDate</td>
                                             <td>@item.BeginTime</td>
+                                            <td>@item.EndDate</td>
                                             <td>@item.EndTime</td>
                                             @* <td>
                                                 <a role="button" class="btn btn-shadow btn-color11-d btn-block" style="background-color:#97dded;" asp-action="DoctorDayOffEdit" asp-route-id="@item.DayOffIndex">

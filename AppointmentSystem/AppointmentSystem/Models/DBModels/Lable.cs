@@ -4,9 +4,9 @@ using System.Collections.Generic;
 namespace AppointmentSystem.Models.DBModels;
 
 /// <summary>
-/// 角色預設權限資料表
+/// 標籤資料表
 /// </summary>
-public partial class Rolepermission
+public partial class Lable
 {
     public DateTime CreateDate { get; set; }
 
@@ -18,15 +18,14 @@ public partial class Rolepermission
 
     public string Status { get; set; } = null!;
 
-    public long Index { get; set; }
+    public string Id { get; set; } = null!;
 
-    public string RoleId { get; set; } = null!;
+    /// <summary>
+    /// Treatment:療程用的標籤
+    /// </summary>
+    public string Type { get; set; } = null!;
 
-    public string FunctionId { get; set; } = null!;
+    public string LableName { get; set; } = null!;
 
-    public string? IsAllow { get; set; }
-
-    public virtual Function Function { get; set; } = null!;
-
-    public virtual Role Role { get; set; } = null!;
+    public virtual ICollection<Treatmentlable> Treatmentlables { get; set; } = new List<Treatmentlable>();
 }

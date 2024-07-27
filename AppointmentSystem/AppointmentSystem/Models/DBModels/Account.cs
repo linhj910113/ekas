@@ -10,23 +10,23 @@ public partial class Account
 {
     public DateTime CreateDate { get; set; }
 
-    public string Creator { get; set; }
+    public string Creator { get; set; } = null!;
 
     public DateTime ModifyDate { get; set; }
 
-    public string Modifier { get; set; }
+    public string Modifier { get; set; } = null!;
 
-    public string Status { get; set; }
+    public string Status { get; set; } = null!;
 
-    public string Id { get; set; }
+    public string Id { get; set; } = null!;
 
-    public string UserId { get; set; }
+    public string UserId { get; set; } = null!;
 
-    public string Account1 { get; set; }
+    public string? Account1 { get; set; }
 
-    public string Password { get; set; }
+    public string? Password { get; set; }
 
-    public string Memo { get; set; }
+    public string? Memo { get; set; }
 
-    public virtual User User { get; set; }
+    public virtual User User { get; set; } = null!;
 }
