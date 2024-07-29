@@ -440,7 +440,7 @@ namespace AppointmentSystem.Controllers
         {
             string LineLoginChannelId = _functions.GetSystemParameter("LineLoginChannelId");
             string LineLoginChannelSecret = _functions.GetSystemParameter("LineLoginChannelSecret");
-            string LineLoginCallbackURL = "https://localhost:7146/Appointment/BindLineAccount?customerId=" + customerId;
+            string LineLoginCallbackURL = "http://54.199.151.82/Appointment/BindLineAccount?customerId=" + customerId;
 
             using (var client = new HttpClient())
             {
