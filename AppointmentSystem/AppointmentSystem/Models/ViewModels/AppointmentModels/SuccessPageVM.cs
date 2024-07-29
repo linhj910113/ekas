@@ -14,6 +14,8 @@ namespace AppointmentSystem.Models.ViewModels.AppointmentModels
 
         public string? NotifyMessage { get; set; }
 
+        public string? CustomerId { get; set; }
+
         public SuccessPageVM()
         {
             SelectedDoctor = new DoctorDataVM();

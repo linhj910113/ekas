@@ -1,8 +1,8 @@
-﻿@model AppointmentSystem.Models.ViewModels.AppointmentModels.EditVM
+﻿@* @model AppointmentSystem.Models.ViewModels.AppointmentModels.FillinVM *@
 
 @{
-    Layout = "~/Views/Shared/CustomerLayout.cshtml";
-    ViewData["Title"] = "Home Page";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "填寫預約資料";
 }
 
 <style>
@@ -14,7 +14,13 @@
         padding: 20px;
         border-radius: 13px;
         border: 0px solid #5F5F5F;
+        /* box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);*/
     }
+
+        .treatment-section::-webkit-scrollbar, .doctor-section::-webkit-scrollbar, .baseInfomation-section::-webkit-scrollbar {
+            width: 0px;
+            background: transparent;
+        }
 
     .scroll {
         overflow-y: scroll;
@@ -25,11 +31,6 @@
             background: transparent;
         }
 
-    .treatment-section::-webkit-scrollbar, .doctor-section::-webkit-scrollbar, .baseInfomation-section::-webkit-scrollbar {
-        width: 0px;
-        background: transparent;
-    }
-
     .dateTime-section {
         text-align: left;
         margin: auto;
@@ -38,7 +39,19 @@
         padding: 20px;
         border-radius: 13px;
         border: 0px solid #5F5F5F;
+        /* height: 500px;*/
     }
+
+    .timeList {
+        overflow-y: scroll;
+        height: 200px;
+        padding-top: 20px;
+    }
+
+        .timeList::-webkit-scrollbar {
+            width: 0px;
+            background: transparent;
+        }
 
     .treatment-selected, .doctor-selected, .dateTime-selected {
         text-align: left;
@@ -50,6 +63,18 @@
         border: 0px solid #5F5F5F;
         display: none;
     }
+
+    .buttonDIV {
+        text-align: left;
+        margin: 20px auto;
+        width: 85%;
+        background-color: transparent;
+        border-radius: 13px;
+        border: 0px solid #5F5F5F;
+        display: none;
+        padding: 20px;
+    }
+
 
     .selectable {
         position: relative;
@@ -94,8 +119,8 @@
         }
 
     /*  .selectable .select-circle.selected {
-                                                                                                                        background-color: green;
-                                                                                                                    } */
+                                                                                                                                                                                                    background-color: green;
+                                                                                                                                                                                                } */
 
     .doctor-section.hidden, .dateTime-section.hidden, .baseInfomation-section.hidden {
         display: none;
@@ -228,6 +253,7 @@
         color: white;
     }
 
+
     #treatmentImage img {
         width: 50%;
         height: 50%;
@@ -247,7 +273,7 @@
     }
 
     .appointment-table {
-        width: 100%;
+        width: 82%;
         margin: 0px !important;
         padding: 20px 5px;
         border-radius: 40px;
@@ -259,118 +285,45 @@
         align-items: start;
     }
 
-    .treatmentTittle, .doctorTittle, .dateTittle {
+    .treatmentTitle, .doctorTitle, .dateTitle {
         display: flex;
         align-items: center;
         font-size: 18px;
         color: #0E4F43;
         font-weight: 800;
         margin-top: 15px;
-        margin-left: 5px;
+        margin-left: 30px;
     }
 
-    .timeList {
-        overflow-y: scroll;
-        height: 200px;
-        padding-top: 20px;
-    }
-
-        .timeList::-webkit-scrollbar {
-            width: 0px;
-            background: transparent;
-        }
 </style>
+
 <div class="overlay-container" style=" position: relative;">
-    @*     <img id="desktopImage" src="~/images/CustomerIndexImage1.jpg" alt="Desktop Image" class="appointment-image desktop-image">
-    <img id="mobileImage" src="~/images/CustomerIndexImage2.jpg" alt="Mobile Image" class="appointment-image mobile-image" style="height:25rem; width:auto; object-fit: cover;"> *@
     <img id="desktopImage" src="~/images/banner (2).png" alt="Desktop Image" class="appointment-image desktop-image" style="width: 100%;  height: auto;  max-height: 18rem;object-fit: cover;">
     <img id="mobileImage" src="~/images/banner (2).png" alt="Mobile Image" class="appointment-image mobile-image" style=" width:auto; object-fit: cover;">
-
-
-
 </div>
+
 <div class="appointment-wrapper">
     <div class="appointment-table">
-        <div class="overlay-container" style=" position: relative;display: inline-block;">
-            @*     <img id="desktopImage" src="~/images/CustomerIndexImage1.jpg" alt="Desktop Image" class="appointment-image desktop-image">
-            <img id="mobileImage" src="~/images/CustomerIndexImage2.jpg" alt="Mobile Image" class="appointment-image mobile-image" style="height:25rem; width:auto; object-fit: cover;"> *@
 
-            <div class="overlay"
-                 style="position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(to top, rgba(0, 0, 0, 0.5), rgba(255, 255, 255, 0));
-            z-index: 1;
-            display: flex;
-            justify-content: center;
-            align-items: flex-end;
-            color: #DCDCDC;
-            font-weight:normal;
-            font-size:16px;
-            line-height: 1.8;
-            margin-bottom:10px;
-            letter-spacing: 2px;">
-                @* <div class="container content mb-3">
-                <span id="AppointmentIntroductionText"></span>
-                </div> *@
-            </div>
-        </div>
-
-        <p></p>
-
-        <div style="margin:auto;">
-            <p style="font-size:20px ;font-weight:600;">修改預約</p>
-            <!-- <h>線上預約</h>-->
-        </div>
 
         <!-- 療程部分 -->
 
-        <div class="treatment-section" style="height:330px  ; background-color:white;">
+        <div class="treatment-section " style="height:330px  ; background-color:white;">
             <div class="treatmentTittle">
                 <span>療程項目</span>
             </div>
-
-            <div id="treatmentData" class="row scroll" style="display: flex; justify-content: left;height: 290px;">
-                @{
-                    int i = 0;
-                }
-
-                @foreach (var treatment in Model.TreatmentList)
-                {
-                    i++;
-
-                    @if (Model.SelectedTreatment.Where(x => x.Contains(treatment.TreatmentId)).Count() > 0)
-                    {
-                        <div class="selectable treatmentDiv" id="treatmentDiv-@i" data-title="@treatment.TreatmentName" data-description="@treatment.Introduction" data-image="@treatment.Image" data-type="treatment" style="outline:4px solid #049FBF;">
-                            <img src="@treatment.Image" class="img-fluid" onclick="treatmentOnClick('@i');" style="border-radius: 15px; padding:3px;">
-                            @* <img src="~/images/info.png" class="img-fluid treatment-info" data-toggle="modal" data-target="#treatmentModal" /> *@
-                            <input type="checkbox" id="treatment-@i" name="treatments" value="@treatment.TreatmentId" style="display:none;" checked />
-                            <div style="display: flex; align-items: center; justify-content: center; cursor:pointer;" data-toggle="modal" data-target="#treatmentModal"><span style="font-size:14px;">@treatment.TreatmentName</span></div>
-                        </div>
-                    }
-                    else
-                    {
-                        <div class="selectable treatmentDiv" id="treatmentDiv-@i" data-title="@treatment.TreatmentName" data-description="@treatment.Introduction" data-image="@treatment.Image" data-type="treatment" style="">
-                            <img src="@treatment.Image" class="img-fluid" onclick="treatmentOnClick('@i');" style="border-radius: 15px; padding:3px;">
-                            @* <img src="~/images/info.png" class="img-fluid treatment-info" data-toggle="modal" data-target="#treatmentModal" /> *@
-                            <input type="checkbox" id="treatment-@i" name="treatments" value="@treatment.TreatmentId" style="display:none;" />
-                            <div style="display: flex; align-items: center; justify-content: center; cursor:pointer;" data-toggle="modal" data-target="#treatmentModal"><span style="font-size:14px;">@treatment.TreatmentName</span></div>
-                        </div>
-                    }
-                }
+            <div id="treatmentData" class="row scroll" style="display: flex; justify-content:  left; height: 290px;">
             </div>
         </div>
 
         <!-- 已選擇的療程 -->
 
-        <div class="treatment-selected">
+        <div class="treatment-selected" style="background-color:white;">
             <div class="treatmentTittle">
                 <span>療程項目</span>
             </div>
-
             <div id="selectedTreatment" class="row" style="display: flex; justify-content: left;">
+                =
             </div>
         </div>
 
@@ -378,39 +331,15 @@
 
         <div class="doctor-section" style=" height:200px;background-color:white;">
             <div class="doctorTittle">
-                <span>選擇醫師(單選)</span>
+                <span>選擇醫師</span>
             </div>
 
             <div id="doctorData" class="row" style="display: flex; justify-content: left;">
-                @{
-                    i = 0;
-                }
-
-                @foreach (var doctor in Model.DoctorList)
-                {
-                    i++;
-                    @if (doctor.DoctorId == Model.DoctorId)
-                    {
-                        <div class=" selectable doctorDiv" id="doctorDiv-@i" data-title="@doctor.DoctorName" data-department="@doctor.DepartmentTitle" data-description="@doctor.Introduction" data-image="@doctor.Image" data-type="doctor" style=" outline:4px solid #049FBF;">
-                            <img src="@doctor.Image" class="img-fluid" onclick="doctorOnClick('@i')" style="border-radius: 15px; padding:3px;">
-                            @* <img src="~/images/info.png" class="img-fluid doctor-info" data-toggle="modal" data-target="#doctorModal" /> *@
-                            <div style="display: flex; align-items: center; justify-content: center; cursor:pointer;" data-toggle="modal" data-target="#doctorModal"><span style="font-size:14px;">@doctor.DoctorName</span></div>
-                            <input type="radio" id="doctor-@i" name="doctor" value="@doctor.DoctorId" class="doctor-info" style="display:none;" checked />
-                        </div>
-                    }
-                    else
-                    {
-                        <div class=" selectable doctorDiv" id="doctorDiv-@i" data-title="@doctor.DoctorName" data-department="@doctor.DepartmentTitle" data-description="@doctor.Introduction" data-image="@doctor.Image" data-type="doctor" style="">
-                            <img src="@doctor.Image" class="img-fluid" onclick="doctorOnClick('@i')" style="border-radius: 15px; padding:3px;">
-                            <div style="display: flex; align-items: center; justify-content: center; cursor:pointer;" data-toggle="modal" data-target="#doctorModal"><span style="font-size:14px;">@doctor.DoctorName</span></div>
-                            <input type="radio" id="doctor-@i" name="doctor" value="@doctor.DoctorId" class="doctor-info" style="display:none;" />
-                        </div>
-                    }
-                }
             </div>
         </div>
 
         <!-- 已選擇的醫師 -->
+
         <div class="doctor-selected">
             <div class="doctorTittle">
                 <span>醫師</span>
@@ -418,7 +347,6 @@
             <div id="selectedDoctor" class="row" style="display: flex; justify-content: left;">
             </div>
         </div>
-
 
         <!-- 日期時間部分 -->
 
@@ -437,117 +365,86 @@
                         <div class="datepicker-body" id="calendar"></div>
                     </div>
 
-                    <p id="dateDisplay" class="selected-date">預約日期：@Model.Date</p>
-                    <p id="timeDisplay" class="selected-time">預約時間：@Model.BookingBeginTime</p>
+                    <p id="dateDisplay" class="selected-date ml-3">預約日期：無</p>
+                    <p id="timeDisplay" class="selected-time ml-3">預約時間：無</p>
                 </div>
                 <div class="col-md-4 timeList" id="timeList">
                     <div class="time-picker" id="timePicker">
-                        @foreach (var time in Model.Outpatients)
-                        {
-                            if (time.Enabled == "Y")
-                            {
-                                if (time.BeginTime == Model.BookingBeginTime)
-                                {
-                                    <div class="time-slot selected" data-time="@time.BeginTime" onclick="timeSlotClick(this);">@time.BeginTime</div>
-                                }
-                                else
-                                {
-                                    <div class="time-slot" data-time="@time.BeginTime" onclick="timeSlotClick(this);">@time.BeginTime</div>
-                                }
-                            }
-                            else
-                            {
-                                <div class="time-slot disabled" data-time="@time.BeginTime" onclick="timeSlotClick(this);">@time.BeginTime</div>
-                            }
-
-                        }
-
                     </div>
-
                 </div>
             </div>
         </div>
 
         <!-- 已選擇的日期時間 -->
-
         <div class="dateTime-selected" style="background-color:white;">
             <div class="dateTittle">
-                <span>日期及時間</span>
+                <span>時間及日期</span>
             </div>
-            <p id="selectedDateDisplay" class="selected-date ml-3">預約日期：@Model.Date</p>
-            <p id="selectedTimeDisplay" class="selected-time ml-3">預約時間：@Model.BookingBeginTime</p>
+            <p id="selectedDateDisplay" class="selected-date ml-3">預約日期：無</p>
+            <p id="selectedTimeDisplay" class="selected-time ml-3">預約時間：無</p>
         </div>
 
         <!-- 初診填寫基本資料部分 -->
-        <div class="baseInfomation-section hidden" style="background-color:white;">
-            <h5>初診基本資料填寫</h5>
-            <div class="form-group">
-                <label for="name">姓名</label>
-                <input type="text" class="form-control" id="name">
-            </div>
-            <div class="form-group">
-                <label for="NationalIdNumber">身分證</label>
-                <input type="text" class="form-control" id="NationalIdNumber">
-            </div>
-            <div class="form-group">
-                <label for="cellphone">手機號碼</label>
-                <input type="text" class="form-control" id="cellphone">
-            </div>
-            <div class="form-group">
-                <label>性別</label><br>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="gender" id="male" value="男">
-                    <label class="form-check-label" for="male">男</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="gender" id="female" value="女">
-                    <label class="form-check-label" for="female">女</label>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="birthday">生日</label>
-                <input type="date" class="form-control" id="birthday">
-            </div>
-            <div class="form-group">
-                <label for="email">Email</label>
-                <input type="email" class="form-control" id="email">
-            </div>
+        @* <div class="baseInfomation-section hidden" style="background-color:white;">
+        <h5>初診基本資料填寫</h5>
+        <div class="form-group">
+        <label for="name">姓名</label>
+        <input type="text" class="form-control" id="name">
         </div>
+        <div class="form-group">
+        <label for="NationalIdNumber">身分證</label>
+        <input type="text" class="form-control" id="NationalIdNumber" onchange="checkCellphoneAndNationalIdNumber();">
+        </div>
+        <div class="form-group">
+        <label for="cellphone">手機號碼</label>
+        <input type="text" class="form-control" id="cellphone" onchange="checkCellphoneAndNationalIdNumber();">
+        </div>
+        <div class="form-group">
+        <label>性別</label><br>
+        <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" name="gender" id="male" value="男">
+        <label class="form-check-label" for="male">男</label>
+        </div>
+        <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" name="gender" id="female" value="女">
+        <label class="form-check-label" for="female">女</label>
+        </div>
+        </div>
+        <div class="form-group">
+        <label for="birthday">生日</label>
+        <input type="date" class="form-control" id="birthday">
+        </div>
+        <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" class="form-control" id="email">
+        </div>
+        <div class="form-group">
+        <label id="alert" style="color:red;"></label>
+        </div>
+        </div> *@
 
-        <input type="hidden" id="selectedDate" value="@Model.Date" />
-        <input type="hidden" id="selectedTime" value="@Model.BookingBeginTime" />
-        <input type="hidden" id="appointmentId" value="@Model.AppointmentId" />
-
-        <div class="buttonDIV" style="display:flex ; align-content:center ; justify-content:end; width:85%;margin:auto; padding-right:15px; border-radius:30px;margin-top: 30px;">
-
-            <button class="btn btn-secondary" id="cancelAppointment" onclick="cancelAppointment('@Model.AppointmentId');" style="border:none;border:none;border-radius:100px; background-color:#4A707A;padding:2px;margin-right:10px  ; width:40px;height:40px;padding-top: 1px;padding-right: 10px;padding-left: 10px; padding-bottom: 1px;">
-                取消預約
-            </button>
-
+        <div class="buttonDIV" style="display:flex ; align-content:center ; justify-content:end; width:85%;margin:auto; padding-right:15px; border-radius:30px;">
             <button class="btn btn-secondary" id="backToIndex" onclick="backToIndex();" style="border:none;border:none;border-radius:100px; background-color:#4A707A;padding:2px;margin-right:10px  ; width:40px;height:40px">
                 <img src="~/images/close_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.png" alt="Alternate Text" style="width:30px;height:30px; " />
             </button>
-
             <button class="btn btn-primary" id="selectDateTimebtn" onclick="selectDateTime();" style="border:none;border-radius:100px; background-color:#4A707A;padding:2px;">
                 <img src="~/images/arrow_right_alt_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.png" alt="Alternate Text" style="width:35px;height:35px; " />
             </button>
 
             <button class="btn btn-primary" id="backToSelectDoctorbtn" onclick="backToSelectDoctor();" style="display:none;border:none; background-color:transparent;border: 2px solid #4A707A; border-radius:100px;padding:2px;margin-right:10px  ; width:40px;height:40px">
-                <img src="~/images/arrow_left_alt_24dp_4A707A_FILL0_wght400_GRAD0_opsz24.png" alt="Alternate Text" style="width:35px;height:35px; " />
+                <img src="~/images/arrow_left_alt_24dp_4A707A_FILL0_wght400_GRAD0_opsz24.png" alt="Alternate Text" style="width:35px;height:35px;" />
             </button>
 
-            <button class="btn btn-primary" id="backToSelectDataTimebtn" onclick="backToSelectDataTime();" style="display:none;border:none; background-color:transparent;border: 2px solid #4A707A; border-radius:100px;padding:2px;margin-right:10px  ; width:40px;height:40px">
-                <img src="~/images/arrow_left_alt_24dp_4A707A_FILL0_wght400_GRAD0_opsz24.png" alt="Alternate Text" style="width:35px;height:35px; " />
+            <button class="btn btn-primary" id="backToSelectDataTimebtn" onclick="backToSelectDataTime();" style="display:none;border:none; background-color:transparent;border: 2px solid #4A707A;border-radius:100px;padding:2px;margin-right:10px  ; width:40px;height:40px ">
+                <img src="~/images/arrow_left_alt_24dp_4A707A_FILL0_wght400_GRAD0_opsz24.png" alt="Alternate Text" style="width:35px;height:35px;" />
             </button>
+
             <button class="btn btn-primary" id="fillinCompletebtn" onclick="fillinComplete();" style="display:none;border:none;border-radius:100px; background-color:#4A707A;padding:2px; width:40px;height:40px">
                 <img src="~/images/arrow_right_alt_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.png" alt="Alternate Text" style="width:35px;height:35px; " />
             </button>
-
         </div>
     </div>
 </div>
-
-
 <!-- 療程項目簡介模態框 -->
 <div class="modal fade " id="treatmentModal" tabindex="-1" aria-labelledby="treatmentModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -572,7 +469,7 @@
 <!-- 醫師簡介模態框 -->
 <div class="modal fade" id="doctorModal" tabindex="-1" aria-labelledby="doctorModalLabel" aria-hidden="true">
     <div class="modal-dialog">
-        <div class="modal-content">
+        <div class="modal-content" style="border-radius:15px;">
             <div class="modal-header">
                 <h5 class="modal-title" id="doctorModalLabel">醫師簡介</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -590,10 +487,11 @@
     </div>
 </div>
 
-@* <script src="~/js/jquery-3.5.1.min.js"></script> *@
+<input type="hidden" id="customerId" value="@ViewBag.customerId" />
+<input type="hidden" id="type" value="@ViewBag.type" />
+
 <link rel="stylesheet" href="~/css/jquery-ui.css" asp-append-version="true">
 <script src="~/js/jquery-ui.js" asp-append-version="true"></script>
-
 <script>
     let today = new Date();
     let currentMonth = today.getMonth();
@@ -603,7 +501,6 @@
     let availabelDates = [];
     let treatmentList = null;
     let doctorList = null;
-    let sDate = "";
 
     const monthNames = ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"];
     const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
@@ -612,13 +509,7 @@
         initData();
 
         function initData() {
-            // setAppointmentIntroductionText();
-            // setAppointmentImage();
-            setTreatmentListAndDoctorList();
-
-            sDate = $('#selectedDate').val();
-            // treatmentOnClick();
-            // setTreatmentList();
+            setTreatmentList();
         }
 
         // 控制醫師單選
@@ -637,9 +528,8 @@
             var modal = $(this);
 
             modal.find('.modal-title').text(title);
-            // modal.find('.modal-body #treatmentModalTitle').text(title);
             modal.find('.modal-body #treatmentModalDescription').text(description);
-            modal.find('.modal-body #treatmentImage').html("<img src='" + image + "' alt='treatment' class='img-fluid'>");
+            modal.find('.modal-body #treatmentImage').html("<img src='" + image + "' alt='treatment'  class='img-fluid'>");
         });
 
         $('#doctorModal').on('show.bs.modal', function (event) {
@@ -651,7 +541,6 @@
             var modal = $(this);
 
             modal.find('.modal-title').text(title + '  ' + department);
-            // modal.find('.modal-body #doctorModalTitle').text(title);
             modal.find('.modal-body #doctorModalDepartment').text(description);
             modal.find('.modal-body #doctorModalDescription').text(description);
             modal.find('.modal-body #doctorImage').html("<img src='" + image + "' alt='doctor' class='img-fluid'>");
@@ -691,79 +580,27 @@
         }
     }
 
-    function cancelAppointment(appointmentId) {
-        if (confirm("你確定要取消此次預約?")) {
-            $.ajax({
-                type: 'POST',
-                url: '/Appointment/CancelAppointment',
-                datatype: "json",
-                data: { "AppointmentId": appointmentId },
-                success: function (data) {
-                    window.location.href = "@Url.Action("Index", "Appointment")";
-                }
-            });
-        }
-    }
-
-    // function setAppointmentIntroductionText() {
-    //     $.ajax({
-    //         type: 'GET',
-    //         url: '/Appointment/setAppointmentIntroductionText',
-    //         datatype: "json",
-    //         success: function (data) {
-    //             $('#AppointmentIntroductionText').html(data);
-    //         }
-    //     });
-    // }
-
-    // function setAppointmentImage() {
-    //     $.ajax({
-    //         type: 'GET',
-    //         url: '/Appointment/setAppointmentDesktopImage',
-    //         datatype: "json",
-    //         success: function (data) {
-    //             if (data != null) {
-    //                 // console.log(data);
-    //                 $('#desktopImage').attr('src', data);
-    //             }
-    //         }
-    //     });
-
-    //     $.ajax({
-    //         type: 'GET',
-    //         url: '/Appointment/setAppointmentMobileImage',
-    //         datatype: "json",
-    //         success: function (data) {
-    //             if (data != null) {
-    //                 $('#mobileImage').attr('src', data);
-    //             }
-    //         }
-    //     });
-    // }
-
-    function setTreatmentListAndDoctorList() {
+    function setTreatmentList() {
         $.ajax({
             type: 'GET',
-            url: '/Appointment/setTreatmentList',
+            url: '/Home/setTreatmentList',
             datatype: "json",
             success: function (data) {
                 treatmentList = data;
-            }
-        });
+                let inner = "";
+                let i = 0;
 
-        let selectedTreatments = [];
+                data.forEach(function (x) {
+                    i++;
 
-        document.querySelectorAll('input[name="treatments"]:checked').forEach(function (checkbox) {
-            selectedTreatments.push(checkbox.value);
-        });
+                    inner += `<div class="selectable treatmentDiv"   id="treatmentDiv-` + i + `" data-title="` + x.treatmentName + `" data-description="` + x.introduction + `" data-image="` + x.image + `" data-type="treatment">`;
+                    inner += `<img  src="` + x.image + `" style="border-radius: 15px; padding:3px;" class="img-fluid" onclick="treatmentOnClick('` + i + `');">`;
+                    inner += `<div style="display: flex; align-items: center; justify-content: center; cursor:pointer;" data-toggle="modal" data-target="#treatmentModal"><span style="font-size:14px;">` + x.treatmentName + `</span></div>`;
+                    inner += `<input type="checkbox" id="treatment-` + i + `" name="treatments" value="` + x.treatmentId + `" style="display:none;" />`;
+                    inner += `</div>`;
+                });
 
-        $.ajax({
-            type: 'POST',
-            url: '/Appointment/setDoctorList',
-            datatype: "json",
-            data: { treatments: selectedTreatments },
-            success: function (data) {
-                doctorList = data;
+                $('#treatmentData').html(inner);
             }
         });
     }
@@ -777,7 +614,7 @@
 
         $.ajax({
             type: 'POST',
-            url: '/Appointment/setDoctorList',
+            url: '/Home/setDoctorList',
             datatype: "json",
             data: { treatments: selectedTreatments },
             success: function (data) {
@@ -789,10 +626,9 @@
                     data.forEach(function (x) {
                         i++;
 
-                        inner += `<div class="selectable doctorDiv "   id="doctorDiv-` + i + `" data-title="` + x.doctorName + `" data-department="` + x.departmentTitle + `" data-image="` + x.image + `" data-description="` + x.introduction + `" data-type="doctor">`;
-                        inner += `<img src="` + x.image + `" style="border-radius: 15px; padding:3px;" class="img-fluid" onclick="doctorOnClick('` + i + `')">`;
-                        // inner += `<img src="/images/info.png" class="img-fluid doctor-info" data-toggle="modal" data-target="#doctorModal" />`;
-                        inner += `<div style=";display: flex; align-items: center; justify-content: center; cursor:pointer;" data-toggle="modal" data-target="#doctorModal"><span style="font-size:14px;">` + x.doctorName + `</span></div>`;
+                        inner += `<div class="selectable doctorDiv " id="doctorDiv-` + i + `" data-title="` + x.doctorName + `" data-department="` + x.departmentTitle + `" data-image="` + x.image + `" data-description="` + x.introduction + `" data-type="doctor">`;
+                        inner += `<img src="` + x.image + `"style="border-radius: 15px; padding:3px;" class="img-fluid" onclick="doctorOnClick('` + i + `')">`;
+                        inner += `<div style=" display: flex; align-items: center; justify-content: center; cursor:pointer;" data-toggle="modal" data-target="#doctorModal"><span style="font-size:14px;">` + x.doctorName + `</span></div>`;
                         inner += `<input type="radio" id="doctor-` + i + `" name="doctor" value="` + x.doctorId + `" class="doctor-info" style="display:none;" />`;
                         inner += `</div>`;
                     });
@@ -836,8 +672,10 @@
         if (selected.length > 0 && selectedTreatments.length > 0) {
             //將療程及醫師隱藏，顯示日期時間
             $('.treatment-section').hide();
+            $('.treatmentTitle').hide();
             $('.doctor-section').hide();
             $('.dateTime-section').show();
+
             $('#selectDateTimebtn').hide();
             $('#backToSelectDoctorbtn').show();
             $('#fillinCompletebtn').show();
@@ -846,11 +684,10 @@
 
             $.ajax({
                 type: 'POST',
-                url: '/Appointment/getDateAndTime',
+                url: '/Home/getDateAndTime',
                 datatype: "json",
-                data: { treatments: selectedTreatments, "doctor": selected.val() },
+                data: { treatments: selectedTreatments, "customerId": $('#customerId').val(), "doctor": selected.val() },
                 success: function (data) {
-                    console.log(data);
                     outpatientDateTimes = data;
 
                     data.forEach(function (x) {
@@ -897,14 +734,6 @@
 
             dateElement.data('date', dateString);
 
-
-
-            if ($("#selectedDate").val() == dateString) {
-                dateElement.addClass('selected');
-                selectedDate = dateElement;
-            }
-
-
             if (availabelDates.includes(dateString)) {
                 dateElement.addClass('availabel').on('click', function () {
                     if (selectedDate) {
@@ -914,7 +743,6 @@
                     selectedDate = dateElement;
                     dateDisplay.text("預約日期：" + selectedDate.data('date'));
                     $("#timeDisplay").text("預約時間：無");
-                    $("#selectedDate").val(selectedDate.data('date'));
 
                     let timePicker = $('#timePicker');
                     timePicker.empty();
@@ -944,31 +772,14 @@
                     });
                 });
 
-
-
-                // if (selectedDate != null && selectedDate == selectedDate.data('date')) {
-                //     dateElement.addClass('selected');
-                // }
+                if (selectedDate != null && selectedDate == selectedDate.data('date')) {
+                    dateElement.addClass('selected');
+                }
             } else {
                 dateElement.addClass('disabled');
             }
 
             calendar.append(dateElement);
-        }
-    }
-
-    function timeSlotClick(element) {
-        if (!$(element).hasClass('disabled')) {
-            $('.time-slot').removeClass('selected');
-            $(element).addClass('selected');
-        }
-
-        let selectedSlot = $('.time-slot.selected');
-        if (selectedSlot.length > 0) {
-            let selectedTime = selectedSlot.data('time');
-            $('#timeDisplay').text("預約時間：" + selectedTime);
-        } else {
-            $('#timeDisplay').text("預約時間：無");
         }
     }
 
@@ -987,9 +798,11 @@
         $('#selectedTimeDisplay').text("預約時間：無");
 
         $('.treatment-section').show();
+        $('.treatmentTitle').show();
         $('.doctor-section').show();
         $('.dateTime-section').hide();
         $('.treatment-selected').hide();
+        $('.treatmentTittle').hide();
         $('.doctor-selected').hide();
         $('.dateTime-selected').hide();
 
@@ -1003,14 +816,13 @@
 
     function backToSelectDataTime() {
         $('.dateTime-selected').hide();
-        $('.baseInfomation-section').hide();
         $('#backToSelectDataTimebtn').hide();
         $('#fillinCompletebtn').hide();
 
         $('.dateTime-section').show();
         $('#backToSelectDoctorbtn').show();
-
         $('#fillinCompletebtn').show();
+
     }
 
     function showSelectedTreatmentAndDoctor() {
@@ -1027,8 +839,8 @@
         selectedTreatments.forEach(function (x) {
             let item = treatmentList.filter(e => e.treatmentId == x)[0];
 
-            inner += `<div class="selectable "   data-title="` + item.treatmentName + `" data-image="` + item.image + `" data-description="` + item.introduction + `" data-type="selectedTreatment">`;
-            inner += `<img src="` + item.image + `" style="border-radius: 15px; padding:3px;" class="img-fluid" data-toggle="modal" data-target="#treatmentModal">`;
+            inner += `<div class="selectable " data-title="` + item.treatmentName + `" data-image="` + item.image + `" data-description="` + item.introduction + `" data-type="selectedTreatment">`;
+            inner += `<img src="` + item.image + `"style="border-radius: 15px; padding:3px;" class="img-fluid" data-toggle="modal" data-target="#treatmentModal">`;
             inner += `<div style="display: flex; align-items: center; justify-content: center; cursor:pointer;" data-toggle="modal" data-target="#treatmentModal" ><span style="font-size:14px;">` + item.treatmentName + `</span></div>`;
             inner += `</div>`;
         });
@@ -1039,14 +851,15 @@
 
         let item = doctorList.filter(e => e.doctorId == selectedDoctor)[0];
 
-        inner += `<div class="selectable treatmentDiv"    data-title="` + item.doctorName + `" data-image="` + item.image + `" data-department="` + item.departmentTitle + `" data-description="` + item.introduction + `" data-type="selectedDoctor" >`;
-        inner += `<img src="` + item.image + `"  style="border-radius: 15px; padding:3px;"  class="img-fluid" data-toggle="modal" data-target="#doctorModal" >`;
-        inner += `<div  style="display: flex; align-items: center; justify-content: center; cursor:pointer;" data-toggle="modal" data-target="#doctorModal" ><span style="font-size:14px;">` + item.doctorName + `</span></div>`;
+        inner += `<div class="selectable "" data-title="` + item.doctorName + `" data-image="` + item.image + `" data-department="` + item.departmentTitle + `" data-description="` + item.introduction + `" data-type="selectedDoctor" >`;
+        inner += `<img src="` + item.image + `"style="border-radius: 15px; padding:3px;" class="img-fluid" data-toggle="modal" data-target="#doctorModal" >`;
+        inner += `<div style="display: flex; align-items: center; justify-content: center; cursor:pointer;" data-toggle="modal" data-target="#doctorModal" ><span style="font-size:14px;">` + item.doctorName + `</span></div>`;
         inner += `</div>`;
 
         $('#selectedDoctor').html(inner);
 
         $('.treatment-selected').show();
+        $('.treatmentTittle').show();
         $('.doctor-selected').show();
     }
 
@@ -1062,76 +875,33 @@
         let selectedSlot = $('.time-slot.selected');
         if (selectedSlot.length > 0) {
             selectedTime = selectedSlot.data('time');
+        } else {
+            return false;
         }
 
         if (selectedDate == null || selectedTime == null) {
             alert("請先選擇日期及時間!")
             return false;
         } else {
+            let customerId = $('#customerId').val();
+            let type = $('#type').val();
+
             $.ajax({
                 type: 'POST',
-                url: '/Appointment/UpdateAppointment',
+                url: '/Home/AddAppointment',
                 datatype: "json",
-                data: { AppointmentId: $('#appointmentId').val(), treatments: selectedTreatments, "doctor": selectedDoctor, "date": selectedDate.data('date'), "beginTime": selectedTime },
+                data: { treatments: selectedTreatments, "doctor": selectedDoctor, "date": selectedDate.data('date'), "beginTime": selectedTime, "customerId": customerId, "type": type },
                 success: function (data) {
-                    console.log("Update appointment infomation success.")
+                    console.log("Create appointment success.")
 
-                    window.location.href = "@Url.Action("Index", "Appointment")";
+                    window.location.href = "@Url.Action("Index", "Home")";
                 }
             });
-
-            // console.log("選擇的療程:" + selectedTreatments);
-            // console.log("選擇的醫師:" + selectedDoctor);
-            // console.log("選擇的日期:" + selectedDate.data('date'));
-            // console.log("選擇的療程:" + selectedTime);
-            // }
-
         }
     }
 
     function backToIndex() {
-        window.location.href = "@Url.Action("Index", "Appointment")";
+        window.location.href = "@Url.Action("Index", "Home")";
     }
-
-    // function fillinBaseInformation() {
-    //     let selectedTime = null;
-    //     let selectedDoctor = $("input[name='doctor']:checked").val();
-    //     let selectedTreatments = [];
-
-    //     document.querySelectorAll('input[name="treatments"]:checked').forEach(function (checkbox) {
-    //         selectedTreatments.push(checkbox.value);
-    //     });
-
-    //     let selectedSlot = $('.time-slot.selected');
-    //     if (selectedSlot.length > 0) {
-    //         selectedTime = selectedSlot.data('time');
-    //     }
-
-    //     if (selectedDate == null || selectedTime == null) {
-    //         alert("請先選擇日期及時間!");
-    //         return false;
-    //     } else {
-    //         showSelectedTreatmentAndDoctor();
-
-    //         $('.dateTime-section').hide();
-    //         $('#backToSelectDoctorbtn').hide();
-    //         $('#fillinBaseInformationbtn').hide();
-    //         $('.dateTime-selected').show();
-    //         $('.baseInfomation-section').show();
-    //         $('#backToSelectDataTimebtn').show();
-    //         $('#fillinCompletebtn').show();
-
-
-    //         $('#selectedDateDisplay').text("選擇的日期：" + selectedDate.data('date'));
-    //         $('#selectedTimeDisplay').text("選擇的時間：" + selectedTime);
-
-
-
-    //         // console.log("選擇的療程:" + selectedTreatments);
-    //         // console.log("選擇的醫師:" + selectedDoctor);
-    //         // console.log("選擇的日期:" + selectedDate.data('date'));
-    //         // console.log("選擇的療程:" + selectedTime);
-    //     }
-    // }
 
 </script>

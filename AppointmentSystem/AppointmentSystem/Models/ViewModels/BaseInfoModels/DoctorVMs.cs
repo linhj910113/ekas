@@ -91,9 +91,11 @@ namespace AppointmentSystem.Models.ViewModels.BaseInfoModels
 
         public string? Type { get; set; }
 
-        public string? Date { get; set; }
+        public string? BeginDate { get; set; }
 
         public string? BeginTime { get; set; }
+
+        public string? EndDate { get; set; }
 
         public string? EndTime { get; set; }
 
@@ -112,13 +114,16 @@ namespace AppointmentSystem.Models.ViewModels.BaseInfoModels
 
         public IEnumerable<SelectListItem>? TypeList { get; set; }
 
-        [Display(Name = "日期")]
-        public string? Date { get; set; }
+        [Display(Name = "開始日期")]
+        public string? BeginDate { get; set; }
 
         [Display(Name = "開始時間")]
         public string? BeginTime { get; set; }
 
         public IEnumerable<SelectListItem>? BeginTimeList { get; set; }
+
+        [Display(Name = "結束日期")]
+        public string? EndDate { get; set; }
 
         [Display(Name = "結束時間")]
         public string? EndTime { get; set; }
@@ -138,13 +143,16 @@ namespace AppointmentSystem.Models.ViewModels.BaseInfoModels
 
         public IEnumerable<SelectListItem>? TypeList { get; set; }
 
-        [Display(Name = "日期")]
-        public string? Date { get; set; }
+        [Display(Name = "開始日期")]
+        public string? BeginDate { get; set; }
 
         [Display(Name = "開始時間")]
         public string? BeginTime { get; set; }
 
         public IEnumerable<SelectListItem>? BeginTimeList { get; set; }
+
+        [Display(Name = "結束日期")]
+        public string? EndDate { get; set; }
 
         [Display(Name = "結束時間")]
         public string? EndTime { get; set; }

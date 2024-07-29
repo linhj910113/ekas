@@ -44,6 +44,8 @@ public partial class EkasContext : DbContext
 
     public virtual DbSet<Module> Modules { get; set; }
 
+    public virtual DbSet<Outpatientappointment> Outpatientappointments { get; set; }
+
     public virtual DbSet<Role> Roles { get; set; }
 
     public virtual DbSet<Rolepermission> Rolepermissions { get; set; }
@@ -97,14 +99,12 @@ public partial class EkasContext : DbContext
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("datetime");
             entity.Property(e => e.Creator)
-                .IsRequired()
                 .HasMaxLength(50)
                 .HasDefaultValueSql("'Default'");
             entity.Property(e => e.Memo)
                 .HasDefaultValueSql("''")
                 .HasColumnType("text");
             entity.Property(e => e.Modifier)
-                .IsRequired()
                 .HasMaxLength(50)
                 .HasDefaultValueSql("'Default'");
             entity.Property(e => e.ModifyDate)
@@ -114,11 +114,9 @@ public partial class EkasContext : DbContext
                 .HasMaxLength(100)
                 .HasDefaultValueSql("''");
             entity.Property(e => e.Status)
-                .IsRequired()
                 .HasMaxLength(1)
                 .HasDefaultValueSql("'Y'");
             entity.Property(e => e.UserId)
-                .IsRequired()
                 .HasMaxLength(50)
                 .HasDefaultValueSql("''");
 
@@ -157,31 +155,29 @@ public partial class EkasContext : DbContext
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("datetime");
             entity.Property(e => e.Creator)
-                .IsRequired()
                 .HasMaxLength(50)
                 .HasDefaultValueSql("'Default'");
             entity.Property(e => e.CustomerId)
-                .IsRequired()
                 .HasMaxLength(50)
                 .HasDefaultValueSql("''");
             entity.Property(e => e.Date)
                 .HasMaxLength(20)
                 .HasDefaultValueSql("''");
             entity.Property(e => e.DoctorId)
-                .IsRequired()
                 .HasMaxLength(50)
                 .HasDefaultValueSql("''");
             entity.Property(e => e.Modifier)
-                .IsRequired()
                 .HasMaxLength(50)
                 .HasDefaultValueSql("'Default'");
             entity.Property(e => e.ModifyDate)
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("datetime");
             entity.Property(e => e.Status)
-                .IsRequired()
                 .HasMaxLength(1)
                 .HasDefaultValueSql("'N'");
+            entity.Property(e => e.Type)
+                .HasMaxLength(50)
+                .HasDefaultValueSql("'Appointment'");
 
             entity.HasOne(d => d.Customer).WithMany(p => p.Appointments)
                 .HasForeignKey(d => d.CustomerId)
@@ -206,33 +202,27 @@ public partial class EkasContext : DbContext
 
             entity.Property(e => e.Index).HasColumnType("bigint(20)");
             entity.Property(e => e.AppointmentId)
-                .IsRequired()
                 .HasMaxLength(50)
                 .HasDefaultValueSql("''");
             entity.Property(e => e.CreateDate)
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("datetime");
             entity.Property(e => e.Creator)
-                .IsRequired()
                 .HasMaxLength(50)
                 .HasDefaultValueSql("'Default'");
             entity.Property(e => e.Modifier)
-                .IsRequired()
                 .HasMaxLength(50)
                 .HasDefaultValueSql("'Default'");
             entity.Property(e => e.ModifyDate)
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("datetime");
             entity.Property(e => e.Status)
-                .IsRequired()
                 .HasMaxLength(1)
                 .HasDefaultValueSql("'Y'");
             entity.Property(e => e.TreatmentId)
-                .IsRequired()
                 .HasMaxLength(50)
                 .HasDefaultValueSql("''");
             entity.Property(e => e.Type)
-                .IsRequired()
                 .HasMaxLength(20)
                 .HasDefaultValueSql("''")
                 .HasComment("A:預約的療程，R:實際執行的療程");
@@ -259,38 +249,30 @@ public partial class EkasContext : DbContext
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("datetime");
             entity.Property(e => e.Creator)
-                .IsRequired()
                 .HasMaxLength(50)
                 .HasDefaultValueSql("'Default'");
             entity.Property(e => e.Day)
-                .IsRequired()
                 .HasMaxLength(50)
                 .HasDefaultValueSql("''");
             entity.Property(e => e.DoctorId)
-                .IsRequired()
                 .HasMaxLength(50)
                 .HasDefaultValueSql("''");
             entity.Property(e => e.Modifier)
-                .IsRequired()
                 .HasMaxLength(50)
                 .HasDefaultValueSql("'Default'");
             entity.Property(e => e.ModifyDate)
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("datetime");
             entity.Property(e => e.Month)
-                .IsRequired()
                 .HasMaxLength(50)
                 .HasDefaultValueSql("''");
             entity.Property(e => e.ShiftTypeId)
-                .IsRequired()
                 .HasMaxLength(50)
                 .HasDefaultValueSql("''");
             entity.Property(e => e.Status)
-                .IsRequired()
                 .HasMaxLength(1)
                 .HasDefaultValueSql("'Y'");
             entity.Property(e => e.Year)
-                .IsRequired()
                 .HasMaxLength(50)
                 .HasDefaultValueSql("''");
         });
@@ -306,30 +288,24 @@ public partial class EkasContext : DbContext
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("datetime");
             entity.Property(e => e.Creator)
-                .IsRequired()
                 .HasMaxLength(50)
                 .HasDefaultValueSql("'Default'");
             entity.Property(e => e.Locked)
-                .IsRequired()
                 .HasMaxLength(10)
                 .HasDefaultValueSql("'N'");
             entity.Property(e => e.Modifier)
-                .IsRequired()
                 .HasMaxLength(50)
                 .HasDefaultValueSql("'Default'");
             entity.Property(e => e.ModifyDate)
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("datetime");
             entity.Property(e => e.Month)
-                .IsRequired()
                 .HasMaxLength(50)
                 .HasDefaultValueSql("''");
             entity.Property(e => e.Status)
-                .IsRequired()
                 .HasMaxLength(1)
                 .HasDefaultValueSql("'Y'");
             entity.Property(e => e.Year)
-                .IsRequired()
                 .HasMaxLength(50)
                 .HasDefaultValueSql("''");
         });
@@ -353,7 +329,6 @@ public partial class EkasContext : DbContext
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("datetime");
             entity.Property(e => e.Creator)
-                .IsRequired()
                 .HasMaxLength(50)
                 .HasDefaultValueSql("'Default'");
             entity.Property(e => e.DisplayName)
@@ -372,14 +347,12 @@ public partial class EkasContext : DbContext
                 .HasMaxLength(500)
                 .HasDefaultValueSql("''");
             entity.Property(e => e.MedicalRecordNumber)
-                .IsRequired()
                 .HasMaxLength(50)
                 .HasDefaultValueSql("''");
             entity.Property(e => e.Memo)
                 .HasDefaultValueSql("''")
                 .HasColumnType("text");
             entity.Property(e => e.Modifier)
-                .IsRequired()
                 .HasMaxLength(50)
                 .HasDefaultValueSql("'Default'");
             entity.Property(e => e.ModifyDate)
@@ -392,7 +365,6 @@ public partial class EkasContext : DbContext
                 .HasMaxLength(20)
                 .HasDefaultValueSql("''");
             entity.Property(e => e.Status)
-                .IsRequired()
                 .HasMaxLength(1)
                 .HasDefaultValueSql("'Y'");
         });
@@ -413,7 +385,6 @@ public partial class EkasContext : DbContext
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("datetime");
             entity.Property(e => e.Creator)
-                .IsRequired()
                 .HasMaxLength(50)
                 .HasDefaultValueSql("'Default'");
             entity.Property(e => e.CustomerId)
@@ -423,7 +394,6 @@ public partial class EkasContext : DbContext
                 .HasDefaultValueSql("'0'")
                 .HasColumnType("int(11)");
             entity.Property(e => e.Modifier)
-                .IsRequired()
                 .HasMaxLength(50)
                 .HasDefaultValueSql("'Default'");
             entity.Property(e => e.ModifyDate)
@@ -433,7 +403,6 @@ public partial class EkasContext : DbContext
                 .HasMaxLength(500)
                 .HasDefaultValueSql("''");
             entity.Property(e => e.Status)
-                .IsRequired()
                 .HasMaxLength(1)
                 .HasDefaultValueSql("'Y'");
 
@@ -461,7 +430,6 @@ public partial class EkasContext : DbContext
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("datetime");
             entity.Property(e => e.Creator)
-                .IsRequired()
                 .HasMaxLength(50)
                 .HasDefaultValueSql("'Default'");
             entity.Property(e => e.DepartmentTitle)
@@ -481,7 +449,6 @@ public partial class EkasContext : DbContext
                 .HasDefaultValueSql("''")
                 .HasColumnType("text");
             entity.Property(e => e.Modifier)
-                .IsRequired()
                 .HasMaxLength(50)
                 .HasDefaultValueSql("'Default'");
             entity.Property(e => e.ModifyDate)
@@ -489,7 +456,6 @@ public partial class EkasContext : DbContext
                 .HasColumnType("datetime");
             entity.Property(e => e.Sort).HasColumnType("int(11)");
             entity.Property(e => e.Status)
-                .IsRequired()
                 .HasMaxLength(1)
                 .HasDefaultValueSql("'Y'");
 
@@ -505,42 +471,37 @@ public partial class EkasContext : DbContext
             entity.ToTable("doctordayoff", tb => tb.HasComment("醫師請假資料表"));
 
             entity.Property(e => e.Index).HasColumnType("bigint(20)");
+            entity.Property(e => e.BeginDate)
+                .HasMaxLength(50)
+                .HasDefaultValueSql("''");
             entity.Property(e => e.BeginTime)
-                .IsRequired()
                 .HasMaxLength(50)
                 .HasDefaultValueSql("''");
             entity.Property(e => e.CreateDate)
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("datetime");
             entity.Property(e => e.Creator)
-                .IsRequired()
                 .HasMaxLength(50)
                 .HasDefaultValueSql("'Default'");
-            entity.Property(e => e.Date)
-                .IsRequired()
+            entity.Property(e => e.DoctorId)
                 .HasMaxLength(50)
                 .HasDefaultValueSql("''");
-            entity.Property(e => e.DoctorId)
-                .IsRequired()
+            entity.Property(e => e.EndDate)
                 .HasMaxLength(50)
                 .HasDefaultValueSql("''");
             entity.Property(e => e.EndTime)
-                .IsRequired()
                 .HasMaxLength(50)
                 .HasDefaultValueSql("''");
             entity.Property(e => e.Modifier)
-                .IsRequired()
                 .HasMaxLength(50)
                 .HasDefaultValueSql("'Default'");
             entity.Property(e => e.ModifyDate)
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("datetime");
             entity.Property(e => e.Status)
-                .IsRequired()
                 .HasMaxLength(1)
                 .HasDefaultValueSql("'Y'");
             entity.Property(e => e.Type)
-                .IsRequired()
                 .HasMaxLength(50)
                 .HasDefaultValueSql("''");
         });
@@ -552,54 +513,43 @@ public partial class EkasContext : DbContext
             entity.ToTable("doctoroutpatient", tb => tb.HasComment("醫師門診資料表"));
 
             entity.Property(e => e.Id).HasMaxLength(50);
-            entity.Property(e => e.AppointmentId)
-                .IsRequired()
-                .HasMaxLength(50)
-                .HasDefaultValueSql("''");
             entity.Property(e => e.ArrangeId)
-                .IsRequired()
                 .HasMaxLength(50)
                 .HasDefaultValueSql("''");
             entity.Property(e => e.BeginTime)
-                .IsRequired()
+                .HasMaxLength(50)
+                .HasDefaultValueSql("''");
+            entity.Property(e => e.BppointmentId)
                 .HasMaxLength(50)
                 .HasDefaultValueSql("''");
             entity.Property(e => e.CreateDate)
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("datetime");
             entity.Property(e => e.Creator)
-                .IsRequired()
                 .HasMaxLength(50)
                 .HasDefaultValueSql("'Default'");
             entity.Property(e => e.Day)
-                .IsRequired()
                 .HasMaxLength(50)
                 .HasDefaultValueSql("''");
             entity.Property(e => e.DoctorId)
-                .IsRequired()
                 .HasMaxLength(50)
                 .HasDefaultValueSql("''");
             entity.Property(e => e.EndTime)
-                .IsRequired()
                 .HasMaxLength(50)
                 .HasDefaultValueSql("''");
             entity.Property(e => e.Modifier)
-                .IsRequired()
                 .HasMaxLength(50)
                 .HasDefaultValueSql("'Default'");
             entity.Property(e => e.ModifyDate)
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("datetime");
             entity.Property(e => e.Month)
-                .IsRequired()
                 .HasMaxLength(50)
                 .HasDefaultValueSql("''");
             entity.Property(e => e.Status)
-                .IsRequired()
                 .HasMaxLength(1)
                 .HasDefaultValueSql("'Y'");
             entity.Property(e => e.Year)
-                .IsRequired()
                 .HasMaxLength(50)
                 .HasDefaultValueSql("''");
         });
@@ -619,26 +569,21 @@ public partial class EkasContext : DbContext
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("datetime");
             entity.Property(e => e.Creator)
-                .IsRequired()
                 .HasMaxLength(50)
                 .HasDefaultValueSql("'Default'");
             entity.Property(e => e.DoctorId)
-                .IsRequired()
                 .HasMaxLength(50)
                 .HasDefaultValueSql("''");
             entity.Property(e => e.Modifier)
-                .IsRequired()
                 .HasMaxLength(50)
                 .HasDefaultValueSql("'Default'");
             entity.Property(e => e.ModifyDate)
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("datetime");
             entity.Property(e => e.Status)
-                .IsRequired()
                 .HasMaxLength(1)
                 .HasDefaultValueSql("'Y'");
             entity.Property(e => e.TreatmentId)
-                .IsRequired()
                 .HasMaxLength(50)
                 .HasDefaultValueSql("''");
 
@@ -674,7 +619,6 @@ public partial class EkasContext : DbContext
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("datetime");
             entity.Property(e => e.Creator)
-                .IsRequired()
                 .HasMaxLength(50)
                 .HasDefaultValueSql("'Default'");
             entity.Property(e => e.FunctionName)
@@ -684,7 +628,6 @@ public partial class EkasContext : DbContext
                 .HasDefaultValueSql("''")
                 .HasColumnType("text");
             entity.Property(e => e.Modifier)
-                .IsRequired()
                 .HasMaxLength(50)
                 .HasDefaultValueSql("'Default'");
             entity.Property(e => e.ModifyDate)
@@ -695,7 +638,6 @@ public partial class EkasContext : DbContext
                 .HasDefaultValueSql("''");
             entity.Property(e => e.Sort).HasColumnType("int(11)");
             entity.Property(e => e.Status)
-                .IsRequired()
                 .HasMaxLength(1)
                 .HasDefaultValueSql("'Y'");
 
@@ -717,16 +659,13 @@ public partial class EkasContext : DbContext
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("datetime");
             entity.Property(e => e.Creator)
-                .IsRequired()
                 .HasMaxLength(50)
                 .HasDefaultValueSql("'Default'");
             entity.Property(e => e.LabelName)
-                .IsRequired()
                 .HasMaxLength(50)
                 .HasDefaultValueSql("''")
                 .HasColumnName("labelName");
             entity.Property(e => e.Modifier)
-                .IsRequired()
                 .HasMaxLength(50)
                 .HasDefaultValueSql("'Default'");
             entity.Property(e => e.ModifyDate)
@@ -736,11 +675,9 @@ public partial class EkasContext : DbContext
                 .HasDefaultValueSql("'0'")
                 .HasColumnType("int(11)");
             entity.Property(e => e.Status)
-                .IsRequired()
                 .HasMaxLength(1)
                 .HasDefaultValueSql("'Y'");
             entity.Property(e => e.Type)
-                .IsRequired()
                 .HasMaxLength(50)
                 .HasDefaultValueSql("''")
                 .HasComment("Treatment:療程用的標籤");
@@ -759,14 +696,12 @@ public partial class EkasContext : DbContext
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("datetime");
             entity.Property(e => e.Creator)
-                .IsRequired()
                 .HasMaxLength(50)
                 .HasDefaultValueSql("'Default'");
             entity.Property(e => e.Memo)
                 .HasDefaultValueSql("''")
                 .HasColumnType("text");
             entity.Property(e => e.Modifier)
-                .IsRequired()
                 .HasMaxLength(50)
                 .HasDefaultValueSql("'Default'");
             entity.Property(e => e.ModifyDate)
@@ -777,9 +712,41 @@ public partial class EkasContext : DbContext
                 .HasDefaultValueSql("''");
             entity.Property(e => e.Sort).HasColumnType("int(11)");
             entity.Property(e => e.Status)
-                .IsRequired()
                 .HasMaxLength(1)
                 .HasDefaultValueSql("'Y'");
+        });
+
+        modelBuilder.Entity<Outpatientappointment>(entity =>
+        {
+            entity.HasKey(e => e.Index).HasName("PRIMARY");
+
+            entity.ToTable("outpatientappointment", tb => tb.HasComment("門診對應預約資料表"));
+
+            entity.Property(e => e.Index).HasColumnType("bigint(20)");
+            entity.Property(e => e.AppointmentId)
+                .HasMaxLength(50)
+                .HasDefaultValueSql("''");
+            entity.Property(e => e.CreateDate)
+                .HasDefaultValueSql("current_timestamp()")
+                .HasColumnType("datetime");
+            entity.Property(e => e.Creator)
+                .HasMaxLength(50)
+                .HasDefaultValueSql("'Default'");
+            entity.Property(e => e.Modifier)
+                .HasMaxLength(50)
+                .HasDefaultValueSql("'Default'");
+            entity.Property(e => e.ModifyDate)
+                .HasDefaultValueSql("current_timestamp()")
+                .HasColumnType("datetime");
+            entity.Property(e => e.OutpatientId)
+                .HasMaxLength(50)
+                .HasDefaultValueSql("''");
+            entity.Property(e => e.Status)
+                .HasMaxLength(1)
+                .HasDefaultValueSql("'Y'");
+            entity.Property(e => e.Type)
+                .HasMaxLength(50)
+                .HasDefaultValueSql("''");
         });
 
         modelBuilder.Entity<Role>(entity =>
@@ -795,14 +762,12 @@ public partial class EkasContext : DbContext
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("datetime");
             entity.Property(e => e.Creator)
-                .IsRequired()
                 .HasMaxLength(50)
                 .HasDefaultValueSql("'Default'");
             entity.Property(e => e.Memo)
                 .HasDefaultValueSql("''")
                 .HasColumnType("text");
             entity.Property(e => e.Modifier)
-                .IsRequired()
                 .HasMaxLength(50)
                 .HasDefaultValueSql("'Default'");
             entity.Property(e => e.ModifyDate)
@@ -812,7 +777,6 @@ public partial class EkasContext : DbContext
                 .HasMaxLength(50)
                 .HasDefaultValueSql("''");
             entity.Property(e => e.Status)
-                .IsRequired()
                 .HasMaxLength(1)
                 .HasDefaultValueSql("'Y'");
         });
@@ -832,29 +796,24 @@ public partial class EkasContext : DbContext
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("datetime");
             entity.Property(e => e.Creator)
-                .IsRequired()
                 .HasMaxLength(50)
                 .HasDefaultValueSql("'Default'");
             entity.Property(e => e.FunctionId)
-                .IsRequired()
                 .HasMaxLength(50)
                 .HasDefaultValueSql("''");
             entity.Property(e => e.IsAllow)
                 .HasMaxLength(1)
                 .HasDefaultValueSql("'N'");
             entity.Property(e => e.Modifier)
-                .IsRequired()
                 .HasMaxLength(50)
                 .HasDefaultValueSql("'Default'");
             entity.Property(e => e.ModifyDate)
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("datetime");
             entity.Property(e => e.RoleId)
-                .IsRequired()
                 .HasMaxLength(50)
                 .HasDefaultValueSql("''");
             entity.Property(e => e.Status)
-                .IsRequired()
                 .HasMaxLength(1)
                 .HasDefaultValueSql("'Y'");
 
@@ -877,34 +836,30 @@ public partial class EkasContext : DbContext
 
             entity.Property(e => e.Id).HasMaxLength(50);
             entity.Property(e => e.BeginTime)
-                .IsRequired()
                 .HasMaxLength(50)
                 .HasDefaultValueSql("''");
             entity.Property(e => e.CreateDate)
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("datetime");
             entity.Property(e => e.Creator)
-                .IsRequired()
                 .HasMaxLength(50)
                 .HasDefaultValueSql("'Default'");
             entity.Property(e => e.EndTime)
-                .IsRequired()
                 .HasMaxLength(50)
                 .HasDefaultValueSql("''");
             entity.Property(e => e.Modifier)
-                .IsRequired()
                 .HasMaxLength(50)
                 .HasDefaultValueSql("'Default'");
             entity.Property(e => e.ModifyDate)
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("datetime");
             entity.Property(e => e.Name)
-                .IsRequired()
                 .HasMaxLength(50)
                 .HasDefaultValueSql("''");
-            entity.Property(e => e.Sort).HasColumnType("tinyint(4)");
+            entity.Property(e => e.Sort)
+                .HasDefaultValueSql("'0'")
+                .HasColumnType("tinyint(4)");
             entity.Property(e => e.Status)
-                .IsRequired()
                 .HasMaxLength(1)
                 .HasDefaultValueSql("'Y'");
         });
@@ -922,7 +877,6 @@ public partial class EkasContext : DbContext
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("datetime");
             entity.Property(e => e.Creator)
-                .IsRequired()
                 .HasMaxLength(50)
                 .HasDefaultValueSql("'Default'");
             entity.Property(e => e.FileExtension)
@@ -935,7 +889,6 @@ public partial class EkasContext : DbContext
                 .HasDefaultValueSql("'0'")
                 .HasColumnType("bigint(20)");
             entity.Property(e => e.Modifier)
-                .IsRequired()
                 .HasMaxLength(50)
                 .HasDefaultValueSql("'Default'");
             entity.Property(e => e.ModifyDate)
@@ -945,7 +898,6 @@ public partial class EkasContext : DbContext
                 .HasDefaultValueSql("''")
                 .HasColumnType("text");
             entity.Property(e => e.Status)
-                .IsRequired()
                 .HasMaxLength(1)
                 .HasDefaultValueSql("'Y'");
         });
@@ -961,7 +913,6 @@ public partial class EkasContext : DbContext
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("datetime");
             entity.Property(e => e.Creator)
-                .IsRequired()
                 .HasMaxLength(50)
                 .HasDefaultValueSql("'Default'");
             entity.Property(e => e.Description)
@@ -983,7 +934,6 @@ public partial class EkasContext : DbContext
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("datetime");
             entity.Property(e => e.Creator)
-                .IsRequired()
                 .HasMaxLength(50)
                 .HasDefaultValueSql("'Default'");
             entity.Property(e => e.Locked)
@@ -993,7 +943,6 @@ public partial class EkasContext : DbContext
                 .HasDefaultValueSql("''")
                 .HasColumnType("text");
             entity.Property(e => e.Modifier)
-                .IsRequired()
                 .HasMaxLength(50)
                 .HasDefaultValueSql("'Default'");
             entity.Property(e => e.ModifyDate)
@@ -1003,7 +952,6 @@ public partial class EkasContext : DbContext
                 .HasMaxLength(200)
                 .HasDefaultValueSql("''");
             entity.Property(e => e.Status)
-                .IsRequired()
                 .HasMaxLength(1)
                 .HasDefaultValueSql("'Y'");
             entity.Property(e => e.Type)
@@ -1025,7 +973,6 @@ public partial class EkasContext : DbContext
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("datetime");
             entity.Property(e => e.Creator)
-                .IsRequired()
                 .HasMaxLength(50)
                 .HasDefaultValueSql("'Default'");
             entity.Property(e => e.GroupName)
@@ -1035,7 +982,6 @@ public partial class EkasContext : DbContext
                 .HasDefaultValueSql("''")
                 .HasColumnType("text");
             entity.Property(e => e.Modifier)
-                .IsRequired()
                 .HasMaxLength(50)
                 .HasDefaultValueSql("'Default'");
             entity.Property(e => e.ModifyDate)
@@ -1048,7 +994,6 @@ public partial class EkasContext : DbContext
                 .HasMaxLength(50)
                 .HasDefaultValueSql("''");
             entity.Property(e => e.Status)
-                .IsRequired()
                 .HasMaxLength(1)
                 .HasDefaultValueSql("'Y'");
         });
@@ -1071,7 +1016,6 @@ public partial class EkasContext : DbContext
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("datetime");
             entity.Property(e => e.Creator)
-                .IsRequired()
                 .HasMaxLength(50)
                 .HasDefaultValueSql("'Default'");
             entity.Property(e => e.Hide)
@@ -1085,7 +1029,6 @@ public partial class EkasContext : DbContext
                 .HasDefaultValueSql("''")
                 .HasColumnType("text");
             entity.Property(e => e.Modifier)
-                .IsRequired()
                 .HasMaxLength(50)
                 .HasDefaultValueSql("'Default'");
             entity.Property(e => e.ModifyDate)
@@ -1093,10 +1036,11 @@ public partial class EkasContext : DbContext
                 .HasColumnType("datetime");
             entity.Property(e => e.Sort).HasColumnType("int(11)");
             entity.Property(e => e.Status)
-                .IsRequired()
                 .HasMaxLength(1)
                 .HasDefaultValueSql("'Y'");
-            entity.Property(e => e.Time).HasColumnType("int(11)");
+            entity.Property(e => e.Time)
+                .HasDefaultValueSql("'0'")
+                .HasColumnType("int(11)");
             entity.Property(e => e.TreatmentName)
                 .HasMaxLength(50)
                 .HasDefaultValueSql("''");
@@ -1121,26 +1065,21 @@ public partial class EkasContext : DbContext
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("datetime");
             entity.Property(e => e.Creator)
-                .IsRequired()
                 .HasMaxLength(50)
                 .HasDefaultValueSql("'Default'");
             entity.Property(e => e.LabelId)
-                .IsRequired()
                 .HasMaxLength(50)
                 .HasDefaultValueSql("''");
             entity.Property(e => e.Modifier)
-                .IsRequired()
                 .HasMaxLength(50)
                 .HasDefaultValueSql("'Default'");
             entity.Property(e => e.ModifyDate)
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("datetime");
             entity.Property(e => e.Status)
-                .IsRequired()
                 .HasMaxLength(1)
                 .HasDefaultValueSql("'Y'");
             entity.Property(e => e.TreatmentId)
-                .IsRequired()
                 .HasMaxLength(50)
                 .HasDefaultValueSql("''");
 
@@ -1176,7 +1115,6 @@ public partial class EkasContext : DbContext
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("datetime");
             entity.Property(e => e.Creator)
-                .IsRequired()
                 .HasMaxLength(50)
                 .HasDefaultValueSql("'Default'");
             entity.Property(e => e.Gender)
@@ -1186,7 +1124,6 @@ public partial class EkasContext : DbContext
                 .HasMaxLength(1)
                 .HasDefaultValueSql("'N'");
             entity.Property(e => e.Modifier)
-                .IsRequired()
                 .HasMaxLength(50)
                 .HasDefaultValueSql("'Default'");
             entity.Property(e => e.ModifyDate)
@@ -1196,7 +1133,6 @@ public partial class EkasContext : DbContext
                 .HasMaxLength(50)
                 .HasDefaultValueSql("''");
             entity.Property(e => e.Status)
-                .IsRequired()
                 .HasMaxLength(1)
                 .HasDefaultValueSql("'Y'");
             entity.Property(e => e.Telphone)
@@ -1206,7 +1142,6 @@ public partial class EkasContext : DbContext
                 .HasMaxLength(200)
                 .HasDefaultValueSql("''");
             entity.Property(e => e.UserName)
-                .IsRequired()
                 .HasMaxLength(50)
                 .HasDefaultValueSql("'Default'");
             entity.Property(e => e.UserNameEnglish)
@@ -1233,7 +1168,6 @@ public partial class EkasContext : DbContext
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("datetime");
             entity.Property(e => e.Creator)
-                .IsRequired()
                 .HasMaxLength(50)
                 .HasDefaultValueSql("'Default'");
             entity.Property(e => e.FunctionId).HasMaxLength(50);
@@ -1241,14 +1175,12 @@ public partial class EkasContext : DbContext
                 .HasMaxLength(1)
                 .HasDefaultValueSql("'N'");
             entity.Property(e => e.Modifier)
-                .IsRequired()
                 .HasMaxLength(50)
                 .HasDefaultValueSql("'Default'");
             entity.Property(e => e.ModifyDate)
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("datetime");
             entity.Property(e => e.Status)
-                .IsRequired()
                 .HasMaxLength(1)
                 .HasDefaultValueSql("'Y'");
             entity.Property(e => e.UserId).HasMaxLength(50);
@@ -1273,41 +1205,33 @@ public partial class EkasContext : DbContext
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("datetime");
             entity.Property(e => e.Creator)
-                .IsRequired()
                 .HasMaxLength(50)
                 .HasDefaultValueSql("'Default'");
             entity.Property(e => e.ExpireTime)
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("datetime");
             entity.Property(e => e.ForeignKey)
-                .IsRequired()
                 .HasMaxLength(50)
                 .HasDefaultValueSql("''");
             entity.Property(e => e.HashCode)
-                .IsRequired()
                 .HasMaxLength(50)
                 .HasDefaultValueSql("''");
             entity.Property(e => e.LoginBy)
-                .IsRequired()
                 .HasMaxLength(50)
                 .HasDefaultValueSql("''");
             entity.Property(e => e.Modifier)
-                .IsRequired()
                 .HasMaxLength(50)
                 .HasDefaultValueSql("'Default'");
             entity.Property(e => e.ModifyDate)
                 .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("datetime");
             entity.Property(e => e.Otp)
-                .IsRequired()
                 .HasMaxLength(10)
                 .HasDefaultValueSql("''");
             entity.Property(e => e.SouceTable)
-                .IsRequired()
                 .HasMaxLength(50)
                 .HasDefaultValueSql("''");
             entity.Property(e => e.Status)
-                .IsRequired()
                 .HasMaxLength(1)
                 .HasDefaultValueSql("'Y'");
         });

@@ -13,8 +13,6 @@
         padding: 20px;
         border-radius: 13px;
         border: 0px solid #5F5F5F;
-
-        
     }
 
     .selectable {
@@ -76,17 +74,16 @@
         margin-left: 30px;
     }
 
-    .Home-btn{
+    .Home-btn {
         background: #0E4F43;
         color: #D7F4EE;
-        margin:auto;
-        border-radius:13px;
-        font-size:14px;
-        padding:8px;
-        border:none;
+        margin: auto;
+        border-radius: 13px;
+        font-size: 14px;
+        padding: 8px;
+        border: none;
     }
-    
-        </style>
+</style>
 <div class="overlay-container" style=" position: relative;">
     @*     <img id="desktopImage" src="~/images/CustomerIndexImage1.jpg" alt="Desktop Image" class="appointment-image desktop-image">
     <img id="mobileImage" src="~/images/CustomerIndexImage2.jpg" alt="Mobile Image" class="appointment-image mobile-image" style="height:25rem; width:auto; object-fit: cover;"> *@
@@ -101,47 +98,53 @@
         <div class="treatmentTittle">
             <span>療程項目</span>
         </div>
-<div class="treatment-selected" style="">
-      
-    <div id="selectedTreatment" class="row" style="display: flex; justify-content: left;">
-        @foreach (var treatment in Model.SelectedTreatment)
-        {
-            <div class="selectable"  data-title="@treatment.TreatmentName" data-description="@treatment.Introduction" data-image="@treatment.Image" data-type="selectedTreatment">
-                <img src="@treatment.Image" style="border-radius: 15px; padding:3px;" class="img-fluid" data-toggle="modal" data-target="#treatmentModal">
+        <div class="treatment-selected" style="">
+
+            <div id="selectedTreatment" class="row" style="display: flex; justify-content: left;">
+                @foreach (var treatment in Model.SelectedTreatment)
+                {
+                    <div class="selectable" data-title="@treatment.TreatmentName" data-description="@treatment.Introduction" data-image="@treatment.Image" data-type="selectedTreatment">
+                        <img src="@treatment.Image" style="border-radius: 15px; padding:3px;" class="img-fluid" data-toggle="modal" data-target="#treatmentModal">
                         <div style="line-height: 2;display: flex; align-items: center; justify-content: center; cursor:pointer;" data-toggle="modal" data-target="#treatmentModal"><span style="font-size:14px;">@treatment.TreatmentName</span></div>
+                    </div>
+                }
             </div>
-        }
-    </div>
-</div>
+        </div>
         <div class="doctorTittle">
             <span>醫師</span>
         </div>
-<div class="doctor-selected">
-           
-    <div id="selectedDoctor" class="row" style="display: flex; justify-content: left;">
-        <div class="selectable"  data-title="@Model.SelectedDoctor.DoctorName" data-department="@Model.SelectedDoctor.DepartmentTitle" data-image="@Model.SelectedDoctor.Image" data-description="@Model.SelectedDoctor.Introduction" data-type="selectedDoctor">
-            <img src="@Model.SelectedDoctor.Image" style="border-radius: 15px; padding:3px;" class="img-fluid" data-toggle="modal" data-target="#doctorModal">
+        <div class="doctor-selected">
+
+            <div id="selectedDoctor" class="row" style="display: flex; justify-content: left;">
+                <div class="selectable" data-title="@Model.SelectedDoctor.DoctorName" data-department="@Model.SelectedDoctor.DepartmentTitle" data-image="@Model.SelectedDoctor.Image" data-description="@Model.SelectedDoctor.Introduction" data-type="selectedDoctor">
+                    <img src="@Model.SelectedDoctor.Image" style="border-radius: 15px; padding:3px;" class="img-fluid" data-toggle="modal" data-target="#doctorModal">
                     <div style="line-height: 2;display: flex; align-items: center; justify-content: center; cursor:pointer;" data-toggle="modal" data-target="#doctorModal"><span style="font-size:14px;">@Model.SelectedDoctor.DoctorName</span></div>
+                </div>
+            </div>
         </div>
-    </div>
-</div>
         <div class="dateTittle">
             <span>時間及日期</span>
         </div>
-<div class="dateTime-selected">
-    <p id="selectedDateDisplay" class="selected-date">選擇的日期：@Model.Date</p>
-    <p id="selectedTimeDisplay" class="selected-time">選擇的時間：@Model.BookingBeginTime</p>
+        <div class="dateTime-selected">
+            <p id="selectedDateDisplay" class="selected-date">選擇的日期：@Model.Date</p>
+            <p id="selectedTimeDisplay" class="selected-time">選擇的時間：@Model.BookingBeginTime</p>
+        </div>
+
+        <div class="dateTime-selected">
+            <p id="notifyMessage" class="selected-date">@Model.NotifyMessage</p>
+        </div>
+
+        <div style="display:flex;justify-content:center;">
+            <button class="Home-btn " id="bindLineAccount" onclick="bindLineAccount();" style="display:none;">
+                綁定Line帳號
+            </button>
+            <button class="Home-btn " id="backToIndex" onclick="backToIndex();">
+                回首頁
+            </button>
+        </div>
+    </div>
 </div>
 
-<div class="dateTime-selected">
-    <p id="notifyMessage" class="selected-date">@Model.NotifyMessage</p>
-</div>
-
-<button class="Home-btn "  id="backToIndex" onclick="backToIndex();">
-    回首頁
-</button>
-</div>
-</div>
 <!-- 療程項目簡介模態框 -->
 <div class="modal fade " id="treatmentModal" tabindex="-1" aria-labelledby="treatmentModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -184,8 +187,14 @@
     </div>
 </div>
 
+<input type="hidden" id="customerId" value="@Model.CustomerId" />
+<input type="hidden" id="showBindBtn" value="@ViewBag.showBindBtn" />
+
 <script>
     $(document).ready(function () {
+        if ($('#showBindBtn').val() == "true")
+            $('#bindLineAccount').show();
+
         // 顯示模態框內容
         $('#treatmentModal').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget);
@@ -215,6 +224,20 @@
             modal.find('.modal-body #doctorImage').html("<img src='" + image + "' alt='doctor' class='img-fluid'>");
         });
     });
+
+    function bindLineAccount() {
+        var client_id = '2005627882';
+        var base_redirect_uri = 'https://localhost:7146/Appointment/BindLineAccount';
+        var state = 'abcd'; // 用於防止 CSRF 攻擊
+        var scope = 'profile openid';
+        var customerId = $('#customerId').val();
+
+        var redirect_uri = encodeURIComponent(`${base_redirect_uri}?customerId=${customerId}`);
+        var loginUrl = `https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=${client_id}&redirect_uri=${redirect_uri}&state=${state}&scope=${scope}`;
+
+        // console.log(loginUrl);
+        window.location.href = loginUrl;
+    }
 
     function backToIndex() {
         window.location.href = "@Url.Action("Index", "Appointment")";

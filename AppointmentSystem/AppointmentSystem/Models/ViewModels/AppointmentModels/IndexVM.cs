@@ -17,6 +17,8 @@ namespace AppointmentSystem.Models.ViewModels.AppointmentModels
     {
         public string? AppointmentId { get; set; }
 
+        public string? Type { get; set; }
+
         public string? Date { get; set; }
 
         public string? BookingBeginTime { get; set; }

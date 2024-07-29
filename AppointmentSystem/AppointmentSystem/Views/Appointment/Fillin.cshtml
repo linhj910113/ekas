@@ -2,7 +2,7 @@
 
 @{
     Layout = "~/Views/Shared/CustomerLayout.cshtml";
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "填寫預約資料";
 }
 
 
@@ -1205,7 +1205,8 @@
                     success: function (data) {
                         console.log("Create appointment success.")
 
-                        window.location.href = "@Url.Action("NoticeVerification", "Appointment")";
+                        window.location.href = "/Appointment/SuccessPage?id=" + encodeURIComponent(data);
+                        // window.location.href = "@Url.Action("NoticeVerification", "Appointment")";
                     }
                 });
             }
@@ -1259,7 +1260,7 @@
                     success: function (data) {
                         console.log("Create appointment success.")
 
-                        window.location.href = "@Url.Action("NoticeVerification", "Appointment")";
+                        window.location.href = "/Appointment/SuccessPage?id=" + encodeURIComponent(data);
                     }
                 });
 

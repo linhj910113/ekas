@@ -10,22 +10,22 @@ public partial class Label
 {
     public DateTime CreateDate { get; set; }
 
-    public string Creator { get; set; }
+    public string Creator { get; set; } = null!;
 
     public DateTime ModifyDate { get; set; }
 
-    public string Modifier { get; set; }
+    public string Modifier { get; set; } = null!;
 
-    public string Status { get; set; }
+    public string Status { get; set; } = null!;
 
-    public string Id { get; set; }
+    public string Id { get; set; } = null!;
 
     /// <summary>
     /// Treatment:療程用的標籤
     /// </summary>
-    public string Type { get; set; }
+    public string? Type { get; set; }
 
-    public string LabelName { get; set; }
+    public string? LabelName { get; set; }
 
     public int? Sort { get; set; }
 

@@ -230,7 +230,7 @@ namespace AppointmentSystem.Controllers
         public IActionResult saveDoctorSort(string[] items)
         {
             int i = 1;
-            foreach(var item in items)
+            foreach (var item in items)
             {
                 _baseinfoService.saveDoctorSort(item, i);
                 i++;
@@ -239,7 +239,7 @@ namespace AppointmentSystem.Controllers
             return new JsonResult("OK");
         }
 
-        
+
 
         #endregion
 
@@ -862,8 +862,9 @@ namespace AppointmentSystem.Controllers
 
                 DoctorId = value.DoctorId!,
                 Type = value.Type!,
-                Date = value.Date!,
+                BeginDate = value.BeginDate!,
                 BeginTime = value.BeginTime!,
+                EndDate = value.EndDate!,
                 EndTime = value.EndTime!
             };
             _baseinfoService.CreateDoctorDayOff(item);
@@ -881,9 +882,9 @@ namespace AppointmentSystem.Controllers
 
         [HttpPost]
         [Authorize]
-        public IActionResult CheckDayOffData(string doctorId, string date, string beginTime, string endTime)
+        public IActionResult CheckDayOffData(string doctorId, string beginDate, string endDate, string beginTime, string endTime)
         {
-            string result = _baseinfoService.CheckDayOffData(doctorId, date, beginTime, endTime);
+            string result = _baseinfoService.CheckDayOffData(doctorId, beginDate, endDate, beginTime, endTime);
 
             return new JsonResult(result);
         }

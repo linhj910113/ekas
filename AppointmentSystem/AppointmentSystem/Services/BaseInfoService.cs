@@ -3,6 +3,7 @@ using AppointmentSystem.Models.ViewModels.BaseInfoModels;
 using AppointmentSystem.Models.ViewModels.SystemModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using static AppointmentSystem.Models.ViewModels.SelectListModels;
 using static System.Runtime.InteropServices.JavaScript.JSType;
@@ -174,7 +175,7 @@ namespace AppointmentSystem.Services
             treatment.TreatmentName = item.TreatmentName;
             treatment.Introduction = item.Introduction;
             treatment.TreatmentImage.FileID = item.ImageFileId;
-            treatment.Time = item.Time;
+            treatment.Time = (int)item.Time;
             treatment.AlertMessage = item.AlertMessage;
             treatment.Hide = item.Hide;
             treatment.Memo = item.Memo;
@@ -544,7 +545,7 @@ namespace AppointmentSystem.Services
 
         public List<DoctorDayOffIndexVM> GetDoctorDayOffForIndex()
         {
-            var items = _db.Doctordayoffs.Where(x => x.Status == "Y").OrderByDescending(x => x.Date).ToList();
+            var items = _db.Doctordayoffs.Where(x => x.Status == "Y").OrderByDescending(x => x.BeginDate).ToList();
 
             List<DoctorDayOffIndexVM> ddo = new List<DoctorDayOffIndexVM>();
 
@@ -558,8 +559,9 @@ namespace AppointmentSystem.Services
                     DayOffIndex = item.Index,
                     DoctorName = doctor.DoctorName,
                     Type = type.SelectName,
-                    Date = item.Date,
+                    BeginDate = item.BeginDate,
                     BeginTime = item.BeginTime,
+                    EndDate = item.EndDate,
                     EndTime = item.EndTime
                 });
             }
@@ -567,90 +569,163 @@ namespace AppointmentSystem.Services
             return ddo;
         }
 
+        //TODO:假單修改-->加入日期期間
         public void CreateDoctorDayOff(Doctordayoff value)
         {
-            //建立假單資料
-            _db.Doctordayoffs.Add(value);
-            _db.SaveChanges();
-
-            //修改門診表狀態
-            DateTime d = DateTime.Parse(value.Date);
-            int year = d.Year; int month = d.Month; int day = d.Day;
-
-            var OutpatientTimes = _db.Doctoroutpatients.AsEnumerable().Where(
-                x => x.Status != "N" &&
-                x.DoctorId == value.DoctorId &&
-                int.Parse(x.Year) == year &&
-                int.Parse(x.Month) == month &&
-                int.Parse(x.Day) == day && x.AppointmentId == ""
-            ).OrderBy(x => TimeSpan.Parse(x.BeginTime)).ToList();
-
-            foreach (var times in OutpatientTimes)
+            using (var trans = _db.Database.BeginTransaction())
             {
-                if (TimeSpan.Parse(times.BeginTime) < TimeSpan.Parse(value.EndTime) && TimeSpan.Parse(times.EndTime) > TimeSpan.Parse(value.BeginTime))
-                    times.Status = value.Type;
-            }
+                try
+                {
+                    //建立假單資料
+                    _db.Doctordayoffs.Add(value);
+                    _db.SaveChanges();
 
-            _db.SaveChanges();
+                    //修改門診表狀態
+                    DateTime bd = DateTime.Parse(value.BeginDate);
+                    DateTime ed = DateTime.Parse(value.EndDate);
+
+                    TimeSpan bt = TimeSpan.Parse(value.BeginTime);
+                    TimeSpan et = TimeSpan.Parse(value.EndTime);
+
+                    DateTime startDateTime = new DateTime(bd.Year, bd.Month, bd.Day, bt.Hours, bt.Minutes, 00);
+                    DateTime endDateTime = new DateTime(ed.Year, ed.Month, ed.Day, et.Hours, et.Minutes, 00);
+
+                    //表單送出前有先確認是否有預約資料(CheckDayOffData)，因此這邊只需將狀態做修改即可。
+                    var OutpatientTimes = _db.Doctoroutpatients.AsEnumerable().Where(
+                        x => x.Status != "N" &&
+                        x.DoctorId == value.DoctorId &&
+                        //x.AppointmentId == "" &&
+                        new DateTime(int.Parse(x.Year), int.Parse(x.Month), int.Parse(x.Day)).Add(TimeSpan.Parse(x.BeginTime)) >= startDateTime &&
+                        new DateTime(int.Parse(x.Year), int.Parse(x.Month), int.Parse(x.Day)).Add(TimeSpan.Parse(x.EndTime)) <= endDateTime
+                    ).OrderBy(x => TimeSpan.Parse(x.BeginTime)).ToList();
+
+                    foreach (var times in OutpatientTimes)
+                    {
+                        if (TimeSpan.Parse(times.BeginTime) < TimeSpan.Parse(value.EndTime) && TimeSpan.Parse(times.EndTime) > TimeSpan.Parse(value.BeginTime))
+                            times.Status = value.Type;
+                    }
+
+                    _db.SaveChanges();
+                    trans.CommitAsync();
+                }
+                catch (Exception ex)
+                {
+                    trans.RollbackAsync();
+
+                    _functions.SaveSystemLog(new Systemlog
+                    {
+                        Description = "An error occurred while create doctor day off, records: " + ex.Message + "'."
+                    });
+
+                }
+            }
         }
 
-        public string CheckDayOffData(string doctorId, string date, string beginTime, string endTime)
+        public string CheckDayOffData(string doctorId, string beginDate, string endDate, string beginTime, string endTime)
         {
             //確認該月份是否已排班
-            DateTime d = DateTime.Parse(date);
-            int year = d.Year; int month = d.Month; int day = d.Day;
+            DateTime bd = DateTime.Parse(beginDate);
+            DateTime ed = DateTime.Parse(endDate);
 
-            var monthshift = _db.Arrangemonthshifts.AsEnumerable().Where(x => x.Status == "Y" && x.Year == year.ToString() && x.Month == month.ToString() && x.Locked == "Y").ToList();
-            if (monthshift.Count() == 0)
-                return "該月尚無班表，請先設定班表並鎖定。";
+            TimeSpan bt = TimeSpan.Parse(beginTime);
+            TimeSpan et = TimeSpan.Parse(endTime);
+
+            DateTime startDateTime = new DateTime(bd.Year, bd.Month, bd.Day, bt.Hours, bt.Minutes, 00);
+            DateTime endDateTime = new DateTime(ed.Year, ed.Month, ed.Day, et.Hours, et.Minutes, 00);
+
+            var monthshift = _db.Arrangemonthshifts.AsEnumerable().Where(x =>
+                x.Status == "Y" &&
+                x.Locked == "Y" &&
+                new DateTime(int.Parse(x.Year), int.Parse(x.Month), 1) >= new DateTime(bd.Year, bd.Month, 1) &&
+                new DateTime(int.Parse(x.Year), int.Parse(x.Month), 1) <= new DateTime(ed.Year, ed.Month, 1)
+            ).ToList();
+
+            if (monthshift.Count() < (ed.Year - bd.Year) * 12 + ed.Month - bd.Month + 1)
+                return "指定區間有月份無班表，請先設定班表並鎖定。";
 
             //確認該時端是否已有預約
-            var OutpatientTimes = _db.Doctoroutpatients.AsEnumerable().Where(
-                x => x.Status != "N" &&
-                x.DoctorId == doctorId &&
-                int.Parse(x.Year) == year &&
-                int.Parse(x.Month) == month &&
-                int.Parse(x.Day) == day &&
-                x.AppointmentId != ""
-            ).OrderBy(x => TimeSpan.Parse(x.BeginTime)).ToList();
+            //var OutpatientTimes = _db.Doctoroutpatients.AsEnumerable().Where(
+            //    x => x.Status != "N" &&
+            //    x.DoctorId == doctorId &&
+            //    _db.Outpatientappointments.Where(y => y.OutpatientId == x.Id).Any() &&
+            //    new DateTime(int.Parse(x.Year), int.Parse(x.Month), int.Parse(x.Day)).Add(TimeSpan.Parse(x.BeginTime)) >= startDateTime &&
+            //    new DateTime(int.Parse(x.Year), int.Parse(x.Month), int.Parse(x.Day)).Add(TimeSpan.Parse(x.EndTime)) <= endDateTime
+            //).OrderBy(x => TimeSpan.Parse(x.BeginTime)).ToList();
 
-            foreach (var times in OutpatientTimes)
-            {
-                if (TimeSpan.Parse(times.BeginTime) < TimeSpan.Parse(endTime) && TimeSpan.Parse(times.EndTime) > TimeSpan.Parse(beginTime))
-                    return "請假時間內已有顧客預約，請先調整預約再進行請假。";
-            }
+            var doctorOutpatients = _db.Doctoroutpatients
+            .Where(x => x.Status != "N" && x.DoctorId == doctorId)
+            .ToList();
+
+            var outpatientAppointments = _db.Outpatientappointments
+                .Select(y => y.OutpatientId)
+                .ToHashSet();
+
+            var OutpatientTimes = doctorOutpatients
+                .Where(x => outpatientAppointments.Contains(x.Id) &&
+                            new DateTime(int.Parse(x.Year), int.Parse(x.Month), int.Parse(x.Day)).Add(TimeSpan.Parse(x.BeginTime)) >= startDateTime &&
+                            new DateTime(int.Parse(x.Year), int.Parse(x.Month), int.Parse(x.Day)).Add(TimeSpan.Parse(x.EndTime)) <= endDateTime)
+                .OrderBy(x => TimeSpan.Parse(x.BeginTime))
+                .ToList();
+
+            if (OutpatientTimes.Count() > 0)
+                return "請假時間內已有顧客預約，請先調整預約再進行請假。";
 
             return "";
         }
 
+        //TODO:假單修改-->加入日期期間
         public string DeleteDoctorDayOff(long Index)
         {
-            var ddo = _db.Doctordayoffs.FirstOrDefault(x => x.Index == Index);
-
-            //修改門診表狀態
-            DateTime d = DateTime.Parse(ddo.Date);
-            int year = d.Year; int month = d.Month; int day = d.Day;
-
-            var OutpatientTimes = _db.Doctoroutpatients.AsEnumerable().Where(
-                x => x.Status != "N" &&
-                x.DoctorId == ddo.DoctorId &&
-                int.Parse(x.Year) == year &&
-                int.Parse(x.Month) == month &&
-                int.Parse(x.Day) == day && x.AppointmentId == ""
-            ).OrderBy(x => TimeSpan.Parse(x.BeginTime));
-
-            foreach (var times in OutpatientTimes)
+            using (var trans = _db.Database.BeginTransaction())
             {
-                if (TimeSpan.Parse(times.BeginTime) < TimeSpan.Parse(ddo.EndTime) && TimeSpan.Parse(times.EndTime) > TimeSpan.Parse(ddo.BeginTime))
-                    times.Status = "Y";
+                try
+                {
+                    var ddo = _db.Doctordayoffs.FirstOrDefault(x => x.Index == Index);
+
+                    //修改門診表狀態
+                    DateTime bd = DateTime.Parse(ddo.BeginDate);
+                    DateTime ed = DateTime.Parse(ddo.EndDate);
+
+                    TimeSpan bt = TimeSpan.Parse(ddo.BeginTime);
+                    TimeSpan et = TimeSpan.Parse(ddo.EndTime);
+
+                    DateTime startDateTime = new DateTime(bd.Year, bd.Month, bd.Day, bt.Hours, bt.Minutes, 00);
+                    DateTime endDateTime = new DateTime(ed.Year, ed.Month, ed.Day, et.Hours, et.Minutes, 00);
+
+                    var OutpatientTimes = _db.Doctoroutpatients.AsEnumerable().Where(
+                        x => x.Status != "N" &&
+                        x.DoctorId == ddo.DoctorId &&
+                        //x.AppointmentId == "" &&
+                        new DateTime(int.Parse(x.Year), int.Parse(x.Month), int.Parse(x.Day)).Add(TimeSpan.Parse(x.BeginTime)) >= startDateTime &&
+                        new DateTime(int.Parse(x.Year), int.Parse(x.Month), int.Parse(x.Day)).Add(TimeSpan.Parse(x.EndTime)) <= endDateTime
+                    ).OrderBy(x => TimeSpan.Parse(x.BeginTime)).ToList();
+
+                    foreach (var times in OutpatientTimes)
+                    {
+                        if (TimeSpan.Parse(times.BeginTime) < TimeSpan.Parse(ddo.EndTime) && TimeSpan.Parse(times.EndTime) > TimeSpan.Parse(ddo.BeginTime))
+                            times.Status = "Y";
+                    }
+                    _db.SaveChanges();
+
+                    //設定假單狀態為N(保留原假單)
+                    _db.Doctordayoffs.FirstOrDefault(x => x.Index == Index).Status = "N";
+                    _db.SaveChanges();
+
+                    trans.CommitAsync();
+
+                    return "success";
+                }
+                catch (Exception ex)
+                {
+                    trans.RollbackAsync();
+
+                    _functions.SaveSystemLog(new Systemlog
+                    {
+                        Description = "An error occurred while create doctor day off, records: " + ex.Message + "'."
+                    });
+                    return "";
+                }
             }
-            _db.SaveChanges();
-
-            //設定假單狀態為N(保留原假單)
-            _db.Doctordayoffs.FirstOrDefault(x => x.Index == Index).Status = "N";
-            _db.SaveChanges();
-
-            return "success";
         }
 
 

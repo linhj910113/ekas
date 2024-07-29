@@ -117,6 +117,13 @@ namespace AppointmentSystem.Controllers
         public IActionResult SuccessPage(string id)
         {
             SuccessPageVM AppointmentData = _appointmentService.GetAppointmentDataByIdForSuccessPage(id);
+            var user = HttpContext.User.Claims.ToList();
+            var customerData = _appointmentService.GetCustomerDateById(AppointmentData.CustomerId);
+
+            if (customerData.LineId != "")
+                ViewBag.showBindBtn = "false";
+            else
+                ViewBag.showBindBtn = "true";
 
             return View(AppointmentData);
         }
@@ -429,6 +436,144 @@ namespace AppointmentSystem.Controllers
         }
 
         [HttpGet]
+        public async Task<IActionResult> BindLineAccount(string customerId, string code, string state)
+        {
+            string LineLoginChannelId = _functions.GetSystemParameter("LineLoginChannelId");
+            string LineLoginChannelSecret = _functions.GetSystemParameter("LineLoginChannelSecret");
+            string LineLoginCallbackURL = "https://localhost:7146/Appointment/BindLineAccount?customerId=" + customerId;
+
+            using (var client = new HttpClient())
+            {
+                var tokenResponse = await client.PostAsync("https://api.line.me/oauth2/v2.1/token", new FormUrlEncodedContent(new[]
+                {
+                    new KeyValuePair<string, string>("grant_type", "authorization_code"),
+                    new KeyValuePair<string, string>("code", code),
+                    new KeyValuePair<string, string>("redirect_uri", LineLoginCallbackURL),
+                    new KeyValuePair<string, string>("client_id", LineLoginChannelId),
+                    new KeyValuePair<string, string>("client_secret", LineLoginChannelSecret)
+                }));
+
+                if (!tokenResponse.IsSuccessStatusCode)
+                {
+                    return BadRequest("登入失敗");
+                }
+
+                var tokenContent = await tokenResponse.Content.ReadAsStringAsync();
+                var tokenData = JObject.Parse(tokenContent);
+                var accessToken = tokenData["access_token"].ToString();
+                var refreshToken = tokenData["refresh_token"]?.ToString();
+                var expiresIn = (int)tokenData["expires_in"];
+
+                client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", accessToken);
+                var profileResponse = await client.GetAsync("https://api.line.me/v2/profile");
+                var profileContent = await profileResponse.Content.ReadAsStringAsync();
+                var profileData = JObject.Parse(profileContent);
+
+                var lineUserId = profileData["userId"].ToString();
+                var displayName = profileData["displayName"].ToString();
+                var pictureUrl = profileData["pictureUrl"]?.ToString();
+
+                //將LineId設定到顧客資料表裡面
+                Customer item = new Customer()
+                {
+                    Modifier = customerId,
+                    ModifyDate = DateTime.Now,
+
+                    LineId = lineUserId,
+                    LinePictureUrl = pictureUrl,
+                };
+                _appointmentService.BindCustomerLineId(item, customerId);
+
+                _functions.SaveSystemLog(new Systemlog()
+                {
+                    CreateDate = DateTime.Now,
+                    Creator = customerId,
+                    UserAccount = customerId,
+                    Description = "Customer bind line account success id='" + customerId + "'."
+                });
+
+                var user = _appointmentService.GetCustomerDateById(customerId);
+                var claims = new List<Claim>
+                {
+                    new Claim("LoginType", "Customer"),
+                    new Claim("UserId", user.Id),
+                    new Claim("LoginBy", "Line"),
+                    new Claim("LineId", lineUserId),
+                    new Claim("Name", displayName),
+                    new Claim("Phone", user.CellPhone),
+                    new Claim("IsAdmin", "N")
+                };
+
+                var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                await HttpContext.SignInAsync(new ClaimsPrincipal(claimsIdentity));
+
+                _functions.SaveSystemLog(new Systemlog()
+                {
+                    CreateDate = DateTime.Now,
+                    Creator = user.Id,
+                    UserAccount = user.Id,
+                    Description = "Customer '" + user.Id + "' login."
+                });
+
+                //if (_appointmentService.CheckCustomerExist(lineUserId))
+                //{
+                //    var user = _appointmentService.GetCustomerDateByLineId(lineUserId);
+
+                //    Customer item = new Customer()
+                //    {
+                //        Modifier = "Default",
+                //        ModifyDate = DateTime.Now,
+                //        Status = "Y",
+
+                //        LinePictureUrl = pictureUrl,
+                //    };
+                //    _appointmentService.UpdateCustomerLineInformation(item, lineUserId);
+
+                //    var claims = new List<Claim>
+                //    {
+                //        new Claim("LoginType", "Customer"),
+                //        new Claim("UserId", user.Id),
+                //        new Claim("LoginBy", "Line"),
+                //        new Claim("LineId", lineUserId),
+                //        new Claim("Name", displayName),
+                //        new Claim("Phone", user.CellPhone),
+                //        new Claim("IsAdmin", "N")
+                //    };
+
+                //    var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                //    await HttpContext.SignInAsync(new ClaimsPrincipal(claimsIdentity));
+
+                //    _functions.SaveSystemLog(new Systemlog()
+                //    {
+                //        CreateDate = DateTime.Now,
+                //        Creator = user.Id,
+                //        UserAccount = user.Id,
+                //        Description = "Customer '" + user.Id + "' login."
+                //    });
+
+                //    //Line Token
+                //    var token = new Customertoken
+                //    {
+                //        Creator = "Default",
+                //        Modifier = "Default",
+                //        CreateDate = DateTime.Now,
+                //        ModifyDate = DateTime.Now,
+                //        Status = "Y",
+
+                //        CustomerId = user.Id,
+                //        AccessToken = accessToken,
+                //        RefreshToken = refreshToken,
+                //        ExpiresIn = expiresIn
+                //    };
+
+                //    _appointmentService.CreateCustomerToken(token);
+                //}
+
+                return RedirectToAction("Index", "Appointment");
+            }
+        }
+
+        [HttpGet]
         public IActionResult GetCustomerAppointmentData()
         {
             var customer = HttpContext.User.Claims.ToList();
@@ -437,48 +582,48 @@ namespace AppointmentSystem.Controllers
             return new JsonResult(indexVM.AppointmentData);
         }
 
-        [HttpGet]
-        public async Task<IActionResult> Verify(string code)
-        {
-            Verificationcode vc = _appointmentService.CheckVerificationCode(code);
+        //[HttpGet]
+        //public async Task<IActionResult> Verify(string code)
+        //{
+        //    Verificationcode vc = _appointmentService.CheckVerificationCode(code);
 
-            if (vc is not null)
-            {
-                string AppointmentId = vc.ForeignKey;
-                var user = _appointmentService.GetAppointmentCustomerData(AppointmentId);
+        //    if (vc is not null)
+        //    {
+        //        string AppointmentId = vc.ForeignKey;
+        //        var user = _appointmentService.GetAppointmentCustomerData(AppointmentId);
 
-                Appointment item = new Appointment()
-                {
-                    Modifier = user.Id!,
-                    ModifyDate = DateTime.Now,
+        //        Appointment item = new Appointment()
+        //        {
+        //            Modifier = user.Id!,
+        //            ModifyDate = DateTime.Now,
 
-                    Status = "Y"
-                };
-                _appointmentService.SetAppointmentToOutpatient(AppointmentId, user.Id, item);
+        //            Status = "Y"
+        //        };
+        //        _appointmentService.SetAppointmentToOutpatient(AppointmentId, user.Id, item);
 
-                _functions.SaveSystemLog(new Systemlog
-                {
-                    CreateDate = DateTime.Now,
-                    Creator = user.Id,
-                    UserAccount = user.Id,
-                    Description = "Set appointment to outpatient Success, id='" + AppointmentId + "'."
-                });
+        //        _functions.SaveSystemLog(new Systemlog
+        //        {
+        //            CreateDate = DateTime.Now,
+        //            Creator = user.Id,
+        //            UserAccount = user.Id,
+        //            Description = "Set appointment to outpatient Success, id='" + AppointmentId + "'."
+        //        });
 
-                //傳送LINE訊息
-                //string message = _functions.GetSystemParameter("AppointmentVerifySuccess");
-                string Url = _functions.GetSystemParameter("SystemDomainName") + "/Appointment/SuccessPage/" + AppointmentId;
-                string message = "預約驗證成功，詳細資料如下網址\n" + Url;
+        //        //傳送LINE訊息
+        //        //string message = _functions.GetSystemParameter("AppointmentVerifySuccess");
+        //        string Url = _functions.GetSystemParameter("SystemDomainName") + "/Appointment/SuccessPage/" + AppointmentId;
+        //        string message = "預約驗證成功，詳細資料如下網址\n" + Url;
 
-                if (vc.LoginBy == "Line")
-                    await _functions.SendLineMessageAsync(user.LineId, message);
-                else if (vc.LoginBy == "Cellphone")
-                    await _functions.SendSmsAsync(user.CellPhone, message);
+        //        if (vc.LoginBy == "Line")
+        //            await _functions.SendLineMessageAsync(user.LineId, message);
+        //        else if (vc.LoginBy == "Cellphone")
+        //            await _functions.SendSmsAsync(user.CellPhone, message);
 
-                return RedirectToAction("SuccessPage", "Appointment", new { id = AppointmentId });
-            }
-            else
-                return RedirectToAction("FailedPage", "Appointment");
-        }
+        //        return RedirectToAction("SuccessPage", "Appointment", new { id = AppointmentId });
+        //    }
+        //    else
+        //        return RedirectToAction("FailedPage", "Appointment");
+        //}
 
         [HttpGet]
         public IActionResult setAppointmentIntroductionText()
@@ -535,11 +680,14 @@ namespace AppointmentSystem.Controllers
         {
             var user = HttpContext.User.Claims.ToList();
 
+            string customerMedicalRecordNumber = _appointmentService.getCustomerMedicalRecordNumber(birthday);
+
             Customer item = new Customer()
             {
                 Modifier = user.FirstOrDefault(u => u.Type == "UserId").Value,
                 ModifyDate = DateTime.Now,
 
+                MedicalRecordNumber = customerMedicalRecordNumber,
                 Name = customerName,
                 NationalIdNumber = nationalIdNumber,
                 CellPhone = cellphone,
@@ -580,9 +728,10 @@ namespace AppointmentSystem.Controllers
                 Modifier = user.FirstOrDefault(u => u.Type == "UserId").Value,
                 CreateDate = DateTime.Now,
                 ModifyDate = DateTime.Now,
-                Status = "N",
+                Status = "Y",
 
                 Id = AppointmentId,
+                Type = "Appointment",
                 CustomerId = user.FirstOrDefault(u => u.Type == "UserId").Value,
                 DoctorId = doctor,
                 Date = date,
@@ -592,6 +741,7 @@ namespace AppointmentSystem.Controllers
                 CheckInTime = ""
             };
             _appointmentService.CreateAppointment(item);
+            _appointmentService.SetAppointmentToOutpatient(AppointmentId, user.FirstOrDefault(u => u.Type == "UserId").Value);
 
             //新增預約的療程
             foreach (var treatment in treatments)
@@ -611,34 +761,46 @@ namespace AppointmentSystem.Controllers
                 _appointmentService.CreateAppointmenttreatment(at);
             }
 
-            //建立驗證資料
-            string code = _functions.GetVerificationCode();
-
-            Verificationcode vcode = new Verificationcode()
-            {
-                Creator = user.FirstOrDefault(u => u.Type == "UserId").Value,
-                Modifier = user.FirstOrDefault(u => u.Type == "UserId").Value,
-                CreateDate = DateTime.Now,
-                ModifyDate = DateTime.Now,
-                Status = "Y",
-
-                SouceTable = "Appointment",
-                ForeignKey = AppointmentId,
-                LoginBy = user.FirstOrDefault(u => u.Type == "LoginBy").Value,
-                HashCode = code,
-                Otp = "",
-                ExpireTime = DateTime.Now.AddSeconds(int.Parse(_functions.GetSystemParameter("VerificationCodeExpireTime")))
-            };
-            _appointmentService.CreateVerificationcode(vcode);
-
-            //傳送line驗證碼
-            string VerifyUrl = _functions.GetSystemParameter("SystemDomainName") + "/Appointment/Verify?code=" + code;
-            string message = "預約驗證網址如下，請於5分鐘內進行驗證\n" + VerifyUrl;
+            //傳送LINE訊息
+            string Url = _functions.GetSystemParameter("SystemDomainName") + "/Appointment/SuccessPage/" + AppointmentId;
+            string message = "預約成功，詳細資料如下網址\n" + Url;
 
             if (user.FirstOrDefault(u => u.Type == "LoginBy").Value == "Line")
                 await _functions.SendLineMessageAsync(user.FirstOrDefault(u => u.Type == "LineId").Value, message);
             else if (user.FirstOrDefault(u => u.Type == "LoginBy").Value == "Cellphone")
                 await _functions.SendSmsAsync(user.FirstOrDefault(u => u.Type == "Phone").Value, message);
+
+            return new JsonResult(AppointmentId);
+            //return RedirectToAction("SuccessPage", "Appointment", new { id = AppointmentId });
+
+            //建立驗證資料
+            //string code = _functions.GetVerificationCode();
+
+            //Verificationcode vcode = new Verificationcode()
+            //{
+            //    Creator = user.FirstOrDefault(u => u.Type == "UserId").Value,
+            //    Modifier = user.FirstOrDefault(u => u.Type == "UserId").Value,
+            //    CreateDate = DateTime.Now,
+            //    ModifyDate = DateTime.Now,
+            //    Status = "Y",
+
+            //    SouceTable = "Appointment",
+            //    ForeignKey = AppointmentId,
+            //    LoginBy = user.FirstOrDefault(u => u.Type == "LoginBy").Value,
+            //    HashCode = code,
+            //    Otp = "",
+            //    ExpireTime = DateTime.Now.AddSeconds(int.Parse(_functions.GetSystemParameter("VerificationCodeExpireTime")))
+            //};
+            //_appointmentService.CreateVerificationcode(vcode);
+
+            ////傳送line驗證碼
+            //string VerifyUrl = _functions.GetSystemParameter("SystemDomainName") + "/Appointment/Verify?code=" + code;
+            //string message = "預約驗證網址如下，請於5分鐘內進行驗證\n" + VerifyUrl;
+
+            //if (user.FirstOrDefault(u => u.Type == "LoginBy").Value == "Line")
+            //    await _functions.SendLineMessageAsync(user.FirstOrDefault(u => u.Type == "LineId").Value, message);
+            //else if (user.FirstOrDefault(u => u.Type == "LoginBy").Value == "Cellphone")
+            //    await _functions.SendSmsAsync(user.FirstOrDefault(u => u.Type == "Phone").Value, message);
 
             _functions.SaveSystemLog(new Systemlog
             {
@@ -789,7 +951,7 @@ namespace AppointmentSystem.Controllers
             };
             _appointmentService.CreateVerificationcode(vcode);
 
-            
+
             string message = "EK美學診所手機登入驗證碼如下，請於5分鐘內進行驗證：" + randomNumber;
             await _functions.SendSmsAsync(cellphone, message);
 

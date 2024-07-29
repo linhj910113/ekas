@@ -6,41 +6,41 @@
 }
 <style>
     /* .appointmentTable {
-                                border-collapse: separate;
-                                border-spacing: 0px;
-                                width: 100%;
-                                // max-width: 800px;
-                                margin: 0 auto;
-                                display: block;
-                                overflow-x: auto;
-                                white-space: nowrap;
-                                background-color: white;
-                                border-radius: 13px;
-                                padding: 10px;
-                                border: none;
-                                min-height: 350px;
-                                box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
-                            } */
+                                                            border-collapse: separate;
+                                                            border-spacing: 0px;
+                                                            width: 100%;
+                                                            // max-width: 800px;
+                                                            margin: 0 auto;
+                                                            display: block;
+                                                            overflow-x: auto;
+                                                            white-space: nowrap;
+                                                            background-color: white;
+                                                            border-radius: 13px;
+                                                            padding: 10px;
+                                                            border: none;
+                                                            min-height: 350px;
+                                                            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+                                                        } */
 
     .appointmentTable {
         width: 100%;
         padding: 10px;
         /*
-                                border-collapse: separate;
-                                border-spacing: 0px;
-                                width: 100%;
+                                                            border-collapse: separate;
+                                                            border-spacing: 0px;
+                                                            width: 100%;
 
-                                margin: 0 auto;
-                                display: block;
-                                overflow-x: auto;
-                                overflow-y: auto;
-                                white-space: nowrap;
-                                background-color: white;
-                                border-radius: 13px;
-                                padding: 10px;
-                                border: none;
+                                                            margin: 0 auto;
+                                                            display: block;
+                                                            overflow-x: auto;
+                                                            overflow-y: auto;
+                                                            white-space: nowrap;
+                                                            background-color: white;
+                                                            border-radius: 13px;
+                                                            padding: 10px;
+                                                            border: none;
 
-                                    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);*/
+                                                                box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);*/
     }
 
     .tableHeader {
@@ -51,19 +51,19 @@
         text-align: center;
         border-left: 0px solid #E7DCD9;
         /* border-right: 1px solid #E7DCD9;
-                                padding: 3px;
-                                text-align: left;
-                                vertical-align: middle;
-                                height: 30px;
-                                position: relative;
-                                background-color: #385466;
-                                font-weight: normal;
-                                color: #ffffff;
-                                text-align: left;
-                                width: 200px;
-                                display: inline-block;
-                                font-size: 16px;
-                                */
+                                                            padding: 3px;
+                                                            text-align: left;
+                                                            vertical-align: middle;
+                                                            height: 30px;
+                                                            position: relative;
+                                                            background-color: #385466;
+                                                            font-weight: normal;
+                                                            color: #ffffff;
+                                                            text-align: left;
+                                                            width: 200px;
+                                                            display: inline-block;
+                                                            font-size: 16px;
+                                                            */
     }
 
     .appointmentTable td {
@@ -76,16 +76,16 @@
         padding-right: 15px;
         border-left: 1px solid #E7DCD9;
         /*
-                                border-right: 1px solid #E7DCD9;
-                                border-bottom: 1px solid #E7DCD9;
-                                border-top: 1px solid #dbc8b6;
-                                padding: 10px;
+                                                            border-right: 1px solid #E7DCD9;
+                                                            border-bottom: 1px solid #E7DCD9;
+                                                            border-top: 1px solid #dbc8b6;
+                                                            padding: 10px;
 
-                                width: 200px;
-                                height: 120px;
+                                                            width: 200px;
+                                                            height: 120px;
 
-                                display: inline-block;
-                                    background-color: #F7F6EE;*/
+                                                            display: inline-block;
+                                                                background-color: #F7F6EE;*/
     }
 
     .data-row {
@@ -122,6 +122,10 @@
         cursor: pointer;
         margin: auto;
         display: flex;
+    }
+
+    .hidden {
+        display: none;
     }
 
     .outpatient-td {
@@ -282,39 +286,39 @@
 
 
     /*.treatmentSelectMenu button {
-                                                                                        background-color: #385460 !important;
-                                                                                        color: #F7F6EE !important;
-                                                                                        border-radius: 10px !important;
-                                                                                    }
+                                                                                                                    background-color: #385460 !important;
+                                                                                                                    color: #F7F6EE !important;
+                                                                                                                    border-radius: 10px !important;
+                                                                                                                }
 
 
-                                                                                .appointmentDetail label {
-                                                                                    background-color: #385466 !important;
-                                                                                    color: #F7F6EE !important;
-                                                                                    border-radius: 10px !important;
-                                                                                }
-                                                                                   .treatmentSelectMenu  label {
-                                                                                    background-color: #385466 !important;
-                                                                                    color: #F7F6EE !important;
-                                                                                    border-radius: 10px !important;
-                                                                                }
+                                                                                                            .appointmentDetail label {
+                                                                                                                background-color: #385466 !important;
+                                                                                                                color: #F7F6EE !important;
+                                                                                                                border-radius: 10px !important;
+                                                                                                            }
+                                                                                                               .treatmentSelectMenu  label {
+                                                                                                                background-color: #385466 !important;
+                                                                                                                color: #F7F6EE !important;
+                                                                                                                border-radius: 10px !important;
+                                                                                                            }
 
-                                                                                .treatmentSelectMenu label:focus,
-                                                                                .treatmentSelectMenu label:hover,
-                                                                                .treatmentSelectMenu label:active {
-                                                                                    background-color: #2A3A4A !important;
-                                                                                    color: #FFFFFF !important;
-                                                                                }
+                                                                                                            .treatmentSelectMenu label:focus,
+                                                                                                            .treatmentSelectMenu label:hover,
+                                                                                                            .treatmentSelectMenu label:active {
+                                                                                                                background-color: #2A3A4A !important;
+                                                                                                                color: #FFFFFF !important;
+                                                                                                            }
 
-                                                                                .treatmentSelectMenu label.selected {
-                                                                                    background-color: #2A3A4A !important;
-                                                                                    color: #FFFFFF !important;
-                                                                                }
-                                                                            .label-item, .treatment-item, actualTreatment-item {
-                                                                                margin-bottom: 10px !important;
-                                                                            }
+                                                                                                            .treatmentSelectMenu label.selected {
+                                                                                                                background-color: #2A3A4A !important;
+                                                                                                                color: #FFFFFF !important;
+                                                                                                            }
+                                                                                                        .label-item, .treatment-item, actualTreatment-item {
+                                                                                                            margin-bottom: 10px !important;
+                                                                                                        }
 
-                                                                            */
+                                                                                                        */
 
     .date-input {
         width: 200px;
@@ -333,8 +337,8 @@
     }
 
         /* .date-input#currentMonth, .date-input#currentDay {
-                                                                            width: 50px;
-                                                                        } */
+                                                                                                        width: 50px;
+                                                                                                    } */
 
         .date-input::-webkit-inner-spin-button,
         .date-input::-webkit-outer-spin-button {
@@ -453,7 +457,7 @@
     }
 
     .appointmentTime {
-        padding: 3px;
+        line-height:normal;
     }
 
     .appointmentTimeDIV {
@@ -623,6 +627,7 @@
         margin-left: 0px;
         margin-right: 0px;
     }
+
 </style>
 
 <h3 class="container " style="text-align:start; margin:10px;">@ViewData["Title"]</h3>
@@ -632,7 +637,7 @@
         <div style="width:100%;align-items:center;text-align:center;font-size:16px;margin-bottom:10px;">
             <input type="text" id="currentDate" class="date-input" style="cursor:pointer;" data-toggle="modal" data-target="#calendarModal" />
 
-            <button class="btn btn-primary" style="background-color:transparent;border:none" data-toggle="modal" data-target="#searchModal"><img src="~/images/search_24dp_0E4F43 _FILL0_wght400_GRAD0_opsz24.png" style="width:30px;height:30px" /></button>
+            <button class="btn btn-primary" style="background-color:transparent;border:none" data-toggle="modal" data-target="#searchModal" onclick="cleanSearchModalInput();"><img src="~/images/search_24dp_0E4F43 _FILL0_wght400_GRAD0_opsz24.png" style="width:30px;height:30px" /></button>
             @* <input type="number" id="currentYear" class="date-input" min="1900" max="2100" />
             <label class="date-label" for="currentYear">年</label>
             <input type="number" id="currentMonth" class="date-input" min="1" max="12" />
@@ -656,10 +661,10 @@
                     <div class="age" id="age"></div>
                 </div>
             </div>
-            <div class="infoDIV" id="medicalRecordNumber">病歷號：</div>
-            <div class="infoDIV" id="phone">電話號碼：</div>
-            <div class="infoDIV" id="birth">生日：</div>
-            <div class="infoDIV" id="email">電子郵件：</div>
+            <div class="infoDIV" id="medicalRecordNumberDiv">病歷號：</div>
+            <div class="infoDIV" id="phoneDiv">電話號碼：</div>
+            <div class="infoDIV" id="birthDiv">生日：</div>
+            <div class="infoDIV" id="emailDiv">電子郵件：</div>
             <div class="infoDIV">
                 <div class="AppointmentTitle">未報到次數</div>
                 <div class="AppointmentInf">0</div>
@@ -683,10 +688,6 @@
                 </div>
 
             </div>
-
-
-
-
 
             <div class="userinfo-item" style="margin-top:30px;justify-content: left;">
                 <span style="font-weight:800;font-size:large;">實際施作項目</span>
@@ -745,23 +746,74 @@
     </div>
 </div>
 
+<div id="searchModal" class="modal fade" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+        <div class="modal-content TheModal">
+            <div class="modal-header" style="display:block !important;padding-top:30px;padding-left:30px;border-radius:15px;box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);background-color:white">
+                <h5 class="modal-title" style="font-weight:800">搜尋預約資料</h5>
+                <p></p>
+                <div id="filters" style="display:flex;justify-content:left;padding-left:30px; ">
+                    <table>
+
+                        <tr>
+                            <td><div class="Filters-Input"><img src="~/images/search_24dp_0E4F43 _FILL0_wght400_GRAD0_opsz24.png" style="width:20px;height:20px" /><input class="searchInput" type="text" id="searchCustomerName" placeholder="請輸入姓名" style="width:120px;" /></div></td>
+                            <td><div class="Filters-Input"><img src="~/images/search_24dp_0E4F43 _FILL0_wght400_GRAD0_opsz24.png" style="width:20px;height:20px" /><input class="searchInput" type="text" id="searchCustomerPhone" placeholder="請輸入手機" style="width:120px;" /></div></td>
+                            <td><div class="Filters-Input"><img src="~/images/search_24dp_0E4F43 _FILL0_wght400_GRAD0_opsz24.png" style="width:20px;height:20px" /><input class="searchInput" type="date" id="searchCustomerBirth" placeholder="請輸入生日" style="width:120px;" /></div></td>
+                            <td>
+                                <button class="btn btn-primary" style=" background-color: #0E4F43 !important; color: #D7F4EE; border-radius:25px ; border:none;" onclick="searchCustomer();">
+                                    搜尋
+                                </button>
+                                <button class="btn btn-primary" style=" background-color: #0E4F43 !important; color: #D7F4EE; border-radius:25px ; border:none;" onclick="showCreateCustomerInfoModal();">
+                                    新增顧客
+                                </button>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-body">
+                @* <h5 class="modal-title"></h5> *@
+
+                @* <p></p> *@
+                <div id="customerList" style="height:100%"></div>
+                @* <p></p>
+                <div id="appointmentList" style="display:none;"></div> *@
+            </div>
+            <div class="modal-footer" style="margin-top:30px;">
+                <button type="button" style="background-color:#ffffff ; border:none;" class="btn btn-secondary" data-dismiss="modal"><img src="~/images/close_fullscreen_24dp_0E4F43 _FILL0_wght400_GRAD0_opsz24.png" style="width:25px;height:25px" /></button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="modal fade" id="editCustomerInfoModal" tabindex="-1" aria-labelledby="ModalInfo" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content TheModal">
             <div class="modal-header">
-                <h5 class="modal-title" id="ModalTitle">編輯客戶資料</h5>
+                <h5 class="modal-title" id="ModalTitle">客戶資料</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <div class="form-group">
+                <div class="form-group" id="customerMedicalRecordNumberDiv" style="display:none;">
                     <label for="customerMedicalRecordNumber">病歷號：</label>
                     <input type="text" class="form-control" id="customerMedicalRecordNumber" required>
                 </div>
                 <div class="form-group">
-                    <label for="customerName">客戶名稱：</label>
+                    <label for="customerName">客戶姓名：</label>
                     <input type="text" class="form-control" id="customerName" required>
+                </div>
+                <div class="form-group" id="nationalIdNumberDiv" style="display:none;">
+                    <label for="customerNationalIdNumber">身分證字號：</label>
+                    <input type="text" class="form-control" id="customerNationalIdNumber">
+                </div>
+                <div class="form-group" id="genderDiv" style="display:none;">
+                    <label for="customerGender">性別：</label>
+                    <select class="form-control" id="customerGender">
+                        <option value="M">男</option>
+                        <option value="F">女</option>
+                    </select>
                 </div>
                 <div class="form-group">
                     <label for="customerCellPhone">手機號碼：</label>
@@ -778,7 +830,8 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
-                <button type="button" class="btn btn-secondary" id="submitBtn" onclick="editCustomerInfo();">儲存</button>
+                <button type="button" class="btn btn-secondary" id="editCustomerBtn" onclick="editCustomerInfo();">儲存</button>
+                <button type="button" class="btn btn-secondary" id="createCustomerBtn" onclick="createCustomerInfo();">新增</button>
             </div>
         </div>
     </div>
@@ -801,42 +854,7 @@
     </div>
 </div>
 
-<div id="searchModal" class="modal fade" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl modal-dialog-centered">
-        <div class="modal-content TheModal">
-            <div class="modal-header" style="display:block !important;padding-top:30px;padding-left:30px;border-radius:15px;box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);background-color:white">
-                <h5 class="modal-title" style="font-weight:800">搜尋預約資料</h5>
-                <p></p>
-                <div id="filters" style="display:flex;justify-content:left;padding-left:30px; ">
-                    <table>
 
-                        <tr>
-                            <td><div class="Filters-Input"><img src="~/images/search_24dp_0E4F43 _FILL0_wght400_GRAD0_opsz24.png" style="width:20px;height:20px" /><input class="searchInput" type="text" id="searchCustomerName" placeholder="請輸入姓名" style="width:120px;" /></div></td>
-                            <td><div class="Filters-Input"><img src="~/images/search_24dp_0E4F43 _FILL0_wght400_GRAD0_opsz24.png" style="width:20px;height:20px" /><input class="searchInput" type="text" id="searchCustomerPhone" placeholder="請輸入手機" style="width:120px;" /></div></td>
-                            <td><div class="Filters-Input"><img src="~/images/search_24dp_0E4F43 _FILL0_wght400_GRAD0_opsz24.png" style="width:20px;height:20px" /><input class="searchInput" type="date" id="searchCustomerBirth" placeholder="請輸入生日" style="width:120px;" /></div></td>
-                            <td>
-                                <button class="btn btn-primary" style=" background-color: #0E4F43 !important; color: #D7F4EE; border-radius:25px ; border:none;" onclick="searchCustomer();">
-                                    搜尋
-                                </button>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
-            <div class="modal-body">
-                @* <h5 class="modal-title"></h5> *@
-
-                @* <p></p> *@
-                <div id="customerList" style="height:100%"></div>
-                @* <p></p>
-                <div id="appointmentList" style="display:none;"></div> *@
-            </div>
-            <div class="modal-footer" style="margin-top:30px;">
-                <button type="button" style="background-color:#ffffff ; border:none;" class="btn btn-secondary" data-dismiss="modal"><img src="~/images/close_fullscreen_24dp_0E4F43 _FILL0_wght400_GRAD0_opsz24.png" style="width:25px;height:25px" /></button>
-            </div>
-        </div>
-    </div>
-</div>
 
 <input type="hidden" id="selectedAppointment" value="" />
 
@@ -855,7 +873,7 @@
             // $('#currentMonth').val(currentMonth + 1);
             // $('#currentDay').val(currentDay);
 
-            $('#currentDate').val(currentYear + "-" + (currentMonth + 1) + "-" + currentDay);
+            $('#currentDate').val(currentYear + "-" + String(currentMonth + 1).padStart(2, '0') + "-" + String(currentDay).padStart(2, '0'));
 
             setAppointmentTable(currentYear, currentMonth, currentDay);
         }
@@ -872,6 +890,15 @@
             setTimeout(setTreatmentList, 0);
         });
     });
+
+    function getTodayDate() {
+        const today = new Date();
+        const year = today.getFullYear();
+        const month = String(today.getMonth() + 1).padStart(2, '0');  // 月份從0開始，所以需要+1
+        const day = String(today.getDate()).padStart(2, '0');
+
+        return `${year}-${month}-${day}`;
+    }
 
     const monthNames = ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"];
     const daysOfWeek = ["日", "一", "二", "三", "四", "五", "六"];
@@ -953,7 +980,7 @@
         updateCalendar();
     });
 
-    function appointmentOnClick(appointmentId) {
+    function appointmentOnClick(appointmentId,tdName) {
         $.ajax({
             type: 'POST',
             url: '/Home/SetAppointmentDetail',
@@ -969,23 +996,25 @@
                 $('#name').html(data.customerData.name);
                 $('#customerName').val(data.customerData.name);
 
-                $('#medicalRecordNumber').html("<div class=\"AppointmentTitle\">" + "病歷號" + "</div>" + "<div class=\"AppointmentInf\">" + data.customerData.medicalRecordNumber + "</div>");
+                $('#medicalRecordNumberDiv').html("<div class=\"AppointmentTitle\">" + "病歷號" + "</div>" + "<div class=\"AppointmentInf\" id=\"medicalRecordNumber\">" + data.customerData.medicalRecordNumber + "</div>");
                 $('#customerMedicalRecordNumber').val(data.customerData.medicalRecordNumber);
 
-                $('#phone').html("<div class=\"AppointmentTitle\">" + "電話號碼" + "</div>" + "<div class=\"AppointmentInf\">" + data.customerData.cellPhone + "</div>");
+                $('#phoneDiv').html("<div class=\"AppointmentTitle\">" + "電話號碼" + "</div>" + "<div class=\"AppointmentInf\" id=\"phone\">" + data.customerData.cellPhone + "</div>");
                 $('#customerCellPhone').val(data.customerData.cellPhone);
 
-                $('#birth').html("<div class=\"AppointmentTitle\">" + "生日" + "</div>" + "<div class=\"AppointmentInf\">" + data.customerData.birthday + "</div>");
+                $('#birthDiv').html("<div class=\"AppointmentTitle\">" + "生日" + "</div>" + "<div class=\"AppointmentInf\" id=\"birth\">" + data.customerData.birthday + "</div>");
                 $('#customerBirth').val(data.customerData.birthday);
 
-                $('#email').html("<div class=\"AppointmentTitle\">" + "電子郵件" + "</div>" + "<div class=\"AppointmentInf\">" + data.customerData.email + "</div>");
+                $('#emailDiv').html("<div class=\"AppointmentTitle\">" + "電子郵件" + "</div>" + "<div class=\"AppointmentInf\" id=\"email\">" + data.customerData.email + "</div>");
                 $('#customerEmail').val(data.customerData.email);
-
 
                 if (data.checkIn == "Y") {
                     $('#checkIn').html('<button class="btn sidebarbtn" disabled><img src="/images/check_box_24dp_434343_FILL0_wght400_GRAD0_opsz24.png" style="width:30px;height:30px;"/></button> <span class="btnWord">已報到</span>');
                 } else {
-                    $('#checkIn').html('<button class="btn sidebarbtn" onclick="appointmentCheckIn();"><img src="/images/check_box_24dp_0E4F43_FILL0_wght400_GRAD0_opsz24.png" style="width:30px;height:30px;"/></button> <span class="btnWord">現場報到</span>');
+                    if (getTodayDate()!=$('#currentDate').val())
+                        $('#checkIn').html('<button class="btn sidebarbtn" onclick="appointmentCheckIn();" disabled><img src="/images/check_box_24dp_0E4F43_FILL0_wght400_GRAD0_opsz24.png" style="width:30px;height:30px;"/></button> <span class="btnWord">現場報到</span>');
+                    else
+                        $('#checkIn').html('<button class="btn sidebarbtn" onclick="appointmentCheckIn();"><img src="/images/check_box_24dp_0E4F43_FILL0_wght400_GRAD0_opsz24.png" style="width:30px;height:30px;"/></button> <span class="btnWord">現場報到</span>');
                 }
 
                 $('#editAppointment').html('<button class="btn sidebarbtn" onclick="editAppointment();"><img src="/images/event_repeat_24dp_0E4F43_FILL0_wght400_GRAD0_opsz24.png" style="width:30px;height:30px;"/></button > <span class="btnWord">修改時段</span>');
@@ -999,8 +1028,25 @@
                 $('#actualList').html(inner);
 
                 $('.userinfo-sidebar').show();
+                document.getElementById('appointmentDetail').classList.add('show');  //新增
 
-                                     /*新增*/   document.getElementById('appointmentDetail').classList.add('show');
+                //切換同個td下的div
+                let events = document.querySelectorAll('#' + tdName + ' .event');
+                let divId = "appointment-" + appointmentId;
+                let minZIndex = 1;
+
+                if (events.length > 0) {
+                    events.forEach(event => {
+                        if (event.id === divId) {
+                            event.style.zIndex = minZIndex;
+                            // event.classList.add('hidden'); // 隱藏其他 div
+                        } else {
+                            event.style.zIndex = parseInt(event.style.zIndex, 10) + 10;
+                            // event.classList.remove('hidden'); // 顯示被點擊的 div
+                            return;
+                        }
+                    });
+                }
 
             }
         });
@@ -1012,8 +1058,41 @@
         if (Id == "")
             return false;
         else {
+            $('#customerName').val($('#name').html());
+            $('#customerNationalIdNumber').val("");
+            $('#customerGender').val("");
+            $('#customerMedicalRecordNumber').val($('#medicalRecordNumber').html());
+            $('#customerCellPhone').val($('#phone').html());
+            $('#customerBirth').val($('#birth').html());
+            $('#customerEmail').val($('#email').html());
+
+            $('#customerMedicalRecordNumberDiv').show();
+            $('#nationalIdNumberDiv').hide();
+            $('#genderDiv').hide();
+
+            $('#editCustomerBtn').show();
+            $('#createCustomerBtn').hide();
             $('#editCustomerInfoModal').modal('show');
         }
+    }
+
+    function showCreateCustomerInfoModal() {
+        $('#customerMedicalRecordNumber').val("");
+        $('#customerName').val("");
+        $('#customerNationalIdNumber').val("");
+        $('#customerGender').val("");
+        $('#customerCellPhone').val("");
+        $('#customerBirth').val("");
+        $('#customerEmail').val("");
+
+        $('#customerMedicalRecordNumberDiv').hide();
+        $('#nationalIdNumberDiv').show();
+        $('#genderDiv').show();
+
+        $('#editCustomerBtn').hide();
+        $('#createCustomerBtn').show();
+
+        $('#editCustomerInfoModal').modal('show');
     }
 
     function editCustomerInfo() {
@@ -1030,11 +1109,34 @@
             datatype: "json",
             data: { "appointmentId": id, "customerMedicalRecordNumber": customerMedicalRecordNumber, "customerName": customerName, "customerCellPhone": customerCellPhone, "customerBirth": customerBirth, "customerEmail": customerEmail },
             success: function (data) {
-                console.log("Create label successful.");
+                console.log("Edit customer successful.");
 
                 $('#editCustomerInfoModal').modal('hide');
                 appointmentOnClick(id);
                 refreshTable();
+            }
+        });
+    }
+
+    function createCustomerInfo() {
+        // let customerMedicalRecordNumber = $('#customerMedicalRecordNumber').val();
+        let customerName = $('#customerName').val();
+        let customerNationalIdNumber = $('#customerNationalIdNumber').val();
+        let customerGender = $('#customerGender').val();
+        let customerCellPhone = $('#customerCellPhone').val();
+        let customerBirth = $('#customerBirth').val();
+        let customerEmail = $('#customerEmail').val();
+
+        $.ajax({
+            type: "POST",
+            url: "/Home/createCustomerInfo",
+            datatype: "json",
+            data: { "customerName": customerName, "customerNationalIdNumber": customerNationalIdNumber, "customerGender": customerGender, "customerCellPhone": customerCellPhone, "customerBirth": customerBirth, "customerEmail": customerEmail },
+            success: function (data) {
+                console.log("Create customer successful.");
+
+                alert("新增成功!");
+                $('#editCustomerInfoModal').modal('hide');
             }
         });
     }
@@ -1067,7 +1169,7 @@
                         innerHTML += `<td class="outpatient-td ">` + item.beginTime + `</td>`;
 
                         data.doctorDatas.forEach(function (x) {
-                            innerHTML += `<td  id="` + x.doctorId + `-` + item.beginTime.toString().replace(':', '') + `"><div class="data-row"></div></td>`;
+                            innerHTML += `<td  id="outpatient-` + x.doctorId + `-` + item.beginTime.toString().replace(':', '') + `"><div class="data-row"></div></td>`;
                         });
                         innerHTML += `</tr>`;
                     });
@@ -1093,16 +1195,21 @@
                         console.log(data);
 
                         data.forEach(function (item) {
-                            let tdName = $('#' + item.doctorData.doctorId + '-' + item.bookingBeginTime.toString().replace(':', '') + '')
+                            let tdName = $('#outpatient-' + item.doctorData.doctorId + '-' + item.bookingBeginTime.toString().replace(':', '') + '')
                             let divHTML = ``;
 
                             if (item.checkIn == "Y") {
-                                divHTML += `<div class="event" onclick="appointmentOnClick('` + item.appointmentId + `');" style="height:` + (96) * (item.timeUnitCount) + `%;background-color:#818987;">`;
+                                divHTML += `<div class="event" id="appointment-` + item.appointmentId + `" onclick="appointmentOnClick('` + item.appointmentId + `','outpatient-` + item.doctorData.doctorId + '-' + item.bookingBeginTime.toString().replace(':', '') + `');" style="height:` + (96) * (item.timeUnitCount) + `%;background-color:#818987;z-index: 100;">`;
                             } else {
-                                divHTML += `<div class="event" onclick="appointmentOnClick('` + item.appointmentId + `');" style="height:` + (96) * (item.timeUnitCount) + `%;background-color:` + item.doctorData.colorHEX + `;">`;
+                                divHTML += `<div class="event" id="appointment-` + item.appointmentId + `" onclick="appointmentOnClick('` + item.appointmentId + `','outpatient-` + item.doctorData.doctorId + '-' + item.bookingBeginTime.toString().replace(':', '') + `');" style="height:` + (96) * (item.timeUnitCount) + `%;background-color:` + item.doctorData.colorHEX + `; z-index: 100;">`;
                             }
 
-                            divHTML += `<div class="appointmentTime">` + item.bookingBeginTime + `-` + item.bookingEndTime + `<br />病歷號:` + item.customerData.medicalRecordNumber + `<br /><p> 姓名:` + item.customerData.name + `-` + item.customerData.gender + `</p></div>`;
+                            if (item.type == "Appointment") {
+                                divHTML += `<div class="appointmentTime">` + item.bookingBeginTime + `-` + item.bookingEndTime + ` <span style="display: block; "> ` + item.customerData.name + ` - ` + item.customerData.gender + ` </span> ` + `<span  style="display: block; ">病歷號:</span> <span  style="display: block; ">` + item.customerData.medicalRecordNumber + `</span>   </div > `;
+                            } else {
+                                divHTML += `<div class="appointmentTime">(回診)` + item.bookingBeginTime + `-` + item.bookingEndTime + ` <span style="display: block; "> ` + item.customerData.name + ` - ` + item.customerData.gender + ` </span> ` + `<span  style="display: block; ">病歷號:</span> <span  style="display: block; ">` + item.customerData.medicalRecordNumber + `</span>   </div > `;
+                            }
+                            
                             divHTML += `<div class="appointmentTimeDIV">`;
                             item.treatmentData.forEach(function (x) {
                                 divHTML += `<div class="treatmentItem">` + x.treatmentName + `</div>`;
@@ -1110,7 +1217,15 @@
                             divHTML += `</div>`;
                             divHTML += `</div>`;
 
-                            tdName.html(divHTML);
+                            let r = ``;
+
+                            if (item.checkIn == "Y")
+                                r = divHTML + tdName.html();
+
+                            else
+                                r = tdName.html() + divHTML;
+
+                            tdName.html(r);
                         });
                     }
                 });
@@ -1318,12 +1433,14 @@
 
                 if (data.length > 0) {
                     inner += `<div class="row rowTittle" style="margin:0px;">`;
+
                     inner += `<div class="col-2" style="padding:0px;">姓名</div>`;
                     inner += `<div class="col-2" style="padding:0px;">身分證字號</div>`;
                     inner += `<div class="col-2" style="padding:0px;">手機號碼</div>`;
                     inner += `<div class="col-2" style="padding:0px;">病歷號</div>`;
                     inner += `<div class="col-2" style="padding:0px;">生日</div>`;
                     inner += `<div class="col-2" style="padding:0px;">email</div>`;
+                    inner += `<div class="col-1" style="padding:0px;"></div>`;
 
                     inner += `</div>`;
 
@@ -1339,6 +1456,7 @@
                         inner += `<div class="col-2" style="padding:0px;">` + item.medicalRecordNumber + `</div>`;
                         inner += `<div class="col-2" style="padding:0px;">` + item.birthday + `</div>`;
                         inner += `<div class="col-2" style="padding:0px;">` + item.email + `</div>`;
+
                         inner += `</div>`;
 
                         //預約資料
@@ -1368,41 +1486,14 @@
                             inner += `</div>`;
                         }
 
+                        inner += `<div class="col-2" style="padding:0px;">`;
+                        inner += `<button class="btn btn-primary" style=" background-color: #0E4F43 !important; color: #D7F4EE; border-radius:25px ; border:none;" onclick="createAppointment('` + item.id + `','Appointment');">預約</button> `;
+                        inner += `<button class="btn btn-primary" style=" background-color: #0E4F43 !important; color: #D7F4EE; border-radius:25px ; border:none;" onclick="createAppointment('` + item.id + `','Return');">回診</button>`;
+                        inner += `</div>`;
+
+                        inner += `</div>`;
                     });
 
-
-
-
-                    // inner += `<table style="width:100%">`;
-                    // inner += `<tr>`;
-                    // inner += `<th>姓名</th>`;
-                    // inner += `<th>身分證字號</th>`;
-                    // inner += `<th>手機號碼</th>`;
-                    // inner += `<th>病歷號</th>`;
-                    // inner += `<th>生日</th>`;
-                    // inner += `<th>email</th>`;
-                    // inner += `<th></th>`;
-                    // inner += `</tr>`;
-
-                    // let i = 0;
-                    // data.forEach(function (item) {
-                    //     i++;
-
-                    //     inner += `<tr>`;
-                    //     inner += `<td>` + item.name + `</td>`;
-                    //     inner += `<td>` + item.nationalIdNumber + `</td>`;
-                    //     inner += `<td>` + item.cellPhone + `</td>`;
-                    //     inner += `<td>` + item.medicalRecordNumber + `</td>`;
-                    //     inner += `<td>` + item.birthday + `</td>`;
-                    //     inner += `<td>` + item.email + `</td>`;
-                    //     inner += `<td><button class="btn btn-primary" style="background-color: #ffffff;border: none;" onclick="showCustomerAppointment('` + i + `');"><img src="/images/more_24dp_0E4F43 _FILL0_wght400_GRAD0_opsz24.png" style="width:30px;height:30px"></button</td>`;
-                    //     inner += `</tr>`;
-
-                    //     //預約資料
-
-                    // });
-
-                    // inner += `</table>`;
                 } else {
                     inner += `查無符合條件之顧客`;
                 }
@@ -1469,19 +1560,25 @@
         //設定該天日期
         $('#currentDate').val(date);
         refreshTable();
-
         //清空資料
+        cleanSearchModalInput();
+    }
+
+
+    function createAppointment(id, type) {
+        window.location.href = "/Home/AppointmentCreate?customerId=" + encodeURIComponent(id) + "&type=" + encodeURIComponent(type);
+    }
+
+    function cleanSearchModalInput() {
         $('#searchCustomerName').val("");
         $('#searchCustomerPhone').val("");
         $('#searchCustomerBirth').val("");
 
         $('#customerList').html("");
         $('#customerList').hide();
-
         $('#appointmentList').html("");
         $('#appointmentList').hide();
     }
-
 
 
 </script>

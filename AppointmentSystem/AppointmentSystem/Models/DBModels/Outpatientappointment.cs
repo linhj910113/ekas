@@ -4,9 +4,9 @@ using System.Collections.Generic;
 namespace AppointmentSystem.Models.DBModels;
 
 /// <summary>
-/// 角色預設權限資料表
+/// 門診對應預約資料表
 /// </summary>
-public partial class Rolepermission
+public partial class Outpatientappointment
 {
     public DateTime CreateDate { get; set; }
 
@@ -20,13 +20,9 @@ public partial class Rolepermission
 
     public long Index { get; set; }
 
-    public string RoleId { get; set; } = null!;
+    public string? OutpatientId { get; set; }
 
-    public string FunctionId { get; set; } = null!;
+    public string? Type { get; set; }
 
-    public string? IsAllow { get; set; }
-
-    public virtual Function Function { get; set; } = null!;
-
-    public virtual Role Role { get; set; } = null!;
+    public string? AppointmentId { get; set; }
 }

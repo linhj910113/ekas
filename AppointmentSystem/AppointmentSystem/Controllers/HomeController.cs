@@ -107,6 +107,27 @@ namespace AppointmentSystem.Controllers
         }
 
         [Authorize]
+        public IActionResult AppointmentCreate(string customerId, string type)
+        {
+            var user = HttpContext.User.Claims.ToList();
+
+            if (user.FirstOrDefault(u => u.Type == "LoginType").Value == "Customer")
+            {
+                return RedirectToAction("Login", "Appointment");
+            }
+            else
+            {
+                int AppointmentCount = _homeService.GetCustomerAppointmentCount(customerId);
+
+                ViewBag.AppointmentCount = AppointmentCount;
+                ViewBag.customerId = customerId;
+                ViewBag.type = type;
+
+                return View();
+            }
+        }
+
+        [Authorize]
         [HttpGet]
         public IActionResult AppointmentEdit(string id)
         {
@@ -129,6 +150,7 @@ namespace AppointmentSystem.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
 
 
 
@@ -318,6 +340,53 @@ namespace AppointmentSystem.Controllers
 
         [HttpPost]
         [Authorize]
+        public IActionResult createCustomerInfo(string customerName, string customerNationalIdNumber, string customerGender, string customerCellPhone, string customerBirth, string customerEmail)
+        {
+            var user = HttpContext.User.Claims.ToList();
+
+            //新顧客
+            string CustomerId = _functions.GetGuid();
+            while (_homeService.CheckCustomerId(CustomerId))
+                CustomerId = _functions.GetGuid();
+
+            string customerMedicalRecordNumber = _homeService.getCustomerMedicalRecordNumber(customerBirth);
+
+            Customer item = new Customer()
+            {
+                Creator = user.FirstOrDefault(u => u.Type == "Account").Value,
+                Modifier = user.FirstOrDefault(u => u.Type == "Account").Value,
+                CreateDate = DateTime.Now,
+                ModifyDate = DateTime.Now,
+                Status = "Y",
+
+                Id = CustomerId,
+                MedicalRecordNumber = customerMedicalRecordNumber,
+                Name = customerName,
+                LineId = "",
+                DisplayName = customerName,
+                LinePictureUrl = "",
+                CellPhone = customerCellPhone,
+                NationalIdNumber = customerNationalIdNumber,
+                Gender = customerGender,
+                Birthday = customerBirth,
+                Email = customerEmail,
+                Memo = ""
+            };
+            _homeService.CreateCustomer(item);
+
+            _functions.SaveSystemLog(new Systemlog
+            {
+                CreateDate = DateTime.Now,
+                Creator = user.FirstOrDefault(u => u.Type == "Account").Value,
+                UserAccount = user.FirstOrDefault(u => u.Type == "Account").Value,
+                Description = "Add customer id='" + CustomerId + "'."
+            });
+
+            return new JsonResult(CustomerId);
+        }
+
+        [HttpPost]
+        [Authorize]
         public IActionResult editCustomerInfo(string AppointmentId, string customerMedicalRecordNumber, string customerName, string customerCellPhone, string customerBirth, string customerEmail)
         {
             string result = _homeService.EditCustomerInfo(AppointmentId, customerMedicalRecordNumber, customerName, customerCellPhone, customerBirth, customerEmail);
@@ -334,6 +403,124 @@ namespace AppointmentSystem.Controllers
             return new JsonResult(customerData);
         }
 
+        [HttpGet]
+        public IActionResult setTreatmentList()
+        {
+            List<TreatmentDataVM> data = _homeService.GetTreatmentList();
+
+            foreach (var item in data)
+            {
+                item.Image = "data:image/" + item.ImageFile.FileExtension.Replace(".", "") + "; base64," + _functions.ConvertJpgToBase64(item.ImageFile.Path);
+            }
+
+            return new JsonResult(data);
+        }
+
+        [HttpPost]
+        public IActionResult setDoctorList(string[] treatments)
+        {
+            List<DoctorDataVM> data = _homeService.GetDoctorList(treatments);
+
+            foreach (var item in data)
+            {
+                item.Image = "data:image/" + item.ImageFile.FileExtension.Replace(".", "") + "; base64," + _functions.ConvertJpgToBase64(item.ImageFile.Path);
+            }
+
+            return new JsonResult(data);
+        }
+
+        [HttpPost]
+        public IActionResult getDateAndTime(string[] treatments, string customerId, string doctor, string appointmentId)
+        {
+            if (appointmentId is not null && appointmentId != "")
+                customerId = _homeService.GetAppointmentCustomerData(appointmentId).Id!;
+
+            List<FillinDateTimeVM> results = _homeService.GetFillInDateTimeData(treatments, doctor, customerId, appointmentId);
+
+            return new JsonResult(results);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddAppointment(string[] treatments, string doctor, string date, string beginTime, string customerId, string type)
+        {
+            var user = HttpContext.User.Claims.ToList();
+            string AppointmentId = _functions.GetGuid();
+
+            while (_homeService.CheckAppointmentId(AppointmentId))
+                AppointmentId = _functions.GetGuid();
+
+            string BookingEndTime = "";
+
+            if (type == "Appointment")
+            {
+                BookingEndTime = TimeSpan.Parse(beginTime).Add(new TimeSpan(0, _homeService.GetTreatmentListMaxTime(treatments), 0)).ToString();
+                BookingEndTime = DateTime.ParseExact(BookingEndTime, "HH:mm:ss", null).ToString("HH:mm");
+            }
+            else if (type == "Return")
+            {
+                BookingEndTime = TimeSpan.Parse(beginTime).Add(new TimeSpan(0, 15, 0)).ToString();
+                BookingEndTime = DateTime.ParseExact(BookingEndTime, "HH:mm:ss", null).ToString("HH:mm");
+            }
+
+            Appointment item = new Appointment()
+            {
+                Creator = user.FirstOrDefault(u => u.Type == "Account").Value,
+                Modifier = user.FirstOrDefault(u => u.Type == "Account").Value,
+                CreateDate = DateTime.Now,
+                ModifyDate = DateTime.Now,
+                Status = "Y",
+
+                Id = AppointmentId,
+                Type = type,
+                CustomerId = customerId,
+                DoctorId = doctor,
+                Date = date,
+                BookingBeginTime = beginTime,
+                BookingEndTime = BookingEndTime,
+                CheckIn = "N",
+                CheckInTime = ""
+            };
+            _homeService.CreateAppointment(item);
+
+            //新增預約的療程
+            foreach (var treatment in treatments)
+            {
+                Appointmenttreatment at = new Appointmenttreatment()
+                {
+                    Creator = user.FirstOrDefault(u => u.Type == "Account").Value,
+                    Modifier = user.FirstOrDefault(u => u.Type == "Account").Value,
+                    CreateDate = DateTime.Now,
+                    ModifyDate = DateTime.Now,
+                    Status = "Y",
+
+                    AppointmentId = AppointmentId,
+                    Type = "A",
+                    TreatmentId = treatment
+                };
+                _homeService.CreateAppointmenttreatment(at);
+            }
+
+            //傳送訊息
+            var customerData = _homeService.GetAppointmentCustomerData(AppointmentId);
+            string Url = _functions.GetSystemParameter("SystemDomainName") + "/Appointment/SuccessPage/" + AppointmentId;
+            string message = "預約驗證成功，詳細資料如下網址\n" + Url;
+
+            if (customerData.LineId != "")
+                await _functions.SendLineMessageAsync(customerData.LineId, message);
+            else if (customerData.CellPhone != "")
+                await _functions.SendSmsAsync(customerData.CellPhone, message);
+
+            _functions.SaveSystemLog(new Systemlog
+            {
+                CreateDate = DateTime.Now,
+                Creator = user.FirstOrDefault(u => u.Type == "UserId").Value,
+                UserAccount = user.FirstOrDefault(u => u.Type == "UserId").Value,
+                Description = "Add Appointment id='" + AppointmentId + "'."
+            });
+
+            return new JsonResult(AppointmentId);
+        }
+
         //[HttpPost]
         //[Authorize]
         //public IActionResult getCustomerAppointment(string id)
@@ -343,6 +530,6 @@ namespace AppointmentSystem.Controllers
         //    return new JsonResult(appointmentData);
         //}
 
-        
+
     }
 }

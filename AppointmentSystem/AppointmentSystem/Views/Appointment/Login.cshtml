@@ -100,8 +100,6 @@
             margin-bottom:10px;
             letter-spacing: 2px;">
 
-       
-
     </div>-->
 
 </div>
@@ -125,7 +123,6 @@
                     <div class="lineinCELLandLINE">
                         <span >或一般登入預約</span> 
                     </div>
-
 
                     <button class="" onclick="showPhoneLoginBlock();" style="background-color:#0E4F43 ;color:#D7F4EE ;border-radius:15px; height:44px ; width:250px; padding:0px; border:0px; margin:0px;margin-top:0.1px;font-family: initial; font-size:16px; ">
                         手機號碼預約
@@ -184,11 +181,12 @@
 
     function LineLogin() {
         var client_id = '2005627882';
-        var redirect_uri = encodeURIComponent('http://54.199.151.82/Appointment/Redirect');
+        var redirect_uri = encodeURIComponent('https://localhost:7146/Appointment/Redirect');
         var state = 'abcd'; // 用於防止 CSRF 攻擊
         var scope = 'profile openid';
 
         var loginUrl = `https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=${client_id}&redirect_uri=${redirect_uri}&state=${state}&scope=${scope}`;
+        // console.log(loginUrl);
         window.location.href = loginUrl;
     }
 
