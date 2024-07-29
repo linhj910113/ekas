@@ -156,6 +156,7 @@ namespace AppointmentSystem.Services
                 result.Add(new AppointmentData()
                 {
                     AppointmentId = item.Id,
+                    Type = item.Type,
                     Date = date,
                     BookingBeginTime = item.BookingBeginTime,
                     BookingEndTime = item.BookingEndTime,
@@ -254,13 +255,13 @@ namespace AppointmentSystem.Services
 
             DateTime currentDate = DateTime.Now;
             int age = currentDate.Year - DateTime.Parse(customer.Birthday).Year;
+            string gender = _db.Systemselectlists.FirstOrDefault(x => x.GroupName == "Gender" && x.SelectValue == customer.Gender).SelectName!;
 
             if (currentDate < DateTime.Parse(customer.Birthday).AddYears(age))
                 age--;
 
             DateTime today = DateTime.Now.AddDays(-1);
             int missed = _db.Appointments.AsEnumerable().Where(x => x.CustomerId == customer.Id && x.Status == "Y" && x.CheckIn == "N" && DateTime.Parse(x.Date) < today).Count();
-
             var doctor = _db.Doctors.FirstOrDefault(x => x.Id == item.DoctorId);
 
             return new AppointmentData()
@@ -294,7 +295,7 @@ namespace AppointmentSystem.Services
                     Birthday = customer.Birthday,
                     Age = age,
                     missed = missed,
-                    Gender = customer.Gender,
+                    Gender = gender,
                     NationalIdNumber = customer.NationalIdNumber
                 }
             };
@@ -937,7 +938,7 @@ namespace AppointmentSystem.Services
                     //判斷該時段是否可使用
                     string enabled = "Y";
 
-                    if (times.Status!="Y")
+                    if (times.Status != "Y")
                         enabled = "N";
                     //bool flag = false;
                     //string BookingBeginTime = times.BeginTime;
@@ -1086,6 +1087,19 @@ namespace AppointmentSystem.Services
         {
             _db.Customers.Add(value);
             _db.SaveChanges();
+        }
+
+        public string getCustomerMedicalRecordNumber(string birthday)
+        {
+            DateTime date = DateTime.Parse(birthday);
+            string formattedDate = date.ToString("MMdd");
+
+            var maxSequenceQuery = _db.Customers.AsEnumerable().Where(x => x.MedicalRecordNumber.StartsWith(formattedDate)).Select(x => new { SequenceNumber = int.Parse(x.MedicalRecordNumber.Substring(4, 3)) }).OrderByDescending(x => x.SequenceNumber).FirstOrDefault(); ;
+            int newSequenceNumber = (maxSequenceQuery != null ? maxSequenceQuery.SequenceNumber : 0) + 1;
+
+            string newMedicalRecordNumber = formattedDate + newSequenceNumber.ToString("D3");
+
+            return newMedicalRecordNumber;
         }
 
         //public string GetAdminName()

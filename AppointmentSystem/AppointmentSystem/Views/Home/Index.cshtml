@@ -796,7 +796,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div class="form-group">
+                <div class="form-group" id="customerMedicalRecordNumberDiv" style="display:none;">
                     <label for="customerMedicalRecordNumber">病歷號：</label>
                     <input type="text" class="form-control" id="customerMedicalRecordNumber" required>
                 </div>
@@ -1066,6 +1066,7 @@
             $('#customerBirth').val($('#birth').html());
             $('#customerEmail').val($('#email').html());
 
+            $('#customerMedicalRecordNumberDiv').show();
             $('#nationalIdNumberDiv').hide();
             $('#genderDiv').hide();
 
@@ -1084,6 +1085,7 @@
         $('#customerBirth').val("");
         $('#customerEmail').val("");
 
+        $('#customerMedicalRecordNumberDiv').hide();
         $('#nationalIdNumberDiv').show();
         $('#genderDiv').show();
 
@@ -1117,7 +1119,7 @@
     }
 
     function createCustomerInfo() {
-        let customerMedicalRecordNumber = $('#customerMedicalRecordNumber').val();
+        // let customerMedicalRecordNumber = $('#customerMedicalRecordNumber').val();
         let customerName = $('#customerName').val();
         let customerNationalIdNumber = $('#customerNationalIdNumber').val();
         let customerGender = $('#customerGender').val();
@@ -1129,7 +1131,7 @@
             type: "POST",
             url: "/Home/createCustomerInfo",
             datatype: "json",
-            data: { "customerMedicalRecordNumber": customerMedicalRecordNumber, "customerName": customerName, "customerNationalIdNumber": customerNationalIdNumber, "customerGender": customerGender, "customerCellPhone": customerCellPhone, "customerBirth": customerBirth, "customerEmail": customerEmail },
+            data: { "customerName": customerName, "customerNationalIdNumber": customerNationalIdNumber, "customerGender": customerGender, "customerCellPhone": customerCellPhone, "customerBirth": customerBirth, "customerEmail": customerEmail },
             success: function (data) {
                 console.log("Create customer successful.");
 
@@ -1202,7 +1204,12 @@
                                 divHTML += `<div class="event" id="appointment-` + item.appointmentId + `" onclick="appointmentOnClick('` + item.appointmentId + `','outpatient-` + item.doctorData.doctorId + '-' + item.bookingBeginTime.toString().replace(':', '') + `');" style="height:` + (96) * (item.timeUnitCount) + `%;background-color:` + item.doctorData.colorHEX + `; z-index: 100;">`;
                             }
 
-                            divHTML += `<div class="appointmentTime">` + item.bookingBeginTime + `-` + item.bookingEndTime + ` <span style="display: block; "> ` + item.customerData.name + ` - ` + item.customerData.gender + ` </span> ` + `<span  style="display: block; ">病歷號:</span> <span  style="display: block; ">` + item.customerData.medicalRecordNumber + `</span>   </div > `;
+                            if (item.type == "Appointment") {
+                                divHTML += `<div class="appointmentTime">` + item.bookingBeginTime + `-` + item.bookingEndTime + ` <span style="display: block; "> ` + item.customerData.name + ` - ` + item.customerData.gender + ` </span> ` + `<span  style="display: block; ">病歷號:</span> <span  style="display: block; ">` + item.customerData.medicalRecordNumber + `</span>   </div > `;
+                            } else {
+                                divHTML += `<div class="appointmentTime">(回診)` + item.bookingBeginTime + `-` + item.bookingEndTime + ` <span style="display: block; "> ` + item.customerData.name + ` - ` + item.customerData.gender + ` </span> ` + `<span  style="display: block; ">病歷號:</span> <span  style="display: block; ">` + item.customerData.medicalRecordNumber + `</span>   </div > `;
+                            }
+                            
                             divHTML += `<div class="appointmentTimeDIV">`;
                             item.treatmentData.forEach(function (x) {
                                 divHTML += `<div class="treatmentItem">` + x.treatmentName + `</div>`;

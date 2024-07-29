@@ -312,6 +312,7 @@ namespace AppointmentSystem.Services
             result.Date = appointment.Date;
             result.BookingBeginTime = appointment.BookingBeginTime;
             result.NotifyMessage = _functions.GetSystemParameter("AppointmentSuccessNotice");
+            result.CustomerId = appointment.CustomerId;
 
             var ats = _db.Appointmenttreatments.Where(x => x.AppointmentId == appointment.Id && x.Type == "A").ToList();
 
@@ -421,6 +422,17 @@ namespace AppointmentSystem.Services
             _db.SaveChanges();
         }
 
+        public void BindCustomerLineId(Customer value, string customerId)
+        {
+            _db.Customers.FirstOrDefault(x => x.Id == customerId).Modifier = value.Modifier;
+            _db.Customers.FirstOrDefault(x => x.Id == customerId).ModifyDate = value.ModifyDate;
+
+            _db.Customers.FirstOrDefault(x => x.Id == customerId).LineId = value.LineId;
+            _db.Customers.FirstOrDefault(x => x.Id == customerId).LinePictureUrl = value.LinePictureUrl;
+
+            _db.SaveChanges();
+        }
+
         public string UpdateCustomer(string customerId, Customer value)
         {
             try
@@ -428,6 +440,7 @@ namespace AppointmentSystem.Services
                 _db.Customers.FirstOrDefault(x => x.Id == customerId).Modifier = value.Modifier;
                 _db.Customers.FirstOrDefault(x => x.Id == customerId).ModifyDate = value.ModifyDate;
 
+                _db.Customers.FirstOrDefault(x => x.Id == customerId).MedicalRecordNumber = value.MedicalRecordNumber;
                 _db.Customers.FirstOrDefault(x => x.Id == customerId).Name = value.Name;
                 _db.Customers.FirstOrDefault(x => x.Id == customerId).NationalIdNumber = value.NationalIdNumber;
                 _db.Customers.FirstOrDefault(x => x.Id == customerId).CellPhone = value.CellPhone;
@@ -647,18 +660,12 @@ namespace AppointmentSystem.Services
                 return _db.Verificationcodes.FirstOrDefault(x => x.SouceTable == "Appointment" && x.HashCode == code);
         }
 
-        public void SetAppointmentToOutpatient(string AppointmentId, string UserId, Appointment value)
+        public void SetAppointmentToOutpatient(string AppointmentId, string UserId)
         {
             //確認是否為第一次預約(Count=0為第一次)
             int AppointmentCount = GetCustomerAppointmentCount(UserId);
             //取得新客填寫資料時間
             int FillinTime = int.Parse(_functions.GetSystemParameter("NewCustomerFillInInformationTime"));
-
-            //設定預約有效
-            _db.Appointments.FirstOrDefault(x => x.Id == AppointmentId).Modifier = value.Modifier;
-            _db.Appointments.FirstOrDefault(x => x.Id == AppointmentId).ModifyDate = value.ModifyDate;
-            _db.Appointments.FirstOrDefault(x => x.Id == AppointmentId).Status = value.Status;
-            _db.SaveChanges();
 
             //將門診時段綁定預約資料
             var AppointmentData = _db.Appointments.FirstOrDefault(x => x.Id == AppointmentId);
@@ -892,6 +899,19 @@ namespace AppointmentSystem.Services
                 return "身分證字號已重複，請確認!!";
             else
                 return "";
+        }
+
+        public string getCustomerMedicalRecordNumber(string birthday)
+        {
+            DateTime date = DateTime.Parse(birthday);
+            string formattedDate = date.ToString("MMdd");
+
+            var maxSequenceQuery = _db.Customers.AsEnumerable().Where(x => x.MedicalRecordNumber.StartsWith(formattedDate)).Select(x => new { SequenceNumber = int.Parse(x.MedicalRecordNumber.Substring(4, 3)) }).OrderByDescending(x => x.SequenceNumber).FirstOrDefault(); ;
+            int newSequenceNumber = (maxSequenceQuery != null ? maxSequenceQuery.SequenceNumber : 0) + 1;
+
+            string newMedicalRecordNumber = formattedDate + newSequenceNumber.ToString("D3");
+
+            return newMedicalRecordNumber;
         }
 
 

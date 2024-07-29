@@ -340,15 +340,16 @@ namespace AppointmentSystem.Controllers
 
         [HttpPost]
         [Authorize]
-        public IActionResult createCustomerInfo(string customerMedicalRecordNumber, string customerName, string customerNationalIdNumber, string customerGender, string customerCellPhone, string customerBirth, string customerEmail)
+        public IActionResult createCustomerInfo(string customerName, string customerNationalIdNumber, string customerGender, string customerCellPhone, string customerBirth, string customerEmail)
         {
             var user = HttpContext.User.Claims.ToList();
 
             //新顧客
             string CustomerId = _functions.GetGuid();
-
             while (_homeService.CheckCustomerId(CustomerId))
                 CustomerId = _functions.GetGuid();
+
+            string customerMedicalRecordNumber = _homeService.getCustomerMedicalRecordNumber(customerBirth);
 
             Customer item = new Customer()
             {
@@ -500,7 +501,7 @@ namespace AppointmentSystem.Controllers
             }
 
             //傳送訊息
-            var customerData=_homeService.GetAppointmentCustomerData(AppointmentId);
+            var customerData = _homeService.GetAppointmentCustomerData(AppointmentId);
             string Url = _functions.GetSystemParameter("SystemDomainName") + "/Appointment/SuccessPage/" + AppointmentId;
             string message = "預約驗證成功，詳細資料如下網址\n" + Url;
 
