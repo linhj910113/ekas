@@ -457,7 +457,7 @@
     }
 
     .appointmentTime {
-        padding: 3px;
+        line-height:normal;
     }
 
     .appointmentTimeDIV {
@@ -1202,7 +1202,7 @@
                                 divHTML += `<div class="event" id="appointment-` + item.appointmentId + `" onclick="appointmentOnClick('` + item.appointmentId + `','outpatient-` + item.doctorData.doctorId + '-' + item.bookingBeginTime.toString().replace(':', '') + `');" style="height:` + (96) * (item.timeUnitCount) + `%;background-color:` + item.doctorData.colorHEX + `; z-index: 100;">`;
                             }
 
-                            divHTML += `<div class="appointmentTime">` + item.bookingBeginTime + `-` + item.bookingEndTime + `<br />病歷號:` + item.customerData.medicalRecordNumber + `<br /><p> 姓名:` + item.customerData.name + `-` + item.customerData.gender + `</p></div>`;
+                            divHTML += `<div class="appointmentTime">` + item.bookingBeginTime + `-` + item.bookingEndTime + ` <span style="display: block; "> ` + item.customerData.name + ` - ` + item.customerData.gender + ` </span> ` + `<span  style="display: block; ">病歷號:</span> <span  style="display: block; ">` + item.customerData.medicalRecordNumber + `</span>   </div > `;
                             divHTML += `<div class="appointmentTimeDIV">`;
                             item.treatmentData.forEach(function (x) {
                                 divHTML += `<div class="treatmentItem">` + x.treatmentName + `</div>`;
@@ -1480,8 +1480,8 @@
                         }
 
                         inner += `<div class="col-2" style="padding:0px;">`;
-                        inner += `<button class="btn btn-primary" onclick="createAppointment('` + item.id + `','Appointment');">預約</button> `;
-                        inner += `<button class="btn btn-primary" onclick="createAppointment('` + item.id + `','Return');">回診</button>`;
+                        inner += `<button class="btn btn-primary" style=" background-color: #0E4F43 !important; color: #D7F4EE; border-radius:25px ; border:none;" onclick="createAppointment('` + item.id + `','Appointment');">預約</button> `;
+                        inner += `<button class="btn btn-primary" style=" background-color: #0E4F43 !important; color: #D7F4EE; border-radius:25px ; border:none;" onclick="createAppointment('` + item.id + `','Return');">回診</button>`;
                         inner += `</div>`;
 
                         inner += `</div>`;
