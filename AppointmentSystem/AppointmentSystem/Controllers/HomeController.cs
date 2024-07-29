@@ -153,6 +153,7 @@ namespace AppointmentSystem.Controllers
 
 
 
+
         [HttpPost]
         public IActionResult setHeaderUserName()
         {
@@ -335,6 +336,52 @@ namespace AppointmentSystem.Controllers
             });
 
             return new JsonResult(AppointmentId);
+        }
+
+        [HttpPost]
+        [Authorize]
+        public IActionResult createCustomerInfo(string customerMedicalRecordNumber, string customerName, string customerNationalIdNumber, string customerGender, string customerCellPhone, string customerBirth, string customerEmail)
+        {
+            var user = HttpContext.User.Claims.ToList();
+
+            //新顧客
+            string CustomerId = _functions.GetGuid();
+
+            while (_homeService.CheckCustomerId(CustomerId))
+                CustomerId = _functions.GetGuid();
+
+            Customer item = new Customer()
+            {
+                Creator = user.FirstOrDefault(u => u.Type == "Account").Value,
+                Modifier = user.FirstOrDefault(u => u.Type == "Account").Value,
+                CreateDate = DateTime.Now,
+                ModifyDate = DateTime.Now,
+                Status = "Y",
+
+                Id = CustomerId,
+                MedicalRecordNumber = customerMedicalRecordNumber,
+                Name = customerName,
+                LineId = "",
+                DisplayName = customerName,
+                LinePictureUrl = "",
+                CellPhone = customerCellPhone,
+                NationalIdNumber = customerNationalIdNumber,
+                Gender = customerGender,
+                Birthday = customerBirth,
+                Email = customerEmail,
+                Memo = ""
+            };
+            _homeService.CreateCustomer(item);
+
+            _functions.SaveSystemLog(new Systemlog
+            {
+                CreateDate = DateTime.Now,
+                Creator = user.FirstOrDefault(u => u.Type == "Account").Value,
+                UserAccount = user.FirstOrDefault(u => u.Type == "Account").Value,
+                Description = "Add customer id='" + CustomerId + "'."
+            });
+
+            return new JsonResult(CustomerId);
         }
 
         [HttpPost]

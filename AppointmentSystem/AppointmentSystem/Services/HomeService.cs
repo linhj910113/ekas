@@ -1074,6 +1074,20 @@ namespace AppointmentSystem.Services
 
         }
 
+        public bool CheckCustomerId(string CustomerId)
+        {
+            if (_db.Customers.Where(x => x.Id == CustomerId).Count() == 0)
+                return false;
+            else
+                return true;
+        }
+
+        public void CreateCustomer(Customer value)
+        {
+            _db.Customers.Add(value);
+            _db.SaveChanges();
+        }
+
         //public string GetAdminName()
         //{
         //    var user = _db.SysParameters.Where(x => x.Name == "AdminName").FirstOrDefault();
