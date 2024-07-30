@@ -295,7 +295,7 @@ namespace AppointmentSystem.Services
                     Birthday = customer.Birthday,
                     Age = age,
                     missed = missed,
-                    Gender = gender,
+                    Gender = customer.Gender,
                     NationalIdNumber = customer.NationalIdNumber
                 }
             };
