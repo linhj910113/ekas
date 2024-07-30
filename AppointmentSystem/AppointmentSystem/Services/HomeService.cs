@@ -255,7 +255,7 @@ namespace AppointmentSystem.Services
 
             DateTime currentDate = DateTime.Now;
             int age = currentDate.Year - DateTime.Parse(customer.Birthday).Year;
-            string gender = _db.Systemselectlists.FirstOrDefault(x => x.GroupName == "Gender" && x.SelectValue == customer.Gender).SelectName!;
+            //string gender = _db.Systemselectlists.FirstOrDefault(x => x.GroupName == "Gender" && x.SelectValue == customer.Gender).SelectName!;
 
             if (currentDate < DateTime.Parse(customer.Birthday).AddYears(age))
                 age--;
