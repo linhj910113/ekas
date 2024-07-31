@@ -1305,8 +1305,6 @@
             $('#selectedDateDisplay').text("預約日期：" + selectedDate.data('date'));
             $('#selectedTimeDisplay').text("預約時間：" + selectedTime);
 
-
-
             // console.log("選擇的療程:" + selectedTreatments);
             // console.log("選擇的醫師:" + selectedDoctor);
             // console.log("選擇的日期:" + selectedDate.data('date'));
@@ -1336,7 +1334,7 @@
         var regExpID = /^[a-z](1|2)\d{8}$/i;
 
         if (nationalIdNumber.search(regExpID) == -1) {
-            $('#alert').html("身分證格式錯誤!!");
+            $('#alert').html("身分證格式錯誤");
             return false;
         } else {
             firstChar = nationalIdNumber.charAt(0).toUpperCase();
@@ -1360,7 +1358,7 @@
             }
         }
         if ((10 - (total % 10)) != lastNum) {
-            $('#alert').html("身份證號碼錯誤!");
+            $('#alert').html("身分證格式錯誤);
             return false;
         }
 
