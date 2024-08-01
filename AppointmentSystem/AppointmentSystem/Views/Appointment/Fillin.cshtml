@@ -1334,7 +1334,7 @@
         var regExpID = /^[a-z](1|2)\d{8}$/i;
 
         if (nationalIdNumber.search(regExpID) == -1) {
-            $('#alert').html("身分證格式錯誤");
+            $('#alert').html("身分證格式錯誤，請確認後重新輸入，若為非本國籍人士請透過電話預約");
             return false;
         } else {
             firstChar = nationalIdNumber.charAt(0).toUpperCase();
@@ -1358,7 +1358,7 @@
             }
         }
         if ((10 - (total % 10)) != lastNum) {
-            $('#alert').html("身分證格式錯誤");
+            $('#alert').html("身分證格式錯誤，請確認後重新輸入，若為非本國籍人士請透過電話預約");
             return false;
         }
 

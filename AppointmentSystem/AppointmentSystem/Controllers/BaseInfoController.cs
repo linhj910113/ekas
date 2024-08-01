@@ -281,6 +281,8 @@ namespace AppointmentSystem.Controllers
             else
                 FileId = _baseinfoService.GetTreatmentImageIdByTreatmentId(value.TreatmentId);
 
+            if (String.IsNullOrEmpty(value.AlertMessage))
+                value.AlertMessage = "";
             if (String.IsNullOrEmpty(value.Memo))
                 value.Memo = "";
 
@@ -298,7 +300,7 @@ namespace AppointmentSystem.Controllers
                 ImageFileId = FileId,
                 Time = value.Time,
                 AlertMessage = value.AlertMessage,
-                Hide = "Y",
+                Hide = "N",
                 Sort = _baseinfoService.GetTreatmentCount() + 1,
                 Memo = ""
             };
@@ -381,8 +383,10 @@ namespace AppointmentSystem.Controllers
             else
                 FileId = _baseinfoService.GetTreatmentImageIdByTreatmentId(value.TreatmentId);
 
-            if (String.IsNullOrEmpty(value.Memo))
+            if (string.IsNullOrEmpty(value.Memo))
                 value.Memo = "";
+            if (string.IsNullOrEmpty(value.AlertMessage))
+                value.AlertMessage = "";
 
             Treatment item = new Treatment()
             {
