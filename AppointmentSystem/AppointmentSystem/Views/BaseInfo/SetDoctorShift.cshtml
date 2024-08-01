@@ -360,6 +360,8 @@
             let currentYear = document.getElementById("currentYear").value;
             let currentMonth = document.getElementById("currentMonth").value;
 
+            $('#lockShift').attr('disabled', 'disabled');
+
             $.ajax({
                 type: "POST",
                 url: "/BaseInfo/LockShift",
@@ -369,6 +371,10 @@
                     console.log("Locked shift success.");
                     
                     alert('儲存成功');
+
+                    document.getElementById("submitShift").style.display = "none";
+                    document.getElementById("lockShift").style.display = "none";
+                    document.getElementById("alertbtn").style.display = "";
 
                     // if (errorcount == 0)
                     //     alert('儲存成功');

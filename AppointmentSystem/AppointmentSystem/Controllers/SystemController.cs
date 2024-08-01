@@ -561,7 +561,7 @@ namespace AppointmentSystem.Controllers
                 UserEmail = value.UserEmail,
                 Telphone = value.Telphone,
                 RoleId = value.RoleId,
-                IsAdmin = value.IsAdmin!
+                IsAdmin = "N"
             };
             _systemService.CreateUser(item);
 
@@ -608,7 +608,7 @@ namespace AppointmentSystem.Controllers
                     UserEmail = item.UserEmail,
                     Telphone = item.Telphone,
                     RoleId = item.RoleId,
-                    IsAdmin = item.IsAdmin,
+                    IsAdmin = "N",
                     Status = item.Status
                 };
 

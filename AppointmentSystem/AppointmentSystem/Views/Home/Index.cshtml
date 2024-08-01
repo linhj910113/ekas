@@ -271,17 +271,17 @@
         }
 
     .treatmentSelectMenu {
-        display: none;
-        position: absolute;
-        top: 50%;
-        left: -110%;
+        /* display: none; */
+        /* position: absolute; */
+        /* top: 50%; */
+        /* left: -110%; */
         background-color: #ffffff;
         padding: 20px;
         border-radius: 18px;
         box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-        width: 300px;
+        /* width: 300px; */
         transform: translateX(20px);
-        z-index: 9999;
+        /* z-index: 9999;  */
     }
 
 
@@ -706,7 +706,7 @@
                 <img src="/images/add_circle_24dp_0E4F43_FILL0_wght400_GRAD0_opsz24.png" style="width:40px;height:40px ;" \>
             </button>
 
-            <div class="treatmentSelectMenu" id="treatmentSelectMenu">
+            @* <div class="treatmentSelectMenu" id="treatmentSelectMenu">
                 <div style="display:flex">
                     <span style="font-weight: 800;font-size: large; margin:15px">標籤列表</span>
                 </div>
@@ -740,7 +740,7 @@
                 </div>
                 <p></p>
                 <button class="btn btn-primary" style="cursor:pointer;margin:3px; border:none; background-color:transparent" onclick="saveSelectedTreatment();">  <img src="/images/select_check_box_24dp_0E4F43 _FILL0_wght400_GRAD0_opsz24.png" style="width:25px;height:25px ;" \></button>
-            </div>
+            </div> *@
 
         </div>
     </div>
@@ -853,7 +853,48 @@
     </div>
 </div>
 
+<!--實際施作療程選擇的Modal-->
+<div id="treatmetModal" class="modal fade" tabindex="-1" aria-labelledby="treatmetModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content treatmentSelectMenu">
+            <div id="treatmentSelectMenu">
+                <div style="display:flex">
+                    <span style="font-weight: 800;font-size: large; margin:15px">標籤列表</span>
+                </div>
+                <div id="labelList" class="btn-group-toggle" style="display: inline-block; justify-content:start;" data-toggle="buttons">
 
+                    @{
+                        int i = 0;
+                    }
+
+                    @foreach (var label in Model.LabelList)
+                    {
+                        i++;
+
+                        <label class="btn btn-secondary btn-checkbox label-item" style="cursor:pointer;margin:3px; border-radius:13px;">
+                            <input type="checkbox" name="labels" id="@label.LabelId" value="@label.LabelId" autocomplete="off">@label.LabelName
+                            <input type="hidden" id="tl-@i" value="@label.TreatmentIdList" />
+                        </label>
+                    }
+
+                </div>
+                <div style="display:flex">
+                    <span style="font-weight: 800;font-size: large;margin:15px">療程列表</span>
+                </div>
+                <div id="treatmentList" class="btn-group-toggle" style="display: inline-block;" data-toggle="buttons">
+                    @foreach (var treatment in Model.TreatmentList)
+                    {
+                        <label class="btn btn-secondary btn-checkbox treatment-item" style="cursor:pointer;margin:3px; border-radius:13px;">
+                            <input type="checkbox" name="treatments" id="@treatment.TreatmentId" value="@treatment.TreatmentId" autocomplete="off">@treatment.TreatmentName
+                        </label>
+                    }
+                </div>
+                <p></p>
+                <button class="btn btn-primary" style="cursor:pointer;margin:3px; border:none; background-color:transparent" onclick="saveSelectedTreatment();">  <img src="/images/select_check_box_24dp_0E4F43 _FILL0_wght400_GRAD0_opsz24.png" style="width:25px;height:25px ;" \></button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <input type="hidden" id="selectedAppointment" value="" />
 
@@ -1107,6 +1148,8 @@
         let customerBirth = $('#customerBirth').val();
         let customerEmail = $('#customerEmail').val();
 
+        $('#editCustomerBtn').attr('disabled', 'disabled');
+
         $.ajax({
             type: "POST",
             url: "/Home/editCustomerInfo",
@@ -1118,6 +1161,8 @@
                 $('#editCustomerInfoModal').modal('hide');
                 appointmentOnClick(id);
                 refreshTable();
+
+                $('#editCustomerBtn').removeAttr('disabled');
             }
         });
     }
@@ -1131,10 +1176,13 @@
         let customerBirth = $('#customerBirth').val();
         let customerEmail = $('#customerEmail').val();
 
+        $('#createCustomerBtn').attr('disabled', 'disabled');
+
         $.ajax({
             type: "POST",
             url: "/Home/createCustomerInfo",
             datatype: "json",
+            async: false,
             data: { "customerName": customerName, "customerNationalIdNumber": customerNationalIdNumber, "customerGender": customerGender, "customerCellPhone": customerCellPhone, "customerBirth": customerBirth, "customerEmail": customerEmail },
             success: function (data) {
                 console.log("Create customer successful.");
@@ -1145,6 +1193,8 @@
                 $('#searchCustomerName').val($('#customerName').val());
                 $('#searchCustomerPhone').val($('#customerCellPhone').val());
                 searchCustomer();
+
+                $('#createCustomerBtn').removeAttr('disabled');
             }
         });
     }
@@ -1358,8 +1408,9 @@
     }
 
     function showTreatmentSelectMenu() {
-        if ($('#treatmentSelectMenu'))
-            $('#treatmentSelectMenu').toggle();
+        $('#treatmetModal').modal('show');
+        // if ($('#treatmentSelectMenu'))
+        //     $('#treatmentSelectMenu').toggle();
     }
 
     function setTreatmentList(i) {
@@ -1398,8 +1449,9 @@
             success: function (data) {
                 console.log("Save actual treatment success.");
 
-                if ($('#treatmentSelectMenu'))
-                    $('#treatmentSelectMenu').toggle();
+                $('#treatmetModal').modal('hide');
+                // if ($('#treatmentSelectMenu'))
+                //     $('#treatmentSelectMenu').toggle();
 
                 appointmentOnClick(Id);
             }
