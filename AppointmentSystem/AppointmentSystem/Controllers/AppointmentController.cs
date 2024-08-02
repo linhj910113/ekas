@@ -763,7 +763,7 @@ namespace AppointmentSystem.Controllers
 
             //傳送LINE訊息
             string Url = _functions.GetSystemParameter("SystemDomainName") + "/Appointment/SuccessPage/" + AppointmentId;
-            string message = "預約成功，詳細資料如下網址\n" + Url;
+            string message = "已為您預約EK美學門診時間，詳細預約資訊如下列網址\n" + Url;
 
             if (user.FirstOrDefault(u => u.Type == "LoginBy").Value == "Line")
                 await _functions.SendLineMessageAsync(user.FirstOrDefault(u => u.Type == "LineId").Value, message);

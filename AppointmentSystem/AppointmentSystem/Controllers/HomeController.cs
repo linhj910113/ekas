@@ -503,7 +503,7 @@ namespace AppointmentSystem.Controllers
             //傳送訊息
             var customerData = _homeService.GetAppointmentCustomerData(AppointmentId);
             string Url = _functions.GetSystemParameter("SystemDomainName") + "/Appointment/SuccessPage/" + AppointmentId;
-            string message = "預約驗證成功，詳細資料如下網址\n" + Url;
+            string message = "已為您預約EK美學門診時間，詳細預約資訊如下列網址\n" + Url;
 
             if (customerData.LineId != "")
                 await _functions.SendLineMessageAsync(customerData.LineId, message);
