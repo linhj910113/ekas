@@ -561,7 +561,7 @@ namespace AppointmentSystem.Controllers
                 UserEmail = value.UserEmail,
                 Telphone = value.Telphone,
                 RoleId = value.RoleId,
-                IsAdmin = value.IsAdmin!
+                IsAdmin = "N"
             };
             _systemService.CreateUser(item);
 
@@ -608,7 +608,7 @@ namespace AppointmentSystem.Controllers
                     UserEmail = item.UserEmail,
                     Telphone = item.Telphone,
                     RoleId = item.RoleId,
-                    IsAdmin = item.IsAdmin,
+                    IsAdmin = "N",
                     Status = item.Status
                 };
 
@@ -628,9 +628,8 @@ namespace AppointmentSystem.Controllers
 
             var user = HttpContext.User.Claims.ToList();
             UserEditVM userInfo = _systemService.GetUserById(id);
-            User item;
 
-            item = new User()
+            User item = new User()
             {
                 Modifier = user.FirstOrDefault(u => u.Type == "Account").Value,
                 ModifyDate = DateTime.Now,
@@ -728,6 +727,9 @@ namespace AppointmentSystem.Controllers
             {
                 var user = HttpContext.User.Claims.ToList();
 
+                if (string.IsNullOrEmpty(value.Memo))
+                    value.Memo = "";
+
                 _systemService.UpdateUserAccount(id, user.FirstOrDefault(u => u.Type == "Account").Value, new Account()
                 {
                     Modifier = user.FirstOrDefault(u => u.Type == "Account").Value,
@@ -754,6 +756,9 @@ namespace AppointmentSystem.Controllers
 
                 while (_systemService.CheckAccountId(AccountId))
                     AccountId = _functions.GetGuid();
+
+                if (string.IsNullOrEmpty(value.Memo))
+                    value.Memo = "";
 
                 _systemService.CreateUserAccount(new Account()
                 {

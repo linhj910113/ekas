@@ -48,6 +48,10 @@
             background-color: #ccc;
         }
 
+    .active {
+        background-color: #5BC2E7 !important;
+        border: none;
+    }
 </style>
 
 <div class=" mt-5">
@@ -59,14 +63,14 @@
     <table class="calendar-table table table-bordered">
         <thead>
             <tr style="background-color:#385466;color: #ffffff;">
-                <th></th>
-                <th>星期日</th>
+                <th></th>                
                 <th>星期一</th>
                 <th>星期二</th>
                 <th>星期三</th>
                 <th>星期四</th>
                 <th>星期五</th>
                 <th>星期六</th>
+                <th>星期日</th>
             </tr>
         </thead>
         <tbody id="calendarBody" style="background-color: #F7F6EE">
@@ -95,6 +99,7 @@
 
         function generateCalendar(month, year) {
             let firstDay = (new Date(year, month)).getDay();
+            firstDay = (firstDay === 0 ? 6 : firstDay - 1);
             let daysInMonth = 32 - new Date(year, month, 32).getDate();
             let calendarBody = $("#calendarBody");
 
@@ -190,9 +195,10 @@
                                     //編碼原則:cell-(日期)-(班別)
                                     shifts[x] += "<div id='cell-" + date + "-" + x + "'>";
 
+                                    shifts[x] += "<div class=\"btn-group-toggle container\" data-toggle=\"buttons\">";
                                     doctorData.forEach((doctoritem) => {
                                         if (arrangeDoctorShiftData.filter(e => e.day == date && e.doctorId == doctoritem.doctorId && e.shiftTypeId == item.shiftId).length > 0) {
-                                            shifts[x] += '<label class="btn btn-secondary btn-checkbox" style="cursor:pointer;">';
+                                            shifts[x] += '<label class="btn btn-secondary btn-checkbox active" style="cursor:pointer;">';
                                             shifts[x] += '<input type="checkbox" name="doctors-' + date + '-' + x + '" value="' + doctoritem.doctorId + '" autocomplete="off" onclick="setCheckBoxChecked(this);" checked> ' + doctoritem.doctorName;
                                             shifts[x] += '</label>';
                                         } else {
@@ -201,6 +207,7 @@
                                             shifts[x] += '</label>';
                                         }
                                     });
+                                    shifts[x] += "</div>";
 
                                     shifts[x] += "</div>";
 
@@ -360,6 +367,8 @@
             let currentYear = document.getElementById("currentYear").value;
             let currentMonth = document.getElementById("currentMonth").value;
 
+            $('#lockShift').attr('disabled', 'disabled');
+
             $.ajax({
                 type: "POST",
                 url: "/BaseInfo/LockShift",
@@ -369,6 +378,10 @@
                     console.log("Locked shift success.");
                     
                     alert('儲存成功');
+
+                    document.getElementById("submitShift").style.display = "none";
+                    document.getElementById("lockShift").style.display = "none";
+                    document.getElementById("alertbtn").style.display = "";
 
                     // if (errorcount == 0)
                     //     alert('儲存成功');

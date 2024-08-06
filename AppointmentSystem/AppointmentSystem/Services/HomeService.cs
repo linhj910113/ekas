@@ -255,7 +255,7 @@ namespace AppointmentSystem.Services
 
             DateTime currentDate = DateTime.Now;
             int age = currentDate.Year - DateTime.Parse(customer.Birthday).Year;
-            string gender = _db.Systemselectlists.FirstOrDefault(x => x.GroupName == "Gender" && x.SelectValue == customer.Gender).SelectName!;
+            //string gender = _db.Systemselectlists.FirstOrDefault(x => x.GroupName == "Gender" && x.SelectValue == customer.Gender).SelectName!;
 
             if (currentDate < DateTime.Parse(customer.Birthday).AddYears(age))
                 age--;
@@ -295,7 +295,7 @@ namespace AppointmentSystem.Services
                     Birthday = customer.Birthday,
                     Age = age,
                     missed = missed,
-                    Gender = gender,
+                    Gender = customer.Gender,
                     NationalIdNumber = customer.NationalIdNumber
                 }
             };
@@ -674,7 +674,7 @@ namespace AppointmentSystem.Services
             }
         }
 
-        public string EditCustomerInfo(string AppointmentId, string customerMedicalRecordNumber, string customerName, string customerCellPhone, string customerBirth, string customerEmail)
+        public string EditCustomerInfo(string AppointmentId, string customerMedicalRecordNumber, string customerNationalIdNumber, string customerGender, string customerName, string customerCellPhone, string customerBirth, string customerEmail)
         {
             var appointment = _db.Appointments.FirstOrDefault(x => x.Id == AppointmentId);
 
@@ -684,6 +684,8 @@ namespace AppointmentSystem.Services
 
                 _db.Customers.FirstOrDefault(x => x.Id == customerId).MedicalRecordNumber = customerMedicalRecordNumber;
                 _db.Customers.FirstOrDefault(x => x.Id == customerId).Name = customerName;
+                _db.Customers.FirstOrDefault(x => x.Id == customerId).NationalIdNumber = customerNationalIdNumber;
+                _db.Customers.FirstOrDefault(x => x.Id == customerId).Gender = customerGender;
                 _db.Customers.FirstOrDefault(x => x.Id == customerId).CellPhone = customerCellPhone;
                 _db.Customers.FirstOrDefault(x => x.Id == customerId).Birthday = customerBirth;
                 _db.Customers.FirstOrDefault(x => x.Id == customerId).Email = customerEmail;

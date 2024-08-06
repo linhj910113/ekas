@@ -886,7 +886,7 @@ namespace AppointmentSystem.Services
             var item = _db.Customers.Where(x => x.CellPhone == cellphone && x.Id != userId);
 
             if (item.Count() > 0)
-                return "電話號碼已重複，請確認!!";
+                return "此電話號碼已註冊，請電話洽詢診所";
             else
                 return "";
         }

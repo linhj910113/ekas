@@ -440,7 +440,7 @@ namespace AppointmentSystem.Controllers
         {
             string LineLoginChannelId = _functions.GetSystemParameter("LineLoginChannelId");
             string LineLoginChannelSecret = _functions.GetSystemParameter("LineLoginChannelSecret");
-            string LineLoginCallbackURL = "https://localhost:7146/Appointment/BindLineAccount?customerId=" + customerId;
+            string LineLoginCallbackURL = _functions.GetSystemParameter("SystemDomainName") + "/Appointment/BindLineAccount?customerId=" + customerId;
 
             using (var client = new HttpClient())
             {
@@ -763,7 +763,7 @@ namespace AppointmentSystem.Controllers
 
             //傳送LINE訊息
             string Url = _functions.GetSystemParameter("SystemDomainName") + "/Appointment/SuccessPage/" + AppointmentId;
-            string message = "預約成功，詳細資料如下網址\n" + Url;
+            string message = "已為您預約EK美學門診時間，詳細預約資訊如下列網址\n" + Url;
 
             if (user.FirstOrDefault(u => u.Type == "LoginBy").Value == "Line")
                 await _functions.SendLineMessageAsync(user.FirstOrDefault(u => u.Type == "LineId").Value, message);
@@ -802,15 +802,15 @@ namespace AppointmentSystem.Controllers
             //else if (user.FirstOrDefault(u => u.Type == "LoginBy").Value == "Cellphone")
             //    await _functions.SendSmsAsync(user.FirstOrDefault(u => u.Type == "Phone").Value, message);
 
-            _functions.SaveSystemLog(new Systemlog
-            {
-                CreateDate = DateTime.Now,
-                Creator = user.FirstOrDefault(u => u.Type == "UserId").Value,
-                UserAccount = user.FirstOrDefault(u => u.Type == "UserId").Value,
-                Description = "Add Appointment id='" + AppointmentId + "'."
-            });
+            //_functions.SaveSystemLog(new Systemlog
+            //{
+            //    CreateDate = DateTime.Now,
+            //    Creator = user.FirstOrDefault(u => u.Type == "UserId").Value,
+            //    UserAccount = user.FirstOrDefault(u => u.Type == "UserId").Value,
+            //    Description = "Add Appointment id='" + AppointmentId + "'."
+            //});
 
-            return new JsonResult(AppointmentId);
+            //return new JsonResult(AppointmentId);
         }
 
         [HttpPost]
