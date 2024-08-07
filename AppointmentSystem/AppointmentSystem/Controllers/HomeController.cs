@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using System.Diagnostics;
 using System.Security.Claims;
 
@@ -351,7 +352,7 @@ namespace AppointmentSystem.Controllers
 
             string customerMedicalRecordNumber = _homeService.getCustomerMedicalRecordNumber(customerBirth);
 
-            Customer item = new Customer()
+            Customerdatum item = new Customerdatum()
             {
                 Creator = user.FirstOrDefault(u => u.Type == "Account").Value,
                 Modifier = user.FirstOrDefault(u => u.Type == "Account").Value,
@@ -362,10 +363,7 @@ namespace AppointmentSystem.Controllers
                 Id = CustomerId,
                 MedicalRecordNumber = customerMedicalRecordNumber,
                 Name = customerName,
-                LineId = "",
-                DisplayName = customerName,
-                LinePictureUrl = "",
-                CellPhone = customerCellPhone,
+                Cellphone = customerCellPhone,
                 NationalIdNumber = customerNationalIdNumber,
                 Gender = customerGender,
                 Birthday = customerBirth,
@@ -398,7 +396,7 @@ namespace AppointmentSystem.Controllers
         [Authorize]
         public IActionResult getCustomerForIndexSearch(string searchCustomerName, string searchCustomerPhone, string searchCustomerBirth)
         {
-            List<CustomerData> customerData = _homeService.getCustomerForIndexSearch(searchCustomerName, searchCustomerPhone, searchCustomerBirth);
+            List<CustomerDataClass> customerData = _homeService.getCustomerForIndexSearch(searchCustomerName, searchCustomerPhone, searchCustomerBirth);
 
             return new JsonResult(customerData);
         }
@@ -505,10 +503,10 @@ namespace AppointmentSystem.Controllers
             string Url = _functions.GetSystemParameter("SystemDomainName") + "/Appointment/SuccessPage/" + AppointmentId;
             string message = "已為您預約EK美學門診時間，詳細預約資訊如下列網址\n" + Url;
 
-            if (customerData.LineId != "")
+            if (!string.IsNullOrEmpty(customerData.LineId))
                 await _functions.SendLineMessageAsync(customerData.LineId, message);
-            else if (customerData.CellPhone != "")
-                await _functions.SendSmsAsync(customerData.CellPhone, message);
+            else if (!string.IsNullOrEmpty(customerData.Cellphone))
+                await _functions.SendSmsAsync(customerData.Cellphone, message);
 
             _functions.SaveSystemLog(new Systemlog
             {

@@ -26,7 +26,7 @@
         height: 100%;
     }
 
-    .login-table{
+    .login-table {
         width: 100%;
         margin: 0px !important;
         padding: 20px 5px;
@@ -39,42 +39,56 @@
         align-items: start;
     }
 
-    .inputcell{
+    .inputcell {
         border-radius: 8px;
-       
         border: 2px solid #0E4F43;
-        margin:3%;
+        margin: 3%;
     }
 
-    .lineinCELLandLINE{
-        margin:2%;
+    .inputId {
+        border-radius: 8px;
+        border: 2px solid #0E4F43;
+        width: 100%;
     }
 
-    .cellphoneTitle{
-        margin:2%;
+    .lineinCELLandLINE {
+        margin: 2%;
     }
 
-    .cellbtn{
+    .cellphoneTitle {
+        margin: 2%;
+    }
+
+    .nationalIdNumberTitle {
+        margin: 2%;
+    }
+
+    .cellbtn {
         background-color: #0E4F43;
         color: #D7F4EE;
         border-radius: 12px;
-        margin:2%;
-        font-size:12px;
-        padding:8px;
-        border:none;
+        margin: 2%;
+        font-size: 12px;
+        padding: 8px;
+        border: none;
     }
 
-   .cellphoneInput{
-        display:flex;
-        width:95%;
-   }
+    .cellphoneInput {
+        display: flex;
+        width: 95%;
+    }
 
-    .cellphoneDIV{
+    .nationalIdNumberInput {
+        display: flex;
+        width: 100%;
+    }
+
+    .cellphoneDIV {
         display: flex;
         flex-direction: column;
-        justify-content:center;
-        align-items:center;
-    }   
+        justify-content: center;
+        align-items: center;
+    }
 </style>
 
 <!--新增區域開始-->
@@ -110,61 +124,68 @@
         <div class="container content  p-4">
             <span id="AppointmentIntroductionText"></span>
         </div>
-<div class="row justify-content-center mb-1 mt-2 pr-0   " style="margin:auto;padding:0px">
+        <div class="row justify-content-center mb-1 mt-2 pr-0   " style="margin:auto;padding:0px">
             <div class="mx-4 col-12 col-sm-6 col-md-6 " style="display:flex;flex-direction: column; align-items:center; vertical-align: middle;">
-        <div class="">
+                <div class="">
                     <p style="font-size:20px; color:#0E4F43 ;font-weight: 800;">線上預約</p>
-            <!-- <h>線上預約</h>-->
-        </div>
+                    <!-- <h>線上預約</h>-->
+                </div>
                 <div style="display:flex;flex-direction: column; align-items:center; vertical-align: middle;padding:10px ">
                     <button id="line-login-btn" class="btn  btn-radius " onclick="LineLogin();" style="background-color:#0E4F43 ;color:#D7F4EE ;border-radius:15px; height:44px ; width:250px; padding:0px; border:0px; margin:0px;margin-top:0.1px;font-family: initial; font-size:16px; ">
                         Line登入預約
-                    </button> 
+                    </button>
                     <div class="lineinCELLandLINE">
-                        <span >或一般登入預約</span> 
+                        <span>或一般登入預約</span>
                     </div>
 
                     <button class="" onclick="showPhoneLoginBlock();" style="background-color:#0E4F43 ;color:#D7F4EE ;border-radius:15px; height:44px ; width:250px; padding:0px; border:0px; margin:0px;margin-top:0.1px;font-family: initial; font-size:16px; ">
                         手機號碼預約
                     </button>
-                   
-            @* <button id="line-login-btn" class="btn  btn-radius " onclick="showLineLoginBlock();" style="padding:0px; border:0px; margin:0px ; font-family: initial;">
-            @<img src="~/images/btn_login_base.png" alt="LoginBtn" />
-            </button> *@
-        </div>
+
+                    @* <button id="line-login-btn" class="btn  btn-radius " onclick="showLineLoginBlock();" style="padding:0px; border:0px; margin:0px ; font-family: initial;">
+                    @<img src="~/images/btn_login_base.png" alt="LoginBtn" />
+                    </button> *@
+                </div>
                 <div style="border-top: 2px solid #3B9382; width:100%; margin:3%;"> </div>
-        <div class="col-11 col-sm-11 mt-4" id="LineLoginBlock" style="display:none ; justify-content:center; align-items:center;  height:150px; margin:auto; border-radius:12px;">
-            <button id="line-login-btn" class="btn  btn-radius " onclick="LineLogin();" style="padding:0px; border:0px; margin:0px ; font-family: initial;">
-                <img src="~/images/btn_login_base.png" alt="LoginBtn" />
-            </button>
-        </div>
+                <div class="col-11 col-sm-11 mt-4" id="LineLoginBlock" style="display:none ; justify-content:center; align-items:center;  height:150px; margin:auto; border-radius:12px;">
+                    <button id="line-login-btn" class="btn  btn-radius " onclick="LineLogin();" style="padding:0px; border:0px; margin:0px ; font-family: initial;">
+                        <img src="~/images/btn_login_base.png" alt="LoginBtn" />
+                    </button>
+                </div>
 
-         <div class="cellphoneDIV " id="PhoneLoginBlock" style="display:none ; ">
-            <div>
-                <div class="cellphoneTitle">
-                <span >手機號碼</span>
-                </div>
-                <div class="cellphoneInput">
-                <input type="text" id="cellphone" class="inputcell" />
-                <input type="button" class="cellbtn" id="sendVerificationCodebtn" onclick="sendVerificationCode(this);" value="發送驗證碼" />
-                </div>
-            </div>
+                <div class="cellphoneDIV " id="PhoneLoginBlock" style="display:none ; ">
+                    <div>
+                        <div class="nationalIdNumberTitle">
+                            <span>身分證號碼</span>
+                        </div>
+                        <div class="nationalIdNumberInput">
+                            <input type="text" class="inputId" id="nationalIdNumber" />
+                        </div>
+
+                        <div class="cellphoneTitle">
+                            <span>手機號碼</span>
+                        </div>
+                        <div class="cellphoneInput">
+                            <input type="text" id="cellphone" class="inputcell" />
+                            <input type="button" class="cellbtn" id="sendVerificationCodebtn" onclick="sendVerificationCode(this);" value="發送驗證碼" />
+                        </div>
+                    </div>
                     <div id="otpDiv" style="display:none;width:95%;margin-bottom:3%;">
-                <input class="inputcell" type="hidden" id="hashCode" />
-                <div class="cellphoneTitle">
-                <span>驗證碼</span>
+                        <input class="inputcell" type="hidden" id="hashCode" />
+                        <div class="cellphoneTitle">
+                            <span>驗證碼</span>
+                        </div>
+                        <input class="inputcell" inputcell type="text" id="otp" style="" />
+                    </div>
+
+                    <button class="cellbtn" id="phoneLoginbtn" style="display:none;background-color:#0E4F43 ;color:#D7F4EE ;border-radius:15px; height:44px ; width:250px; padding:0px; border:0px; margin:0px;margin-top:0.1px;font-family: initial; font-size:16px; " onclick="cellphoneLogin();">登入</button>
+
                 </div>
-                <input class="inputcell" inputcell type="text" id="otp" style="" />
+
             </div>
-
-            <button class="cellbtn" id="phoneLoginbtn" style="display:none;background-color:#0E4F43 ;color:#D7F4EE ;border-radius:15px; height:44px ; width:250px; padding:0px; border:0px; margin:0px;margin-top:0.1px;font-family: initial; font-size:16px; " onclick="cellphoneLogin();">登入</button>
-
+            <!--07061040修改區域結束-->
         </div>
-
     </div>
-    <!--07061040修改區域結束-->
-</div>
-</div>
 </div>
 
 <script>
@@ -245,8 +266,13 @@
     function sendVerificationCode(obj) {
         let cellphone = $('#cellphone').val();
         let hashCode = $('#hashCode').val();
+        let nationalIdNumber = $('#nationalIdNumber').val();
 
-        if (cellphone != "") {
+        if (nationalIdNumber == "") {
+            alert('請輸入身分證號碼');
+        } else if (cellphone == "") {
+            alert('請輸入手機號碼');
+        } else {
             $('#otpDiv').show();
             $('#phoneLoginbtn').show();
             // $("#cellphone").attr('disabled', 'disabled');
@@ -263,8 +289,6 @@
 
             let countdown = 60;
             settime(obj, countdown);
-        } else {
-            alert('請輸入手機號碼');
         }
     }
 
@@ -287,14 +311,32 @@
     function cellphoneLogin() {
         let cellphone = $('#cellphone').val();
         let hashCode = $('#hashCode').val();
+        let nationalIdNumber = $('#nationalIdNumber').val();
         let otp = $('#otp').val();
 
-        if (otp == "") {
+        if (nationalIdNumber == "") {
+            alert('請輸入身分證號碼');
+        } else if (otp == "") {
             alert("請輸入驗證碼");
         } else if (cellphone == "") {
             alert("請輸入手機號碼");
+        } else if (hashCode == "") {
+            alert("資料傳輸異常，請重新整理頁面再試一次");
         } else {
-            window.location.href = "/Appointment/CellphoneLogin?cellphone=" + encodeURIComponent(cellphone) + "&hashCode=" + encodeURIComponent(hashCode) + "&otp=" + encodeURIComponent(otp);
+            // window.location.href = "/Appointment/CellphoneLogin?cellphone=" + encodeURIComponent(cellphone) + "&hashCode=" + encodeURIComponent(hashCode) + "&otp=" + encodeURIComponent(otp);
+
+            $.ajax({
+                type: 'POST',
+                url: '/Appointment/CellphoneLogin',
+                datatype: "json",
+                data: { "nationalIdNumber": nationalIdNumber, "cellphone": cellphone, "hashCode": hashCode, "otp": otp },
+                success: function (data) {
+                    if (data == "OK")
+                        window.location.href = "/Appointment/Index";
+                    else
+                        alert(data);
+                }
+            });
         }
     }
 

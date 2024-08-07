@@ -28,5 +28,5 @@ public partial class Customertoken
 
     public int? ExpiresIn { get; set; }
 
-    public virtual Customer? Customer { get; set; }
+    public virtual Customerlineaccount? Customer { get; set; }
 }

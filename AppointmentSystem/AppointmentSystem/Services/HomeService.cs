@@ -121,7 +121,7 @@ namespace AppointmentSystem.Services
             {
                 List<TreatmentDataVM> treatmentDataVMs = new List<TreatmentDataVM>();
 
-                var customer = _db.Customers.FirstOrDefault(x => x.Id == item.CustomerId);
+                var customer = _db.Customerdata.FirstOrDefault(x => x.Id == item.CustomerId);
                 var ats = _db.Appointmenttreatments.Where(x => x.AppointmentId == item.Id && x.Type == "A").ToList();
                 var doctor = _db.Doctors.FirstOrDefault(x => x.Id == item.DoctorId);
 
@@ -172,15 +172,15 @@ namespace AppointmentSystem.Services
                         ColorHEX = doctor.ColorHex,
                         Introduction = doctor.Introduction
                     },
-                    customerData = new CustomerData()
+                    customerData = new CustomerDataClass()
                     {
                         Id = customer.Id,
-                        LineId = customer.LineId,
-                        DisplayName = customer.DisplayName,
-                        LinePictureUrl = customer.LinePictureUrl,
+                        //LineId = customer.LineId,
+                        //DisplayName = customer.DisplayName,
+                        //LinePictureUrl = customer.LinePictureUrl,
                         MedicalRecordNumber = customer.MedicalRecordNumber,
                         Name = customer.Name,
-                        CellPhone = customer.CellPhone,
+                        Cellphone = customer.Cellphone,
                         Email = customer.Email,
                         Birthday = customer.Birthday,
                         Gender = customer.Gender,
@@ -223,7 +223,7 @@ namespace AppointmentSystem.Services
 
             List<TreatmentDataVM> treatmentDataVMs = new List<TreatmentDataVM>();
 
-            var customer = _db.Customers.FirstOrDefault(x => x.Id == item.CustomerId);
+            var customer = _db.Customerdata.FirstOrDefault(x => x.Id == item.CustomerId);
             //var ats = _db.Appointmenttreatments.Where(x => x.AppointmentId == item.Id && x.Type == "T").ToList();//實際施作項目
 
             foreach (var at in TreatmentList)
@@ -254,11 +254,21 @@ namespace AppointmentSystem.Services
             }
 
             DateTime currentDate = DateTime.Now;
-            int age = currentDate.Year - DateTime.Parse(customer.Birthday).Year;
-            //string gender = _db.Systemselectlists.FirstOrDefault(x => x.GroupName == "Gender" && x.SelectValue == customer.Gender).SelectName!;
+            //int age = currentDate.Year - DateTime.Parse(customer.Birthday).Year;
 
-            if (currentDate < DateTime.Parse(customer.Birthday).AddYears(age))
-                age--;
+            //if (currentDate < DateTime.Parse(customer.Birthday).AddYears(age))
+            //    age--;
+
+            string age_string = "-";
+
+            if (!string.IsNullOrEmpty(customer.Birthday))
+            {
+                int age = currentDate.Year - DateTime.Parse(customer.Birthday).Year;
+                if (currentDate < DateTime.Parse(customer.Birthday).AddYears(age))
+                    age--;
+
+                age_string = age.ToString();
+            }
 
             DateTime today = DateTime.Now.AddDays(-1);
             int missed = _db.Appointments.AsEnumerable().Where(x => x.CustomerId == customer.Id && x.Status == "Y" && x.CheckIn == "N" && DateTime.Parse(x.Date) < today).Count();
@@ -282,18 +292,18 @@ namespace AppointmentSystem.Services
                     ColorHEX = doctor.ColorHex,
                     Introduction = doctor.Introduction
                 },
-                customerData = new CustomerData()
+                customerData = new CustomerDataClass()
                 {
                     Id = customer.Id,
-                    LineId = customer.LineId,
-                    DisplayName = customer.DisplayName,
-                    LinePictureUrl = customer.LinePictureUrl,
+                    //LineId = customer.LineId,
+                    //DisplayName = customer.DisplayName,
+                    //LinePictureUrl = customer.LinePictureUrl,
                     MedicalRecordNumber = customer.MedicalRecordNumber,
                     Name = customer.Name,
-                    CellPhone = customer.CellPhone,
+                    Cellphone = customer.Cellphone,
                     Email = customer.Email,
                     Birthday = customer.Birthday,
-                    Age = age,
+                    Age = age_string,
                     missed = missed,
                     Gender = customer.Gender,
                     NationalIdNumber = customer.NationalIdNumber
@@ -674,7 +684,7 @@ namespace AppointmentSystem.Services
             }
         }
 
-        public string EditCustomerInfo(string AppointmentId, string customerMedicalRecordNumber, string customerNationalIdNumber, string customerGender, string customerName, string customerCellPhone, string customerBirth, string customerEmail)
+        public string EditCustomerInfo(string AppointmentId, string customerMedicalRecordNumber, string customerNationalIdNumber, string customerGender, string customerName, string customerCellphone, string customerBirth, string customerEmail)
         {
             var appointment = _db.Appointments.FirstOrDefault(x => x.Id == AppointmentId);
 
@@ -682,13 +692,13 @@ namespace AppointmentSystem.Services
             {
                 string customerId = appointment.CustomerId;
 
-                _db.Customers.FirstOrDefault(x => x.Id == customerId).MedicalRecordNumber = customerMedicalRecordNumber;
-                _db.Customers.FirstOrDefault(x => x.Id == customerId).Name = customerName;
-                _db.Customers.FirstOrDefault(x => x.Id == customerId).NationalIdNumber = customerNationalIdNumber;
-                _db.Customers.FirstOrDefault(x => x.Id == customerId).Gender = customerGender;
-                _db.Customers.FirstOrDefault(x => x.Id == customerId).CellPhone = customerCellPhone;
-                _db.Customers.FirstOrDefault(x => x.Id == customerId).Birthday = customerBirth;
-                _db.Customers.FirstOrDefault(x => x.Id == customerId).Email = customerEmail;
+                _db.Customerdata.FirstOrDefault(x => x.Id == customerId).MedicalRecordNumber = customerMedicalRecordNumber;
+                _db.Customerdata.FirstOrDefault(x => x.Id == customerId).Name = customerName;
+                _db.Customerdata.FirstOrDefault(x => x.Id == customerId).NationalIdNumber = customerNationalIdNumber;
+                _db.Customerdata.FirstOrDefault(x => x.Id == customerId).Gender = customerGender;
+                _db.Customerdata.FirstOrDefault(x => x.Id == customerId).Cellphone = customerCellphone;
+                _db.Customerdata.FirstOrDefault(x => x.Id == customerId).Birthday = customerBirth;
+                _db.Customerdata.FirstOrDefault(x => x.Id == customerId).Email = customerEmail;
 
                 _db.SaveChanges();
             }
@@ -734,42 +744,46 @@ namespace AppointmentSystem.Services
             return _db.Appointments.Where(x => x.CustomerId == CustomerId && x.Status == "Y").Count();
         }
 
-        public List<CustomerData> getCustomerForIndexSearch(string searchCustomerName, string searchCustomerPhone, string searchCustomerBirth)
+        public List<CustomerDataClass> getCustomerForIndexSearch(string searchCustomerName, string searchCustomerPhone, string searchCustomerBirth)
         {
-            var items = _db.Customers.Where(x => x.Status == "Y").ToList();
+            var items = _db.Customerdata.Where(x => x.Status == "Y").ToList();
 
             if (!string.IsNullOrEmpty(searchCustomerName))
-                items = items.Where(x => x.Name.Contains(searchCustomerName) || x.DisplayName.Contains(searchCustomerName)).ToList();
+                items = items.Where(x => x.Name.Contains(searchCustomerName)).ToList();
             if (!string.IsNullOrEmpty(searchCustomerPhone))
-                items = items.Where(x => x.CellPhone.Contains(searchCustomerPhone)).ToList();
+                items = items.Where(x => x.Cellphone.Contains(searchCustomerPhone)).ToList();
             if (!string.IsNullOrEmpty(searchCustomerBirth))
                 items = items.Where(x => x.Birthday == searchCustomerBirth).ToList();
 
-            List<CustomerData> result = new List<CustomerData>();
+            List<CustomerDataClass> result = new List<CustomerDataClass>();
 
             foreach (var item in items)
             {
                 DateTime currentDate = DateTime.Now;
-                int age = currentDate.Year - DateTime.Parse(item.Birthday).Year;
+                string age_string = "-";
 
-                if (currentDate < DateTime.Parse(item.Birthday).AddYears(age))
-                    age--;
+                if (!string.IsNullOrEmpty(item.Birthday))
+                {
+                    int age = currentDate.Year - DateTime.Parse(item.Birthday).Year;
+                    if (currentDate < DateTime.Parse(item.Birthday).AddYears(age))
+                        age--;
+
+                    age_string = age.ToString();
+                }
+
                 DateTime today = DateTime.Now.AddDays(-1);
 
                 int missed = _db.Appointments.AsEnumerable().Where(x => x.CustomerId == item.Id && x.Status == "Y" && x.CheckIn == "N" && DateTime.Parse(x.Date) < today).Count();
 
-                result.Add(new CustomerData()
+                result.Add(new CustomerDataClass()
                 {
                     Id = item.Id,
-                    LineId = item.LineId,
-                    DisplayName = item.DisplayName,
-                    LinePictureUrl = item.LinePictureUrl,
                     MedicalRecordNumber = item.MedicalRecordNumber,
                     Name = item.Name,
-                    CellPhone = item.CellPhone,
+                    Cellphone = item.Cellphone,
                     Email = item.Email,
                     Birthday = item.Birthday,
-                    Age = age,
+                    Age = age_string,
                     missed = missed,
                     Gender = item.Gender,
                     NationalIdNumber = item.NationalIdNumber,
@@ -780,26 +794,32 @@ namespace AppointmentSystem.Services
             return result;
         }
 
-        public CustomerData GetAppointmentCustomerData(string AppointmentId)
+        public CustomerDataClass GetAppointmentCustomerData(string AppointmentId)
         {
             var item = _db.Appointments.FirstOrDefault(x => x.Id == AppointmentId);
 
             if (item != null)
             {
-                var customer = _db.Customers.FirstOrDefault(x => x.Id == item.CustomerId);
+                CustomerDataClass result = new CustomerDataClass();
 
-                return new CustomerData()
+                var customer = _db.Customerdata.FirstOrDefault(x => x.Id == item.CustomerId);
+                var lineaccount = _db.Customerlineaccounts.FirstOrDefault(x => x.Id == item.CustomerId);
+
+                result.Id = customer.Id;
+                result.Cellphone = customer.Cellphone;
+                result.NationalIdNumber = customer.NationalIdNumber;
+                result.Gender = customer.Gender;
+                result.Birthday = customer.Birthday;
+                result.Email = customer.Email;
+
+                if (lineaccount != null)
                 {
-                    Id = customer.Id,
-                    LineId = customer.LineId,
-                    DisplayName = customer.DisplayName,
-                    LinePictureUrl = customer.LinePictureUrl,
-                    CellPhone = customer.CellPhone,
-                    NationalIdNumber = customer.NationalIdNumber,
-                    Gender = customer.Gender,
-                    Birthday = customer.Birthday,
-                    Email = customer.Email
-                };
+                    result.LineId = lineaccount.LineId;
+                    result.DisplayName = lineaccount.DisplayName;
+                    result.LinePictureUrl = lineaccount.LinePictureUrl;
+                }
+
+                return result;
             }
             else
             {
@@ -807,30 +827,30 @@ namespace AppointmentSystem.Services
             }
         }
 
-        public CustomerData GetCustomerData(string CustomerId)
-        {
-            var customer = _db.Customers.FirstOrDefault(x => x.Id == CustomerId);
+        //public CustomerData GetCustomerData(string CustomerId)
+        //{
+        //    var customer = _db.Customerdata.FirstOrDefault(x => x.Id == CustomerId);
 
-            if (customer != null)
-            {
-                return new CustomerData()
-                {
-                    Id = customer.Id,
-                    LineId = customer.LineId,
-                    DisplayName = customer.DisplayName,
-                    LinePictureUrl = customer.LinePictureUrl,
-                    CellPhone = customer.CellPhone,
-                    NationalIdNumber = customer.NationalIdNumber,
-                    Gender = customer.Gender,
-                    Birthday = customer.Birthday,
-                    Email = customer.Email
-                };
-            }
-            else
-            {
-                return null;
-            }
-        }
+        //    if (customer != null)
+        //    {
+        //        return new CustomerData()
+        //        {
+        //            Id = customer.Id,
+        //            LineId = customer.LineId,
+        //            DisplayName = customer.DisplayName,
+        //            LinePictureUrl = customer.LinePictureUrl,
+        //            CellPhone = customer.CellPhone,
+        //            NationalIdNumber = customer.NationalIdNumber,
+        //            Gender = customer.Gender,
+        //            Birthday = customer.Birthday,
+        //            Email = customer.Email
+        //        };
+        //    }
+        //    else
+        //    {
+        //        return null;
+        //    }
+        //}
 
         public List<AppointmentData> getCustomerAppointment(string id)
         {
@@ -1079,15 +1099,15 @@ namespace AppointmentSystem.Services
 
         public bool CheckCustomerId(string CustomerId)
         {
-            if (_db.Customers.Where(x => x.Id == CustomerId).Count() == 0)
+            if (_db.Customerdata.Where(x => x.Id == CustomerId).Count() == 0)
                 return false;
             else
                 return true;
         }
 
-        public void CreateCustomer(Customer value)
+        public void CreateCustomer(Customerdatum value)
         {
-            _db.Customers.Add(value);
+            _db.Customerdata.Add(value);
             _db.SaveChanges();
         }
 
@@ -1096,7 +1116,7 @@ namespace AppointmentSystem.Services
             DateTime date = DateTime.Parse(birthday);
             string formattedDate = date.ToString("MMdd");
 
-            var maxSequenceQuery = _db.Customers.AsEnumerable().Where(x => x.MedicalRecordNumber.StartsWith(formattedDate)).Select(x => new { SequenceNumber = int.Parse(x.MedicalRecordNumber.Substring(4, 3)) }).OrderByDescending(x => x.SequenceNumber).FirstOrDefault(); ;
+            var maxSequenceQuery = _db.Customerdata.AsEnumerable().Where(x => x.MedicalRecordNumber.StartsWith(formattedDate)).Select(x => new { SequenceNumber = int.Parse(x.MedicalRecordNumber.Substring(4, 3)) }).OrderByDescending(x => x.SequenceNumber).FirstOrDefault(); ;
             int newSequenceNumber = (maxSequenceQuery != null ? maxSequenceQuery.SequenceNumber : 0) + 1;
 
             string newMedicalRecordNumber = formattedDate + newSequenceNumber.ToString("D3");

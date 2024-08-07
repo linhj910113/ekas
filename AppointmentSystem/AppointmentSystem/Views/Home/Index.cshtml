@@ -1064,8 +1064,8 @@
                 $('#medicalRecordNumberDiv').html("<div class=\"AppointmentTitle\">" + "病歷號" + "</div>" + "<div class=\"AppointmentInf\" id=\"medicalRecordNumber\">" + data.customerData.medicalRecordNumber + "</div>");
                 $('#customerMedicalRecordNumber').val(data.customerData.medicalRecordNumber);
 
-                $('#phoneDiv').html("<div class=\"AppointmentTitle\">" + "電話號碼" + "</div>" + "<div class=\"AppointmentInf\" id=\"phone\">" + data.customerData.cellPhone + "</div>");
-                $('#customerCellPhone').val(data.customerData.cellPhone);
+                $('#phoneDiv').html("<div class=\"AppointmentTitle\">" + "電話號碼" + "</div>" + "<div class=\"AppointmentInf\" id=\"phone\">" + data.customerData.cellphone + "</div>");
+                $('#customerCellPhone').val(data.customerData.cellphone);
 
                 $('#birthDiv').html("<div class=\"AppointmentTitle\">" + "生日" + "</div>" + "<div class=\"AppointmentInf\" id=\"birth\">" + data.customerData.birthday + "</div>");
                 $('#customerBirth').val(data.customerData.birthday);
@@ -1142,6 +1142,7 @@
 
             $('#editCustomerBtn').show();
             $('#createCustomerBtn').hide();
+            $('#alert').html("");
             $('#editCustomerInfoModal').modal('show');
         }
     }
@@ -1164,6 +1165,8 @@
         $('#customerName').val($('#searchCustomerName').val());
         $('#customerCellPhone').val($('#searchCustomerPhone').val());
         $('#customerBirth').val($('#searchCustomerBirth').val());
+
+        $('#alert').html("");
 
         $('#editCustomerInfoModal').modal('show');
     }
@@ -1560,7 +1563,7 @@
                         inner += `<div class="row row-custormer " onclick="showCustomerAppointment('` + i + `');" style="cursor:pointer;margin:0px;">`;
                         inner += `<div class="col-2" style="padding:0px;">` + item.name + `</div>`;
                         inner += `<div class="col-2" style="padding:0px;">` + item.nationalIdNumber + `</div>`;
-                        inner += `<div class="col-2" style="padding:0px;">` + item.cellPhone + `</div>`;
+                        inner += `<div class="col-2" style="padding:0px;">` + item.cellphone + `</div>`;
                         inner += `<div class="col-2" style="padding:0px;">` + item.medicalRecordNumber + `</div>`;
                         inner += `<div class="col-2" style="padding:0px;">` + item.birthday + `</div>`;
                         inner += `<div class="col-2" style="padding:0px;">` + item.email + `</div>`;

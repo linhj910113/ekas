@@ -38,7 +38,7 @@ public partial class Appointment
 
     public virtual ICollection<Appointmenttreatment> Appointmenttreatments { get; set; } = new List<Appointmenttreatment>();
 
-    public virtual Customer Customer { get; set; } = null!;
+    public virtual Customerdatum Customer { get; set; } = null!;
 
     public virtual Doctor Doctor { get; set; } = null!;
 }

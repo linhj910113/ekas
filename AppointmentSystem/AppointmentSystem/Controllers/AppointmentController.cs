@@ -1,6 +1,7 @@
 ﻿using AppointmentSystem.Models.DBModels;
 using AppointmentSystem.Models.ViewModels.AppointmentModels;
 using AppointmentSystem.Models.ViewModels.BaseInfoModels;
+using AppointmentSystem.Models.ViewModels.HomeModels;
 using AppointmentSystem.Services;
 using Azure.Core;
 using Microsoft.AspNetCore.Authentication;
@@ -39,7 +40,7 @@ namespace AppointmentSystem.Controllers
                 else
                 {
                     var customer = HttpContext.User.Claims.ToList();
-                    IndexVM indexVM = _appointmentService.GetCustomerAppointmentData(customer.FirstOrDefault(u => u.Type == "UserId").Value);
+                    Models.ViewModels.AppointmentModels.IndexVM indexVM = _appointmentService.GetCustomerAppointmentData(customer.FirstOrDefault(u => u.Type == "UserId").Value);
                     ViewBag.Count = indexVM.AppointmentData.Count;
 
                     return View(indexVM);
@@ -120,7 +121,7 @@ namespace AppointmentSystem.Controllers
             var user = HttpContext.User.Claims.ToList();
             var customerData = _appointmentService.GetCustomerDateById(AppointmentData.CustomerId);
 
-            if (customerData.LineId != "")
+            if (!string.IsNullOrEmpty(customerData.LineId))
                 ViewBag.showBindBtn = "false";
             else
                 ViewBag.showBindBtn = "true";
@@ -149,7 +150,8 @@ namespace AppointmentSystem.Controllers
             return View();
         }
 
-        public async Task<IActionResult> CellphoneLogin(string cellphone, string hashCode, string otp)
+        [HttpPost]
+        public async Task<IActionResult> CellphoneLogin(string nationalIdNumber, string cellphone, string hashCode, string otp)
         {
             //驗證手機及驗證碼
             string result = "";
@@ -163,18 +165,18 @@ namespace AppointmentSystem.Controllers
 
             if (result == "OK")
             {
-                if (_appointmentService.CheckCustomerExistByCellphone(cellphone))
+                if (_appointmentService.CheckCustomerExistByCellphone(nationalIdNumber, cellphone))
                 {
-                    var user = _appointmentService.GetCustomerDateByCellphone(cellphone);
+                    var user = _appointmentService.GetCustomerDateByCellphone(nationalIdNumber, cellphone);
 
                     var claims = new List<Claim>
                     {
                         new Claim("LoginType", "Customer"),
                         new Claim("UserId", user.Id),
                         new Claim("LoginBy", "Cellphone"),
-                        new Claim("LineId", user.LineId),
-                        new Claim("Name", user.DisplayName),
-                        new Claim("Phone", user.CellPhone),
+                        new Claim("LineId", ""),
+                        new Claim("Name", user.Name),
+                        new Claim("Phone", user.Cellphone),
                         new Claim("IsAdmin", "N")
                     };
 
@@ -197,7 +199,7 @@ namespace AppointmentSystem.Controllers
                     while (_appointmentService.CheckCustomerId(CustomerId))
                         CustomerId = _functions.GetGuid();
 
-                    Customer item = new Customer()
+                    Customerdatum item = new Customerdatum()
                     {
                         Creator = "Default",
                         Modifier = "Default",
@@ -207,11 +209,8 @@ namespace AppointmentSystem.Controllers
 
                         Id = CustomerId,
                         Name = cellphone,
-                        LineId = "",
-                        DisplayName = cellphone,
-                        LinePictureUrl = "",
-                        CellPhone = cellphone,
-                        NationalIdNumber = "",
+                        Cellphone = cellphone,
+                        NationalIdNumber = nationalIdNumber,
                         Gender = "",
                         Birthday = "",
                         Email = "",
@@ -250,13 +249,15 @@ namespace AppointmentSystem.Controllers
                     });
                 }
 
-                return RedirectToAction("Index", "Appointment");
+                return new JsonResult(result);
+
+                //return RedirectToAction("Index", "Appointment");
             }
             else
             {
                 ViewBag.ErrorMsg = result;
 
-                return View();
+                return new JsonResult(result);
             }
         }
 
@@ -301,11 +302,11 @@ namespace AppointmentSystem.Controllers
                 var displayName = profileData["displayName"].ToString();
                 var pictureUrl = profileData["pictureUrl"]?.ToString();
 
-                if (_appointmentService.CheckCustomerExist(lineUserId))
+                if (_appointmentService.CheckCustomerLineAccountExist(lineUserId))
                 {
                     var user = _appointmentService.GetCustomerDateByLineId(lineUserId);
 
-                    Customer item = new Customer()
+                    Customerlineaccount item = new Customerlineaccount()
                     {
                         Modifier = "Default",
                         ModifyDate = DateTime.Now,
@@ -322,7 +323,7 @@ namespace AppointmentSystem.Controllers
                         new Claim("LoginBy", "Line"),
                         new Claim("LineId", lineUserId),
                         new Claim("Name", displayName),
-                        new Claim("Phone", user.CellPhone),
+                        new Claim("Phone", user.Cellphone),
                         new Claim("IsAdmin", "N")
                     };
 
@@ -351,7 +352,6 @@ namespace AppointmentSystem.Controllers
                         RefreshToken = refreshToken,
                         ExpiresIn = expiresIn
                     };
-
                     _appointmentService.CreateCustomerToken(token);
                 }
                 else
@@ -362,7 +362,7 @@ namespace AppointmentSystem.Controllers
                     while (_appointmentService.CheckCustomerId(CustomerId))
                         CustomerId = _functions.GetGuid();
 
-                    Customer item = new Customer()
+                    Customerlineaccount item = new Customerlineaccount()
                     {
                         Creator = "Default",
                         Modifier = "Default",
@@ -371,18 +371,13 @@ namespace AppointmentSystem.Controllers
                         Status = "Y",
 
                         Id = CustomerId,
-                        Name = displayName,
                         LineId = lineUserId,
                         DisplayName = displayName,
                         LinePictureUrl = pictureUrl,
-                        CellPhone = "",
                         NationalIdNumber = "",
-                        Gender = "",
-                        Birthday = "",
-                        Email = "",
-                        Memo = ""
+                        Cellphone = ""
                     };
-                    _appointmentService.CreateCustomer(item);
+                    _appointmentService.CreateCustomerLineAccount(item);
 
                     _functions.SaveSystemLog(new Systemlog
                     {
@@ -473,16 +468,27 @@ namespace AppointmentSystem.Controllers
                 var displayName = profileData["displayName"].ToString();
                 var pictureUrl = profileData["pictureUrl"]?.ToString();
 
-                //將LineId設定到顧客資料表裡面
-                Customer item = new Customer()
+                if (_appointmentService.CheckCustomerLineAccountExist(lineUserId))
+                    return BadRequest("line帳號重複註冊，請洽詢櫃台");
+
+                var customer = _appointmentService.GetCustomerDateById(customerId);
+
+                //新增顧客line帳號的資料
+                Customerlineaccount item = new Customerlineaccount()
                 {
+                    Creator = customerId,
+                    CreateDate = DateTime.Now,
                     Modifier = customerId,
                     ModifyDate = DateTime.Now,
 
+                    Id = customerId,
                     LineId = lineUserId,
                     LinePictureUrl = pictureUrl,
+                    DisplayName = displayName,
+                    NationalIdNumber = customer.NationalIdNumber,
+                    Cellphone = customer.Cellphone
                 };
-                _appointmentService.BindCustomerLineId(item, customerId);
+                _appointmentService.CreateCustomerLineAccount(item);
 
                 _functions.SaveSystemLog(new Systemlog()
                 {
@@ -500,7 +506,7 @@ namespace AppointmentSystem.Controllers
                     new Claim("LoginBy", "Line"),
                     new Claim("LineId", lineUserId),
                     new Claim("Name", displayName),
-                    new Claim("Phone", user.CellPhone),
+                    new Claim("Phone", user.Cellphone),
                     new Claim("IsAdmin", "N")
                 };
 
@@ -514,6 +520,22 @@ namespace AppointmentSystem.Controllers
                     UserAccount = user.Id,
                     Description = "Customer '" + user.Id + "' login."
                 });
+
+                //Line Token
+                var token = new Customertoken
+                {
+                    Creator = "Default",
+                    Modifier = "Default",
+                    CreateDate = DateTime.Now,
+                    ModifyDate = DateTime.Now,
+                    Status = "Y",
+
+                    CustomerId = user.Id,
+                    AccessToken = accessToken,
+                    RefreshToken = refreshToken,
+                    ExpiresIn = expiresIn
+                };
+                _appointmentService.CreateCustomerToken(token);
 
                 //if (_appointmentService.CheckCustomerExist(lineUserId))
                 //{
@@ -577,7 +599,7 @@ namespace AppointmentSystem.Controllers
         public IActionResult GetCustomerAppointmentData()
         {
             var customer = HttpContext.User.Claims.ToList();
-            IndexVM indexVM = _appointmentService.GetCustomerAppointmentData(customer.FirstOrDefault(u => u.Type == "UserId").Value);
+            Models.ViewModels.AppointmentModels.IndexVM indexVM = _appointmentService.GetCustomerAppointmentData(customer.FirstOrDefault(u => u.Type == "UserId").Value);
 
             return new JsonResult(indexVM.AppointmentData);
         }
@@ -679,34 +701,93 @@ namespace AppointmentSystem.Controllers
         public IActionResult UpdateCustomerInfomation(string customerName, string nationalIdNumber, string cellphone, string gender, string birthday, string email)
         {
             var user = HttpContext.User.Claims.ToList();
-
+            var customer = _appointmentService.GetCustomerDateByNationalIdNumber(nationalIdNumber);
             string customerMedicalRecordNumber = _appointmentService.getCustomerMedicalRecordNumber(birthday);
 
-            Customer item = new Customer()
+            if (string.IsNullOrEmpty(email))
+                email = "";
+
+            if (customer != null)
             {
-                Modifier = user.FirstOrDefault(u => u.Type == "UserId").Value,
-                ModifyDate = DateTime.Now,
+                Customerdatum item = new Customerdatum()
+                {
+                    Modifier = user.FirstOrDefault(u => u.Type == "UserId").Value,
+                    ModifyDate = DateTime.Now,
 
-                MedicalRecordNumber = customerMedicalRecordNumber,
-                Name = customerName,
-                NationalIdNumber = nationalIdNumber,
-                CellPhone = cellphone,
-                Gender = gender,
-                Birthday = birthday,
-                Email = email
-            };
-            string result = _appointmentService.UpdateCustomer(user.FirstOrDefault(u => u.Type == "UserId").Value, item);
+                    MedicalRecordNumber = customerMedicalRecordNumber,
+                    Name = customerName,
+                    NationalIdNumber = nationalIdNumber,
+                    Cellphone = cellphone,
+                    Gender = gender,
+                    Birthday = birthday,
+                    Email = email
+                };
+                string result = _appointmentService.UpdateCustomerIdToDatabase(user.FirstOrDefault(u => u.Type == "UserId").Value, item);
 
-            _functions.SaveSystemLog(new Systemlog
+                _functions.SaveSystemLog(new Systemlog
+                {
+                    CreateDate = DateTime.Now,
+                    Creator = user.FirstOrDefault(u => u.Type == "UserId").Value,
+                    UserAccount = user.FirstOrDefault(u => u.Type == "UserId").Value,
+                    Description = "Update customer id='" + user.FirstOrDefault(u => u.Type == "UserId").Value + "'."
+                });
+            }
+            else
             {
-                CreateDate = DateTime.Now,
-                Creator = user.FirstOrDefault(u => u.Type == "UserId").Value,
-                UserAccount = user.FirstOrDefault(u => u.Type == "UserId").Value,
-                Description = "Update customer id='" + user.FirstOrDefault(u => u.Type == "UserId").Value + "'."
-            });
+                Customerdatum item = new Customerdatum()
+                {
+                    Creator = user.FirstOrDefault(u => u.Type == "UserId").Value,
+                    CreateDate = DateTime.Now,
+                    Modifier = user.FirstOrDefault(u => u.Type == "UserId").Value,
+                    ModifyDate = DateTime.Now,
+                    Status = "Y",
+
+                    Id = user.FirstOrDefault(u => u.Type == "UserId").Value,
+                    MedicalRecordNumber = customerMedicalRecordNumber,
+                    Name = customerName,
+                    NationalIdNumber = nationalIdNumber,
+                    Cellphone = cellphone,
+                    Gender = gender,
+                    Birthday = birthday,
+                    Email = email,
+                    Memo = ""
+                };
+                _appointmentService.CreateCustomer(item);
+
+                _functions.SaveSystemLog(new Systemlog
+                {
+                    CreateDate = DateTime.Now,
+                    Creator = user.FirstOrDefault(u => u.Type == "UserId").Value,
+                    UserAccount = user.FirstOrDefault(u => u.Type == "UserId").Value,
+                    Description = "Create customer line account id='" + user.FirstOrDefault(u => u.Type == "UserId").Value + "'."
+                });
+            }
 
 
-            return new JsonResult(result);
+
+            // 建立新的 ClaimsIdentity 並添加新的 UserId Claim
+            //var claims = new List<Claim>
+            //{
+            //    new Claim("LoginType", user.FirstOrDefault(u => u.Type == "LoginType").Value),
+            //    new Claim("UserId", result),
+            //    new Claim("LoginBy", user.FirstOrDefault(u => u.Type == "LoginBy").Value),
+            //    new Claim("LineId", user.FirstOrDefault(u => u.Type == "LineId").Value),
+            //    new Claim("Name", user.FirstOrDefault(u => u.Type == "Name").Value),
+            //    new Claim("Phone", user.FirstOrDefault(u => u.Type == "Phone").Value),
+            //    new Claim("IsAdmin", "N")
+            //};
+
+            //// 建立新的 ClaimsPrincipal
+            //var newIdentity = new ClaimsIdentity(claims, "Custom");
+            //var newPrincipal = new ClaimsPrincipal(newIdentity);
+
+            //// 更新當前的使用者
+            //await HttpContext.SignInAsync(newPrincipal);
+
+
+
+
+            return new JsonResult(user.FirstOrDefault(u => u.Type == "UserId").Value);
         }
 
         [HttpPost]
@@ -891,7 +972,6 @@ namespace AppointmentSystem.Controllers
                 Description = "Cancel appointment success id='" + AppointmentId + "'."
             });
 
-
             return new JsonResult(AppointmentId);
         }
 
@@ -959,11 +1039,11 @@ namespace AppointmentSystem.Controllers
         }
 
         [HttpPost]
-        public IActionResult checkCellphone(string cellphone)
+        public IActionResult checkCellphone(string nationalIdNumber, string cellphone)
         {
             var user = HttpContext.User.Claims.ToList();
 
-            return new JsonResult(_appointmentService.checkCellphone(cellphone, user.FirstOrDefault(u => u.Type == "UserId").Value));
+            return new JsonResult(_appointmentService.checkCellphone(nationalIdNumber, cellphone, user.FirstOrDefault(u => u.Type == "UserId").Value));
         }
 
         [HttpPost]

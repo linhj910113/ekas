@@ -322,8 +322,8 @@
         }
 
     /*  .selectable .select-circle.selected {
-                                                                                                                                                                                        background-color: green;
-                                                                                                                                                                                    } */
+                                                                                                                                                                                                background-color: green;
+                                                                                                                                                                                            } */
 
     .doctor-section.hidden, .dateTime-section.hidden, .baseInfomation-section.hidden {
         display: none;
@@ -1229,8 +1229,6 @@
                     alertMsg = "請輸入性別!";
                 else if (!birthday)
                     alertMsg = "請輸入生日!";
-                else if (!email)
-                    alertMsg = "請輸入E-mail!";
 
                 if (alertMsg != "") {
                     alert(alertMsg);
@@ -1245,6 +1243,7 @@
                 $.ajax({
                     type: 'POST',
                     url: '/Appointment/UpdateCustomerInfomation',
+                    async: false,
                     datatype: "json",
                     data: { "customerName": customerName, "nationalIdNumber": nationalIdNumber, "cellphone": cellphone, "gender": gender, "birthday": birthday, "email": email },
                     success: function (data) {
@@ -1255,6 +1254,7 @@
                 $.ajax({
                     type: 'POST',
                     url: '/Appointment/CreateAppointment',
+                    async: false,
                     datatype: "json",
                     data: { treatments: selectedTreatments, "doctor": selectedDoctor, "date": selectedDate.data('date'), "beginTime": selectedTime },
                     success: function (data) {
@@ -1331,7 +1331,7 @@
         var firstNum;
         var lastNum;
         var total = 0;
-        var regExpID = /^[a-z](1|2)\d{8}$/i;        
+        var regExpID = /^[a-z](1|2)\d{8}$/i;
 
         //先確認身分證有無重複，再確認手機
         if (nationalIdNumber != "") {
@@ -1387,7 +1387,7 @@
                     type: 'POST',
                     url: '/Appointment/checkCellphone',
                     datatype: "json",
-                    data: { "cellphone": cellphone },
+                    data: { "nationalIdNumber": nationalIdNumber, "cellphone": cellphone },
                     async: false,
                     success: function (data) {
                         if (data != "")

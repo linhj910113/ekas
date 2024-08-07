@@ -26,7 +26,9 @@ public partial class EkasContext : DbContext
 
     public virtual DbSet<Arrangemonthshift> Arrangemonthshifts { get; set; }
 
-    public virtual DbSet<Customer> Customers { get; set; }
+    public virtual DbSet<Customerdatum> Customerdata { get; set; }
+
+    public virtual DbSet<Customerlineaccount> Customerlineaccounts { get; set; }
 
     public virtual DbSet<Customertoken> Customertokens { get; set; }
 
@@ -182,7 +184,7 @@ public partial class EkasContext : DbContext
             entity.HasOne(d => d.Customer).WithMany(p => p.Appointments)
                 .HasForeignKey(d => d.CustomerId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_appointment_customer");
+                .HasConstraintName("FK_appointment_customerdata");
 
             entity.HasOne(d => d.Doctor).WithMany(p => p.Appointments)
                 .HasForeignKey(d => d.DoctorId)
@@ -310,11 +312,11 @@ public partial class EkasContext : DbContext
                 .HasDefaultValueSql("''");
         });
 
-        modelBuilder.Entity<Customer>(entity =>
+        modelBuilder.Entity<Customerdatum>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PRIMARY");
 
-            entity.ToTable("customer", tb => tb.HasComment("客戶資料表"));
+            entity.ToTable("customerdata", tb => tb.HasComment("客戶資料表"));
 
             entity.Property(e => e.Id)
                 .HasMaxLength(50)
@@ -322,7 +324,7 @@ public partial class EkasContext : DbContext
             entity.Property(e => e.Birthday)
                 .HasMaxLength(20)
                 .HasDefaultValueSql("''");
-            entity.Property(e => e.CellPhone)
+            entity.Property(e => e.Cellphone)
                 .HasMaxLength(20)
                 .HasDefaultValueSql("''");
             entity.Property(e => e.CreateDate)
@@ -331,20 +333,11 @@ public partial class EkasContext : DbContext
             entity.Property(e => e.Creator)
                 .HasMaxLength(50)
                 .HasDefaultValueSql("'Default'");
-            entity.Property(e => e.DisplayName)
-                .HasMaxLength(100)
-                .HasDefaultValueSql("''");
             entity.Property(e => e.Email)
                 .HasMaxLength(100)
                 .HasDefaultValueSql("''");
             entity.Property(e => e.Gender)
                 .HasMaxLength(20)
-                .HasDefaultValueSql("''");
-            entity.Property(e => e.LineId)
-                .HasMaxLength(100)
-                .HasDefaultValueSql("''");
-            entity.Property(e => e.LinePictureUrl)
-                .HasMaxLength(500)
                 .HasDefaultValueSql("''");
             entity.Property(e => e.MedicalRecordNumber)
                 .HasMaxLength(50)
@@ -361,6 +354,47 @@ public partial class EkasContext : DbContext
             entity.Property(e => e.Name)
                 .HasMaxLength(100)
                 .HasDefaultValueSql("''");
+            entity.Property(e => e.NationalIdNumber)
+                .HasMaxLength(20)
+                .HasDefaultValueSql("''");
+            entity.Property(e => e.Status)
+                .HasMaxLength(1)
+                .HasDefaultValueSql("'Y'");
+        });
+
+        modelBuilder.Entity<Customerlineaccount>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
+
+            entity.ToTable("customerlineaccount", tb => tb.HasComment("客戶Line資料表"));
+
+            entity.Property(e => e.Id)
+                .HasMaxLength(50)
+                .HasDefaultValueSql("''");
+            entity.Property(e => e.Cellphone)
+                .HasMaxLength(20)
+                .HasDefaultValueSql("''");
+            entity.Property(e => e.CreateDate)
+                .HasDefaultValueSql("current_timestamp()")
+                .HasColumnType("datetime");
+            entity.Property(e => e.Creator)
+                .HasMaxLength(50)
+                .HasDefaultValueSql("'Default'");
+            entity.Property(e => e.DisplayName)
+                .HasMaxLength(100)
+                .HasDefaultValueSql("''");
+            entity.Property(e => e.LineId)
+                .HasMaxLength(100)
+                .HasDefaultValueSql("''");
+            entity.Property(e => e.LinePictureUrl)
+                .HasMaxLength(500)
+                .HasDefaultValueSql("''");
+            entity.Property(e => e.Modifier)
+                .HasMaxLength(50)
+                .HasDefaultValueSql("'Default'");
+            entity.Property(e => e.ModifyDate)
+                .HasDefaultValueSql("current_timestamp()")
+                .HasColumnType("datetime");
             entity.Property(e => e.NationalIdNumber)
                 .HasMaxLength(20)
                 .HasDefaultValueSql("''");

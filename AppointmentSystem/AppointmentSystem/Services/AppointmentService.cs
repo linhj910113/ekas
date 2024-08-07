@@ -25,9 +25,9 @@ namespace AppointmentSystem.Services
             _functions = new WebFunctions(context);
         }
 
-        public bool CheckCustomerExist(string LineId)
+        public bool CheckCustomerLineAccountExist(string LineId)
         {
-            var c = _db.Customers.Where(x => x.LineId == LineId).FirstOrDefault();
+            var c = _db.Customerlineaccounts.Where(x => x.LineId == LineId).FirstOrDefault();
 
             if (c == null)
                 return false;
@@ -35,9 +35,9 @@ namespace AppointmentSystem.Services
                 return true;
         }
 
-        public bool CheckCustomerExistByCellphone(string cellphone)
+        public bool CheckCustomerExistByCellphone(string nationalIdNumber, string cellphone)
         {
-            var c = _db.Customers.Where(x => x.CellPhone == cellphone).FirstOrDefault();
+            var c = _db.Customerdata.Where(x => x.Cellphone == cellphone && x.NationalIdNumber == nationalIdNumber).FirstOrDefault();
 
             if (c == null)
                 return false;
@@ -47,10 +47,16 @@ namespace AppointmentSystem.Services
 
         public bool CheckCustomerId(string CustomerId)
         {
-            if (_db.Customers.Where(x => x.Id == CustomerId).Count() == 0)
+            if (_db.Customerdata.Where(x => x.Id == CustomerId).Count() == 0)
                 return false;
             else
-                return true;
+            {
+                if (_db.Customerlineaccounts.Where(x => x.Id == CustomerId).Count() == 0)
+                    return false;
+                else
+                    return true;
+            }
+
         }
 
         public bool CheckAppointmentId(string AppointmentId)
@@ -61,25 +67,112 @@ namespace AppointmentSystem.Services
                 return true;
         }
 
-        public Customer GetCustomerDateById(string CustomerId)
+        public CustomerDataClass GetCustomerDateById(string CustomerId)
         {
-            var customer = _db.Customers.FirstOrDefault(x => x.Id == CustomerId);
+            CustomerDataClass result = new CustomerDataClass();
+            var customer = _db.Customerdata.FirstOrDefault(x => x.Id == CustomerId);
+            var lineaccount = _db.Customerlineaccounts.FirstOrDefault(x => x.Id == customer.Id);
 
-            return customer;
+            result.Name = customer.Name;
+            result.NationalIdNumber = customer.NationalIdNumber;
+            result.MedicalRecordNumber = customer.MedicalRecordNumber;
+            result.Gender = customer.Gender;
+            result.Birthday = customer.Birthday;
+            result.Cellphone = customer.Cellphone;
+            result.Email = customer.Email;
+
+            if (lineaccount != null)
+            {
+                result.Id = lineaccount.Id;
+                result.LineId = lineaccount.LineId;
+                result.LinePictureUrl = lineaccount.LinePictureUrl;
+                result.DisplayName = lineaccount.DisplayName;
+            }
+
+            return result;
         }
 
-        public Customer GetCustomerDateByLineId(string LineId)
+        public CustomerDataClass GetCustomerDateByNationalIdNumber(string NationalIdNumber)
         {
-            var customer = _db.Customers.FirstOrDefault(x => x.LineId == LineId);
+            CustomerDataClass result = new CustomerDataClass();
+            var customer = _db.Customerdata.FirstOrDefault(x => x.NationalIdNumber == NationalIdNumber);
+            if (customer != null)
+            {
+                var lineaccount = _db.Customerlineaccounts.FirstOrDefault(x => x.Id == customer.Id);
 
-            return customer;
+                result.Name = customer.Name;
+                result.NationalIdNumber = customer.NationalIdNumber;
+                result.MedicalRecordNumber = customer.MedicalRecordNumber;
+                result.Gender = customer.Gender;
+                result.Birthday = customer.Birthday;
+                result.Cellphone = customer.Cellphone;
+                result.Email = customer.Email;
+
+                if (lineaccount != null)
+                {
+                    result.Id = lineaccount.Id;
+                    result.LineId = lineaccount.LineId;
+                    result.LinePictureUrl = lineaccount.LinePictureUrl;
+                    result.DisplayName = lineaccount.DisplayName;
+                }
+
+                return result;
+            }
+            else
+            {
+                return null;
+            }
+
         }
 
-        public Customer GetCustomerDateByCellphone(string cellphone)
+        public CustomerDataClass GetCustomerDateByLineId(string LineId)
         {
-            var customer = _db.Customers.FirstOrDefault(x => x.CellPhone == cellphone);
+            CustomerDataClass result = new CustomerDataClass();
+            var lineaccount = _db.Customerlineaccounts.FirstOrDefault(x => x.LineId == LineId);
+            var customer = _db.Customerdata.FirstOrDefault(x => x.Id == lineaccount.Id);
 
-            return customer;
+            result.Id = lineaccount.Id;
+            result.LineId = lineaccount.LineId;
+            result.LinePictureUrl = lineaccount.LinePictureUrl;
+            result.DisplayName = lineaccount.DisplayName;
+
+            if (customer != null)
+            {
+                result.Name = customer.Name;
+                result.NationalIdNumber = customer.NationalIdNumber;
+                result.MedicalRecordNumber = customer.MedicalRecordNumber;
+                result.Gender = customer.Gender;
+                result.Birthday = customer.Birthday;
+                result.Cellphone = customer.Cellphone;
+                result.Email = customer.Email;
+            }
+
+            return result;
+        }
+
+        public CustomerDataClass GetCustomerDateByCellphone(string nationalIdNumber, string cellphone)
+        {
+            CustomerDataClass result = new CustomerDataClass();
+            var customer = _db.Customerdata.FirstOrDefault(x => x.Cellphone == cellphone && x.NationalIdNumber == nationalIdNumber);
+            var lineaccount = _db.Customerlineaccounts.FirstOrDefault(x => x.Id == customer.Id);
+
+            result.Id = customer.Id;
+            result.Name = customer.Name;
+            result.NationalIdNumber = customer.NationalIdNumber;
+            result.MedicalRecordNumber = customer.MedicalRecordNumber;
+            result.Gender = customer.Gender;
+            result.Birthday = customer.Birthday;
+            result.Cellphone = customer.Cellphone;
+            result.Email = customer.Email;
+
+            if (lineaccount != null)
+            {
+                result.LineId = lineaccount.LineId;
+                result.LinePictureUrl = lineaccount.LinePictureUrl;
+                result.DisplayName = lineaccount.DisplayName;
+            }
+
+            return result;
         }
 
         public int GetCustomerAppointmentCount(string CustomerId)
@@ -275,21 +368,21 @@ namespace AppointmentSystem.Services
             return result;
         }
 
-        public CustomerData GetAppointmentCustomerData(string AppointmentId)
+        public CustomerDataClass GetAppointmentCustomerData(string AppointmentId)
         {
             var item = _db.Appointments.FirstOrDefault(x => x.Id == AppointmentId);
 
             if (item != null)
             {
-                var customer = _db.Customers.FirstOrDefault(x => x.Id == item.CustomerId);
+                var customer = _db.Customerdata.FirstOrDefault(x => x.Id == item.CustomerId);
 
-                return new CustomerData()
+                return new CustomerDataClass()
                 {
                     Id = customer.Id,
-                    LineId = customer.LineId,
-                    DisplayName = customer.DisplayName,
-                    LinePictureUrl = customer.LinePictureUrl,
-                    CellPhone = customer.CellPhone,
+                    //LineId = customer.LineId,
+                    //DisplayName = customer.DisplayName,
+                    //LinePictureUrl = customer.LinePictureUrl,
+                    Cellphone = customer.Cellphone,
                     NationalIdNumber = customer.NationalIdNumber,
                     Gender = customer.Gender,
                     Birthday = customer.Birthday,
@@ -369,9 +462,15 @@ namespace AppointmentSystem.Services
             return result;
         }
 
-        public void CreateCustomer(Customer value)
+        public void CreateCustomer(Customerdatum value)
         {
-            _db.Customers.Add(value);
+            _db.Customerdata.Add(value);
+            _db.SaveChanges();
+        }
+
+        public void CreateCustomerLineAccount(Customerlineaccount value)
+        {
+            _db.Customerlineaccounts.Add(value);
             _db.SaveChanges();
         }
 
@@ -412,45 +511,139 @@ namespace AppointmentSystem.Services
             _db.SaveChanges();
         }
 
-        public void UpdateCustomerLineInformation(Customer value, string LineId)
+        public void UpdateCustomerLineInformation(Customerlineaccount value, string LineId)
         {
-            _db.Customers.FirstOrDefault(x => x.LineId == LineId).Modifier = value.Modifier;
-            _db.Customers.FirstOrDefault(x => x.LineId == LineId).ModifyDate = value.ModifyDate;
+            _db.Customerlineaccounts.FirstOrDefault(x => x.LineId == LineId).Modifier = value.Modifier;
+            _db.Customerlineaccounts.FirstOrDefault(x => x.LineId == LineId).ModifyDate = value.ModifyDate;
 
-            _db.Customers.FirstOrDefault(x => x.LineId == LineId).LinePictureUrl = value.LinePictureUrl;
+            _db.Customerlineaccounts.FirstOrDefault(x => x.LineId == LineId).LinePictureUrl = value.LinePictureUrl;
 
             _db.SaveChanges();
         }
 
-        public void BindCustomerLineId(Customer value, string customerId)
-        {
-            _db.Customers.FirstOrDefault(x => x.Id == customerId).Modifier = value.Modifier;
-            _db.Customers.FirstOrDefault(x => x.Id == customerId).ModifyDate = value.ModifyDate;
+        //public void BindCustomerLineId(Customerlineaccount value, string customerId)
+        //{
 
-            _db.Customers.FirstOrDefault(x => x.Id == customerId).LineId = value.LineId;
-            _db.Customers.FirstOrDefault(x => x.Id == customerId).LinePictureUrl = value.LinePictureUrl;
+        //    //_db.Customers.FirstOrDefault(x => x.Id == customerId).Modifier = value.Modifier;
+        //    //_db.Customers.FirstOrDefault(x => x.Id == customerId).ModifyDate = value.ModifyDate;
 
-            _db.SaveChanges();
-        }
+        //    //_db.Customers.FirstOrDefault(x => x.Id == customerId).LineId = value.LineId;
+        //    //_db.Customers.FirstOrDefault(x => x.Id == customerId).LinePictureUrl = value.LinePictureUrl;
 
-        public string UpdateCustomer(string customerId, Customer value)
+        //    _db.SaveChanges();
+        //}
+
+        public string UpdateCustomerIdToDatabase(string customerId, Customerdatum value)
         {
             try
             {
-                _db.Customers.FirstOrDefault(x => x.Id == customerId).Modifier = value.Modifier;
-                _db.Customers.FirstOrDefault(x => x.Id == customerId).ModifyDate = value.ModifyDate;
+                var oldCustomer = _db.Customerdata.FirstOrDefault(x => x.NationalIdNumber == value.NationalIdNumber);
 
-                _db.Customers.FirstOrDefault(x => x.Id == customerId).MedicalRecordNumber = value.MedicalRecordNumber;
-                _db.Customers.FirstOrDefault(x => x.Id == customerId).Name = value.Name;
-                _db.Customers.FirstOrDefault(x => x.Id == customerId).NationalIdNumber = value.NationalIdNumber;
-                _db.Customers.FirstOrDefault(x => x.Id == customerId).CellPhone = value.CellPhone;
-                _db.Customers.FirstOrDefault(x => x.Id == customerId).Gender = value.Gender;
-                _db.Customers.FirstOrDefault(x => x.Id == customerId).Birthday = value.Birthday;
-                _db.Customers.FirstOrDefault(x => x.Id == customerId).Email = value.Email;
+                if (_db.Customerlineaccounts.FirstOrDefault(x => x.Id == customerId) != null)
+                {
+                    _db.Customerlineaccounts.FirstOrDefault(x => x.Id == customerId).NationalIdNumber = oldCustomer.NationalIdNumber;
+                    _db.Customerlineaccounts.FirstOrDefault(x => x.Id == customerId).Cellphone = oldCustomer.Cellphone;
+                }                
 
-                _db.SaveChanges();
+                if (oldCustomer.Id != customerId)
+                {
+                    //更新相關資料表的顧客ID
+                    _db.Appointments.Where(x => x.Creator == oldCustomer.Id).ToList().ForEach(x => { x.Creator = customerId; });
+                    _db.Appointments.Where(x => x.Modifier == oldCustomer.Id).ToList().ForEach(x => { x.Modifier = customerId; });
+                    _db.Appointments.Where(x => x.CustomerId == oldCustomer.Id).ToList().ForEach(x => { x.CustomerId = customerId; });
 
-                return "success";
+                    _db.Appointmenttreatments.Where(x => x.Creator == oldCustomer.Id).ToList().ForEach(x => { x.Creator = customerId; });
+                    _db.Appointmenttreatments.Where(x => x.Modifier == oldCustomer.Id).ToList().ForEach(x => { x.Modifier = customerId; });
+
+                    _db.Customertokens.Where(x => x.CustomerId == oldCustomer.Id).ToList().ForEach(x => { x.CustomerId = customerId; });
+
+                    _db.Outpatientappointments.Where(x => x.Creator == oldCustomer.Id).ToList().ForEach(x => { x.Creator = customerId; });
+                    _db.Outpatientappointments.Where(x => x.Modifier == oldCustomer.Id).ToList().ForEach(x => { x.Modifier = customerId; });
+
+                    _db.Systemlogs.Where(x => x.Creator == oldCustomer.Id).ToList().ForEach(x => { x.Creator = customerId; });
+                    _db.Systemlogs.Where(x => x.UserAccount == oldCustomer.Id).ToList().ForEach(x => { x.UserAccount = customerId; });
+
+
+                    //將相關資料表的ID修改完成後才更新customer資料表的ID及相關資料
+                    Customerdatum newItem = new Customerdatum()
+                    {
+                        CreateDate = DateTime.Now,
+                        Creator = customerId,
+                        ModifyDate = DateTime.Now,
+                        Modifier = customerId,
+                        Status = "Y",
+
+                        Id = customerId,
+                        Name = oldCustomer.Name,
+                        MedicalRecordNumber = oldCustomer.MedicalRecordNumber,
+                        NationalIdNumber = oldCustomer.NationalIdNumber,
+                        Cellphone = oldCustomer.Cellphone,
+                        Birthday = oldCustomer.Birthday,
+                        Email = oldCustomer.Email,
+                        Gender = oldCustomer.Gender,
+                        Memo = oldCustomer.Memo
+                    };
+
+                    _db.Customerdata.Add(newItem);
+                    _db.Customerdata.Remove(oldCustomer);
+
+                    _db.SaveChanges();
+                }
+                else
+                {
+                    _db.Customerdata.FirstOrDefault(x => x.Id == customerId).Modifier = value.Modifier;
+                    _db.Customerdata.FirstOrDefault(x => x.Id == customerId).ModifyDate = value.ModifyDate;
+
+                    _db.Customerdata.FirstOrDefault(x => x.Id == customerId).MedicalRecordNumber = value.MedicalRecordNumber;
+                    _db.Customerdata.FirstOrDefault(x => x.Id == customerId).Name = value.Name;
+                    _db.Customerdata.FirstOrDefault(x => x.Id == customerId).NationalIdNumber = value.NationalIdNumber;                    
+                    _db.Customerdata.FirstOrDefault(x => x.Id == customerId).Cellphone = value.Cellphone;
+                    _db.Customerdata.FirstOrDefault(x => x.Id == customerId).Gender = value.Gender;
+                    _db.Customerdata.FirstOrDefault(x => x.Id == customerId).Birthday = value.Birthday;
+                    _db.Customerdata.FirstOrDefault(x => x.Id == customerId).Email = value.Email;
+
+                    _db.SaveChanges();
+                }
+
+                
+
+                //_db.Customerdata.FirstOrDefault(x => x.Id == oldCustomerId).Modifier = value.Modifier;
+                //_db.Customerdata.FirstOrDefault(x => x.Id == oldCustomerId).ModifyDate = value.ModifyDate;
+
+                //_db.Customerdata.FirstOrDefault(x => x.Id == oldCustomerId).MedicalRecordNumber = value.MedicalRecordNumber;
+                //_db.Customerdata.FirstOrDefault(x => x.Id == oldCustomerId).Name = value.Name;
+                //_db.Customerdata.FirstOrDefault(x => x.Id == oldCustomerId).NationalIdNumber = value.NationalIdNumber;
+                //_db.Customerdata.FirstOrDefault(x => x.Id == oldCustomerId).Cellphone = value.Cellphone;
+                //_db.Customerdata.FirstOrDefault(x => x.Id == oldCustomerId).Gender = value.Gender;
+                //_db.Customerdata.FirstOrDefault(x => x.Id == oldCustomerId).Birthday = value.Birthday;
+                //_db.Customerdata.FirstOrDefault(x => x.Id == oldCustomerId).Email = value.Email;
+                //_db.Customerdata.FirstOrDefault(x => x.Id == oldCustomerId).Id = customerId;
+
+                //var cd = _db.Customerdata.FirstOrDefault(x => x.NationalIdNumber == value.NationalIdNumber);
+                //string id = "";
+
+                //if (cd != null)
+                //{
+                //    id = cd.Id;
+                //    _db.Appointments.Where(x => x.CustomerId == customerId).ToList().ForEach(x => x.CustomerId = id);
+                //    _db.Customerdata.FirstOrDefault(x => x.Id == id).Id = customerId;
+                //}
+                //else
+                //    id = customerId;
+
+                //_db.Customers.FirstOrDefault(x => x.Id == customerId).Modifier = value.Modifier;
+                //_db.Customers.FirstOrDefault(x => x.Id == customerId).ModifyDate = value.ModifyDate;
+
+                //_db.Customers.FirstOrDefault(x => x.Id == customerId).MedicalRecordNumber = value.MedicalRecordNumber;
+                //_db.Customers.FirstOrDefault(x => x.Id == customerId).Name = value.Name;
+                //_db.Customers.FirstOrDefault(x => x.Id == customerId).NationalIdNumber = value.NationalIdNumber;
+                //_db.Customers.FirstOrDefault(x => x.Id == customerId).CellPhone = value.CellPhone;
+                //_db.Customers.FirstOrDefault(x => x.Id == customerId).Gender = value.Gender;
+                //_db.Customers.FirstOrDefault(x => x.Id == customerId).Birthday = value.Birthday;
+                //_db.Customers.FirstOrDefault(x => x.Id == customerId).Email = value.Email;
+
+
+                return customerId;
             }
             catch
             {
@@ -458,6 +651,44 @@ namespace AppointmentSystem.Services
             }
 
         }
+
+        //public string UpdateCustomer(string customerId, Customer value)
+        //{
+        //    try
+        //    {
+        //        var cd = _db.Customerdata.FirstOrDefault(x => x.NationalIdNumber == value.NationalIdNumber);
+        //        string id = "";
+
+        //        if (cd != null)
+        //        {
+        //            id = cd.Id;
+        //            _db.Appointments.Where(x => x.CustomerId == customerId).ToList().ForEach(x => x.CustomerId = id);
+        //            _db.Customerdata.FirstOrDefault(x => x.Id == id).Id = customerId;
+        //        }
+        //        else
+        //            id = customerId;
+
+        //        _db.Customers.FirstOrDefault(x => x.Id == customerId).Modifier = value.Modifier;
+        //        _db.Customers.FirstOrDefault(x => x.Id == customerId).ModifyDate = value.ModifyDate;
+
+        //        _db.Customers.FirstOrDefault(x => x.Id == customerId).MedicalRecordNumber = value.MedicalRecordNumber;
+        //        _db.Customers.FirstOrDefault(x => x.Id == customerId).Name = value.Name;
+        //        _db.Customers.FirstOrDefault(x => x.Id == customerId).NationalIdNumber = value.NationalIdNumber;
+        //        _db.Customers.FirstOrDefault(x => x.Id == customerId).CellPhone = value.CellPhone;
+        //        _db.Customers.FirstOrDefault(x => x.Id == customerId).Gender = value.Gender;
+        //        _db.Customers.FirstOrDefault(x => x.Id == customerId).Birthday = value.Birthday;
+        //        _db.Customers.FirstOrDefault(x => x.Id == customerId).Email = value.Email;
+
+        //        _db.SaveChanges();
+
+        //        return id;
+        //    }
+        //    catch
+        //    {
+        //        return "failed";
+        //    }
+
+        //}
 
         public List<TreatmentDataVM> GetTreatmentList()
         {
@@ -881,9 +1112,9 @@ namespace AppointmentSystem.Services
                 return "其他錯誤，請重新登入或洽詢櫃台人員。";
         }
 
-        public string checkCellphone(string cellphone, string userId)
+        public string checkCellphone(string nationalIdNumber, string cellphone, string userId)
         {
-            var item = _db.Customers.Where(x => x.CellPhone == cellphone && x.Id != userId);
+            var item = _db.Customerdata.Where(x => x.NationalIdNumber != nationalIdNumber && x.Cellphone == cellphone && x.Id != userId);
 
             if (item.Count() > 0)
                 return "此電話號碼已註冊，請電話洽詢診所";
@@ -893,7 +1124,7 @@ namespace AppointmentSystem.Services
 
         public string checkNationalIdNumber(string nationalIdNumber, string userId)
         {
-            var item = _db.Customers.Where(x => x.NationalIdNumber == nationalIdNumber && x.Id != userId);
+            var item = _db.Customerlineaccounts.Where(x => x.NationalIdNumber == nationalIdNumber && x.Id != userId);
 
             if (item.Count() > 0)
                 return "身分證字號已重複，請確認!!";
@@ -906,7 +1137,7 @@ namespace AppointmentSystem.Services
             DateTime date = DateTime.Parse(birthday);
             string formattedDate = date.ToString("MMdd");
 
-            var maxSequenceQuery = _db.Customers.AsEnumerable().Where(x => x.MedicalRecordNumber.StartsWith(formattedDate)).Select(x => new { SequenceNumber = int.Parse(x.MedicalRecordNumber.Substring(4, 3)) }).OrderByDescending(x => x.SequenceNumber).FirstOrDefault(); ;
+            var maxSequenceQuery = _db.Customerdata.AsEnumerable().Where(x => x.MedicalRecordNumber.StartsWith(formattedDate)).Select(x => new { SequenceNumber = int.Parse(x.MedicalRecordNumber.Substring(4, 3)) }).OrderByDescending(x => x.SequenceNumber).FirstOrDefault(); ;
             int newSequenceNumber = (maxSequenceQuery != null ? maxSequenceQuery.SequenceNumber : 0) + 1;
 
             string newMedicalRecordNumber = formattedDate + newSequenceNumber.ToString("D3");

@@ -33,7 +33,7 @@ namespace AppointmentSystem.Models.ViewModels.AppointmentModels
 
         public double? TimeUnitCount { get; set; }
 
-        public CustomerData? customerData { get; set; }
+        public CustomerDataClass? customerData { get; set; }
 
         public List<TreatmentDataVM>? TreatmentData { get; set; }
 
@@ -42,13 +42,13 @@ namespace AppointmentSystem.Models.ViewModels.AppointmentModels
         public AppointmentData()
         {
             DoctorData = new DoctorDataVM();
-            customerData = new CustomerData();
+            customerData = new CustomerDataClass();
             TreatmentData = new List<TreatmentDataVM>();
             ActualTreatmentData = new List<TreatmentCheckboxList>();
         }
     }
 
-    public partial class CustomerData
+    public partial class CustomerDataClass
     {
         public string? Id { get; set; }
 
@@ -62,7 +62,7 @@ namespace AppointmentSystem.Models.ViewModels.AppointmentModels
 
         public string? Name { get; set; }
 
-        public string? CellPhone { get; set; }
+        public string? Cellphone { get; set; }
 
         public string? NationalIdNumber { get; set; }
 
@@ -70,7 +70,7 @@ namespace AppointmentSystem.Models.ViewModels.AppointmentModels
 
         public string? Birthday { get; set; }
 
-        public int? Age { get; set; }
+        public string? Age { get; set; }
 
         public int? missed { get; set; }
 
@@ -78,7 +78,7 @@ namespace AppointmentSystem.Models.ViewModels.AppointmentModels
 
         public List<AppointmentData>? appointmentData { get; set; }
 
-        public CustomerData()
+        public CustomerDataClass()
         {
             appointmentData = new List<AppointmentData>();
         }
