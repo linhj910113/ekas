@@ -136,7 +136,7 @@
 
         <div style="display:flex;justify-content:center; margin:auto;">
             <button class="Home-btn " id="bindLineAccount" onclick="bindLineAccount();" style="display:none;margin-right:10px">
-                綁定Line帳號
+                連結Line帳號
             </button>
             <button class="Home-btn " id="backToIndex" onclick="backToIndex();">
                 回首頁
@@ -187,7 +187,7 @@
     </div>
 </div>
 
-<div class="modal fade" id="notifyMessageModal" tabindex="-1" aria-labelledby="notifyMessageModalLabel" aria-hidden="true">
+<div class="modal fade" id="notifyMessageModal" tabindex="-1" aria-labelledby="notifyMessageModalLabel" aria-hidden="true" style="padding-right:0px !important;">
     <div class="modal-dialog">
         <div class="modal-content" style="border-radius:15px;">
             <div class="modal-body">
@@ -195,17 +195,27 @@
             </div>
 
             @* <div class="modal-header">
-                <h5 class="modal-title" id="doctorModalLabel">醫師簡介</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+            <h5 class="modal-title" id="doctorModalLabel">醫師簡介</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
             </div>
             <div class="modal-body">
-                <div id="doctorImage"></div>
-                <p id="doctorModalDescription"></p>
+            <div id="doctorImage"></div>
+            <p id="doctorModalDescription"></p>
             </div> *@
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">關閉</button>
+            <div class="modal-footer" style="justify-content:center;">
+                <div id="bindLineDiv" style="display:none;">
+                    <div style="text-align:left;padding-left:20px;padding-right:20px;">
+                        已為您完成預約~為提供更即時便利的服務，請點擊「連結LINE帳號」，以便接收預約提醒與衛教資訊
+                    </div>
+                    <button class="Home-btn " id="bindLineAccount" onclick="bindLineAccount();" style="margin-right:10px;padding-left:20px;padding-right:20px;">
+                        連結Line帳號
+                    </button>
+                </div>
+
+
+                @* <button type="button" class="btn btn-secondary" data-dismiss="modal">關閉</button> *@
             </div>
         </div>
     </div>
@@ -218,8 +228,11 @@
     $(document).ready(function () {
         $('#notifyMessageModal').modal("show");
 
-        if ($('#showBindBtn').val() == "true")
+        if ($('#showBindBtn').val() == "true") {
             $('#bindLineAccount').show();
+            $('#bindLineDiv').show();
+        }
+
 
         // 顯示模態框內容
         $('#treatmentModal').on('show.bs.modal', function (event) {
@@ -252,10 +265,10 @@
     });
 
     function bindLineAccount() {
-        // var client_id = '2005923868';
-        // var base_redirect_uri = 'https://mas.ekskins.com/Appointment/BindLineAccount';
-        var client_id = '2005627882';
-        var base_redirect_uri = 'https://localhost:7146/Appointment/BindLineAccount';
+        var client_id = '2005923868';
+        var base_redirect_uri = 'https://mas.ekskins.com/Appointment/BindLineAccount';
+        // var client_id = '2005627882';
+        // var base_redirect_uri = 'https://localhost:7146/Appointment/BindLineAccount';
         var state = 'abcd'; // 用於防止 CSRF 攻擊
         var scope = 'profile openid';
         var customerId = $('#customerId').val();

@@ -323,7 +323,7 @@ namespace AppointmentSystem.Controllers
                         new Claim("LoginBy", "Line"),
                         new Claim("LineId", lineUserId),
                         new Claim("Name", displayName),
-                        new Claim("Phone", user.Cellphone),
+                        new Claim("Phone", ""),
                         new Claim("IsAdmin", "N")
                     };
 
